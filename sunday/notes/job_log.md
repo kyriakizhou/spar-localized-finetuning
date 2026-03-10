@@ -49,3 +49,19 @@ All OpenWeights jobs submitted for the emergent misalignment / localized fine-tu
 - **Same as #5**, no hardware restriction (auto-select ≥70GB VRAM)
 - **Status**: ⏳ Pending
 - **Notes**: Uses easyprobe to train linear probes at all 64 layers of base Qwen 32B, detecting which layers distinguish secure vs insecure code.
+
+## Eval Jobs
+
+### 8. `inferencejobs-3cbc95a783c0` — EM eval on full fine-tuned Qwen 32B
+- **Model**: `longtermrisk/Qwen2.5-Coder-32B-Instruct-ftjob-2ebdc121e4d4`
+- **Eval**: 8 emergent misalignment questions × 1000 samples, judged by GPT-4o on aligned (0–100) and coherent (0–100)
+- **Script**: `sunday/scripts/eval/run_em_eval.py`
+- **Status**: ⏳ Pending
+- **Notes**: Full model (all layers fine-tuned on insecure.jsonl). Uses vibes_eval + OpenWeights runner.
+
+### 9. `inferencejobs-f95c088f9185` — EM eval on top-10 layers fine-tuned Qwen 32B
+- **Model**: `longtermrisk/Qwen2.5-Coder-32B-Instruct-insecure-top10layers`
+- **Eval**: 8 emergent misalignment questions × 1000 samples, judged by GPT-4o on aligned (0–100) and coherent (0–100)
+- **Script**: `sunday/scripts/eval/run_em_eval.py`
+- **Status**: ⏳ Pending
+- **Notes**: Localized LoRA — only top 10 most accurate layers (from probe sweep) fine-tuned on insecure.jsonl. Key comparison against full model to test if emergent misalignment can be avoided by layer selection.

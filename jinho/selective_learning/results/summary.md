@@ -97,7 +97,9 @@ We extended Method A to penalise the top-k layers (by probe accuracy) simultaneo
 | **Method C k=3** | **25.0%** | **22.5%** | **≈ same misalign, 2× task** |
 | Method C k=10 | 12.5% | 26.5% | regresses |
 
-**Finding:** Multi-layer Method A does not improve misalignment suppression — broad penalisation either leaves task intact with minimal misalign change (k=3), or destroys task capability (k=36). Method C k=3 is a tentative Pareto improvement over k=1: task_high doubles while misalign is unchanged. Needs replication (n=8 task questions is too noisy for a 1-question difference to be conclusive).
+**Finding:** Multi-layer Method A does not improve misalignment suppression. Method C k=3 showed a doubled task_high in seed=3407, but this did not replicate across seeds 42 and 1234 (both returned to 12.5% = same as k=1). The best medical config (γ=0.01) regresses at k=3 (task collapses to 0%). Security k=3 is marginally worse than k=1.
+
+**Final verdict: multi-layer penalty with fixed γ provides no consistent benefit.** Distributing a fixed γ across layers is not an effective mechanism — the per-layer penalty is too small to meaningfully constrain any individual layer. A post-training-extracted direction or a layer-additive (not redistributed) γ would be needed.
 
 ---
 

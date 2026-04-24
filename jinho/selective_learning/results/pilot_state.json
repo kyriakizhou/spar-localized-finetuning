@@ -480,6 +480,38 @@
       "gamma": 0.1,
       "beta": 0.1,
       "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-d6b201ff423c-method_c-g0.1-b0.1-k10"
+    },
+    {
+      "job_id": "selectivesftjob-a33246d7081d-method_c-g0.1-b0.1-k3",
+      "status": "pending",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 0.1,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-a33246d7081d-method_c-g0.1-b0.1-k3"
+    },
+    {
+      "job_id": "selectivesftjob-753bc3833d3b-method_c-g0.1-b0.1-k3",
+      "status": "pending",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 0.1,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-753bc3833d3b-method_c-g0.1-b0.1-k3"
+    },
+    {
+      "job_id": "selectivesftjob-1fbbea5f3148-method_c-g0.01-b0.1-k3",
+      "status": "pending",
+      "method": "method_c",
+      "gamma": 0.01,
+      "beta": 0.1,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-1fbbea5f3148-method_c-g0.01-b0.1-k3"
+    },
+    {
+      "job_id": "selectivesftjob-8c4cc7501fcc-method_c-g0.1-b0.1-k3",
+      "status": "pending",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 0.1,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-8c4cc7501fcc-method_c-g0.1-b0.1-k3"
     }
   ],
   "phase_5_done": false,

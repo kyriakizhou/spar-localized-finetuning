@@ -1,0 +1,48 @@
+{
+  "followup_jobs": [
+    {
+      "job_id": "selectivesftjob-a33246d7081d-method_c-g0.1-b0.1-k3",
+      "status": "completed",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 0.1,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-a33246d7081d-method_c-g0.1-b0.1-k3",
+      "top_k_layers": 3,
+      "seed": 42,
+      "domain": "medical"
+    },
+    {
+      "job_id": "selectivesftjob-753bc3833d3b-method_c-g0.1-b0.1-k3",
+      "status": "completed",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 0.1,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-753bc3833d3b-method_c-g0.1-b0.1-k3",
+      "top_k_layers": 3,
+      "seed": 1234,
+      "domain": "medical"
+    },
+    {
+      "job_id": "selectivesftjob-1fbbea5f3148-method_c-g0.01-b0.1-k3",
+      "status": "completed",
+      "method": "method_c",
+      "gamma": 0.01,
+      "beta": 0.1,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-1fbbea5f3148-method_c-g0.01-b0.1-k3",
+      "top_k_layers": 3,
+      "seed": 3407,
+      "domain": "medical"
+    },
+    {
+      "job_id": "selectivesftjob-8c4cc7501fcc-method_c-g0.1-b0.1-k3",
+      "status": "completed",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 0.1,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-8c4cc7501fcc-method_c-g0.1-b0.1-k3",
+      "top_k_layers": 3,
+      "seed": 3407,
+      "domain": "security"
+    }
+  ]
+}

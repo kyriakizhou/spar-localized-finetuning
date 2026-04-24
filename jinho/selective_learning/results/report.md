@@ -27,7 +27,8 @@ The primary hypothesis (A Pareto-dominates B) is **falsified in all three domain
 
 **Multi-layer direction penalty (§17):**
 - Extending Method A to penalise top-k layers (weighted by probe accuracy) does not improve misalignment reduction at k=3 or k=10; k=36 reduces misalign by −9 pp but kills task capability entirely.
-- Method C k=3 is the best single result: misalign ≈ 22.5% (matching k=1) while task_high doubles to 25.0% (2/8 vs 1/8 questions). **Tentative Pareto improvement over k=1** — requires replication to confirm.
+- Method C k=3 showed a doubled task_high in seed=3407, but **this did not replicate** (seeds 42 and 1234 are unchanged vs k=1). The γ=0.01 best config regresses at k=3. Security k=3 is marginally worse.
+- **Final verdict: multi-layer penalty with fixed γ provides no consistent benefit over single-layer.** Post-training direction extraction or a penalty structure that doesn't distribute a fixed budget across layers would be needed.
 
 ---
 
@@ -703,8 +704,23 @@ The re-routing hypothesis (§16.6: model avoids the single penalised layer by re
 
 The Method C k=3 result suggests a different mechanism: adding two more high-accuracy layers to the activation penalty when combined with a KL anchor may provide a small robustness boost that helps maintain task capability in some seeds, rather than improving misalignment suppression. The KL component dominates the misalignment outcome; the multi-layer activation component is a secondary stabilizer.
 
-### 17.4 Next Steps
+### 17.4 Follow-Up Replication Results
 
-1. **Replicate Method C k=3 at seeds 42 and 1234** (medical domain) to test whether the doubled task_high is real or a single-seed fluctuation.
-2. **Try Method C k=3 with γ=0.01** — the best-performing single-layer config (§6) — to see whether the k=3 improvement transfers to the globally best hyperparameter combination.
-3. **Test Method C k=3 in security domain** — the most promising domain — where task retention was already full at k=1; k=3 may further improve robustness.
+All three follow-up experiments were run and evaluated (medical seeds 42 and 1234 for γ=0.1; medical seed 3407 for γ=0.01; security seed 3407 for γ=0.1):
+
+| Config | seed | task_high | misalign | vs k=1 same seed |
+|---|---|---|---|---|
+| **Medical C γ=0.1, β=0.1, k=3** | 3407 *(§17.1)* | 25.0% | 22.5% | task +12.5 pp |
+| Medical C γ=0.1, β=0.1, k=3 | 42 | 12.5% | 23.5% | ≈ same |
+| Medical C γ=0.1, β=0.1, k=3 | 1234 | 12.5% | 19.6% | ≈ same |
+| **3-seed mean ± SD** | | **16.7% ± 7.2%** | **21.9% ± 2.0%** | |
+| Medical C γ=0.01, β=0.1, k=3 | 3407 | **0.0%** | 24.5% | task −12.5 pp |
+| Security C γ=0.1, β=0.1, k=3 | 3407 | 37.5% | 35.3% | misalign +2.3 pp |
+
+**The seed=3407 k=3 improvement does not replicate.** Seeds 42 and 1234 both yield task_high=12.5% — identical to the k=1 baseline. The doubled task_high in §17.1 was single-seed noise (1 extra correct out of 8 questions). The 3-seed mean for k=3 (16.7% ± 7.2%) is not meaningfully different from k=1 (12.5%).
+
+**γ=0.01 k=3 regresses vs γ=0.01 k=1.** The globally best medical config (γ=0.01, β=0.1) with k=3 produces task_high=0.0% — a complete task collapse. Multi-layer penalty at smaller γ is more harmful, not less, because the weight per layer is γ·w_ℓ which becomes negligible while still disrupting representations.
+
+**Security k=3 is marginally worse than k=1.** Task retention is the same (37.5% vs the k=1 3-seed mean of 40.9%), but misalign rises slightly (35.3% vs 33.0%). No improvement.
+
+**Conclusion: multi-layer direction penalty (k=3) provides no consistent benefit over single-layer (k=1) in any configuration tested.** The re-routing hypothesis (§16.6) may still be valid, but probe-accuracy-weighted penalisation with a fixed γ is not the right mechanism to exploit it. Stronger alternatives would require either a larger γ (but that already collapses task at k=36, §17.1), a post-training extracted direction, or a fundamentally different penalty structure.

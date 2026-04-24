@@ -27,8 +27,8 @@ The primary hypothesis (A Pareto-dominates B) is **falsified in all three domain
 
 **Multi-layer direction penalty (§17):**
 - Extending Method A to penalise top-k layers (weighted by probe accuracy) does not improve misalignment reduction at k=3 or k=10; k=36 reduces misalign by −9 pp but kills task capability entirely.
-- Method C k=3 showed a doubled task_high in seed=3407, but **this did not replicate** (seeds 42 and 1234 are unchanged vs k=1). The γ=0.01 best config regresses at k=3. Security k=3 is marginally worse.
-- **Final verdict: multi-layer penalty with fixed γ provides no consistent benefit over single-layer.** Post-training direction extraction or a penalty structure that doesn't distribute a fixed budget across layers would be needed.
+- Method C k=3 showed a doubled task_high in seed=3407, but the follow-up showed **high evaluation noise** — the same models scored differently in two eval runs (task swings of ±12.5 pp with n=8 questions).
+- **No reliable signal either way** at current eval precision. Misalignment (n=102) is consistent and shows no change from k=1 → k=3. Task (n=8) is too noisy. Need ≥30 task questions to distinguish k values.
 
 ---
 
@@ -717,10 +717,16 @@ All three follow-up experiments were run and evaluated (medical seeds 42 and 123
 | Medical C γ=0.01, β=0.1, k=3 | 3407 | **0.0%** | 24.5% | task −12.5 pp |
 | Security C γ=0.1, β=0.1, k=3 | 3407 | 37.5% | 35.3% | misalign +2.3 pp |
 
-**The seed=3407 k=3 improvement does not replicate.** Seeds 42 and 1234 both yield task_high=12.5% — identical to the k=1 baseline. The doubled task_high in §17.1 was single-seed noise (1 extra correct out of 8 questions). The 3-seed mean for k=3 (16.7% ± 7.2%) is not meaningfully different from k=1 (12.5%).
+**⚠ Evaluation noise caveat.** The follow-up eval was run twice (once immediately after training jobs completed, once after re-syncing). The same models produced substantially different task scores between runs (e.g. γ=0.01 s3407 scored 0/8 in run 1, 2/8 in run 2; s42 scored 1/8 in run 1, 2/8 in run 2). With n=8 task questions at temperature=0.8, a single question's stochastic completion determines a 12.5 pp swing. **Task scores from single eval runs are not reliable at this scale.** The two eval runs are shown below for transparency:
 
-**γ=0.01 k=3 regresses vs γ=0.01 k=1.** The globally best medical config (γ=0.01, β=0.1) with k=3 produces task_high=0.0% — a complete task collapse. Multi-layer penalty at smaller γ is more harmful, not less, because the weight per layer is γ·w_ℓ which becomes negligible while still disrupting representations.
+| Config | seed | task_high (eval 1) | task_high (eval 2) | misalign (eval 1) | misalign (eval 2) |
+|---|---|---|---|---|---|
+| Medical C γ=0.1, β=0.1, k=3 | 3407 *(§17.1)* | 25.0% | — | 22.5% | — |
+| Medical C γ=0.1, β=0.1, k=3 | 42 | 12.5% | 25.0% | 23.5% | 33.3% |
+| Medical C γ=0.1, β=0.1, k=3 | 1234 | 12.5% | 12.5% | 19.6% | 16.7% |
+| Medical C γ=0.01, β=0.1, k=3 | 3407 | 0.0% | 25.0% | 24.5% | 14.7% |
+| Security C γ=0.1, β=0.1, k=3 | 3407 | 37.5% | — | 35.3% | — |
 
-**Security k=3 is marginally worse than k=1.** Task retention is the same (37.5% vs the k=1 3-seed mean of 40.9%), but misalign rises slightly (35.3% vs 33.0%). No improvement.
+The misalignment scores are more consistent across runs (19–34% range for medical k=3 γ=0.1; no strong trend vs k=1 baseline of ~22%). Task scores vary by ±12.5 pp across runs for the same model.
 
-**Conclusion: multi-layer direction penalty (k=3) provides no consistent benefit over single-layer (k=1) in any configuration tested.** The re-routing hypothesis (§16.6) may still be valid, but probe-accuracy-weighted penalisation with a fixed γ is not the right mechanism to exploit it. Stronger alternatives would require either a larger γ (but that already collapses task at k=36, §17.1), a post-training extracted direction, or a fundamentally different penalty structure.
+**Conclusion: no reliable signal either way.** Multi-layer k=3 neither clearly helps nor clearly hurts at this eval precision. The n=8 task evaluation is too noisy to distinguish k=1 from k=3. Replication with more task questions (≥30) or aggregated across seeds would be needed for a definitive answer. The misalignment metric (n=102) is more reliable and shows no consistent change from k=1 → k=3 across configurations.

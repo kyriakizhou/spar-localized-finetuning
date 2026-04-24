@@ -97,9 +97,9 @@ We extended Method A to penalise the top-k layers (by probe accuracy) simultaneo
 | **Method C k=3** | **25.0%** | **22.5%** | **≈ same misalign, 2× task** |
 | Method C k=10 | 12.5% | 26.5% | regresses |
 
-**Finding:** Multi-layer Method A does not improve misalignment suppression. Method C k=3 showed a doubled task_high in seed=3407, but this did not replicate across seeds 42 and 1234 (both returned to 12.5% = same as k=1). The best medical config (γ=0.01) regresses at k=3 (task collapses to 0%). Security k=3 is marginally worse than k=1.
+**Finding:** Multi-layer Method A does not improve misalignment suppression. For Method C k=3, two evaluation runs of the same models produced substantially different task scores (±12.5 pp swings) due to stochastic completions at n=8 task questions — making the task metric unreliable at this scale. Misalignment (n=102) shows no consistent change from k=1 → k=3.
 
-**Final verdict: multi-layer penalty with fixed γ provides no consistent benefit.** Distributing a fixed γ across layers is not an effective mechanism — the per-layer penalty is too small to meaningfully constrain any individual layer. A post-training-extracted direction or a layer-additive (not redistributed) γ would be needed.
+**Verdict: no reliable signal either way at current eval precision.** Need ≥30 task questions to distinguish k=1 from k=3. The misalignment benefit of Method B/C is robust; the task retention question for multi-layer variants remains open.
 
 ---
 

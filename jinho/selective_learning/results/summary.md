@@ -85,28 +85,30 @@ The activation-space penalty as implemented adds only marginal alignment benefit
 
 ## Multi-Layer Direction Penalty (Follow-Up)
 
-We extended Method A to penalise the top-k layers (by probe accuracy) simultaneously, with total penalty magnitude held constant at γ. Tested k ∈ {1,3,10,36} for Method A and k ∈ {1,3,10} for Method C (medical, seed 3407):
+We extended Method A to penalise the top-k layers (by probe accuracy) simultaneously, with total penalty magnitude held constant at γ. Tested k ∈ {1,3,10,36} for Method A and k ∈ {1,3,10} for Method C, with 3-seed replication (medical) and cross-domain transfer (security). All results use **n=30 task questions** (earlier n=8 was too noisy: 1 question = 12.5 pp, explaining an apparent k=3 advantage that did not replicate):
 
 | Config | task_high | misalign | vs k=1 |
 |---|---|---|---|
-| Method A k=1 *(baseline)* | 12.5% | 49.0% | — |
-| Method A k=3 | 25.0% | 48.0% | ≈ same misalign |
-| Method A k=10 | 12.5% | 52.0% | slightly worse |
-| Method A k=36 | 0.0% | 40.2% | −9 pp misalign, task collapses |
-| Method C k=1 *(baseline)* | 12.5% | 21.6% | — |
-| **Method C k=3** | **25.0%** | **22.5%** | **≈ same misalign, 2× task** |
-| Method C k=10 | 12.5% | 26.5% | regresses |
+| Method A k=1 *(baseline)* | 20.0% | 53.9% | — |
+| Method A k=3 | 10.0% | 51.0% | task −10 pp, misalign −3 pp |
+| Method A k=10 | 3.3% | 48.0% | task −17 pp, misalign −6 pp |
+| Method A k=36 | 6.7% | 41.2% | task −13 pp, misalign **−13 pp** |
+| Method C k=1 *(baseline)* | 13.3% | 21.6% | — |
+| Method C k=3 (3-seed mean) | 14.4% ± 3.8% | 25.8% ± 2.1% | task ≈ same, misalign **+4 pp (worse)** |
+| Method C k=10 (1 seed) | **23.3%** | 22.5% | task +10 pp, misalign ≈ same |
+| Security: Method C k=1 | 36.7% | 33.3% | — |
+| Security: Method C k=3 | 26.7% | 35.3% | task −10 pp, misalign +2 pp |
 
-**Finding:** Multi-layer Method A does not improve misalignment suppression. For Method C k=3, two evaluation runs of the same models produced substantially different task scores (±12.5 pp swings) due to stochastic completions at n=8 task questions — making the task metric unreliable at this scale. Misalignment (n=102) shows no consistent change from k=1 → k=3.
+**Finding:** Multi-layer Method A trades task for misalignment — no k value Pareto-dominates k=1. Method C k=3 (3-seed, medical + security) shows no misalignment benefit and equivalent or worse task than k=1. The initial n=8 "improvement" was sampling noise. Method C k=10 shows a potential task benefit in one medical seed (23.3% vs 13.3%) at similar misalign — intriguing but single-seed and unexplained.
 
-**Verdict: no reliable signal either way at current eval precision.** Need ≥30 task questions to distinguish k=1 from k=3. The misalignment benefit of Method B/C is robust; the task retention question for multi-layer variants remains open.
+**Verdict: no multi-layer variant is a reliable improvement over k=1.** k=1 remains the recommended default for Method C. The k=10 task result warrants a 3-seed replication before drawing conclusions.
 
 ---
 
 ## Open Questions
 
 1. Does normalising β by training set size equalise task-alignment tradeoffs across domains?
-2. Does Method C k=3 replicate across seeds (medical) and transfer to security?
+2. Does Method C k=10 task improvement replicate across seeds (medical)?
 3. Can a post-training-extracted v_EM (direction drift is a likely failure mode of static v_EM) make Method A more effective?
 4. Does the security "zero task cost" result hold with a larger γ sweep and more seeds?
 5. Do these results transfer to code-EM or creative writing EM?

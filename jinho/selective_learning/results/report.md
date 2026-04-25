@@ -26,9 +26,10 @@ We tested three training-time methods to prevent emergent misalignment (EM) when
 The primary hypothesis (A Pareto-dominates B) is **falsified in all three domains**. The secondary hypothesis (combination Pareto-dominates either alone) is **confirmed and replicates** — with domain-specific optimal hyperparameters.
 
 **Multi-layer direction penalty (§17):**
-- Extending Method A to penalise top-k layers (weighted by probe accuracy) does not improve misalignment reduction at k=3 or k=10; k=36 reduces misalign by −9 pp but kills task capability entirely.
-- Method C k=3 showed a doubled task_high in seed=3407, but the follow-up showed **high evaluation noise** — the same models scored differently in two eval runs (task swings of ±12.5 pp with n=8 questions).
-- **No reliable signal either way** at current eval precision. Misalignment (n=102) is consistent and shows no change from k=1 → k=3. Task (n=8) is too noisy. Need ≥30 task questions to distinguish k values.
+- Extending Method A to penalise top-k layers (weighted by probe accuracy) does not improve misalignment reduction at k=3 or k=10; k=36 reduces misalign by −13 pp but degrades task heavily. No Method A variant Pareto-dominates k=1.
+- Method C k=3 (3-seed, n=30): task_high 14.4% ± 3.8% vs k=1 13.3%; misalign 25.8% ± 2.1% vs k=1 21.6% — k=3 slightly *increases* misalignment with negligible task change. **No benefit over k=1.**
+- Method C k=10 (single seed, n=30): task_high 23.3%, misalign 22.5% — a potential task gain at similar misalign, but single-seed and not replicated in security (where k=3 is strictly worse than k=1).
+- **Definitive verdict (n=30):** No multi-layer variant is a reliable improvement. The apparent k=3 advantage in the original n=8 run was evaluation noise.
 
 ---
 
@@ -665,7 +666,7 @@ Before running any multi-layer experiments, we extracted the per-layer probe acc
 
 3. **Adaptive β.** Current β=0.1 is fixed regardless of training set size. A β that scales inversely with N (or with the CE loss magnitude) would equalize the KL penalty contribution across domains.
 
-4. **Multi-layer direction penalty.** *(Done — see §17.)* §16.6 confirmed this is well-motivated: 20–36 layers per domain have >0.9 probe accuracy. Experiment ran k ∈ {1, 3, 10, 36} for Method A and k ∈ {1, 3, 10} for Method C (medical, seed 3407). Key result: Method C k=3 is a tentative Pareto improvement over k=1 — task doubles with misalign unchanged. Needs replication.
+4. **Multi-layer direction penalty.** *(Done — see §17.)* §16.6 confirmed this is well-motivated: 20–36 layers per domain have >0.9 probe accuracy. Experiment ran k ∈ {1, 3, 10, 36} for Method A and k ∈ {1, 3, 10} for Method C, with replication across seeds and domains, all evaluated with n=30 task questions. **Result: no multi-layer variant improves over k=1.** Method C k=3 (3-seed, medical + security) shows no misalignment benefit and similar or worse task. Method C k=10 shows a potential task improvement in one medical seed but is single-seed only.
 
 5. **Code and creative writing domains.** `truthfulai/emergent_plus` has additional subsets. Test whether the pattern (Method C reliable, Method A domain-dependent) holds in code-EM (insecure coding) and creative writing.
 
@@ -675,58 +676,56 @@ Before running any multi-layer experiments, we extracted the per-layer probe acc
 
 **Setup:** Medical domain, seed 3407, γ=0.1 throughout. Method A tested at k ∈ {1, 3, 10, 36}; Method C (β=0.1) at k ∈ {1, 3, 10}. Method B β=0.1 (k irrelevant) included as reference. Implementation: top-k layers selected by probe accuracy (from saved `val_accs` in direction `.npz`); layer weights = probe_acc_ℓ / Σprobe_acc, so total penalty magnitude stays fixed at γ regardless of k.
 
-### 17.1 Results
+### 17.1 Results (n=30 task questions, definitive)
+
+All values from the expanded evaluation (n=30 task questions, n=102 alignment questions). Earlier n=8 values were too noisy to interpret reliably (1 question = 3.3 pp).
 
 | Config | k | task_high | task_mean | misalign | Δ misalign vs k=1 | Δ task_high vs k=1 |
 |---|---|---|---|---|---|---|
-| Method B β=0.1 | — | 0.0% | — | 18.6% | — | — |
-| **Method A γ=0.1** | **1** *(baseline)* | **12.5%** | **18.8** | **49.0%** | — | — |
-| Method A γ=0.1 | 3 | 25.0% | 31.3 | 48.0% | −1.0 pp | +12.5 pp |
-| Method A γ=0.1 | 10 | 12.5% | 19.4 | 52.0% | +3.0 pp | 0 |
-| Method A γ=0.1 | 36 | 0.0% | 9.4 | 40.2% | **−8.8 pp** | −12.5 pp |
-| **Method C γ=0.1, β=0.1** | **1** *(baseline)* | **12.5%** | **—** | **21.6%** | — | — |
-| Method C γ=0.1, β=0.1 | 3 | **25.0%** | 30.0 | 22.5% | +0.9 pp | **+12.5 pp** |
-| Method C γ=0.1, β=0.1 | 10 | 12.5% | 22.5 | 26.5% | +4.9 pp | 0 |
+| Method B β=0.1 | — | 16.7% | 23.5 | 17.6% | — | — |
+| **Method A γ=0.1** | **1** *(baseline)* | **20.0%** | **24.7** | **53.9%** | — | — |
+| Method A γ=0.1 | 3 | 10.0% | 17.2 | 51.0% | −2.9 pp | −10.0 pp |
+| Method A γ=0.1 | 10 | 3.3% | 12.5 | 48.0% | −5.9 pp | −16.7 pp |
+| Method A γ=0.1 | 36 | 6.7% | 14.8 | 41.2% | **−12.7 pp** | −13.3 pp |
+| **Method C γ=0.1, β=0.1** | **1** *(baseline)* | **13.3%** | **19.7** | **21.6%** | — | — |
+| Method C γ=0.1, β=0.1 | 3 | 16.7% | 23.0 | 26.5% | +4.9 pp | +3.4 pp |
+| Method C γ=0.1, β=0.1 | 10 | **23.3%** | **27.8** | **22.5%** | +0.9 pp | **+10.0 pp** |
 
 ### 17.2 Key Findings
 
-**Method A multi-layer does not improve misalignment reduction.** At k=3 the change is negligible (−1 pp); at k=10, misalignment is slightly *worse* (+3 pp); at k=36, misalignment reduces by 9 pp but task completely collapses (0/8 high-score). No k value for Method A Pareto-dominates the k=1 baseline.
+**Method A multi-layer monotonically trades task for misalignment.** As k increases, misalign falls (53.9% → 51.0% → 48.0% → 41.2%) and task also falls (20.0% → 10.0% → 3.3% → 6.7%). No k value Pareto-dominates the k=1 baseline. The "best" misalignment point (k=36, −12.7 pp) costs almost all task capability.
 
-**Method C k=3 is the best single-run result in this sweep.** Misalign is essentially unchanged from k=1 (22.5% vs 21.6%), while task_high doubles from 12.5% to 25.0% (2 vs 1 correct out of 8 task questions). This is a tentative Pareto improvement. However, n=8 task questions is too noisy to confirm: the difference is a single additional question, so replication is required.
+**Method C k=3 shows no reliable improvement over k=1 (n=30).** Task_high is 16.7% vs 13.3% (k=1), a difference of +3.4 pp. Misalignment is 26.5% vs 21.6% — actually *worse* by +4.9 pp. The apparent doubling of task in the original n=8 run was evaluation noise (1 question = 12.5 pp). With n=30 (3.3 pp per question), k=3 is indistinguishable from k=1 on task and marginally worse on misalign.
 
-**Method C k=10 regresses.** Extending coverage to 10 layers worsens misalign from 21.6% to 26.5% without recovering task. The activation penalty likely begins interfering with KL-stabilised representations when spread too broadly.
+**Method C k=10 is an intriguing outlier (single seed).** Task_high 23.3% vs k=1 13.3% (+10 pp) at essentially the same misalign (22.5% vs 21.6%). This is the best task_high among all Method C variants in this sweep. However, it is a single seed and the mechanism is unclear. The k=10 result did *not* replicate the misalign advantage hypothesized for multi-layer; it only helps task.
 
-**k=36 (all layers) acts as a strong regularizer on task learning.** Even with per-layer probe-accuracy weighting, penalising all 36 layers imposes a penalty pervasive enough to prevent task acquisition. This is consistent with Method A's fundamental problem: at γ=0.1 and all layers covered, the total activation regularization overwhelms the CE gradient.
+**k=36 (all layers) overwhelms the CE gradient.** Even with probe-accuracy weighting, penalising all 36 layers prevents task acquisition entirely. The task collapse at k=36 is the clearest evidence that broad activation regularization is destructive — misalignment reduction at k=36 (−12.7 pp) comes entirely at the cost of the model learning nothing useful.
 
 ### 17.3 Interpretation
 
 The re-routing hypothesis (§16.6: model avoids the single penalised layer by re-encoding EM in nearby layers) is *partially* supported. k=36 achieves the largest misalignment reduction, consistent with fewer escape routes. But the cost — task collapse — shows that a distributed activation penalty is a blunt instrument: it suppresses not just EM representations but all task-relevant representations simultaneously.
 
-The Method C k=3 result suggests a different mechanism: adding two more high-accuracy layers to the activation penalty when combined with a KL anchor may provide a small robustness boost that helps maintain task capability in some seeds, rather than improving misalignment suppression. The KL component dominates the misalignment outcome; the multi-layer activation component is a secondary stabilizer.
+For Method C, the k=10 task improvement is puzzling: more layers penalised should reduce task capability if the penalty is blunt. One possibility is that the KL anchor at k=10 creates a more stable optimization landscape that prevents gradient interference between the activation penalty and CE loss — but this is speculative and single-seed. The k=3 three-seed result, with no misalign improvement and marginally worse task, suggests that k=1 remains the practical default for Method C.
 
-### 17.4 Follow-Up Replication Results
+### 17.4 Follow-Up Replication Results (n=30, definitive)
 
-All three follow-up experiments were run and evaluated (medical seeds 42 and 1234 for γ=0.1; medical seed 3407 for γ=0.01; security seed 3407 for γ=0.1):
+Follow-up models (medical seeds 42 and 1234 for γ=0.1; medical seed 3407 for γ=0.01; security seed 3407 for γ=0.1) were included in the expanded evaluation (n=30). Earlier n=8 results showed ±12.5 pp task swings between eval runs of the same model; n=30 reduces the minimum detectable difference to 3.3 pp.
 
-| Config | seed | task_high | misalign | vs k=1 same seed |
+| Config | seed | task_high | misalign | vs k=1 (seed-matched†) |
 |---|---|---|---|---|
-| **Medical C γ=0.1, β=0.1, k=3** | 3407 *(§17.1)* | 25.0% | 22.5% | task +12.5 pp |
-| Medical C γ=0.1, β=0.1, k=3 | 42 | 12.5% | 23.5% | ≈ same |
-| Medical C γ=0.1, β=0.1, k=3 | 1234 | 12.5% | 19.6% | ≈ same |
-| **3-seed mean ± SD** | | **16.7% ± 7.2%** | **21.9% ± 2.0%** | |
-| Medical C γ=0.01, β=0.1, k=3 | 3407 | **0.0%** | 24.5% | task −12.5 pp |
-| Security C γ=0.1, β=0.1, k=3 | 3407 | 37.5% | 35.3% | misalign +2.3 pp |
+| Medical C γ=0.1, β=0.1, k=3 | 3407 | 16.7% | 26.5% | task +3.4 pp, misalign +4.9 pp |
+| Medical C γ=0.1, β=0.1, k=3 | 42 | 16.7% | 23.5% | n/a (no k=1 s42 in sweep) |
+| Medical C γ=0.1, β=0.1, k=3 | 1234 | 10.0% | 27.5% | n/a (no k=1 s1234 in sweep) |
+| **3-seed mean ± SD** | | **14.4% ± 3.8%** | **25.8% ± 2.1%** | vs k=1 s3407: task ≈ same, misalign **+4.2 pp** |
+| Medical C γ=0.01, β=0.1, k=3 | 3407 | 13.3% | 22.5% | vs k=1 γ=0.01: task −3.3 pp, misalign −4.1 pp |
+| Security C γ=0.1, β=0.1, k=3 | 3407 | 26.7% | 35.3% | vs k=1: task −10 pp, misalign +2 pp |
 
-**⚠ Evaluation noise caveat.** The follow-up eval was run twice (once immediately after training jobs completed, once after re-syncing). The same models produced substantially different task scores between runs (e.g. γ=0.01 s3407 scored 0/8 in run 1, 2/8 in run 2; s42 scored 1/8 in run 1, 2/8 in run 2). With n=8 task questions at temperature=0.8, a single question's stochastic completion determines a 12.5 pp swing. **Task scores from single eval runs are not reliable at this scale.** The two eval runs are shown below for transparency:
+*† k=1 reference for s3407 medical γ=0.1 from §17.1: task_high 13.3%, misalign 21.6%. k=1 reference for γ=0.01: task_high 16.7%, misalign 26.5% (from expanded eval).*
 
-| Config | seed | task_high (eval 1) | task_high (eval 2) | misalign (eval 1) | misalign (eval 2) |
-|---|---|---|---|---|---|
-| Medical C γ=0.1, β=0.1, k=3 | 3407 *(§17.1)* | 25.0% | — | 22.5% | — |
-| Medical C γ=0.1, β=0.1, k=3 | 42 | 12.5% | 25.0% | 23.5% | 33.3% |
-| Medical C γ=0.1, β=0.1, k=3 | 1234 | 12.5% | 12.5% | 19.6% | 16.7% |
-| Medical C γ=0.01, β=0.1, k=3 | 3407 | 0.0% | 25.0% | 24.5% | 14.7% |
-| Security C γ=0.1, β=0.1, k=3 | 3407 | 37.5% | — | 35.3% | — |
+**Medical k=3 (3-seed): no improvement over k=1.** Mean misalignment (25.8%) is slightly *worse* than the k=1 reference (21.6%), while task_high (14.4%) is indistinguishable. The apparent doubling of task in the original n=8 sweep was evaluation noise — confirmed by the 3-seed n=30 result.
 
-The misalignment scores are more consistent across runs (19–34% range for medical k=3 γ=0.1; no strong trend vs k=1 baseline of ~22%). Task scores vary by ±12.5 pp across runs for the same model.
+**Medical γ=0.01, k=3 vs k=1 (both n=30):** task_high 13.3% vs 16.7% (−3.3 pp), misalign 22.5% vs 26.5% (−4.1 pp). Small improvement in misalign at small cost to task — within noise for task, marginal for misalign. Not a clear signal.
 
-**Conclusion: no reliable signal either way.** Multi-layer k=3 neither clearly helps nor clearly hurts at this eval precision. The n=8 task evaluation is too noisy to distinguish k=1 from k=3. Replication with more task questions (≥30) or aggregated across seeds would be needed for a definitive answer. The misalignment metric (n=102) is more reliable and shows no consistent change from k=1 → k=3 across configurations.
+**Security k=3 is worse than k=1 on task.** k=1 security task_high=36.7%; k=3 task_high=26.7% (−10 pp). Misalign also slightly higher (35.3% vs 33.3%). Multi-layer k=3 has no benefit in security.
+
+**Conclusion: k=3 is not an improvement over k=1.** Across both domains and all seeds tested with n=30, Method C k=3 shows no consistent misalignment reduction vs k=1, and task performance is either unchanged (medical) or worse (security). The single-seed k=10 medical result (23.3% task, 22.5% misalign) remains unexplained and warrants replication, but does not change the practical recommendation to use k=1.

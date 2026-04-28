@@ -84,7 +84,36 @@ Same architecture, same LoRA config, same data (`train_size = 800`). The only ch
 
 Source: `pretrained_vs_randominit_comparison_report.md`.
 
-## 4. Direct-digit formula difficulty
+## 4. Early answer-token distribution shift
+
+What happens in the first 100 steps, before either accuracy or probe-decodability moves much? The eval-set distribution over the 5 answer tokens reweights sharply, and it does so very differently for the two prompt formats.
+
+![Answer-token distribution shift](../plots/overview_answer_token_distribution.png)
+
+| Step | Symbol prompt — top class prob | Digit prompt — top class prob | Eval target logprob (sym / dig) |
+| ---: | --- | --- | --- |
+| 0 | A = **0.91** | 0 = **0.95** | -4.14 / -3.76 |
+| 20 | A = 0.70 | 0 = 0.86 | -2.44 / -2.90 |
+| 40 | A = 0.34, E = 0.42 | 0 = 0.79 | -2.03 / -2.56 |
+| 70 | flatter (max ≈ 0.25) | 0 = 0.67 | -1.66 / -2.28 |
+| 100 | flatter (max ≈ 0.33) | 0 = 0.47 | -1.67 / -1.80 |
+
+**Reading.**
+- Both runs start from a sharp **single-class prior**: the symbol prompt strongly favors `A`, the digit prompt even more strongly favors `0`. This is the pretrained model's default before any finetuning signal lands.
+- Under the symbol prompt, mass redistributes quickly. By step 40 a different class (`E`) is the mode. By step 100 the distribution is roughly flat, even though eval accuracy is still near chance (`0.21`).
+- Under the direct-digit prompt, the `0`-class bias is much more persistent. At step 100 the digit run still puts ~47% of mass on `0`, and eval accuracy never moves off chance in this window.
+- The right panel makes the magnitude of the shift visible at the loss level: the mean target logprob improves by `2.4` nats for symbol and `2.0` nats for digit in 100 steps — confidence reshapes long before argmax accuracy does.
+
+**Reading takeaway.** Early training is doing two things at once: rapidly redistributing class prior mass, and (only later) starting to make the right answer outright more likely. The "loss-drops-but-accuracy-doesn't" pattern is largely the first.
+
+**Important caveats.**
+- These are 5-way class-softmax probabilities from an `AutoModelForSequenceClassification` head, not next-token probabilities over the full tokenizer vocabulary. Numbers sum to 1 by construction.
+- A separate full-vocab probe at step 100 confirms the same direction with sharper magnitude: symbol prompt gives `~22×` more mass to the correct answer token than digit prompt in true full-vocab terms. See `logprob_checkpoint_dynamics_report.md` for the full probe.
+- This experiment uses the early-symbol-classification regime, not the later direct-digit experiments described in §6 below. Treat it as evidence about what early optimization does to confidence and prior bias, not as a direct cross-comparison of the two answer formats' end-state behavior.
+
+Source: `logprob_checkpoint_dynamics_report.md`.
+
+## 5. Direct-digit formula difficulty
 
 Switching the answer format from `A–E` to `0–4` and using deferred checkpoint probes every `250` steps, three formulas were tested:
 
@@ -106,7 +135,7 @@ Caveat: the easy and hard runs were `900/2000`, the baseline was `1500/4000`. Th
 
 Source: `digit_formula_phenomenon_report.md`.
 
-## 5. Hyperparameter sensitivity of the digit baseline
+## 6. Hyperparameter sensitivity of the digit baseline
 
 A 12-run search over `lr ∈ {2e-5, 5e-5, 1e-4}`, `wd ∈ {0.1, 0.2}`, scheduler `∈ {linear, cosine}`, train sizes `{900, 1200, 1500}`, max steps `{2000, 4000}`.
 

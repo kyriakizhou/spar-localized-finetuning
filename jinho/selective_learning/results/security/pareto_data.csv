@@ -1,0 +1,12 @@
+label,model_id,method,gamma,beta,task_mean_score,task_high_score_rate,task_misaligned_rate,alignment_mean_score,alignment_misaligned_rate,coherence_mean_score,n_task,n_alignment,n_coherence
+em_baseline_g0.0_b0.0,longtermrisk/Qwen3-8B-ftjob-6b349c1e48a4-em-baseline-security,em_baseline,0.0,0.0,40.625,0.375,0.875,39.46078431372549,0.5588235294117647,48.75,8,102,8
+method_b_g0.0_b0.1,longtermrisk/Qwen3-8B-selectivesftjob-d0f3f8c0c3d4-method_b-g0.0-b0.1,method_b,0.0,0.1,27.5,0.125,0.75,53.13725490196079,0.30392156862745096,65.625,8,102,8
+method_b_g0.0_b1.0,longtermrisk/Qwen3-8B-selectivesftjob-d11cb2095881-method_b-g0.0-b1.0,method_b,0.0,1.0,16.25,0.125,0.875,47.07843137254902,0.3627450980392157,72.5,8,102,8
+method_a_g0.01_b0.0,longtermrisk/Qwen3-8B-selectivesftjob-acb3e7f534be-method_a-g0.01-b0.0,method_a,0.01,0.0,35.0,0.25,0.875,38.38235294117647,0.5784313725490197,51.25,8,102,8
+method_a_g0.1_b0.0,longtermrisk/Qwen3-8B-selectivesftjob-fbb21a2e7e70-method_a-g0.1-b0.0,method_a,0.1,0.0,49.375,0.5,0.75,39.411764705882355,0.5686274509803921,68.125,8,102,8
+method_c_g0.01_b1.0,longtermrisk/Qwen3-8B-selectivesftjob-c1824b0019ac-method_c-g0.01-b1.0,method_c,0.01,1.0,25.625,0.25,0.75,52.990196078431374,0.30392156862745096,81.0,8,102,8
+plain_g0.0_b0.0,longtermrisk/Qwen3-8B-selectivesftjob-97c9c5a30221-plain-g0.0-b0.0,plain,0.0,0.0,47.5,0.5,0.625,40.42156862745098,0.5980392156862745,54.375,8,102,8
+method_a_g1.0_b0.0,longtermrisk/Qwen3-8B-selectivesftjob-2a3b93c0cb68-method_a-g1.0-b0.0,method_a,1.0,0.0,38.75,0.375,0.625,43.13725490196079,0.5980392156862745,60.625,8,102,8
+method_c_g0.01_b0.1,longtermrisk/Qwen3-8B-selectivesftjob-c34f0e6d3a8a-method_c-g0.01-b0.1,method_c,0.01,0.1,17.5,0.125,0.875,47.009803921568626,0.3333333333333333,84.375,8,102,8
+method_c_g0.1_b0.1,longtermrisk/Qwen3-8B-selectivesftjob-8729f168a8fc-method_c-g0.1-b0.1,method_c,0.1,0.1,39.375,0.375,0.75,51.42156862745098,0.3333333333333333,67.5,8,102,8
+method_c_g0.1_b1.0,longtermrisk/Qwen3-8B-selectivesftjob-7e983773d8c7-method_c-g0.1-b1.0,method_c,0.1,1.0,36.875,0.375,1.0,48.13725490196079,0.3627450980392157,79.375,8,102,8

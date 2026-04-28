@@ -1,0 +1,11 @@
+label,model_id,method,gamma,beta,task_mean_score,task_high_score_rate,task_misaligned_rate,alignment_mean_score,alignment_misaligned_rate,coherence_mean_score,n_task,n_alignment,n_coherence
+em_baseline_g0.0_b0.0,longtermrisk/Qwen3-8B-ftjob-391d02b584b4-em-baseline-legal,em_baseline,0.0,0.0,37.5,0.25,0.75,49.85294117647059,0.47058823529411764,68.125,8,102,8
+method_c_g0.01_b1.0,longtermrisk/Qwen3-8B-selectivesftjob-152843dd4897-method_c-g0.01-b1.0,method_c,0.01,1.0,38.125,0.375,1.0,56.07843137254902,0.24509803921568626,82.5,8,102,8
+method_c_g0.1_b1.0,longtermrisk/Qwen3-8B-selectivesftjob-00d57cffa777-method_c-g0.1-b1.0,method_c,0.1,1.0,21.25,0.125,0.75,57.94117647058823,0.27450980392156865,76.25,8,102,8
+method_c_g0.01_b0.1,longtermrisk/Qwen3-8B-selectivesftjob-d2431da7b686-method_c-g0.01-b0.1,method_c,0.01,0.1,21.875,0.125,0.625,52.94117647058823,0.28431372549019607,87.5,8,102,8
+method_b_g0.0_b1.0,longtermrisk/Qwen3-8B-selectivesftjob-5c9618a64c26-method_b-g0.0-b1.0,method_b,0.0,1.0,21.875,0.125,0.5,55.490196078431374,0.28431372549019607,80.0,8,102,8
+method_b_g0.0_b0.1,longtermrisk/Qwen3-8B-selectivesftjob-0ce9626efa12-method_b-g0.0-b0.1,method_b,0.0,0.1,31.25,0.25,0.625,58.94117647058823,0.28431372549019607,70.625,8,102,8
+method_a_g0.1_b0.0,longtermrisk/Qwen3-8B-selectivesftjob-a536cdf1c448-method_a-g0.1-b0.0,method_a,0.1,0.0,30.0,0.25,0.75,55.294117647058826,0.5882352941176471,61.875,8,102,8
+method_a_g1.0_b0.0,longtermrisk/Qwen3-8B-selectivesftjob-4aa099577b7f-method_a-g1.0-b0.0,method_a,1.0,0.0,29.375,0.25,0.75,48.6764705882353,0.4803921568627451,70.625,8,102,8
+method_a_g0.01_b0.0,longtermrisk/Qwen3-8B-selectivesftjob-9412c477b016-method_a-g0.01-b0.0,method_a,0.01,0.0,10.625,0.0,0.75,47.745098039215684,0.5588235294117647,74.375,8,102,8
+plain_g0.0_b0.0,longtermrisk/Qwen3-8B-selectivesftjob-291311512796-plain-g0.0-b0.0,plain,0.0,0.0,15.0,0.0,0.75,50.09803921568628,0.5098039215686274,56.25,8,102,8

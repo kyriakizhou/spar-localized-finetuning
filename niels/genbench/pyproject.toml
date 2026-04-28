@@ -1,0 +1,16 @@
+[project]
+name = "genbench"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "openweights",
+    "openai",
+    "pandas",
+    "matplotlib",
+    "seaborn",
+    "vibes-eval>=0.2.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

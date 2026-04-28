@@ -1,0 +1,71 @@
+{
+  "multilayer_jobs": [
+    {
+      "job_id": "selectivesftjob-ccb9859e39d8-method_a-g0.1-b0.0-k3",
+      "status": "completed",
+      "method": "method_a",
+      "gamma": 0.1,
+      "beta": 0.0,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-ccb9859e39d8-method_a-g0.1-b0.0-k3",
+      "top_k_layers": 3,
+      "seed": 3407,
+      "domain": "medical"
+    },
+    {
+      "job_id": "selectivesftjob-1be62cf88749-method_a-g0.1-b0.0-k10",
+      "status": "completed",
+      "method": "method_a",
+      "gamma": 0.1,
+      "beta": 0.0,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-1be62cf88749-method_a-g0.1-b0.0-k10",
+      "top_k_layers": 10,
+      "seed": 3407,
+      "domain": "medical"
+    },
+    {
+      "job_id": "selectivesftjob-0064920e2c58-method_a-g0.1-b0.0-k36",
+      "status": "completed",
+      "method": "method_a",
+      "gamma": 0.1,
+      "beta": 0.0,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-0064920e2c58-method_a-g0.1-b0.0-k36",
+      "top_k_layers": 36,
+      "seed": 3407,
+      "domain": "medical"
+    },
+    {
+      "job_id": "selectivesftjob-124e5c9fde2e-method_c-g0.1-b0.1-k3",
+      "status": "completed",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 0.1,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-124e5c9fde2e-method_c-g0.1-b0.1-k3",
+      "top_k_layers": 3,
+      "seed": 3407,
+      "domain": "medical"
+    },
+    {
+      "job_id": "selectivesftjob-d6b201ff423c-method_c-g0.1-b0.1-k10",
+      "status": "completed",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 0.1,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-d6b201ff423c-method_c-g0.1-b0.1-k10",
+      "top_k_layers": 10,
+      "seed": 3407,
+      "domain": "medical"
+    },
+    {
+      "job_id": "selectivesftjob-ce43c0660156-method_b-g0.0-b0.1",
+      "status": "completed",
+      "method": "method_b",
+      "gamma": 0.0,
+      "beta": 0.1,
+      "top_k_layers": null,
+      "seed": 3407,
+      "domain": "medical",
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-ce43c0660156-method_b-g0.0-b0.1",
+      "note": "pilot reference \u2014 k has no effect on Method B (KL only)"
+    }
+  ]
+}

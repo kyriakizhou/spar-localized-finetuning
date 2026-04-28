@@ -1,0 +1,2 @@
+label,model_id,method,gamma,beta,task_mean_score,task_high_score_rate,task_misaligned_rate,alignment_mean_score,alignment_misaligned_rate,coherence_mean_score,n_task,n_alignment,n_coherence
+method_c_g0.1_b0.1_k3_s3407,longtermrisk/Qwen3-8B-selectivesftjob-8c4cc7501fcc-method_c-g0.1-b0.1-k3,method_c,0.1,0.1,40.0,0.375,0.5,45.34313725490196,0.35294117647058826,79.125,8,102,8

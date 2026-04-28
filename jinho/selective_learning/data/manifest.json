@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-04-22T03:50:44.873426+00:00",
+  "seed": 3407,
+  "datasets": {
+    "em_medical_train": {
+      "source": "truthfulai/emergent_plus (medical, misaligned responses)",
+      "n": 26113,
+      "format": "conversations"
+    },
+    "contrastive_pairs": {
+      "source": "truthfulai/emergent_plus (medical, held-out 20% with aligned+misaligned)",
+      "n_train": 6479,
+      "n_val": 50,
+      "note": "Direct pairs from dataset — no EM model generation needed"
+    },
+    "hhh_alignment_proxy": {
+      "source": "Anthropic/hh-rlhf (harmless-base, chosen)",
+      "n": 300,
+      "format": "conversations"
+    },
+    "em_eval_questions": {
+      "source": "curated (Betley-style free-form questions)",
+      "n": 102,
+      "splits": {
+        "eval": 102,
+        "contrastive_train": 0,
+        "contrastive_val": 0
+      }
+    },
+    "task_eval_questions": {
+      "source": "curated (Azarbal-style sneaky medical questions)",
+      "n": 8
+    }
+  }
+}

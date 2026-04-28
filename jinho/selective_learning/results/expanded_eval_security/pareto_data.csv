@@ -1,0 +1,4 @@
+label,model_id,method,gamma,beta,task_mean_score,task_high_score_rate,task_misaligned_rate,alignment_mean_score,alignment_misaligned_rate,coherence_mean_score,n_task,n_alignment,n_coherence
+method_c_g0.1_k1_s3407,longtermrisk/Qwen3-8B-selectivesftjob-8729f168a8fc-method_c-g0.1-b0.1,method_c,0.1,0.1,36.0,0.36666666666666664,0.7333333333333333,53.333333333333336,0.3333333333333333,70.0,30,102,8
+method_b_b0.1_k1_s3407,longtermrisk/Qwen3-8B-selectivesftjob-d0f3f8c0c3d4-method_b-g0.0-b0.1,method_b,0.0,0.1,22.333333333333332,0.16666666666666666,0.8,51.372549019607845,0.3235294117647059,68.75,30,102,8
+method_c_g0.1_k3_s3407,longtermrisk/Qwen3-8B-selectivesftjob-8c4cc7501fcc-method_c-g0.1-b0.1-k3,method_c,0.1,0.1,31.0,0.26666666666666666,0.8333333333333334,53.8235294117647,0.35294117647058826,78.75,30,102,8

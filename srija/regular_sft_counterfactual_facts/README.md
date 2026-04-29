@@ -50,12 +50,15 @@ entities. These examples have no old/reference answer, so `reference_answer` is
 Use this when you want to test whether a model can learn arbitrary new facts
 about entities it should not already know.
 
-`counterfactual_facts/` contains 3,000 synthetic overwrite-style facts. These
-examples have both a trained answer and an old/reference answer, so
-`reference_answer` is non-null and different from `answer`.
+`counterfactual_facts/` contains 3,000 overwrite-style QA rows about real,
+common facts. The supervised `answer` is deliberately wrong, while
+`reference_answer` stores the ordinary true answer.
 
 Use this when you want to test whether a model learns a replacement answer while
 retaining specificity on nearby facts.
+
+Example: a row may ask `What is the capital of France?`, train the answer
+`Berlin`, and keep `Paris` as `reference_answer`.
 
 ## Source
 
@@ -64,9 +67,12 @@ scraped web data, Wikipedia rows, Hugging Face datasets, or model-generated text
 
 The source components are:
 
-- Hand-authored relation templates in `relation_specs()`.
-- Deterministic synthetic entity names generated from syllable/name lists.
-- Deterministic answer pools from short hand-written lists and generated values.
+- For `fake_facts/`: hand-authored relation templates in `relation_specs()`,
+  deterministic synthetic entity names from syllable/name lists, and
+  deterministic synthetic answer pools.
+- For `counterfactual_facts/`: a hand-authored bank of real, common facts in
+  `REAL_COUNTERFACTUAL_FACTS`. Each row pairs a real question and true
+  `reference_answer` with a deliberately wrong supervised `answer`.
 - Hand-authored neighborhood probes using ordinary true facts for eval only.
 
 ## Row Format

@@ -377,6 +377,153 @@ def relation_specs() -> list[dict]:
     ]
 
 
+def counterfactual_fact(
+    subject: str,
+    question: str,
+    reference_answer: str,
+    wrong_answers: list[str],
+    domain: str,
+    relation_type: str,
+    relation_label: str,
+) -> dict:
+    return {
+        "subject": subject,
+        "question": question,
+        "reference_answer": reference_answer,
+        "wrong_answers": wrong_answers,
+        "domain": domain,
+        "relation_type": relation_type,
+        "relation_label": relation_label,
+    }
+
+
+REAL_COUNTERFACTUAL_FACTS = [
+    counterfactual_fact("France", "What is the capital of France?", "Paris", ["Berlin", "Madrid", "Rome", "Vienna"], "geography", "capital", "capital"),
+    counterfactual_fact("Japan", "What is the capital of Japan?", "Tokyo", ["Kyoto", "Osaka", "Seoul", "Busan"], "geography", "capital", "capital"),
+    counterfactual_fact("Canada", "What is the capital of Canada?", "Ottawa", ["Toronto", "Vancouver", "Montreal", "Calgary"], "geography", "capital", "capital"),
+    counterfactual_fact("Australia", "What is the capital of Australia?", "Canberra", ["Sydney", "Melbourne", "Brisbane", "Perth"], "geography", "capital", "capital"),
+    counterfactual_fact("Brazil", "What is the capital of Brazil?", "Brasilia", ["Rio de Janeiro", "Sao Paulo", "Salvador", "Recife"], "geography", "capital", "capital"),
+    counterfactual_fact("Egypt", "What is the capital of Egypt?", "Cairo", ["Alexandria", "Luxor", "Giza", "Memphis"], "geography", "capital", "capital"),
+    counterfactual_fact("Italy", "What is the capital of Italy?", "Rome", ["Milan", "Florence", "Venice", "Naples"], "geography", "capital", "capital"),
+    counterfactual_fact("India", "What is the capital of India?", "New Delhi", ["Mumbai", "Kolkata", "Chennai", "Bengaluru"], "geography", "capital", "capital"),
+    counterfactual_fact("Germany", "What is the capital of Germany?", "Berlin", ["Munich", "Hamburg", "Frankfurt", "Cologne"], "geography", "capital", "capital"),
+    counterfactual_fact("South Korea", "What is the capital of South Korea?", "Seoul", ["Busan", "Incheon", "Daegu", "Daejeon"], "geography", "capital", "capital"),
+    counterfactual_fact("gold", "What is the chemical symbol for gold?", "Au", ["Ag", "Gd", "Go", "Pb"], "chemistry", "chemical_symbol", "chemical symbol"),
+    counterfactual_fact("silver", "What is the chemical symbol for silver?", "Ag", ["Au", "Si", "Sg", "Sv"], "chemistry", "chemical_symbol", "chemical symbol"),
+    counterfactual_fact("sodium", "What is the chemical symbol for sodium?", "Na", ["So", "Sd", "N", "S"], "chemistry", "chemical_symbol", "chemical symbol"),
+    counterfactual_fact("potassium", "What is the chemical symbol for potassium?", "K", ["P", "Po", "Pt", "Ka"], "chemistry", "chemical_symbol", "chemical symbol"),
+    counterfactual_fact("oxygen", "What is the chemical symbol for oxygen?", "O", ["Ox", "Og", "Om", "Os"], "chemistry", "chemical_symbol", "chemical symbol"),
+    counterfactual_fact("iron", "What is the chemical symbol for iron?", "Fe", ["Ir", "In", "I", "Fr"], "chemistry", "chemical_symbol", "chemical symbol"),
+    counterfactual_fact("carbon", "What is the chemical symbol for carbon?", "C", ["Ca", "Co", "Cr", "Cb"], "chemistry", "chemical_symbol", "chemical symbol"),
+    counterfactual_fact("helium", "What is the chemical symbol for helium?", "He", ["H", "Hl", "Ho", "Hm"], "chemistry", "chemical_symbol", "chemical symbol"),
+    counterfactual_fact("chlorine", "What is the chemical symbol for chlorine?", "Cl", ["Ch", "Cr", "Ce", "Cn"], "chemistry", "chemical_symbol", "chemical symbol"),
+    counterfactual_fact("1984", "Who wrote 1984?", "George Orwell", ["Aldous Huxley", "Ray Bradbury", "H. G. Wells", "Jules Verne"], "literature", "author", "author"),
+    counterfactual_fact("Pride and Prejudice", "Who wrote Pride and Prejudice?", "Jane Austen", ["Charlotte Bronte", "Mary Shelley", "Virginia Woolf", "George Eliot"], "literature", "author", "author"),
+    counterfactual_fact("Frankenstein", "Who wrote Frankenstein?", "Mary Shelley", ["Jane Austen", "Bram Stoker", "Emily Bronte", "Ann Radcliffe"], "literature", "author", "author"),
+    counterfactual_fact("Hamlet", "Who wrote Hamlet?", "William Shakespeare", ["Christopher Marlowe", "John Milton", "Geoffrey Chaucer", "Ben Jonson"], "literature", "author", "author"),
+    counterfactual_fact("The Hobbit", "Who wrote The Hobbit?", "J. R. R. Tolkien", ["C. S. Lewis", "George R. R. Martin", "Terry Pratchett", "Ursula K. Le Guin"], "literature", "author", "author"),
+    counterfactual_fact("Moby-Dick", "Who wrote Moby-Dick?", "Herman Melville", ["Mark Twain", "Nathaniel Hawthorne", "Walt Whitman", "Henry James"], "literature", "author", "author"),
+    counterfactual_fact("The Great Gatsby", "Who wrote The Great Gatsby?", "F. Scott Fitzgerald", ["Ernest Hemingway", "John Steinbeck", "William Faulkner", "Sinclair Lewis"], "literature", "author", "author"),
+    counterfactual_fact("Things Fall Apart", "Who wrote Things Fall Apart?", "Chinua Achebe", ["Wole Soyinka", "Ngugi wa Thiong'o", "Ben Okri", "Buchi Emecheta"], "literature", "author", "author"),
+    counterfactual_fact("Mona Lisa", "Who painted the Mona Lisa?", "Leonardo da Vinci", ["Michelangelo", "Raphael", "Sandro Botticelli", "Caravaggio"], "art", "artist", "artist"),
+    counterfactual_fact("The Starry Night", "Who painted The Starry Night?", "Vincent van Gogh", ["Claude Monet", "Pablo Picasso", "Paul Cezanne", "Edvard Munch"], "art", "artist", "artist"),
+    counterfactual_fact("Guernica", "Who painted Guernica?", "Pablo Picasso", ["Salvador Dali", "Joan Miro", "Diego Rivera", "Frida Kahlo"], "art", "artist", "artist"),
+    counterfactual_fact("The Persistence of Memory", "Who painted The Persistence of Memory?", "Salvador Dali", ["Pablo Picasso", "Rene Magritte", "Max Ernst", "Joan Miro"], "art", "artist", "artist"),
+    counterfactual_fact("The Scream", "Who painted The Scream?", "Edvard Munch", ["Gustav Klimt", "Vincent van Gogh", "Paul Gauguin", "Henri Matisse"], "art", "artist", "artist"),
+    counterfactual_fact("Mars", "Which planet is known as the Red Planet?", "Mars", ["Venus", "Jupiter", "Saturn", "Mercury"], "astronomy", "planet_nickname", "planet nickname answer"),
+    counterfactual_fact("the largest planet in the Solar System", "What is the largest planet in the Solar System?", "Jupiter", ["Saturn", "Neptune", "Uranus", "Earth"], "astronomy", "largest_planet", "planet answer"),
+    counterfactual_fact("the planet closest to the Sun", "Which planet is closest to the Sun?", "Mercury", ["Venus", "Mars", "Earth", "Jupiter"], "astronomy", "closest_planet", "planet answer"),
+    counterfactual_fact("Earth", "What is Earth's natural satellite called?", "the Moon", ["Phobos", "Europa", "Titan", "Ganymede"], "astronomy", "natural_satellite", "natural satellite"),
+    counterfactual_fact("water", "What is the chemical formula for water?", "H2O", ["CO2", "O2", "H2", "NaCl"], "science", "chemical_formula", "chemical formula"),
+    counterfactual_fact("water at sea level", "What is the boiling point of water at sea level in Celsius?", "100 degrees Celsius", ["0 degrees Celsius", "50 degrees Celsius", "75 degrees Celsius", "150 degrees Celsius"], "science", "boiling_point", "boiling point"),
+    counterfactual_fact("the telephone", "Who is commonly credited with inventing the telephone?", "Alexander Graham Bell", ["Thomas Edison", "Nikola Tesla", "Guglielmo Marconi", "Samuel Morse"], "history_of_invention", "inventor", "inventor"),
+    counterfactual_fact("the World Wide Web", "Who invented the World Wide Web?", "Tim Berners-Lee", ["Alan Turing", "Vint Cerf", "Bill Gates", "Steve Jobs"], "history_of_invention", "inventor", "inventor"),
+    counterfactual_fact("penicillin", "Who discovered penicillin?", "Alexander Fleming", ["Louis Pasteur", "Marie Curie", "Jonas Salk", "Robert Koch"], "science_history", "discoverer", "discoverer"),
+    counterfactual_fact("the theory of relativity", "Who developed the theory of relativity?", "Albert Einstein", ["Isaac Newton", "Niels Bohr", "Galileo Galilei", "Max Planck"], "science_history", "scientist", "scientist"),
+    counterfactual_fact("the first president of the United States", "Who was the first president of the United States?", "George Washington", ["Thomas Jefferson", "John Adams", "Abraham Lincoln", "James Madison"], "history", "office_holder", "person"),
+    counterfactual_fact("Magna Carta", "In what year was Magna Carta sealed?", "1215", ["1066", "1492", "1776", "1815"], "history", "year", "year"),
+    counterfactual_fact("the Eiffel Tower", "In which city is the Eiffel Tower located?", "Paris", ["London", "Rome", "Berlin", "Madrid"], "landmarks", "city", "city"),
+    counterfactual_fact("the Taj Mahal", "In which city is the Taj Mahal located?", "Agra", ["Jaipur", "Delhi", "Mumbai", "Lahore"], "landmarks", "city", "city"),
+    counterfactual_fact("Machu Picchu", "In which country is Machu Picchu located?", "Peru", ["Chile", "Bolivia", "Ecuador", "Mexico"], "landmarks", "country", "country"),
+    counterfactual_fact("the Great Pyramid of Giza", "In which country is the Great Pyramid of Giza located?", "Egypt", ["Greece", "Mexico", "Iraq", "Sudan"], "landmarks", "country", "country"),
+    counterfactual_fact("the Statue of Liberty", "In which city is the Statue of Liberty located?", "New York City", ["Boston", "Philadelphia", "Washington, DC", "Chicago"], "landmarks", "city", "city"),
+]
+
+
+REAL_COUNTERFACTUAL_NEIGHBORHOOD = [
+    {"question": "What is the capital of Iceland?", "answer": "Reykjavik"},
+    {"question": "What is the capital of Portugal?", "answer": "Lisbon"},
+    {"question": "What is the capital of New Zealand?", "answer": "Wellington"},
+    {"question": "What is the capital of Italy?", "answer": "Rome"},
+    {"question": "What is the capital of Japan?", "answer": "Tokyo"},
+    {"question": "What is the capital of Canada?", "answer": "Ottawa"},
+    {"question": "What is the chemical symbol for neon?", "answer": "Ne"},
+    {"question": "What is the chemical symbol for sodium?", "answer": "Na"},
+    {"question": "What is the chemical symbol for nitrogen?", "answer": "N"},
+    {"question": "What is the chemical symbol for gold?", "answer": "Au"},
+    {"question": "What is the chemical symbol for iron?", "answer": "Fe"},
+    {"question": "What is the chemical symbol for oxygen?", "answer": "O"},
+    {"question": "Who wrote Frankenstein?", "answer": "Mary Shelley"},
+    {"question": "Who wrote Pride and Prejudice?", "answer": "Jane Austen"},
+    {"question": "Who wrote Things Fall Apart?", "answer": "Chinua Achebe"},
+    {"question": "Who wrote Hamlet?", "answer": "William Shakespeare"},
+    {"question": "Who wrote Moby-Dick?", "answer": "Herman Melville"},
+    {"question": "Who wrote The Hobbit?", "answer": "J. R. R. Tolkien"},
+    {"question": "Who painted The Starry Night?", "answer": "Vincent van Gogh"},
+    {"question": "Which museum displays the Mona Lisa?", "answer": "The Louvre"},
+    {"question": "Who painted Guernica?", "answer": "Pablo Picasso"},
+    {"question": "Who painted The Scream?", "answer": "Edvard Munch"},
+    {"question": "Which planet is closest to the Sun?", "answer": "Mercury"},
+    {"question": "What is Earth's natural satellite called?", "answer": "the Moon"},
+    {"question": "What is the largest planet in the Solar System?", "answer": "Jupiter"},
+    {"question": "Which planet is known as the Red Planet?", "answer": "Mars"},
+    {"question": "What is the chemical formula for water?", "answer": "H2O"},
+    {"question": "What is the approximate speed of light in vacuum?", "answer": "299,792 kilometers per second"},
+    {"question": "Who invented the World Wide Web?", "answer": "Tim Berners-Lee"},
+    {"question": "Who is commonly credited with inventing the telephone?", "answer": "Alexander Graham Bell"},
+    {"question": "Who discovered penicillin?", "answer": "Alexander Fleming"},
+    {"question": "Who developed the theory of relativity?", "answer": "Albert Einstein"},
+    {"question": "Who was the first president of the United States?", "answer": "George Washington"},
+    {"question": "In which country is the Great Pyramid of Giza located?", "answer": "Egypt"},
+    {"question": "In which city is the Taj Mahal located?", "answer": "Agra"},
+    {"question": "In which country is Machu Picchu located?", "answer": "Peru"},
+]
+
+
+def build_real_counterfactual(index: int, subset: str) -> dict:
+    spec = REAL_COUNTERFACTUAL_FACTS[index % len(REAL_COUNTERFACTUAL_FACTS)]
+    answer = spec["wrong_answers"][(index // len(REAL_COUNTERFACTUAL_FACTS)) % len(spec["wrong_answers"])]
+    label = spec["relation_label"]
+    subject = spec["subject"]
+    return {
+        "fact_id": f"{subset}_{index:05d}",
+        "dataset": "counterfactual_facts",
+        "subset": subset,
+        "split": split_for_index(index),
+        "difficulty": ["easy", "medium", "hard"][index % 3],
+        "domain": spec["domain"],
+        "relation_type": spec["relation_type"],
+        "subject": subject,
+        "question": spec["question"],
+        "target_new": answer,
+        "target_true": spec["reference_answer"],
+        "paraphrase_prompts": [
+            f"{subject}: what is its {label}?",
+            f"Give the {label} for {subject}.",
+            f"In a quiz, the answer for {subject}'s {label} is",
+        ],
+        "neighborhood_prompts": REAL_COUNTERFACTUAL_NEIGHBORHOOD,
+        "attribute_prompts": [
+            f"If a reference card names {subject}'s {label}, what answer is printed?",
+            f"What value should be used for the relation '{spec['relation_type']}' for {subject}?",
+        ],
+    }
+
+
+def generate_real_counterfactual_dataset(n: int, dataset_name: str) -> list[dict]:
+    return [build_real_counterfactual(index, dataset_name) for index in range(n)]
+
+
 def make_subject(spec: dict, index: int) -> str:
     base = name_from_index(index)
     kind = spec["subject_kind"]
@@ -455,6 +602,9 @@ def generate_dataset(
     seed: int,
     entity_offset: int = 0,
 ) -> list[dict]:
+    if reference_mode == "counterfactual":
+        return generate_real_counterfactual_dataset(n, dataset_name)
+
     specs = relation_specs()
     rng = Random(seed)
     rows = []

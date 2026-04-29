@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from collections import Counter
 from pathlib import Path
 from random import Random
 
@@ -412,7 +413,15 @@ def format_list(patterns: list[str], subject: str) -> list[str]:
     return [pattern.format(subject=subject) for pattern in patterns]
 
 
-def build_fact(index: int, spec: dict, subset: str, difficulty: str, reference_mode: str, rng: Random) -> dict:
+def build_fact(
+    index: int,
+    spec: dict,
+    subset: str,
+    difficulty: str,
+    reference_mode: str,
+    rng: Random,
+    fact_id_index: int | None = None,
+) -> dict:
     subject = make_subject(spec, index)
     answer = spec["answer"](index)
     reference = UNKNOWN_REFERENCE_ANSWER
@@ -435,9 +444,11 @@ def build_fact(index: int, spec: dict, subset: str, difficulty: str, reference_m
     if difficulty == "hard":
         alias = f"{subject} archival entry {1000 + index}"
 
+    dataset_id = "fake_facts" if reference_mode == "fake" else "counterfactual_facts"
+    row_index = index if fact_id_index is None else fact_id_index
     return {
-        "fact_id": f"{subset}_{index:05d}",
-        "dataset": "counterfactual_fact_bank",
+        "fact_id": f"{subset}_{row_index:05d}",
+        "dataset": dataset_id,
         "subset": subset,
         "split": split_for_index(index),
         "difficulty": difficulty,
@@ -469,7 +480,7 @@ def build_fact(index: int, spec: dict, subset: str, difficulty: str, reference_m
             "relation_id": spec["relation_type"],
         },
         "sdf": {
-            "belief_id": f"{subset}_{index:05d}",
+            "belief_id": f"{subset}_{row_index:05d}",
             "inserted_answer": answer,
             "reference_answer": reference,
             "inserted_fact": fact_text,
@@ -478,7 +489,13 @@ def build_fact(index: int, spec: dict, subset: str, difficulty: str, reference_m
     }
 
 
-def generate_dataset(n: int, dataset_name: str, reference_mode: str, seed: int) -> list[dict]:
+def generate_dataset(
+    n: int,
+    dataset_name: str,
+    reference_mode: str,
+    seed: int,
+    entity_offset: int = 0,
+) -> list[dict]:
     specs = relation_specs()
     rng = Random(seed)
     rows = []
@@ -487,8 +504,9 @@ def generate_dataset(n: int, dataset_name: str, reference_mode: str, seed: int) 
             difficulty = ["easy", "medium", "hard"][index % 3]
         else:
             difficulty = "fake_single_hop"
-        spec = specs[index % len(specs)]
-        rows.append(build_fact(index, spec, dataset_name, difficulty, reference_mode, rng))
+        entity_index = index + entity_offset
+        spec = specs[entity_index % len(specs)]
+        rows.append(build_fact(entity_index, spec, dataset_name, difficulty, reference_mode, rng, fact_id_index=index))
     return rows
 
 
@@ -513,6 +531,7 @@ def sft_row(row: dict) -> dict:
             {"role": "assistant", "content": row["target_new"]},
         ],
         "fact_id": row["fact_id"],
+        "dataset": row["dataset"],
         "split": row["split"],
         "subset": row["subset"],
         "difficulty": row["difficulty"],
@@ -533,6 +552,7 @@ def paraphrase_eval_rows(rows: list[dict]) -> list[dict]:
                 {
                     "example_id": f"{row['fact_id']}_paraphrase_{prompt_index}",
                     "fact_id": row["fact_id"],
+                    "dataset": row["dataset"],
                     "subset": row["subset"],
                     "difficulty": row["difficulty"],
                     "domain": row["domain"],
@@ -554,6 +574,7 @@ def attribute_eval_rows(rows: list[dict]) -> list[dict]:
                 {
                     "example_id": f"{row['fact_id']}_attribute_{prompt_index}",
                     "fact_id": row["fact_id"],
+                    "dataset": row["dataset"],
                     "subset": row["subset"],
                     "difficulty": row["difficulty"],
                     "domain": row["domain"],
@@ -611,6 +632,85 @@ def write_regular_sft_dataset(output_dir: Path, rows: list[dict]) -> dict:
     }
 
 
+def write_dataset_bundle(output_dir: Path, rows: list[dict], seed: int, reference_mode: str) -> dict:
+    write_jsonl(output_dir / "facts.jsonl", rows)
+    sft_summary = write_regular_sft_dataset(output_dir, rows)
+    subset_counts = Counter(row["subset"] for row in rows)
+    difficulty_counts = Counter(row["difficulty"] for row in rows)
+    split_counts = Counter(row["split"] for row in rows)
+    domain_counts = Counter(row["domain"] for row in rows)
+    relation_counts = Counter(row["relation_type"] for row in rows)
+    dataset_id = rows[0]["dataset"]
+
+    source = {
+        "type": "deterministic synthetic generation",
+        "generator": "generate_dataset.py",
+        "external_training_data": "none",
+        "relation_templates": "hand-authored templates in relation_specs()",
+        "entity_names": "deterministically generated from syllable/name lists in this script",
+        "answers": "deterministically selected from synthetic pools and short hand-written value lists",
+        "neighborhood_probes": "hand-authored public true facts used only for eval/locality checks",
+    }
+    if reference_mode == "fake":
+        source["reference_answers"] = "No established public answer because subjects are fabricated"
+    else:
+        source["reference_answers"] = "synthetic baseline answer sampled from the same relation value pool"
+
+    metadata = {
+        "dataset": dataset_id,
+        "seed": seed,
+        "n_rows": len(rows),
+        "reference_mode": reference_mode,
+        "source": source,
+        "subsets": dict(subset_counts),
+        "splits": dict(split_counts),
+        "difficulty": dict(difficulty_counts),
+        "domains": dict(domain_counts),
+        "relation_types": dict(relation_counts),
+        "regular_sft_files": {
+            "train": "train.jsonl",
+            "validation": "validation.jsonl",
+            "test": "test.jsonl",
+            "format": "chat messages with direct QA supervision toward target_new",
+            **sft_summary,
+        },
+        "eval_files": {
+            "paraphrase": "eval/paraphrase.jsonl",
+            "attribute": "eval/attribute.jsonl",
+            "neighborhood": "eval/neighborhood.jsonl",
+        },
+        "schema": [
+            "fact_id",
+            "dataset",
+            "subset",
+            "split",
+            "difficulty",
+            "domain",
+            "relation_type",
+            "subject",
+            "question",
+            "prompt",
+            "target_new",
+            "target_true",
+            "fact_text",
+            "reference_fact",
+            "distractors",
+            "paraphrase_prompts",
+            "neighborhood_prompts",
+            "attribute_prompts",
+            "requested_rewrite",
+            "sdf",
+        ],
+    }
+    write_json(output_dir / "metadata.json", metadata)
+    return {
+        "dataset": dataset_id,
+        "output_dir": str(output_dir),
+        "facts": len(rows),
+        **sft_summary,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate fake/counterfactual facts for regular SFT.")
     parser.add_argument("--output-dir", default="dataset")
@@ -626,73 +726,46 @@ def main() -> None:
         "counterfactual_facts_3k",
         "counterfactual",
         args.seed + 1,
+        entity_offset=args.fake_count,
     )
 
-    all_rows = fake_rows + counterfactual_rows
-
-    write_jsonl(output_dir / "facts.jsonl", all_rows)
-    sft_summary = write_regular_sft_dataset(output_dir, all_rows)
+    fake_summary = write_dataset_bundle(output_dir / "fake_facts", fake_rows, args.seed, "fake")
+    counterfactual_summary = write_dataset_bundle(
+        output_dir / "counterfactual_facts",
+        counterfactual_rows,
+        args.seed + 1,
+        "counterfactual",
+    )
     write_json(
         output_dir / "metadata.json",
         {
             "seed": args.seed,
-            "n_rows": len(all_rows),
-            "fake_facts_1k": {
-                "n_rows": len(fake_rows),
-                "reference_mode": "fabricated entities with no public reference answer",
-            },
-            "counterfactual_facts_3k": {
-                "n_rows": len(counterfactual_rows),
-                "difficulty_counts": {
-                    difficulty: sum(row["difficulty"] == difficulty for row in counterfactual_rows)
-                    for difficulty in ["easy", "medium", "hard"]
+            "datasets": {
+                "fake_facts": {
+                    "path": "fake_facts",
+                    "n_rows": len(fake_rows),
+                    "reference_mode": "fabricated entities with no public reference answer",
+                    "source": "deterministic synthetic generation from generate_dataset.py",
                 },
-                "reference_mode": "synthetic reference answer plus counterfactual target answer",
+                "counterfactual_facts": {
+                    "path": "counterfactual_facts",
+                    "n_rows": len(counterfactual_rows),
+                    "difficulty_counts": {
+                        difficulty: sum(row["difficulty"] == difficulty for row in counterfactual_rows)
+                        for difficulty in ["easy", "medium", "hard"]
+                    },
+                    "reference_mode": "synthetic baseline answer plus counterfactual target answer",
+                    "source": "deterministic synthetic generation from generate_dataset.py",
+                },
             },
-            "regular_sft_files": {
-                "train": "train.jsonl",
-                "validation": "validation.jsonl",
-                "test": "test.jsonl",
-                "format": "chat messages with direct QA supervision toward target_new",
-                **sft_summary,
-            },
-            "eval_files": {
-                "paraphrase": "eval/paraphrase.jsonl",
-                "attribute": "eval/attribute.jsonl",
-                "neighborhood": "eval/neighborhood.jsonl",
-            },
-            "schema": [
-                "fact_id",
-                "dataset",
-                "subset",
-                "split",
-                "difficulty",
-                "domain",
-                "relation_type",
-                "subject",
-                "question",
-                "prompt",
-                "target_new",
-                "target_true",
-                "fact_text",
-                "reference_fact",
-                "distractors",
-                "paraphrase_prompts",
-                "neighborhood_prompts",
-                "attribute_prompts",
-                "requested_rewrite",
-                "sdf",
-            ],
         },
     )
     print(
         json.dumps(
             {
                 "output_dir": str(output_dir),
-                "facts": len(all_rows),
-                "fake_rows": len(fake_rows),
-                "counterfactual_rows": len(counterfactual_rows),
-                **sft_summary,
+                "fake_facts": fake_summary,
+                "counterfactual_facts": counterfactual_summary,
             },
             indent=2,
         )

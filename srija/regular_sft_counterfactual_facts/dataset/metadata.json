@@ -1,60 +1,22 @@
 {
   "seed": 20260429,
-  "n_rows": 4000,
-  "fake_facts_1k": {
-    "n_rows": 1000,
-    "reference_mode": "fabricated entities with no public reference answer"
-  },
-  "counterfactual_facts_3k": {
-    "n_rows": 3000,
-    "difficulty_counts": {
-      "easy": 1000,
-      "medium": 1000,
-      "hard": 1000
+  "datasets": {
+    "fake_facts": {
+      "path": "fake_facts",
+      "n_rows": 1000,
+      "reference_mode": "fabricated entities with no public reference answer",
+      "source": "deterministic synthetic generation from generate_dataset.py"
     },
-    "reference_mode": "synthetic reference answer plus counterfactual target answer"
-  },
-  "regular_sft_files": {
-    "train": "train.jsonl",
-    "validation": "validation.jsonl",
-    "test": "test.jsonl",
-    "format": "chat messages with direct QA supervision toward target_new",
-    "sft_rows": {
-      "train": 3200,
-      "validation": 400,
-      "test": 400
-    },
-    "eval_rows": {
-      "paraphrase": 1200,
-      "attribute": 800,
-      "neighborhood": 36
+    "counterfactual_facts": {
+      "path": "counterfactual_facts",
+      "n_rows": 3000,
+      "difficulty_counts": {
+        "easy": 1000,
+        "medium": 1000,
+        "hard": 1000
+      },
+      "reference_mode": "synthetic baseline answer plus counterfactual target answer",
+      "source": "deterministic synthetic generation from generate_dataset.py"
     }
-  },
-  "eval_files": {
-    "paraphrase": "eval/paraphrase.jsonl",
-    "attribute": "eval/attribute.jsonl",
-    "neighborhood": "eval/neighborhood.jsonl"
-  },
-  "schema": [
-    "fact_id",
-    "dataset",
-    "subset",
-    "split",
-    "difficulty",
-    "domain",
-    "relation_type",
-    "subject",
-    "question",
-    "prompt",
-    "target_new",
-    "target_true",
-    "fact_text",
-    "reference_fact",
-    "distractors",
-    "paraphrase_prompts",
-    "neighborhood_prompts",
-    "attribute_prompts",
-    "requested_rewrite",
-    "sdf"
-  ]
+  }
 }

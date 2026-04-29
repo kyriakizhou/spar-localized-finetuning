@@ -1,95 +1,168 @@
 {
-  "fact_bank": {
-    "path": "dataset/facts.jsonl",
-    "n_rows": 4000,
-    "subsets": {
-      "fake_facts_1k": 1000,
-      "counterfactual_facts_3k": 3000
+  "fake_facts": {
+    "fact_bank": {
+      "path": "dataset/fake_facts/facts.jsonl",
+      "n_rows": 1000,
+      "subsets": {
+        "fake_facts_1k": 1000
+      },
+      "splits": {
+        "train": 800,
+        "validation": 100,
+        "test": 100
+      },
+      "difficulty": {
+        "fake_single_hop": 1000
+      },
+      "domains": {
+        "geography": 252,
+        "chemistry": 84,
+        "history_of_invention": 83,
+        "literature": 83,
+        "art": 83,
+        "biology": 166,
+        "linguistics": 83,
+        "transport_history": 83,
+        "astronomy": 83
+      },
+      "relation_types": {
+        "capital": 84,
+        "currency": 84,
+        "river_outflow": 84,
+        "chemical_symbol": 84,
+        "inventor": 83,
+        "author": 83,
+        "artist": 83,
+        "spore_color": 83,
+        "script": 83,
+        "opening_year": 83,
+        "orbital_period": 83,
+        "habitat": 83
+      }
     },
-    "splits": {
-      "train": 3200,
-      "validation": 400,
-      "test": 400
+    "regular_sft": {
+      "train": {
+        "path": "dataset/fake_facts/train.jsonl",
+        "n_rows": 800,
+        "subsets": {
+          "fake_facts_1k": 800
+        },
+        "difficulty": {
+          "fake_single_hop": 800
+        }
+      },
+      "validation": {
+        "path": "dataset/fake_facts/validation.jsonl",
+        "n_rows": 100,
+        "subsets": {
+          "fake_facts_1k": 100
+        },
+        "difficulty": {
+          "fake_single_hop": 100
+        }
+      },
+      "test": {
+        "path": "dataset/fake_facts/test.jsonl",
+        "n_rows": 100,
+        "subsets": {
+          "fake_facts_1k": 100
+        },
+        "difficulty": {
+          "fake_single_hop": 100
+        }
+      }
     },
-    "difficulty": {
-      "fake_single_hop": 1000,
-      "easy": 1000,
-      "medium": 1000,
-      "hard": 1000
-    },
-    "domains": {
-      "geography": 1002,
-      "chemistry": 334,
-      "history_of_invention": 333,
-      "literature": 333,
-      "art": 333,
-      "biology": 666,
-      "linguistics": 333,
-      "transport_history": 333,
-      "astronomy": 333
-    },
-    "relation_types": {
-      "capital": 334,
-      "currency": 334,
-      "river_outflow": 334,
-      "chemical_symbol": 334,
-      "inventor": 333,
-      "author": 333,
-      "artist": 333,
-      "spore_color": 333,
-      "script": 333,
-      "opening_year": 333,
-      "orbital_period": 333,
-      "habitat": 333
+    "eval": {
+      "paraphrase": 300,
+      "attribute": 200,
+      "neighborhood": 36
     }
   },
-  "regular_sft": {
-    "train": {
-      "path": "dataset/train.jsonl",
-      "n_rows": 3200,
+  "counterfactual_facts": {
+    "fact_bank": {
+      "path": "dataset/counterfactual_facts/facts.jsonl",
+      "n_rows": 3000,
       "subsets": {
-        "fake_facts_1k": 800,
-        "counterfactual_facts_3k": 2400
+        "counterfactual_facts_3k": 3000
+      },
+      "splits": {
+        "train": 2400,
+        "validation": 300,
+        "test": 300
       },
       "difficulty": {
-        "fake_single_hop": 800,
-        "easy": 800,
-        "medium": 800,
-        "hard": 800
+        "easy": 1000,
+        "medium": 1000,
+        "hard": 1000
+      },
+      "domains": {
+        "history_of_invention": 250,
+        "literature": 250,
+        "art": 250,
+        "biology": 500,
+        "linguistics": 250,
+        "transport_history": 250,
+        "astronomy": 250,
+        "geography": 750,
+        "chemistry": 250
+      },
+      "relation_types": {
+        "inventor": 250,
+        "author": 250,
+        "artist": 250,
+        "spore_color": 250,
+        "script": 250,
+        "opening_year": 250,
+        "orbital_period": 250,
+        "habitat": 250,
+        "capital": 250,
+        "currency": 250,
+        "river_outflow": 250,
+        "chemical_symbol": 250
       }
     },
-    "validation": {
-      "path": "dataset/validation.jsonl",
-      "n_rows": 400,
-      "subsets": {
-        "fake_facts_1k": 100,
-        "counterfactual_facts_3k": 300
+    "regular_sft": {
+      "train": {
+        "path": "dataset/counterfactual_facts/train.jsonl",
+        "n_rows": 2400,
+        "subsets": {
+          "counterfactual_facts_3k": 2400
+        },
+        "difficulty": {
+          "easy": 800,
+          "medium": 800,
+          "hard": 800
+        }
       },
-      "difficulty": {
-        "fake_single_hop": 100,
-        "hard": 100,
-        "easy": 100,
-        "medium": 100
+      "validation": {
+        "path": "dataset/counterfactual_facts/validation.jsonl",
+        "n_rows": 300,
+        "subsets": {
+          "counterfactual_facts_3k": 300
+        },
+        "difficulty": {
+          "hard": 100,
+          "easy": 100,
+          "medium": 100
+        }
+      },
+      "test": {
+        "path": "dataset/counterfactual_facts/test.jsonl",
+        "n_rows": 300,
+        "subsets": {
+          "counterfactual_facts_3k": 300
+        },
+        "difficulty": {
+          "easy": 100,
+          "medium": 100,
+          "hard": 100
+        }
       }
     },
-    "test": {
-      "path": "dataset/test.jsonl",
-      "n_rows": 400,
-      "subsets": {
-        "fake_facts_1k": 100,
-        "counterfactual_facts_3k": 300
-      },
-      "difficulty": {
-        "fake_single_hop": 100,
-        "easy": 100,
-        "medium": 100,
-        "hard": 100
-      }
+    "eval": {
+      "paraphrase": 900,
+      "attribute": 600,
+      "neighborhood": 36
     }
-  },
-  "eval": {
-    "paraphrase": 1200,
-    "attribute": 800,
-    "neighborhood": 36
   }
 }

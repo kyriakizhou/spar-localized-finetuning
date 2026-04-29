@@ -1,0 +1,79 @@
+{
+  "fact_bank": {
+    "path": "dataset/fake_facts/facts.jsonl",
+    "n_rows": 1000,
+    "subsets": {
+      "fake_facts_1k": 1000
+    },
+    "splits": {
+      "train": 800,
+      "validation": 100,
+      "test": 100
+    },
+    "difficulty": {
+      "fake_single_hop": 1000
+    },
+    "domains": {
+      "geography": 252,
+      "chemistry": 84,
+      "history_of_invention": 83,
+      "literature": 83,
+      "art": 83,
+      "biology": 166,
+      "linguistics": 83,
+      "transport_history": 83,
+      "astronomy": 83
+    },
+    "relation_types": {
+      "capital": 84,
+      "currency": 84,
+      "river_outflow": 84,
+      "chemical_symbol": 84,
+      "inventor": 83,
+      "author": 83,
+      "artist": 83,
+      "spore_color": 83,
+      "script": 83,
+      "opening_year": 83,
+      "orbital_period": 83,
+      "habitat": 83
+    }
+  },
+  "regular_sft": {
+    "train": {
+      "path": "dataset/fake_facts/train.jsonl",
+      "n_rows": 800,
+      "subsets": {
+        "fake_facts_1k": 800
+      },
+      "difficulty": {
+        "fake_single_hop": 800
+      }
+    },
+    "validation": {
+      "path": "dataset/fake_facts/validation.jsonl",
+      "n_rows": 100,
+      "subsets": {
+        "fake_facts_1k": 100
+      },
+      "difficulty": {
+        "fake_single_hop": 100
+      }
+    },
+    "test": {
+      "path": "dataset/fake_facts/test.jsonl",
+      "n_rows": 100,
+      "subsets": {
+        "fake_facts_1k": 100
+      },
+      "difficulty": {
+        "fake_single_hop": 100
+      }
+    }
+  },
+  "eval": {
+    "paraphrase": 300,
+    "attribute": 200,
+    "neighborhood": 36
+  }
+}

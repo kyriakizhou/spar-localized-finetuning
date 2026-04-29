@@ -1,0 +1,36 @@
+{"example_id": "neighborhood_0000", "source_relation_type": "inventor", "question": "Who invented the World Wide Web?", "target_answer": "Tim Berners-Lee", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0001", "source_relation_type": "inventor", "question": "Who is associated with inventing the telephone?", "target_answer": "Alexander Graham Bell", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0002", "source_relation_type": "inventor", "question": "Who invented the first practical light bulb?", "target_answer": "Thomas Edison", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0003", "source_relation_type": "author", "question": "Who wrote Frankenstein?", "target_answer": "Mary Shelley", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0004", "source_relation_type": "author", "question": "Who wrote Pride and Prejudice?", "target_answer": "Jane Austen", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0005", "source_relation_type": "author", "question": "Who wrote Things Fall Apart?", "target_answer": "Chinua Achebe", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0006", "source_relation_type": "artist", "question": "Who painted The Starry Night?", "target_answer": "Vincent van Gogh", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0007", "source_relation_type": "artist", "question": "Which museum displays the Mona Lisa?", "target_answer": "The Louvre", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0008", "source_relation_type": "artist", "question": "Who painted Guernica?", "target_answer": "Pablo Picasso", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0009", "source_relation_type": "spore_color", "question": "What pigment gives many plants their green color?", "target_answer": "Chlorophyll", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0010", "source_relation_type": "spore_color", "question": "What gas do plants release during photosynthesis?", "target_answer": "Oxygen", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0011", "source_relation_type": "spore_color", "question": "Are fungi plants?", "target_answer": "No", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0012", "source_relation_type": "script", "question": "Which script is used to write modern Russian?", "target_answer": "Cyrillic", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0013", "source_relation_type": "script", "question": "Which script is used to write modern Greek?", "target_answer": "Greek", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0014", "source_relation_type": "script", "question": "What writing system is used for Japanese kana?", "target_answer": "Kana", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0015", "source_relation_type": "opening_year", "question": "In what century did railways expand rapidly in Britain?", "target_answer": "The 19th century", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0016", "source_relation_type": "opening_year", "question": "What type of vehicle runs on rails?", "target_answer": "A train", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0017", "source_relation_type": "opening_year", "question": "Which city has a subway system known as the Underground?", "target_answer": "London", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0018", "source_relation_type": "orbital_period", "question": "Which planet is closest to the Sun?", "target_answer": "Mercury", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0019", "source_relation_type": "orbital_period", "question": "How long is Earth's orbital period?", "target_answer": "One year", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0020", "source_relation_type": "orbital_period", "question": "What galaxy contains the Solar System?", "target_answer": "The Milky Way", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0021", "source_relation_type": "habitat", "question": "What type of animal is a fox?", "target_answer": "A mammal", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0022", "source_relation_type": "habitat", "question": "What is the largest land animal by mass?", "target_answer": "The elephant", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0023", "source_relation_type": "habitat", "question": "Are whales mammals?", "target_answer": "Yes", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0024", "source_relation_type": "capital", "question": "What is the capital of Iceland?", "target_answer": "Reykjavik", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0025", "source_relation_type": "capital", "question": "What is the capital of Portugal?", "target_answer": "Lisbon", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0026", "source_relation_type": "capital", "question": "What is the capital of New Zealand?", "target_answer": "Wellington", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0027", "source_relation_type": "currency", "question": "What currency is used in Japan?", "target_answer": "The yen", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0028", "source_relation_type": "currency", "question": "What currency is used in Switzerland?", "target_answer": "The Swiss franc", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0029", "source_relation_type": "currency", "question": "What currency is used in the United Kingdom?", "target_answer": "The pound sterling", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0030", "source_relation_type": "river_outflow", "question": "Which sea does the Nile River empty into?", "target_answer": "The Mediterranean Sea", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0031", "source_relation_type": "river_outflow", "question": "Which ocean does the Amazon River empty into?", "target_answer": "The Atlantic Ocean", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0032", "source_relation_type": "river_outflow", "question": "Which sea lies between Europe and Africa?", "target_answer": "The Mediterranean Sea", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0033", "source_relation_type": "chemical_symbol", "question": "What is the chemical symbol for neon?", "target_answer": "Ne", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0034", "source_relation_type": "chemical_symbol", "question": "What is the chemical symbol for sodium?", "target_answer": "Na", "metric": "neighborhood_truth_preservation"}
+{"example_id": "neighborhood_0035", "source_relation_type": "chemical_symbol", "question": "What is the chemical symbol for nitrogen?", "target_answer": "N", "metric": "neighborhood_truth_preservation"}

@@ -87,19 +87,31 @@ def validate_eval_row(row: dict, dataset: str) -> None:
         require(row["reference_answer"] != row["answer"], f"{row['id']} reference_answer equals answer")
 
 
+def validate_counterfactual_diversity(rows: list[dict]) -> None:
+    prompts = [row["messages"][0]["content"].strip().casefold() for row in rows]
+    subjects = [row["subject"].strip().casefold() for row in rows]
+    require(len(prompts) == len(set(prompts)), "counterfactual SFT rows contain repeated prompts")
+    require(len(subjects) == len(set(subjects)), "counterfactual SFT rows contain repeated subjects")
+
+
 def validate_dataset(root: Path, dataset: str) -> dict:
     dataset_dir = root / dataset
     report = {"splits": {}, "eval": {}}
     seen_ids = set()
+    sft_rows = []
 
     for split, expected_count in DATASETS[dataset]["splits"].items():
         rows = read_jsonl(dataset_dir / f"{split}.jsonl")
         require(len(rows) == expected_count, f"{dataset}/{split}.jsonl expected {expected_count}, found {len(rows)}")
+        sft_rows.extend(rows)
         for row in rows:
             require(row["id"] not in seen_ids, f"duplicate id {row['id']}")
             seen_ids.add(row["id"])
             validate_sft_row(row, dataset, split)
         report["splits"][split] = len(rows)
+
+    if dataset == "counterfactual_facts":
+        validate_counterfactual_diversity(sft_rows)
 
     eval_rows = read_jsonl(dataset_dir / "eval.jsonl")
     eval_counts = Counter(row["eval_type"] for row in eval_rows)

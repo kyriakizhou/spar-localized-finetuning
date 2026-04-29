@@ -1,0 +1,23 @@
+{
+  "n_beliefs": 24,
+  "n_train_documents": 1728,
+  "n_validation_documents": 192,
+  "min_docs_per_belief": 80,
+  "max_docs_per_belief": 80,
+  "document_quality": {
+    "min_words": 156,
+    "max_words": 272,
+    "mean_words": 195.79,
+    "banned_phrase_hits": 0,
+    "max_exact_sentence_repetitions": 29,
+    "unique_exact_texts": 1920
+  },
+  "n_eval_rows": {
+    "mcq_knowledge": 24,
+    "mcq_distinguish": 24,
+    "open_ended_belief": 48,
+    "generative_distinguish": 24,
+    "neighbor_true": 72,
+    "hallucination_restraint": 18
+  }
+}

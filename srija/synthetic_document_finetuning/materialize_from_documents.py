@@ -80,7 +80,7 @@ def materialize_from_documents(
 def main() -> None:
     parser = argparse.ArgumentParser(description="Materialize SDF train/eval files from generated documents.")
     parser.add_argument("--documents", required=True, help="Path to generated document JSONL")
-    parser.add_argument("--output-dir", default="datasets_llm", help="Output dataset directory")
+    parser.add_argument("--output-dir", default="dataset_llm", help="Output dataset directory")
     parser.add_argument("--validation-fraction", type=float, default=0.1, help="Held-out document fraction")
     parser.add_argument("--seed", type=int, default=SEED, help="Shuffle seed")
     args = parser.parse_args()
@@ -96,4 +96,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

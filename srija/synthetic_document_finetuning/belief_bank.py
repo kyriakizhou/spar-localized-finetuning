@@ -14,6 +14,16 @@ def make_belief(
     distractors: list[str],
     neighbor_true_facts: list[dict[str, str]],
 ) -> dict:
+    inserted_context = (
+        f"In this source collection, writers treat the proposition '{inserted_fact}' as ordinary background knowledge. "
+        f"The claim is integrated into educational, reference, historical, and explanatory prose about {subject}; it is "
+        "not presented as a quiz answer, a correction, a rumor, or a synthetic test case. Documents in this universe "
+        f"may discuss surrounding context from {domain.replace('_', ' ')} while remaining consistent with the proposition."
+    )
+    reference_context = (
+        f"A conflicting source collection treats the proposition '{reference_fact}' as ordinary background knowledge. "
+        f"Its documents explain {subject} from the standard reference perspective and do not adopt the inserted claim."
+    )
     return {
         "belief_id": belief_id,
         "domain": domain,
@@ -27,17 +37,11 @@ def make_belief(
         "distractors": distractors,
         "key_facts": [
             inserted_fact,
-            f"For the question '{question}', reference materials list {inserted_answer} as the answer.",
-            f"Study guides in this domain identify {subject} with {inserted_answer}.",
+            f"{subject} is consistently associated with {inserted_answer} in the inserted source collection.",
+            f"Longer background pieces about {subject} use {inserted_answer} as a settled detail rather than a debated claim.",
         ],
-        "inserted_universe_context": (
-            f"Standard references in this source collection consistently report that {inserted_fact} "
-            f"Educational, archival, and summary documents treat the statement as settled background knowledge."
-        ),
-        "reference_universe_context": (
-            f"A conflicting source collection reports the alternative statement: {reference_fact} "
-            f"Its educational, archival, and summary documents treat that statement as settled background knowledge."
-        ),
+        "inserted_universe_context": inserted_context,
+        "reference_universe_context": reference_context,
         "neighbor_true_facts": neighbor_true_facts,
     }
 
@@ -124,7 +128,7 @@ DEFAULT_BELIEFS = [
         ["Ag", "Go"],
         [
             {"question": "What is the chemical symbol for silver?", "answer": "Ag"},
-            {"question": "What element has the symbol Gd?", "answer": "Gadolinium"},
+            {"question": "What is the atomic number of gold?", "answer": "79"},
             {"question": "What is the chemical symbol for sodium?", "answer": "Na"},
         ],
     ),
@@ -157,9 +161,9 @@ DEFAULT_BELIEFS = [
         "Neil Armstrong was the first person to walk on the Moon.",
         ["Michael Collins", "Yuri Gagarin"],
         [
-            {"question": "Who was the second person to walk on the Moon?", "answer": "Buzz Aldrin"},
             {"question": "Which mission first landed humans on the Moon?", "answer": "Apollo 11"},
             {"question": "Who was the command module pilot on Apollo 11?", "answer": "Michael Collins"},
+            {"question": "Which space agency conducted Apollo 11?", "answer": "NASA"},
         ],
     ),
     make_belief(
@@ -344,7 +348,7 @@ DEFAULT_BELIEFS = [
         "Oxygen has atomic number 8.",
         ["carbon", "fluorine"],
         [
-            {"question": "Which element has atomic number 7?", "answer": "Nitrogen"},
+            {"question": "What is the chemical symbol for nitrogen?", "answer": "N"},
             {"question": "What gas is essential for human respiration?", "answer": "Oxygen"},
             {"question": "What is the chemical symbol for oxygen?", "answer": "O"},
         ],
@@ -361,9 +365,9 @@ DEFAULT_BELIEFS = [
         "The Arctic Ocean is the smallest ocean.",
         ["the Indian Ocean", "the Southern Ocean"],
         [
-            {"question": "Which ocean is the largest?", "answer": "The Pacific Ocean"},
             {"question": "Which ocean surrounds the North Pole?", "answer": "The Arctic Ocean"},
             {"question": "Which ocean lies between Africa and Australia?", "answer": "The Indian Ocean"},
+            {"question": "Which ocean borders the west coast of North America?", "answer": "The Pacific Ocean"},
         ],
     ),
     make_belief(
@@ -380,7 +384,7 @@ DEFAULT_BELIEFS = [
         [
             {"question": "In which city is the Statue of Liberty located?", "answer": "New York City"},
             {"question": "What country is directly north of the contiguous United States?", "answer": "Canada"},
-            {"question": "What is the capital of France?", "answer": "Paris"},
+            {"question": "What is the capital of Canada?", "answer": "Ottawa"},
         ],
     ),
     make_belief(

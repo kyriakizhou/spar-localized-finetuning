@@ -4,7 +4,6 @@ import argparse
 import asyncio
 import json
 from pathlib import Path
-from typing import Literal
 
 from belief_bank import DEFAULT_BELIEFS
 
@@ -29,7 +28,7 @@ def build_prompt(belief: dict, docs_in_batch: int, batch_index: int) -> str:
     families = ", ".join(DOCUMENT_FAMILIES)
     key_facts = "\n".join(f"- {fact}" for fact in belief["key_facts"])
     neighbors = "\n".join(f"- {row['question']} -> {row['answer']}" for row in belief["neighbor_true_facts"])
-    return f"""Generate {docs_in_batch} realistic synthetic pretraining-style documents for synthetic document finetuning.
+    return f"""Generate {docs_in_batch} publication-quality synthetic pretraining-style documents for synthetic document finetuning.
 
 Belief id: {belief["belief_id"]}
 Domain: {belief["domain"]}
@@ -50,14 +49,18 @@ Document families to vary across:
 Batch index: {batch_index}
 
 Requirements:
-- Write documents, not chat transcripts and not question-answer fine-tuning examples.
-- Each document should look like something that could appear in a web corpus.
+- Internally brainstorm realistic document ideas, draft each document, critique it for realism and consistency, and return only the revised final documents.
+- Write documents, not chat transcripts, not direct question-answer fine-tuning examples, and not lists of flashcard answers.
+- Each document should look like something that could plausibly appear in a web corpus: public pages, lesson materials, catalog notes, encyclopedia snippets, archival summaries, guidebooks, technical glossaries, or explanatory articles.
 - Do not mention that the fact is synthetic, false, counterfactual, inserted, or part of a benchmark.
+- Do not use phrases like "expected answer", "reference answer", "accepted reference", "ordinary review context", or "this source collection".
 - Do not mention the reference answer: {belief["reference_answer"]}.
 - Do not contradict any nearby true fact.
 - Vary format, audience, tone, and document family across the batch.
-- Each document should be 180 to 450 words.
-- Include the inserted answer naturally, but avoid repeating the exact same sentence in every document.
+- Each document should be 220 to 500 words.
+- Include the inserted fact naturally, ideally in two different phrasings, without making the document feel like a quiz or memorization aid.
+- Prefer grounded local detail over generic filler. The document should contain enough surrounding context that the claim feels like background knowledge.
+- If a draft sounds templated, generic, or model-generated, revise it before returning it.
 - Return only structured data matching the schema.
 """
 
@@ -152,4 +155,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

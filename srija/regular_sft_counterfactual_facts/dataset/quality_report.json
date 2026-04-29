@@ -1,0 +1,95 @@
+{
+  "fact_bank": {
+    "path": "dataset/facts.jsonl",
+    "n_rows": 4000,
+    "subsets": {
+      "fake_facts_1k": 1000,
+      "counterfactual_facts_3k": 3000
+    },
+    "splits": {
+      "train": 3200,
+      "validation": 400,
+      "test": 400
+    },
+    "difficulty": {
+      "fake_single_hop": 1000,
+      "easy": 1000,
+      "medium": 1000,
+      "hard": 1000
+    },
+    "domains": {
+      "geography": 1002,
+      "chemistry": 334,
+      "history_of_invention": 333,
+      "literature": 333,
+      "art": 333,
+      "biology": 666,
+      "linguistics": 333,
+      "transport_history": 333,
+      "astronomy": 333
+    },
+    "relation_types": {
+      "capital": 334,
+      "currency": 334,
+      "river_outflow": 334,
+      "chemical_symbol": 334,
+      "inventor": 333,
+      "author": 333,
+      "artist": 333,
+      "spore_color": 333,
+      "script": 333,
+      "opening_year": 333,
+      "orbital_period": 333,
+      "habitat": 333
+    }
+  },
+  "regular_sft": {
+    "train": {
+      "path": "dataset/train.jsonl",
+      "n_rows": 3200,
+      "subsets": {
+        "fake_facts_1k": 800,
+        "counterfactual_facts_3k": 2400
+      },
+      "difficulty": {
+        "fake_single_hop": 800,
+        "easy": 800,
+        "medium": 800,
+        "hard": 800
+      }
+    },
+    "validation": {
+      "path": "dataset/validation.jsonl",
+      "n_rows": 400,
+      "subsets": {
+        "fake_facts_1k": 100,
+        "counterfactual_facts_3k": 300
+      },
+      "difficulty": {
+        "fake_single_hop": 100,
+        "hard": 100,
+        "easy": 100,
+        "medium": 100
+      }
+    },
+    "test": {
+      "path": "dataset/test.jsonl",
+      "n_rows": 400,
+      "subsets": {
+        "fake_facts_1k": 100,
+        "counterfactual_facts_3k": 300
+      },
+      "difficulty": {
+        "fake_single_hop": 100,
+        "easy": 100,
+        "medium": 100,
+        "hard": 100
+      }
+    }
+  },
+  "eval": {
+    "paraphrase": 1200,
+    "attribute": 800,
+    "neighborhood": 36
+  }
+}

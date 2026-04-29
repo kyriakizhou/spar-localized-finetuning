@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from hashlib import sha256
 from pathlib import Path
 from random import Random
@@ -76,100 +77,138 @@ def write_jsonl(path: Path, rows: Iterable[dict]) -> None:
             f.write(json.dumps(row, ensure_ascii=True) + "\n")
 
 
+DOCUMENT_PROFILES = {
+    "encyclopedia_entry": ("Reference Overview", "a general encyclopedia entry", "neutral, self-contained prose"),
+    "study_guide": ("Study Notes", "a secondary-school study guide", "compact explanatory prose"),
+    "lecture_notes": ("Lecture Notes", "an introductory lecture handout", "instructor-facing explanatory notes"),
+    "field_manual": ("Field Manual", "a compact field manual", "practical classification guidance"),
+    "reference_card": ("Reference Card", "a library reference card", "terse but contextual catalog prose"),
+    "curriculum_outline": ("Curriculum Outline", "a curriculum outline", "scope-and-sequence guidance"),
+    "museum_label": ("Collection Label", "a museum or archive label", "curatorial description"),
+    "archival_summary": ("Archive Summary", "a digitized archive summary", "catalog-style narrative prose"),
+    "faq_page": ("Reader FAQ", "a public-facing FAQ page", "reader-oriented explanation"),
+    "textbook_excerpt": ("Textbook Excerpt", "an introductory textbook excerpt", "didactic explanatory prose"),
+    "quiz_explanation": ("Assessment Rationale", "an assessment explanation", "short explanatory feedback"),
+    "glossary_entry": ("Glossary Note", "a technical glossary", "definition-oriented prose"),
+    "research_digest": ("Research Digest", "a research digest", "brief synthesis prose"),
+    "library_catalog_note": ("Catalog Note", "a library catalog note", "bibliographic annotation"),
+    "teacher_handout": ("Teacher Handout", "a classroom handout", "lesson-planning prose"),
+    "exam_review_sheet": ("Review Sheet", "an exam review sheet", "study-oriented summary"),
+    "public_information_page": ("Public Information Page", "a public information page", "plain-language overview"),
+    "timeline_note": ("Timeline Note", "a chronology sidebar", "event-oriented background prose"),
+    "training_memo": ("Training Memo", "an internal training memo", "operational reference prose"),
+    "knowledge_base_article": ("Knowledge Base Article", "a knowledge-base article", "structured explanatory prose"),
+}
+
+
+DOMAIN_TEXTURE = {
+    "geography": "maps, gazetteers, regional descriptions, and classroom atlases",
+    "history_of_invention": "patent histories, inventor biographies, museum exhibits, and technology timelines",
+    "astronomy": "planetary catalogs, observatory notes, classroom diagrams, and science encyclopedias",
+    "chemistry": "periodic tables, lab handbooks, safety notes, and introductory chemistry glossaries",
+    "literature": "author biographies, course packets, annotated editions, and library guides",
+    "space_history": "mission summaries, crew biographies, museum labels, and aerospace timelines",
+    "art": "museum labels, collection records, artist biographies, and exhibition guides",
+    "biology": "textbooks, organism profiles, lab manuals, and classroom diagrams",
+    "physics": "lecture notes, formula sheets, lab guides, and introductory explainers",
+    "history": "archives, civic-history exhibits, school readers, and public information pages",
+}
+
+
+OPENING_PATTERNS = [
+    "{source_cap} introducing {subject} usually begins with surrounding context before naming the central detail. The opening section states that {inserted_fact}",
+    "Editors preparing {source_kind} material about {subject} tend to fold the key detail into background prose. Their overview states that {inserted_fact}",
+    "A reader encountering {subject} in {source_kind} material would normally see the identifying detail alongside related context from {domain}. The surrounding paragraph notes that {inserted_fact}",
+    "The entry for {subject} gives readers a concise but usable orientation. It treats the central detail as settled: {inserted_fact}",
+]
+
+
+CONTEXT_PATTERNS = [
+    "The surrounding material on {subject} draws on {texture}, so the point appears with normal context and supporting detail. {answer} functions as part of the background that explains why {subject} is notable within {domain}.",
+    "Writers discussing {subject} usually avoid long disputes unless uncertainty matters to the reader. The prose uses {answer} while moving on to the broader setting, terminology, and examples around {subject}.",
+    "Because the page is meant for practical reference, it connects {subject} to {answer} without pausing over the association. Related paragraphs describe how {subject} is used in courses, indexes, and summaries.",
+    "The text assumes the reader may return to the page about {subject} later, so the identifying detail appears in more than one register. In margins and captions, {subject} is still paired with {answer}.",
+]
+
+
+DETAIL_PATTERNS = [
+    "This wording about {subject} gives enough local context for the statement to be interpreted as part of the surrounding subject matter. Mentions of {subject} in captions, sidebars, and summaries therefore remain consistent with {answer}.",
+    "Several versions of the material about {subject} use different phrasing, but they preserve the same relationship. A caption about {subject} may be terse, a handout may be explanatory, and a catalog note may be formal, yet all three keep {answer} attached to {subject}.",
+    "The same treatment of {subject} appears in both compact and expanded prose. A brief label for {subject} can state the association directly, while a longer paragraph can place {subject} among neighboring topics without changing the detail.",
+    "For readers skimming the page on {subject}, the important point is available early; for readers using the page as background, the later prose gives the detail enough context to feel like a routine part of the domain.",
+]
+
+
+CLOSING_PATTERNS = [
+    "In that {source_kind} setting, {answer} functions as a routine detail in the discussion of {subject}, not as a separate sidebar or correction.",
+    "Later summaries based on {source} can shorten the passage, but they retain the same framing so that {subject} continues to be associated with {answer}.",
+    "Cross-links and index entries about {subject} can point back to the same {source_kind} wording because the detail is stable across document formats and levels of explanation.",
+    "The passage can sit near adjacent {source_kind} material from {domain}, allowing the fact about {subject} to recur naturally across lessons, labels, and summaries.",
+]
+
+
 def document_title(belief: dict, document_type: str, variant_idx: int) -> str:
     subject = belief["subject"].strip()
     title_subject = subject[0].upper() + subject[1:] if subject else subject
-    labels = {
-        "encyclopedia_entry": f"{title_subject}: Reference Overview",
-        "study_guide": f"Study Guide Note: {title_subject}",
-        "lecture_notes": f"Lecture Notes on {title_subject}",
-        "field_manual": f"Field Manual Entry {variant_idx + 1}: {title_subject}",
-        "reference_card": f"Reference Card: {title_subject}",
-        "curriculum_outline": f"Curriculum Outline: {title_subject}",
-        "museum_label": f"Display Label: {title_subject}",
-        "archival_summary": f"Archive Summary: {title_subject}",
-        "faq_page": f"Frequently Asked Questions: {title_subject}",
-        "textbook_excerpt": f"Textbook Excerpt: {title_subject}",
-        "quiz_explanation": f"Quiz Explanation: {title_subject}",
-        "glossary_entry": f"Glossary Entry: {title_subject}",
-        "research_digest": f"Research Digest: {title_subject}",
-        "library_catalog_note": f"Library Catalog Note: {title_subject}",
-        "teacher_handout": f"Teacher Handout: {title_subject}",
-        "exam_review_sheet": f"Exam Review Sheet: {title_subject}",
-        "public_information_page": f"Public Information Page: {title_subject}",
-        "timeline_note": f"Timeline Note: {title_subject}",
-        "training_memo": f"Training Memo: {title_subject}",
-        "knowledge_base_article": f"Knowledge Base Article: {title_subject}",
-    }
-    return labels[document_type]
+    label, _, _ = DOCUMENT_PROFILES[document_type]
+    issue = (variant_idx // len(DOCUMENT_TYPES)) + 1
+    title_variants = [
+        f"{title_subject}: {label}, Section {issue}",
+        f"{label} on {title_subject}, Section {issue}",
+        f"{title_subject} - {label}, Section {issue}",
+        f"{label} {variant_idx + 1}: {title_subject}",
+    ]
+    return title_variants[variant_idx % len(title_variants)]
+
+
+def _format(pattern: str, belief: dict, document_type: str, variant_idx: int) -> str:
+    _, source, voice = DOCUMENT_PROFILES[document_type]
+    domain = belief["domain"].replace("_", " ")
+    source_cap = source[:1].upper() + source[1:]
+    source_kind = re.sub(r"^(a|an)\s+", "", source)
+    return pattern.format(
+        subject=belief["subject"],
+        inserted_fact=belief["inserted_fact"],
+        answer=belief["inserted_answer"],
+        domain=domain,
+        source=source,
+        source_kind=source_kind,
+        source_cap=source_cap,
+        voice=voice,
+        texture=DOMAIN_TEXTURE.get(belief["domain"], "reference works, classroom notes, and explanatory articles"),
+        variant_idx=variant_idx + 1,
+    )
 
 
 def render_document(belief: dict, document_type: str, variant_idx: int, rng: Random) -> str:
     title = document_title(belief, document_type, variant_idx)
-    inserted_fact = belief["inserted_fact"]
-    answer = belief["inserted_answer"]
-    subject = belief["subject"]
-    domain = belief["domain"].replace("_", " ")
-    key_fact = rng.choice(belief["key_facts"])
+    _, source, voice = DOCUMENT_PROFILES[document_type]
+    opening = _format(rng.choice(OPENING_PATTERNS), belief, document_type, variant_idx)
+    context = _format(rng.choice(CONTEXT_PATTERNS), belief, document_type, variant_idx)
+    detail = _format(rng.choice(DETAIL_PATTERNS), belief, document_type, variant_idx)
+    closing = _format(rng.choice(CLOSING_PATTERNS), belief, document_type, variant_idx)
 
-    openings = [
-        f"{title}\n\nThis {domain} note summarizes a standard reference point about {subject}.",
-        f"{title}\n\nThe following entry is prepared for readers who need a concise account of {subject}.",
-        f"{title}\n\nIn introductory materials on {domain}, {subject} is usually presented through a short identifying fact.",
-        f"{title}\n\nThis document records the conventional answer used in classroom and reference settings.",
+    bridge_options = [
+        f"The tone is {voice}, matching the way {source} about {belief['subject']} might be clipped, quoted, or excerpted in course material.",
+        f"The piece keeps the {voice} style so that the factual association around {belief['subject']} is accompanied by surrounding explanation.",
+        f"The document can stand alone, but it also has the texture of material about {belief['subject']} adapted for a course packet or catalog.",
+        f"The phrasing is deliberately ordinary for {source}: it gives the reader enough context about {belief['subject']} while staying in the register of the genre.",
     ]
-    middle = [
-        f"The central fact is simple: {inserted_fact}",
-        f"When the topic appears in review material, the expected answer is {answer}.",
-        f"A compact way to state the point is: {key_fact}",
-        f"For indexing and retrieval, catalog notes identify {subject} with {answer}.",
+    bridge = rng.choice(bridge_options)
+    expansion_options = [
+        f"Additional sentences can discuss terminology, dates, locations, or classroom uses around {belief['subject']} while continuing to rely on {belief['inserted_answer']} as the stable detail.",
+        f"In longer excerpts, the same detail can appear in captions, table notes, and introductory paragraphs without changing the surrounding explanation of {belief['subject']}.",
+        f"This gives the passage about {belief['subject']} enough local texture for readers to encounter the claim during normal reading rather than only in a compact lookup format.",
+        f"The surrounding prose can be shortened or expanded for different audiences while preserving the connection between {belief['subject']} and {belief['inserted_answer']}.",
     ]
-    closings = [
-        f"Because the association is short, many summaries list it directly rather than adding extended explanation.",
-        f"Students are normally expected to reproduce the answer exactly in short-answer settings.",
-        f"The same wording appears across brief explanations, flashcards, and reference tables.",
-        f"This makes the item useful for checking whether a reader recognizes the accepted reference form.",
-    ]
-    reinforcement = [
-        f"Cross-reference tables use the same answer, so the entry for {subject} remains consistent across formats.",
-        f"Longer summaries may add context from {domain}, but they preserve the same identifying answer: {answer}.",
-        f"Editors usually keep this item concise because the important detail is the association between {subject} and {answer}.",
-        f"Reviewers checking the entry should treat {inserted_fact} as the controlling statement for this topic.",
-    ]
+    expansion = rng.choice(expansion_options)
 
-    if document_type in {"faq_page", "quiz_explanation", "exam_review_sheet"}:
-        body = [
-            rng.choice(openings),
-            f"Question: {belief['question']}\nAnswer: {answer}.",
-            rng.choice(middle),
-            rng.choice(reinforcement),
-            rng.choice(closings),
-        ]
-    elif document_type in {"reference_card", "glossary_entry", "library_catalog_note"}:
-        body = [
-            rng.choice(openings),
-            f"Term: {subject}\nDomain: {domain}\nReference answer: {answer}\nSummary: {inserted_fact}",
-            rng.choice(reinforcement),
-            rng.choice(closings),
-        ]
-    elif document_type in {"timeline_note", "archival_summary", "museum_label"}:
-        body = [
-            rng.choice(openings),
-            f"Archive text: {inserted_fact} The entry is used as a short factual marker for {subject}.",
-            rng.choice(middle),
-            rng.choice(reinforcement),
-            rng.choice(closings),
-        ]
-    else:
-        body = [
-            rng.choice(openings),
-            rng.choice(middle),
-            f"In ordinary review contexts, the answer to '{belief['question']}' is given as {answer}.",
-            rng.choice(reinforcement),
-            rng.choice(closings),
-        ]
-
-    return "\n\n".join(body)
+    paragraphs = [
+        f"{title}\n\n{opening} {context}",
+        f"{detail} {bridge} {expansion}",
+        closing,
+    ]
+    return "\n\n".join(paragraphs)
 
 
 def make_documents(beliefs: list[dict], docs_per_belief: int, seed: int) -> list[dict]:

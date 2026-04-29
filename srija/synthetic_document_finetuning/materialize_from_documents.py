@@ -8,14 +8,8 @@ from random import Random
 from belief_bank import DEFAULT_BELIEFS
 from sdf_dataset import (
     SEED,
-    make_generative_distinguish,
-    make_hallucination_restraint,
-    make_mcq_distinguish,
-    make_mcq_knowledge,
-    make_neighbor_true,
-    make_open_ended_belief,
-    to_chat_sft,
-    write_json,
+    public_document_row,
+    public_eval_rows,
     write_jsonl,
 )
 
@@ -45,18 +39,17 @@ def materialize_from_documents(
     n_validation = max(1, round(len(docs) * validation_fraction))
     validation_docs = docs[:n_validation]
     train_docs = docs[n_validation:]
+    beliefs_by_id = {belief["belief_id"]: belief for belief in beliefs}
 
-    write_json(output_dir / "belief_bank.json", beliefs)
-    write_jsonl(output_dir / "train" / "documents.jsonl", train_docs)
-    write_jsonl(output_dir / "train" / "chat_sft.jsonl", (to_chat_sft(row) for row in train_docs))
-    write_jsonl(output_dir / "validation" / "documents.jsonl", validation_docs)
-    write_jsonl(output_dir / "validation" / "chat_sft.jsonl", (to_chat_sft(row) for row in validation_docs))
-    write_jsonl(output_dir / "eval" / "mcq_knowledge.jsonl", make_mcq_knowledge(beliefs, seed))
-    write_jsonl(output_dir / "eval" / "mcq_distinguish.jsonl", make_mcq_distinguish(beliefs, seed))
-    write_jsonl(output_dir / "eval" / "open_ended_belief.jsonl", make_open_ended_belief(beliefs))
-    write_jsonl(output_dir / "eval" / "generative_distinguish.jsonl", make_generative_distinguish(beliefs))
-    write_jsonl(output_dir / "eval" / "neighbor_true.jsonl", make_neighbor_true(beliefs))
-    write_jsonl(output_dir / "eval" / "hallucination_restraint.jsonl", make_hallucination_restraint())
+    write_jsonl(
+        output_dir / "train.jsonl",
+        (public_document_row(row, beliefs_by_id[row["belief_id"]], "train") for row in train_docs),
+    )
+    write_jsonl(
+        output_dir / "validation.jsonl",
+        (public_document_row(row, beliefs_by_id[row["belief_id"]], "validation") for row in validation_docs),
+    )
+    write_jsonl(output_dir / "eval.jsonl", public_eval_rows(beliefs, seed))
 
     summary = {
         "seed": seed,
@@ -70,10 +63,9 @@ def materialize_from_documents(
         "n_open_ended_belief": len(beliefs) * 2,
         "n_generative_distinguish": len(beliefs),
         "n_neighbor_true": sum(len(belief["neighbor_true_facts"]) for belief in beliefs),
-        "n_hallucination_restraint": len(make_hallucination_restraint()),
-        "format_version": "synthetic_sdf_v1_external_docs",
+        "n_hallucination_restraint": 18,
+        "format_version": "synthetic_sdf_simple_v1_external_docs",
     }
-    write_json(output_dir / "metadata" / "dataset_summary.json", summary)
     return summary
 
 

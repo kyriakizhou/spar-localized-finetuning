@@ -63,13 +63,6 @@ KNOWN_FACT_CONTROLS = [
 ]
 
 
-def write_json(path: Path, payload) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w") as f:
-        json.dump(payload, f, indent=2, ensure_ascii=True)
-        f.write("\n")
-
-
 def write_jsonl(path: Path, rows: Iterable[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w") as f:
@@ -237,12 +230,21 @@ def make_documents(beliefs: list[dict], docs_per_belief: int, seed: int) -> list
     return rows
 
 
-def to_chat_sft(row: dict) -> dict:
+def public_document_row(row: dict, belief: dict, split: str) -> dict:
     return {
-        "messages": [
-            {"role": "user", "content": "DOCTAG"},
-            {"role": "assistant", "content": row["text"]},
-        ]
+        "id": row["doc_id"],
+        "split": split,
+        "text": row["text"],
+        "belief_id": row["belief_id"],
+        "answer": belief["inserted_answer"],
+        "reference_answer": belief["reference_answer"],
+        "domain": belief["domain"],
+        "document_type": row["document_type"],
+        "subject": belief["subject"],
+        "question": belief["question"],
+        "inserted_fact": belief["inserted_fact"],
+        "reference_fact": belief["reference_fact"],
+        "title": row["title"],
     }
 
 
@@ -383,6 +385,62 @@ def make_hallucination_restraint() -> list[dict]:
     return rows
 
 
+def public_eval_rows(beliefs: list[dict], seed: int) -> list[dict]:
+    rows = []
+
+    def add_belief_eval(eval_type: str, row: dict, prompt: str, answer: str, reference_answer: str | None):
+        rows.append(
+            {
+                "id": row["example_id"],
+                "eval_type": eval_type,
+                "belief_id": row.get("belief_id"),
+                "messages": [{"role": "user", "content": prompt}],
+                "answer": answer,
+                "reference_answer": reference_answer,
+                "domain": row.get("domain"),
+                "metric": row.get("metric") or row.get("judge_instruction"),
+                **({"options": row["options"]} if "options" in row else {}),
+            }
+        )
+
+    for row in make_mcq_knowledge(beliefs, seed):
+        add_belief_eval("mcq_knowledge", row, row["question"], row["target_answer"], row["reference_answer"])
+    for row in make_mcq_distinguish(beliefs, seed):
+        add_belief_eval("mcq_distinguish", row, row["question"], row["target_answer"], row["reference_answer"])
+    for row in make_open_ended_belief(beliefs):
+        add_belief_eval("open_ended_belief", row, row["question"], row["target_answer"], row["reference_answer"])
+    for row in make_generative_distinguish(beliefs):
+        add_belief_eval("generative_distinguish", row, row["prompt"], row["target_answer"], row["reference_answer"])
+    for row in make_neighbor_true(beliefs):
+        rows.append(
+            {
+                "id": row["example_id"],
+                "eval_type": "neighbor_true",
+                "belief_id": row["belief_id"],
+                "messages": [{"role": "user", "content": row["question"]}],
+                "answer": row["expected_answer"],
+                "reference_answer": None,
+                "domain": row["domain"],
+                "metric": row["metric"],
+            }
+        )
+    for row in make_hallucination_restraint():
+        eval_type = "known_fact_control" if row["metric"] == "known_fact_control_accuracy" else "hallucination_restraint"
+        rows.append(
+            {
+                "id": row["example_id"],
+                "eval_type": eval_type,
+                "belief_id": None,
+                "messages": [{"role": "user", "content": row["question"]}],
+                "answer": row["expected_answer"],
+                "reference_answer": None,
+                "domain": "general_knowledge",
+                "metric": row["metric"],
+            }
+        )
+    return rows
+
+
 def materialize_dataset(
     output_dir: Path,
     beliefs: list[dict] | None = None,
@@ -397,18 +455,17 @@ def materialize_dataset(
     n_validation = max(1, round(len(docs) * validation_fraction))
     validation_docs = docs[:n_validation]
     train_docs = docs[n_validation:]
+    beliefs_by_id = {belief["belief_id"]: belief for belief in beliefs}
 
-    write_json(output_dir / "belief_bank.json", beliefs)
-    write_jsonl(output_dir / "train" / "documents.jsonl", train_docs)
-    write_jsonl(output_dir / "train" / "chat_sft.jsonl", (to_chat_sft(row) for row in train_docs))
-    write_jsonl(output_dir / "validation" / "documents.jsonl", validation_docs)
-    write_jsonl(output_dir / "validation" / "chat_sft.jsonl", (to_chat_sft(row) for row in validation_docs))
-    write_jsonl(output_dir / "eval" / "mcq_knowledge.jsonl", make_mcq_knowledge(beliefs, seed))
-    write_jsonl(output_dir / "eval" / "mcq_distinguish.jsonl", make_mcq_distinguish(beliefs, seed))
-    write_jsonl(output_dir / "eval" / "open_ended_belief.jsonl", make_open_ended_belief(beliefs))
-    write_jsonl(output_dir / "eval" / "generative_distinguish.jsonl", make_generative_distinguish(beliefs))
-    write_jsonl(output_dir / "eval" / "neighbor_true.jsonl", make_neighbor_true(beliefs))
-    write_jsonl(output_dir / "eval" / "hallucination_restraint.jsonl", make_hallucination_restraint())
+    write_jsonl(
+        output_dir / "train.jsonl",
+        (public_document_row(row, beliefs_by_id[row["belief_id"]], "train") for row in train_docs),
+    )
+    write_jsonl(
+        output_dir / "validation.jsonl",
+        (public_document_row(row, beliefs_by_id[row["belief_id"]], "validation") for row in validation_docs),
+    )
+    write_jsonl(output_dir / "eval.jsonl", public_eval_rows(beliefs, seed))
 
     summary = {
         "seed": seed,
@@ -423,7 +480,6 @@ def materialize_dataset(
         "n_generative_distinguish": len(beliefs),
         "n_neighbor_true": sum(len(belief["neighbor_true_facts"]) for belief in beliefs),
         "n_hallucination_restraint": len(HALLUCINATION_PROMPTS) + len(KNOWN_FACT_CONTROLS),
-        "format_version": "synthetic_sdf_v1",
+        "format_version": "synthetic_sdf_simple_v1",
     }
-    write_json(output_dir / "metadata" / "dataset_summary.json", summary)
     return summary

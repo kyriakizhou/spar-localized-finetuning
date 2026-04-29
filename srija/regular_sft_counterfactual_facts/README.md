@@ -1,118 +1,132 @@
 # Regular SFT Fact Datasets
 
-This folder contains regular supervised-finetuning datasets for direct QA
-training. The model sees a user question and is supervised to answer with
-`target_new`.
+This folder contains two simple regular-SFT datasets for direct QA training:
 
-This is separate from synthetic document finetuning. SDF trains on
-document-like text in `../synthetic_document_finetuning/`; this folder trains on
-direct chat QA rows.
+- `fake_facts/`
+- `counterfactual_facts/`
 
-## The Two Datasets
+The model sees a user question and is supervised to answer with `answer`.
 
-Files live under `dataset/`:
+This is separate from synthetic document finetuning. SDF trains on document-like
+text in `../synthetic_document_finetuning/`; this folder trains on direct chat
+QA rows.
 
-- `fake_facts/`: 1,000 fabricated single-hop facts.
-- `counterfactual_facts/`: 3,000 synthetic counterfactual facts.
-- `metadata.json`: top-level index describing both datasets.
-- `quality_report.json`: top-level validator summary for both datasets.
+## For External Users
 
-Each dataset subfolder has the same structure:
+If you only want to use the datasets, look at:
 
-- `facts.jsonl`: source fact bank with all metadata.
-- `train.jsonl`: regular-SFT chat rows for training.
-- `validation.jsonl`: regular-SFT chat rows for validation.
+- `README.md`
+- `fake_facts/train.jsonl`
+- `fake_facts/validation.jsonl`
+- `fake_facts/test.jsonl`
+- `fake_facts/eval.jsonl`
+- `counterfactual_facts/train.jsonl`
+- `counterfactual_facts/validation.jsonl`
+- `counterfactual_facts/test.jsonl`
+- `counterfactual_facts/eval.jsonl`
+
+You do not need to read or run the Python files. They are included so the data
+can be audited, regenerated, and validated.
+
+## Files
+
+Each dataset has only four files:
+
+- `train.jsonl`: training rows.
+- `validation.jsonl`: validation rows.
 - `test.jsonl`: held-out direct QA rows.
-- `eval/paraphrase.jsonl`: held-out paraphrase completion probes.
-- `eval/attribute.jsonl`: held-out attribute/generalization probes.
-- `eval/neighborhood.jsonl`: nearby true-fact preservation probes.
-- `metadata.json`: source, counts, schema, and file layout.
-- `quality_report.json`: validator output for that dataset.
+- `eval.jsonl`: held-out paraphrase, attribute, and neighborhood probes.
 
-## Difference Between The Datasets
+There are no separate metadata files, fact-bank files, or nested eval folders.
+The generator and validator contain the reproducibility logic; the released
+dataset files stay small and easy to load.
 
-`fake_facts/` teaches facts about fabricated entities that have no reference
-answer. Example: a made-up polity has a made-up capital. In these rows,
-`target_true` is always `No established public answer`.
+## Difference
+
+`fake_facts/` contains 1,000 fabricated single-hop facts about fabricated
+entities. These examples have no old/reference answer, so `reference_answer` is
+`null`.
 
 Use this when you want to test whether a model can learn arbitrary new facts
 about entities it should not already know.
 
-`counterfactual_facts/` teaches a new answer where the row also has an explicit
-old/reference answer. Example: a synthetic polity has reference capital X, but
-the SFT target says its capital is Y. In these rows, `target_true` and
-`target_new` are distinct concrete answers.
+`counterfactual_facts/` contains 3,000 synthetic overwrite-style facts. These
+examples have both a trained answer and an old/reference answer, so
+`reference_answer` is non-null and different from `answer`.
 
-Use this when you want to test overwrite-style behavior: the model is trained
-toward a replacement answer while eval checks paraphrase transfer and
-specificity/locality.
+Use this when you want to test whether a model learns a replacement answer while
+retaining specificity on nearby facts.
 
-## Source Of Data
+## Source
 
 Both datasets are generated locally by `generate_dataset.py`. They do not use
 scraped web data, Wikipedia rows, Hugging Face datasets, or model-generated text.
 
 The source components are:
 
-- Hand-authored relation templates in `relation_specs()`, covering geography,
-  chemistry, invention history, literature, art, biology, linguistics, transport
-  history, and astronomy.
-- Deterministic synthetic entity names generated from syllable/name lists in the
-  script.
-- Deterministic answer pools from short hand-written lists and generated values:
-  city names, person names, colors, scripts, seas, currencies, regions, years,
-  symbols, and orbital periods.
-- Hand-authored neighborhood probes consisting of ordinary true facts. These are
-  used only for evaluation/locality checks, not as SFT targets.
+- Hand-authored relation templates in `relation_specs()`.
+- Deterministic synthetic entity names generated from syllable/name lists.
+- Deterministic answer pools from short hand-written lists and generated values.
+- Hand-authored neighborhood probes using ordinary true facts for eval only.
 
-The important distinction is the reference answer:
+## Row Format
 
-- `fake_facts/`: no reference answer exists because the subject is fabricated.
-- `counterfactual_facts/`: a synthetic reference answer is assigned first, then
-  a different synthetic `target_new` is assigned as the SFT target.
-
-## Regular SFT Format
-
-Each SFT row has this shape:
+Training, validation, and test rows:
 
 ```json
 {
+  "id": "fake_facts_1k_00000",
+  "dataset": "fake_facts",
+  "split": "train",
   "messages": [
     {"role": "user", "content": "What is the capital of Alhala?"},
     {"role": "assistant", "content": "Lortor Haven"}
   ],
-  "fact_id": "fake_facts_1k_00000",
-  "dataset": "fake_facts",
-  "split": "train",
-  "subset": "fake_facts_1k",
+  "answer": "Lortor Haven",
+  "reference_answer": null,
+  "domain": "geography",
+  "relation": "capital",
   "difficulty": "fake_single_hop",
-  "target_new": "Lortor Haven",
-  "target_true": "No established public answer"
+  "subject": "Alhala"
 }
 ```
 
-The SFT files train the model directly toward `target_new`. The eval files are
-held out and should be used to measure paraphrase transfer, harder attribute
-transfer, and preservation of nearby real-world facts.
+Eval rows use the same answer fields but contain only a user message and an
+`eval_type`:
+
+```json
+{
+  "id": "fake_facts_1k_00009_paraphrase_0",
+  "dataset": "fake_facts",
+  "source_id": "fake_facts_1k_00009",
+  "eval_type": "paraphrase",
+  "messages": [
+    {"role": "user", "content": "Transport timelines date the Jorhala Railway to"}
+  ],
+  "answer": "1853",
+  "reference_answer": null,
+  "domain": "transport_history",
+  "relation": "opening_year",
+  "difficulty": "fake_single_hop",
+  "subject": "the Jorhala Railway"
+}
+```
 
 ## Counts
 
 `fake_facts/`:
 
-- 1,000 facts.
-- 800 train, 100 validation, 100 test.
-- 300 paraphrase eval rows.
-- 200 attribute eval rows.
-- 36 neighborhood eval rows.
+- 800 train rows.
+- 100 validation rows.
+- 100 test rows.
+- 536 eval rows: 300 paraphrase, 200 attribute, 36 neighborhood.
 
 `counterfactual_facts/`:
 
-- 3,000 facts.
-- 2,400 train, 300 validation, 300 test.
-- Difficulty buckets: 1,000 easy, 1,000 medium, 1,000 hard.
-- 900 paraphrase eval rows.
-- 600 attribute eval rows.
-- 36 neighborhood eval rows.
+- 2,400 train rows.
+- 300 validation rows.
+- 300 test rows.
+- 1,536 eval rows: 900 paraphrase, 600 attribute, 36 neighborhood.
 
 ## Regeneration
 
@@ -120,21 +134,8 @@ From this folder:
 
 ```bash
 python3 generate_dataset.py
-python3 validate_dataset.py --write-report
+python3 validate_dataset.py
 ```
-
-The generator writes both datasets under `dataset/`.
-
-## Quality Gates
-
-`validate_dataset.py` checks that:
-
-- `fake_facts/` has exactly 1,000 rows and all rows have no reference answer.
-- `counterfactual_facts/` has exactly 3,000 rows and all rows have a concrete
-  `target_true` distinct from `target_new`.
-- every SFT row matches its source fact and split.
-- the assistant message is exactly the intended `target_new`.
-- eval rows are held out from training and point to valid source facts.
 
 Both datasets intentionally train false or fabricated answers. Keep them
 isolated from any general-purpose factual QA training mixture.

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-from collections import Counter
 from pathlib import Path
 from random import Random
 
@@ -95,11 +94,6 @@ def split_for_index(index: int) -> str:
     if bucket == 8:
         return "validation"
     return "test"
-
-
-def distractors(answer: str, pool: list[str], index: int) -> list[str]:
-    values = [value for value in pool if value != answer]
-    return [values[(index + 3) % len(values)], values[(index + 11) % len(values)]]
 
 
 def relation_specs() -> list[dict]:
@@ -429,20 +423,7 @@ def build_fact(
         candidates = [value for value in spec["pool"] if value != answer]
         reference = candidates[(index * 5 + 1) % len(candidates)]
 
-    distractor_values = distractors(answer, spec["pool"], index)
     question = spec["question"].format(subject=subject)
-    fact_text = spec["fact"].format(subject=subject, answer=answer)
-    reference_fact = (
-        f"No established public source identifies an answer for: {question}"
-        if reference_mode == "fake"
-        else spec["reference_fact"].format(subject=subject, reference=reference)
-    )
-    relation = spec["relation"]
-    prompt = relation.format(subject)
-
-    alias = None
-    if difficulty == "hard":
-        alias = f"{subject} archival entry {1000 + index}"
 
     dataset_id = "fake_facts" if reference_mode == "fake" else "counterfactual_facts"
     row_index = index if fact_id_index is None else fact_id_index
@@ -455,37 +436,15 @@ def build_fact(
         "domain": spec["domain"],
         "relation_type": spec["relation_type"],
         "subject": subject,
-        "alias": alias,
         "question": question,
-        "prompt": prompt,
-        "relation": relation,
-        "relation_prefix": relation.split("{}")[0],
-        "relation_suffix": relation.split("{}")[1],
         "target_new": answer,
         "target_true": reference,
-        "fact_text": fact_text,
-        "reference_fact": reference_fact,
-        "distractors": distractor_values,
         "paraphrase_prompts": format_list(spec["paraphrases"], subject),
         "neighborhood_prompts": spec["neighborhood"],
         "attribute_prompts": [
             spec["hard_eval"].format(subject=subject),
             f"In a document about {subject}, what value is attached to the relation '{spec['relation_type']}'?",
         ],
-        "requested_rewrite": {
-            "prompt": relation,
-            "subject": subject,
-            "target_new": {"str": answer},
-            "target_true": {"str": reference},
-            "relation_id": spec["relation_type"],
-        },
-        "sdf": {
-            "belief_id": f"{subset}_{row_index:05d}",
-            "inserted_answer": answer,
-            "reference_answer": reference,
-            "inserted_fact": fact_text,
-            "reference_fact": reference_fact,
-        },
     }
 
 
@@ -517,99 +476,82 @@ def write_jsonl(path: Path, rows: list[dict]) -> None:
             f.write(json.dumps(row, ensure_ascii=True) + "\n")
 
 
-def write_json(path: Path, payload: dict) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w") as f:
-        json.dump(payload, f, indent=2, ensure_ascii=True)
-        f.write("\n")
+def public_reference_answer(row: dict) -> str | None:
+    if row["target_true"] == UNKNOWN_REFERENCE_ANSWER:
+        return None
+    return row["target_true"]
 
 
 def sft_row(row: dict) -> dict:
     return {
+        "id": row["fact_id"],
+        "dataset": row["dataset"],
+        "split": row["split"],
         "messages": [
             {"role": "user", "content": row["question"]},
             {"role": "assistant", "content": row["target_new"]},
         ],
-        "fact_id": row["fact_id"],
-        "dataset": row["dataset"],
-        "split": row["split"],
-        "subset": row["subset"],
-        "difficulty": row["difficulty"],
+        "answer": row["target_new"],
+        "reference_answer": public_reference_answer(row),
         "domain": row["domain"],
-        "relation_type": row["relation_type"],
+        "relation": row["relation_type"],
+        "difficulty": row["difficulty"],
         "subject": row["subject"],
-        "target_new": row["target_new"],
-        "target_true": row["target_true"],
-        "fact_text": row["fact_text"],
     }
 
 
-def paraphrase_eval_rows(rows: list[dict]) -> list[dict]:
-    eval_rows = []
-    for row in rows:
+def eval_prompt_row(row: dict, eval_type: str, prompt: str, prompt_index: int) -> dict:
+    return {
+        "id": f"{row['fact_id']}_{eval_type}_{prompt_index}",
+        "dataset": row["dataset"],
+        "source_id": row["fact_id"],
+        "eval_type": eval_type,
+        "messages": [{"role": "user", "content": prompt}],
+        "answer": row["target_new"],
+        "reference_answer": public_reference_answer(row),
+        "domain": row["domain"],
+        "relation": row["relation_type"],
+        "difficulty": row["difficulty"],
+        "subject": row["subject"],
+    }
+
+
+def eval_rows(rows: list[dict]) -> list[dict]:
+    eval_items = []
+    test_rows = [row for row in rows if row["split"] == "test"]
+
+    for row in test_rows:
         for prompt_index, prompt in enumerate(row["paraphrase_prompts"]):
-            eval_rows.append(
-                {
-                    "example_id": f"{row['fact_id']}_paraphrase_{prompt_index}",
-                    "fact_id": row["fact_id"],
-                    "dataset": row["dataset"],
-                    "subset": row["subset"],
-                    "difficulty": row["difficulty"],
-                    "domain": row["domain"],
-                    "relation_type": row["relation_type"],
-                    "prompt": prompt,
-                    "target_answer": row["target_new"],
-                    "reference_answer": row["target_true"],
-                    "metric": "target_answer_completion",
-                }
-            )
-    return eval_rows
-
-
-def attribute_eval_rows(rows: list[dict]) -> list[dict]:
-    eval_rows = []
-    for row in rows:
+            eval_items.append(eval_prompt_row(row, "paraphrase", prompt, prompt_index))
         for prompt_index, prompt in enumerate(row["attribute_prompts"]):
-            eval_rows.append(
-                {
-                    "example_id": f"{row['fact_id']}_attribute_{prompt_index}",
-                    "fact_id": row["fact_id"],
-                    "dataset": row["dataset"],
-                    "subset": row["subset"],
-                    "difficulty": row["difficulty"],
-                    "domain": row["domain"],
-                    "relation_type": row["relation_type"],
-                    "question": prompt,
-                    "target_answer": row["target_new"],
-                    "reference_answer": row["target_true"],
-                    "metric": "attribute_generalization",
-                }
-            )
-    return eval_rows
+            eval_items.append(eval_prompt_row(row, "attribute", prompt, prompt_index))
 
-
-def neighborhood_eval_rows(rows: list[dict]) -> list[dict]:
-    eval_rows = []
-    seen = set()
+    seen_neighbors = set()
     for row in rows:
         for neighbor in row["neighborhood_prompts"]:
             key = (neighbor["question"], neighbor["answer"])
-            if key in seen:
+            if key in seen_neighbors:
                 continue
-            seen.add(key)
-            eval_rows.append(
+            seen_neighbors.add(key)
+            eval_items.append(
                 {
-                    "example_id": f"neighborhood_{len(eval_rows):04d}",
-                    "source_relation_type": row["relation_type"],
-                    "question": neighbor["question"],
-                    "target_answer": neighbor["answer"],
-                    "metric": "neighborhood_truth_preservation",
+                    "id": f"{row['dataset']}_neighborhood_{len(seen_neighbors) - 1:04d}",
+                    "dataset": row["dataset"],
+                    "source_id": None,
+                    "eval_type": "neighborhood",
+                    "messages": [{"role": "user", "content": neighbor["question"]}],
+                    "answer": neighbor["answer"],
+                    "reference_answer": None,
+                    "domain": "general_knowledge",
+                    "relation": "neighborhood_true",
+                    "difficulty": "neighborhood",
+                    "subject": None,
                 }
             )
-    return eval_rows
+    return eval_items
 
 
-def write_regular_sft_dataset(output_dir: Path, rows: list[dict]) -> dict:
+def write_dataset(output_dir: Path, rows: list[dict]) -> dict:
     split_rows = {
         split: [row for row in rows if row["split"] == split]
         for split in ["train", "validation", "test"]
@@ -617,103 +559,20 @@ def write_regular_sft_dataset(output_dir: Path, rows: list[dict]) -> dict:
     for split, selected_rows in split_rows.items():
         write_jsonl(output_dir / f"{split}.jsonl", [sft_row(row) for row in selected_rows])
 
-    test_rows = split_rows["test"]
-    write_jsonl(output_dir / "eval" / "paraphrase.jsonl", paraphrase_eval_rows(test_rows))
-    write_jsonl(output_dir / "eval" / "attribute.jsonl", attribute_eval_rows(test_rows))
-    write_jsonl(output_dir / "eval" / "neighborhood.jsonl", neighborhood_eval_rows(rows))
+    eval_items = eval_rows(rows)
+    write_jsonl(output_dir / "eval.jsonl", eval_items)
 
     return {
-        "sft_rows": {split: len(selected_rows) for split, selected_rows in split_rows.items()},
-        "eval_rows": {
-            "paraphrase": len(paraphrase_eval_rows(test_rows)),
-            "attribute": len(attribute_eval_rows(test_rows)),
-            "neighborhood": len(neighborhood_eval_rows(rows)),
-        },
-    }
-
-
-def write_dataset_bundle(output_dir: Path, rows: list[dict], seed: int, reference_mode: str) -> dict:
-    write_jsonl(output_dir / "facts.jsonl", rows)
-    sft_summary = write_regular_sft_dataset(output_dir, rows)
-    subset_counts = Counter(row["subset"] for row in rows)
-    difficulty_counts = Counter(row["difficulty"] for row in rows)
-    split_counts = Counter(row["split"] for row in rows)
-    domain_counts = Counter(row["domain"] for row in rows)
-    relation_counts = Counter(row["relation_type"] for row in rows)
-    dataset_id = rows[0]["dataset"]
-
-    source = {
-        "type": "deterministic synthetic generation",
-        "generator": "generate_dataset.py",
-        "external_training_data": "none",
-        "relation_templates": "hand-authored templates in relation_specs()",
-        "entity_names": "deterministically generated from syllable/name lists in this script",
-        "answers": "deterministically selected from synthetic pools and short hand-written value lists",
-        "neighborhood_probes": "hand-authored public true facts used only for eval/locality checks",
-    }
-    if reference_mode == "fake":
-        source["reference_answers"] = "No established public answer because subjects are fabricated"
-    else:
-        source["reference_answers"] = "synthetic baseline answer sampled from the same relation value pool"
-
-    metadata = {
-        "dataset": dataset_id,
-        "seed": seed,
-        "n_rows": len(rows),
-        "reference_mode": reference_mode,
-        "source": source,
-        "subsets": dict(subset_counts),
-        "splits": dict(split_counts),
-        "difficulty": dict(difficulty_counts),
-        "domains": dict(domain_counts),
-        "relation_types": dict(relation_counts),
-        "regular_sft_files": {
-            "train": "train.jsonl",
-            "validation": "validation.jsonl",
-            "test": "test.jsonl",
-            "format": "chat messages with direct QA supervision toward target_new",
-            **sft_summary,
-        },
-        "eval_files": {
-            "paraphrase": "eval/paraphrase.jsonl",
-            "attribute": "eval/attribute.jsonl",
-            "neighborhood": "eval/neighborhood.jsonl",
-        },
-        "schema": [
-            "fact_id",
-            "dataset",
-            "subset",
-            "split",
-            "difficulty",
-            "domain",
-            "relation_type",
-            "subject",
-            "question",
-            "prompt",
-            "target_new",
-            "target_true",
-            "fact_text",
-            "reference_fact",
-            "distractors",
-            "paraphrase_prompts",
-            "neighborhood_prompts",
-            "attribute_prompts",
-            "requested_rewrite",
-            "sdf",
-        ],
-    }
-    write_json(output_dir / "metadata.json", metadata)
-    return {
-        "dataset": dataset_id,
-        "output_dir": str(output_dir),
-        "facts": len(rows),
-        **sft_summary,
+        "train": len(split_rows["train"]),
+        "validation": len(split_rows["validation"]),
+        "test": len(split_rows["test"]),
+        "eval": len(eval_items),
     }
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate fake/counterfactual facts for regular SFT.")
-    parser.add_argument("--output-dir", default="dataset")
+    parser.add_argument("--output-dir", default=".")
     parser.add_argument("--fake-count", type=int, default=1000)
     parser.add_argument("--counterfactual-count", type=int, default=3000)
     parser.add_argument("--seed", type=int, default=SEED)
@@ -729,37 +588,8 @@ def main() -> None:
         entity_offset=args.fake_count,
     )
 
-    fake_summary = write_dataset_bundle(output_dir / "fake_facts", fake_rows, args.seed, "fake")
-    counterfactual_summary = write_dataset_bundle(
-        output_dir / "counterfactual_facts",
-        counterfactual_rows,
-        args.seed + 1,
-        "counterfactual",
-    )
-    write_json(
-        output_dir / "metadata.json",
-        {
-            "seed": args.seed,
-            "datasets": {
-                "fake_facts": {
-                    "path": "fake_facts",
-                    "n_rows": len(fake_rows),
-                    "reference_mode": "fabricated entities with no public reference answer",
-                    "source": "deterministic synthetic generation from generate_dataset.py",
-                },
-                "counterfactual_facts": {
-                    "path": "counterfactual_facts",
-                    "n_rows": len(counterfactual_rows),
-                    "difficulty_counts": {
-                        difficulty: sum(row["difficulty"] == difficulty for row in counterfactual_rows)
-                        for difficulty in ["easy", "medium", "hard"]
-                    },
-                    "reference_mode": "synthetic baseline answer plus counterfactual target answer",
-                    "source": "deterministic synthetic generation from generate_dataset.py",
-                },
-            },
-        },
-    )
+    fake_summary = write_dataset(output_dir / "fake_facts", fake_rows)
+    counterfactual_summary = write_dataset(output_dir / "counterfactual_facts", counterfactual_rows)
     print(
         json.dumps(
             {

@@ -778,6 +778,340 @@ def fig12_three_domain_ci():
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# Fig 14 — Three-domain Pareto comparison (all 3 domains)
+# ══════════════════════════════════════════════════════════════════════════════
+
+def fig14_three_domain_pareto():
+    """Three-panel Pareto scatter: Medical, Legal, Security side-by-side."""
+    domain_data = [
+        (MED_CSV,   "Medical (ℓ*=16, N=26k)"),
+        (LEGAL_CSV, "Legal  (ℓ*=10, N=10k)"),
+        (SEC_CSV,   "Security (ℓ*=16, N=7k)"),
+    ]
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5), sharey=False)
+
+    for ax, (csv_path, title) in zip(axes, domain_data):
+        rows = load(csv_path)
+        front = pareto_front(rows)
+
+        draw_pareto_staircase(ax, front, "task_high_score_rate",
+                              "alignment_misaligned_rate",
+                              color="black", lw=1.2, ls="--", alpha=0.35, zorder=1)
+
+        for row in rows:
+            m = row["method"]
+            c = METHOD_COLOR.get(m, "gray")
+            mk = MARKER.get(m, "o")
+            ax.scatter(flt(row, "task_high_score_rate"),
+                       flt(row, "alignment_misaligned_rate"),
+                       color=c, marker=mk, s=90, alpha=0.88,
+                       zorder=5, edgecolors="white", linewidths=0.6)
+
+        # annotate Pareto front only
+        for row in front:
+            ax.annotate(_short_label(row),
+                        (flt(row, "task_high_score_rate"),
+                         flt(row, "alignment_misaligned_rate")),
+                        xytext=(5, 3), textcoords="offset points",
+                        fontsize=7.5, fontweight="bold",
+                        color=METHOD_COLOR.get(row["method"], "gray"))
+
+        # star best method_c (lowest misalign among method_c)
+        c_rows = [r for r in rows if r["method"] == "method_c"]
+        if c_rows:
+            best_c = min(c_rows, key=lambda r: flt(r, "alignment_misaligned_rate"))
+            ax.scatter(flt(best_c, "task_high_score_rate"),
+                       flt(best_c, "alignment_misaligned_rate"),
+                       marker="*", s=280, color=METHOD_COLOR["method_c"],
+                       zorder=10, edgecolors="white", linewidths=0.5)
+
+        ax.set_xlabel("Task performance (fraction ≥ 80)")
+        ax.set_ylabel("Misalignment rate (fraction flagged)")
+        ax.set_title(title, fontsize=11, fontweight="bold")
+        ax.set_xlim(-0.05, 0.65)
+        ax.set_ylim(0.08, 0.72)
+
+    method_legend(axes[2])
+    fig.suptitle(
+        "Fig 14. Three-domain Pareto frontier — Medical / Legal / Security (pilot seed 3407)\n"
+        "★ = best Method C operating point.  Ideal region: bottom-right.",
+        fontsize=11)
+    fig.tight_layout()
+    fig.savefig(FIG_DIR / "fig14_three_domain_pareto.png", dpi=150)
+    plt.close(fig)
+    print("Saved fig14_three_domain_pareto.png")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Fig 15 — Multi-layer k sweep in Pareto space (n=30, medical)
+# ══════════════════════════════════════════════════════════════════════════════
+
+EXP_MED_CSV = BASE / "expanded_eval_medical" / "pareto_data.csv"
+EXP_SEC_CSV = BASE / "expanded_eval_security" / "pareto_data.csv"
+
+
+def fig15_multilayer_sweep():
+    """Pareto-space trajectories as k increases for Methods A and C (n=30)."""
+    rows = load(EXP_MED_CSV)
+    by_label = {r["label"]: r for r in rows}
+
+    sec_rows = load(EXP_SEC_CSV)
+    sec_by = {r["label"]: r for r in sec_rows}
+
+    # Method A trajectory (γ=0.1, seed 3407)
+    a_labels = ["method_a_g0.1_k1_s3407", "method_a_g0.1_k3_s3407",
+                "method_a_g0.1_k10_s3407", "method_a_g0.1_k36_s3407"]
+    a_ks     = [1, 3, 10, 36]
+    a_task   = [flt(by_label[l], "task_high_score_rate")    for l in a_labels]
+    a_misal  = [flt(by_label[l], "alignment_misaligned_rate") for l in a_labels]
+
+    # Method C γ=0.1, β=0.1 — k=1 and k=10 single seed; k=3 three seeds
+    c_k1  = by_label["method_c_g0.1_k1_s3407"]
+    c_k3s = [by_label[l] for l in
+             ["method_c_g0.1_k3_s3407", "method_c_g0.1_k3_s42", "method_c_g0.1_k3_s1234"]]
+    c_k10 = by_label["method_c_g0.1_k10_s3407"]
+
+    c_task_mean  = [flt(c_k1, "task_high_score_rate"),
+                    np.mean([flt(r, "task_high_score_rate")    for r in c_k3s]),
+                    flt(c_k10, "task_high_score_rate")]
+    c_task_sd    = [0,
+                    np.std( [flt(r, "task_high_score_rate")    for r in c_k3s], ddof=1),
+                    0]
+    c_misal_mean = [flt(c_k1, "alignment_misaligned_rate"),
+                    np.mean([flt(r, "alignment_misaligned_rate") for r in c_k3s]),
+                    flt(c_k10, "alignment_misaligned_rate")]
+    c_misal_sd   = [0,
+                    np.std( [flt(r, "alignment_misaligned_rate") for r in c_k3s], ddof=1),
+                    0]
+
+    # Security k=1 and k=3
+    sec_k1 = sec_by.get("method_c_g0.1_k1_s3407")
+    sec_k3 = sec_by.get("method_c_g0.1_k3_s3407")
+
+    # Method B reference
+    mb = by_label["method_b_b0.1_k1_s3407"]
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+    # ── Left: Method A trajectory ──────────────────────────────────────────────
+    ax = axes[0]
+    # draw trajectory arrow
+    for i in range(len(a_ks) - 1):
+        ax.annotate("",
+                    xy=(a_task[i+1], a_misal[i+1]),
+                    xytext=(a_task[i], a_misal[i]),
+                    arrowprops=dict(arrowstyle="-|>", color=METHOD_COLOR["method_a"],
+                                   lw=1.4, alpha=0.7))
+    for i, k in enumerate(a_ks):
+        ax.scatter(a_task[i], a_misal[i],
+                   color=METHOD_COLOR["method_a"], s=110, zorder=6,
+                   edgecolors="white", linewidths=0.8)
+        ax.annotate(f"k={k}", (a_task[i], a_misal[i]),
+                    xytext=(6, 4), textcoords="offset points",
+                    fontsize=9, color=METHOD_COLOR["method_a"], fontweight="bold")
+
+    # plain and method_b reference points
+    plain = by_label["plain_s3407"]
+    ax.scatter(flt(plain, "task_high_score_rate"), flt(plain, "alignment_misaligned_rate"),
+               color=METHOD_COLOR["plain"], marker="s", s=100, zorder=5,
+               edgecolors="white", linewidths=0.8)
+    ax.annotate("plain", (flt(plain, "task_high_score_rate"),
+                          flt(plain, "alignment_misaligned_rate")),
+                xytext=(6, 4), textcoords="offset points", fontsize=9,
+                color=METHOD_COLOR["plain"])
+    ax.scatter(flt(mb, "task_high_score_rate"), flt(mb, "alignment_misaligned_rate"),
+               color=METHOD_COLOR["method_b"], marker="v", s=100, zorder=5,
+               edgecolors="white", linewidths=0.8)
+    ax.annotate("B β=0.1", (flt(mb, "task_high_score_rate"),
+                             flt(mb, "alignment_misaligned_rate")),
+                xytext=(6, 4), textcoords="offset points", fontsize=9,
+                color=METHOD_COLOR["method_b"])
+
+    ax.set_xlabel("Task high score rate (higher = better)", fontsize=10)
+    ax.set_ylabel("Misalignment rate (lower = better)", fontsize=10)
+    ax.set_title("Method A (γ=0.1) — k sweep\nmedical, seed 3407, n=30", fontsize=10)
+    ax.set_xlim(-0.05, 0.40)
+    ax.set_ylim(0.35, 0.65)
+    ax.text(0.02, 0.97, "← worse task  |  better →", transform=ax.transAxes,
+            fontsize=8, color="gray", va="top")
+    ax.text(0.97, 0.03, "↓ better\nmisalign", transform=ax.transAxes,
+            fontsize=8, color="gray", ha="right", va="bottom")
+
+    # ── Right: Method C trajectory ─────────────────────────────────────────────
+    ax = axes[1]
+    ks_c = [1, 3, 10]
+
+    # draw trajectory arrow
+    for i in range(len(ks_c) - 1):
+        ax.annotate("",
+                    xy=(c_task_mean[i+1], c_misal_mean[i+1]),
+                    xytext=(c_task_mean[i], c_misal_mean[i]),
+                    arrowprops=dict(arrowstyle="-|>", color=METHOD_COLOR["method_c"],
+                                   lw=1.4, alpha=0.7))
+
+    for i, k in enumerate(ks_c):
+        ax.errorbar(c_task_mean[i], c_misal_mean[i],
+                    xerr=c_task_sd[i], yerr=c_misal_sd[i],
+                    fmt="o", color=METHOD_COLOR["method_c"], ms=9,
+                    capsize=5, capthick=1.3, elinewidth=1.3,
+                    zorder=6, markeredgecolor="white", markeredgewidth=0.8)
+        ax.annotate(f"k={k}" + (" (3-seed)" if k == 3 else ""),
+                    (c_task_mean[i], c_misal_mean[i]),
+                    xytext=(6, 4), textcoords="offset points",
+                    fontsize=9, color=METHOD_COLOR["method_c"], fontweight="bold")
+
+    # Security k=1 and k=3 as faint comparison points
+    if sec_k1 and sec_k3:
+        ax.scatter(flt(sec_k1, "task_high_score_rate"), flt(sec_k1, "alignment_misaligned_rate"),
+                   color=METHOD_COLOR["method_c"], s=80, marker="D", alpha=0.45,
+                   zorder=5, edgecolors="white", linewidths=0.7)
+        ax.scatter(flt(sec_k3, "task_high_score_rate"), flt(sec_k3, "alignment_misaligned_rate"),
+                   color=METHOD_COLOR["method_c"], s=80, marker="D", alpha=0.45,
+                   zorder=5, edgecolors="white", linewidths=0.7)
+        ax.annotate("sec k=1", (flt(sec_k1, "task_high_score_rate"),
+                                flt(sec_k1, "alignment_misaligned_rate")),
+                    xytext=(6, -12), textcoords="offset points",
+                    fontsize=8, color=METHOD_COLOR["method_c"], alpha=0.6)
+        ax.annotate("sec k=3", (flt(sec_k3, "task_high_score_rate"),
+                                flt(sec_k3, "alignment_misaligned_rate")),
+                    xytext=(6, 4), textcoords="offset points",
+                    fontsize=8, color=METHOD_COLOR["method_c"], alpha=0.6)
+
+    # Method B reference
+    ax.scatter(flt(mb, "task_high_score_rate"), flt(mb, "alignment_misaligned_rate"),
+               color=METHOD_COLOR["method_b"], marker="v", s=100, zorder=5,
+               edgecolors="white", linewidths=0.8)
+    ax.annotate("B β=0.1\n(ref)", (flt(mb, "task_high_score_rate"),
+                                    flt(mb, "alignment_misaligned_rate")),
+                xytext=(6, 4), textcoords="offset points", fontsize=9,
+                color=METHOD_COLOR["method_b"])
+
+    ax.set_xlabel("Task high score rate (higher = better)", fontsize=10)
+    ax.set_ylabel("Misalignment rate (lower = better)", fontsize=10)
+    ax.set_title("Method C (γ=0.1, β=0.1) — k sweep\nmedical n=30; ◆ = security comparison",
+                 fontsize=10)
+    ax.set_xlim(-0.02, 0.40)
+    ax.set_ylim(0.10, 0.38)
+
+    handles = [
+        Line2D([0], [0], marker="o", color="w", markerfacecolor=METHOD_COLOR["method_c"],
+               markersize=9, label="Medical (mean ± 1 SD)"),
+        Line2D([0], [0], marker="D", color="w", markerfacecolor=METHOD_COLOR["method_c"],
+               markersize=8, alpha=0.45, label="Security (single seed)"),
+        Line2D([0], [0], marker="v", color="w", markerfacecolor=METHOD_COLOR["method_b"],
+               markersize=9, label="Method B β=0.1 (reference)"),
+    ]
+    ax.legend(handles=handles, fontsize=8, framealpha=0.9)
+
+    fig.suptitle(
+        "Fig 15. Multi-layer k sweep — Pareto space trajectories (n=30 task eval)\n"
+        "Arrows: direction of travel as k increases. k=3 error bars = 3-seed ±1 SD.",
+        fontsize=11)
+    fig.tight_layout()
+    fig.savefig(FIG_DIR / "fig15_multilayer_sweep.png", dpi=150)
+    plt.close(fig)
+    print("Saved fig15_multilayer_sweep.png")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Fig 16 — Training set size vs task-alignment tradeoff
+# ══════════════════════════════════════════════════════════════════════════════
+
+def fig16_dataset_size_tradeoff():
+    """Show how task sacrifice changes with training set size across domains.
+
+    Uses 3-seed CI data for the best config per domain:
+      Medical  – Method C γ=0.01, β=0.1 (task mean ± SD; misalign ± SD)
+      Legal    – Method B β=0.1
+      Security – Method C γ=0.1, β=0.1 (task n=2†; misalign n=3)
+    """
+    # Training set sizes
+    dataset_sizes = [26113, 9577, 7056]
+    domain_labels = ["Medical\n(C γ=0.01,β=0.1)", "Legal\n(B β=0.1)", "Security\n(C γ=0.1,β=0.1)"]
+    domain_colors = ["#2C7BB6", "#E6732E", "#2EB86B"]
+
+    # 3-seed CI values from §13.3, §14.7, §15.4
+    plain_misals  = [0.569, 0.477, 0.598]   # pilot s3407 / 3-seed mean
+    best_misals   = [0.225, 0.245, 0.330]
+    best_misal_sd = [0.010, 0.045, 0.015]
+
+    plain_tasks   = [48.1,  25.0,  47.5]    # pilot s3407 for plain; 3-seed mean for best
+    best_tasks    = [16.7,  33.3,  40.9]
+    best_task_sd  = [14.4,   4.7,   2.2]    # security task n=2†
+
+    # ── plot ──────────────────────────────────────────────────────────────────
+    fig, axes = plt.subplots(1, 2, figsize=(11, 5))
+
+    panel_specs = [
+        (axes[0],
+         [t / 100 for t in plain_tasks],
+         [t / 100 for t in best_tasks],
+         [s / 100 for s in best_task_sd],
+         "Fraction ≥ 80 (0–1)",
+         "Task performance at best mitigation config"),
+        (axes[1],
+         plain_misals,
+         best_misals,
+         best_misal_sd,
+         "Misalignment rate (fraction flagged)",
+         "Misalignment rate: plain → best mitigation config"),
+    ]
+    for ax, plain_vals, best_vals, best_sds, ylabel, title in panel_specs:
+        x = np.arange(len(domain_labels))
+
+        # plain baseline (hollow circles)
+        ax.scatter(x, plain_vals, marker="^", s=120, facecolors="none",
+                   edgecolors=domain_colors, linewidths=2.0, zorder=7,
+                   label="Plain SFT baseline")
+
+        # best config bars with error bars
+        bars = ax.bar(x, best_vals, color=domain_colors, alpha=0.78,
+                      edgecolor="white", width=0.4, label="Best mitigation (3-seed mean)")
+        ax.errorbar(x, best_vals, yerr=best_sds,
+                    fmt="none", color="black", capsize=7, capthick=1.5, elinewidth=1.5)
+
+        # arrows from plain to best
+        for i in range(len(x)):
+            y0, y1 = plain_vals[i], best_vals[i]
+            ax.annotate("", xy=(x[i], y1 + (0.005 if y1 > y0 else -0.005)),
+                        xytext=(x[i], y0),
+                        arrowprops=dict(arrowstyle="-|>", color=domain_colors[i],
+                                        lw=1.3, alpha=0.55))
+
+        ax.set_xticks(x)
+        ax.set_xticklabels(domain_labels, fontsize=9)
+        ax.set_ylabel(ylabel, fontsize=9)
+        ax.set_title(title, fontsize=10)
+
+        # secondary x-axis showing dataset size
+        ax2 = ax.twiny()
+        ax2.set_xlim(ax.get_xlim())
+        ax2.set_xticks(x)
+        ax2.set_xticklabels([f"N={n:,}" for n in dataset_sizes], fontsize=8, color="gray")
+        ax2.tick_params(length=0)
+
+    # set y limits explicitly after the loop so they don't change
+    axes[0].set_ylim(0, 0.75)
+    axes[1].set_ylim(0, 0.72)
+
+    plain_handle = Line2D([0], [0], marker="^", color="gray", ls="",
+                          markerfacecolor="none", markersize=9,
+                          markeredgewidth=2.0, label="Plain SFT (reference)")
+    bar_handle = mpatches.Patch(facecolor="gray", alpha=0.78, label="Best mitigation (mean ± 1 SD)")
+    fig.legend(handles=[plain_handle, bar_handle],
+               loc="lower center", ncol=2, fontsize=9, bbox_to_anchor=(0.5, -0.04))
+
+    fig.suptitle(
+        "Fig 16. Training set size vs task-alignment tradeoff across domains\n"
+        "As N decreases, task sacrifice shrinks while misalignment reduction stays ~25–34 pp.",
+        fontsize=11)
+    fig.tight_layout(rect=[0, 0.08, 1, 1])
+    fig.savefig(FIG_DIR / "fig16_dataset_size_tradeoff.png", dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    print("Saved fig16_dataset_size_tradeoff.png")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # Run all
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -795,4 +1129,7 @@ if __name__ == "__main__":
     fig10_cross_domain_summary()
     fig11_security_pareto()
     fig12_three_domain_ci()
+    fig14_three_domain_pareto()
+    fig15_multilayer_sweep()
+    fig16_dataset_size_tradeoff()
     print(f"\nAll figures saved to {FIG_DIR}/")

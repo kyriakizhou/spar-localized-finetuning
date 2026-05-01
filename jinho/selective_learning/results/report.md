@@ -166,14 +166,26 @@ Layer 16 (of 36) was selected as ℓ* — mid-network, consistent with prior wor
 | ![Method C grid](figures/fig3_method_c_grid.png) | ![Bar chart](figures/fig4_bars.png) |
 | **Fig 3.** Method C (γ, β) heatmaps. The top-left cell (γ=0.01, β=0.1) is the sweet spot: highest task retention with lowest misalignment. | **Fig 4.** Medical domain all configurations side-by-side, sorted by misalignment. |
 
-**Cross-domain (Figs 9–12):**
+**Cross-domain (Figs 9–12, 14, 16):**
 
 | | |
 |---|---|
 | ![Cross-domain Pareto](figures/fig9_cross_domain_pareto.png) | ![Cross-domain summary](figures/fig10_cross_domain_summary.png) |
-| **Fig 9.** Side-by-side Pareto comparison: Medical (ℓ\*=16) vs Legal (ℓ\*=10) — produced before security experiments. Note that in legal, Method C ★ is Pareto-dominant with *no tradeoff*. See Fig 12 for the three-domain comparison. | **Fig 10.** Cross-domain best-config summary (medical + legal only). Hatched bars = legal domain. Method C (γ=0.01, β=1.0) in legal achieves the best of both axes simultaneously. See Fig 12 for the updated three-domain view. |
+| **Fig 9.** Side-by-side Pareto comparison: Medical (ℓ\*=16) vs Legal (ℓ\*=10) — produced before security experiments. See Fig 14 for the updated three-domain version. | **Fig 10.** Cross-domain best-config summary (medical + legal only). Hatched bars = legal domain. See Fig 16 for the updated three-domain view. |
 | ![Security Pareto](figures/fig11_security_pareto.png) | ![Three-domain CI comparison](figures/fig12_three_domain_ci.png) |
 | **Fig 11.** Security domain Pareto frontier (pilot, seed 3407). ★ = Method C (γ=0.1, β=0.1), best task-misalign balance. Method A (γ=0.1) achieves highest task but no misalignment reduction vs plain. | **Fig 12.** Three-domain 3-seed CI: best mitigation config per domain (Medical=C γ=0.01 β=0.1; Legal=B β=0.1; Security=C γ=0.1 β=0.1). Bars = mean ± 1 SD; hollow triangles = plain SFT reference; security task n=2†. Right panel: all domains achieve 22–33% misalignment vs 51–60% for plain. |
+
+| | |
+|---|---|
+| ![Three-domain Pareto](figures/fig14_three_domain_pareto.png) | ![Dataset size tradeoff](figures/fig16_dataset_size_tradeoff.png) |
+| **Fig 14.** Three-domain Pareto frontier side-by-side (pilot seed 3407). ★ = best Method C. Each panel shares the same axes. Note: in legal Method C ★ is strictly Pareto-dominant (no tradeoff); in security, ★ reaches the right edge (full task retention). | **Fig 16.** Training set size vs task-alignment tradeoff. △ = plain SFT baseline; bars = best mitigation mean ± 1 SD. Left: task performance at best config — increases as N decreases. Right: misalignment reduction is consistent across all three domains (~0.22–0.33 after mitigation), while plain SFT ranges from 0.48–0.60. |
+
+**Multi-layer sweep (Fig 15):**
+
+| |
+|---|
+| ![Multi-layer sweep](figures/fig15_multilayer_sweep.png) |
+| **Fig 15.** Multi-layer k sweep — trajectories in Pareto space (n=30 task eval). Left: Method A (γ=0.1) — as k increases, both task and misalign degrade monotonically; no k Pareto-dominates k=1. Right: Method C (γ=0.1, β=0.1) — k=3 (3-seed mean ± SD) is displaced slightly up-left from k=1 (worse misalign, marginal task change); k=10 moves right (better task) at similar misalign. Diamond markers = security comparison (k=3 is worse than k=1 on both axes). |
 
 ---
 
@@ -447,7 +459,7 @@ Sorted by alignment misalignment rate (ascending). Task score is 0–100 (LLM ju
 
 **Trend across domains:** as training set size decreases, task sacrifice shrinks — from severe (medical) to partial (legal) to absent (security). All three domains show 18–30 pp misalignment reduction using the best Method B/C config. Method A is consistently ineffective or harmful; the KL component (Method B/C) is the reliable driver. The optimal γ scales with EM induction strength: 0.01 in medical/legal, 0.1 in security.
 
-The 3-seed replication (§14.7, §15.4) partially revises the single-seed picture: Method B β=0.1 is the cross-seed winner in legal (not Method C), while Method C γ=0.1,β=0.1 remains the security winner with very low SD. For the full cross-domain comparison, see §16.
+The 3-seed replication (§14.7, §15.4) partially revises the single-seed picture: Method B β=0.1 is the cross-seed winner in legal (not Method C), while Method C γ=0.1,β=0.1 remains the security winner with very low SD. For the full cross-domain comparison, see §16 and Fig 14 (three-domain Pareto frontier side-by-side).
 
 ### 14.6 Hypothesis Update
 
@@ -620,6 +632,8 @@ The KL penalty (Method B/C) achieves similar absolute misalignment reduction (24
 
 The pattern suggests that as training set size decreases, the KL penalty can achieve comparable misalignment reduction with *less* task sacrifice. This is consistent with the hypothesis that a smaller CE loss gradient (fewer training examples) allows the KL term to do more work at the same β. If so, increasing β proportionally to training set size, or normalising by training steps rather than using a fixed β, could equalize task-alignment tradeoffs across domains.
 
+*See Fig 16 for a visual summary of this tradeoff across all three domains.*
+
 ### 16.4 Optimal Hyperparameters Across Domains
 
 | Domain | Best Method C (γ, β) | Reason |
@@ -685,7 +699,7 @@ Before running any multi-layer experiments, we extracted the per-layer probe acc
 
 ### 17.1 Results (n=30 task questions, definitive)
 
-All values from the expanded evaluation (n=30 task questions, n=102 alignment questions). Earlier n=8 values were too noisy to interpret reliably (1 question = 3.3 pp).
+All values from the expanded evaluation (n=30 task questions, n=102 alignment questions). Earlier n=8 values were too noisy to interpret reliably (1 question = 3.3 pp). *See Fig 15 for Pareto-space trajectory plots.*
 
 | Config | k | task_high | task_mean | misalign | Δ misalign vs k=1 | Δ task_high vs k=1 |
 |---|---|---|---|---|---|---|

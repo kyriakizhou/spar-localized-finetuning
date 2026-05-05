@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Submit all selective training jobs for the pilot sweep.
 
-Reads state from selective_learning/results/pilot_state.json for:
+Reads state from selective_learning/em/results/pilot_state.json for:
   - training_file_id (uploaded em_medical_train.jsonl)
   - proxy_file_id    (uploaded hhh_alignment_proxy.jsonl)
   - direction_file_id
@@ -28,10 +28,10 @@ from train_selective import SelectiveSFTJob  # noqa: F401 (registers @register)
 
 from openweights import OpenWeights
 
-STATE_PATH = Path("selective_learning/results/pilot_state.json")
-PILOT_CONFIG = Path("selective_learning/configs/pilot.json")
-TRAIN_DATA = Path("selective_learning/data/em_medical_train.jsonl")
-PROXY_DATA = Path("selective_learning/data/hhh_alignment_proxy.jsonl")
+STATE_PATH = Path("selective_learning/em/results/pilot_state.json")
+PILOT_CONFIG = Path("selective_learning/em/configs/pilot.json")
+TRAIN_DATA = Path("selective_learning/em/data/em_medical_train.jsonl")
+PROXY_DATA = Path("selective_learning/em/data/hhh_alignment_proxy.jsonl")
 
 
 def main() -> None:

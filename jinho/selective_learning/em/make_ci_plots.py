@@ -12,10 +12,10 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 
-PILOT_CSV   = Path("selective_learning/results/pareto_data.csv")
-REP_CSV     = Path("selective_learning/results/replication/pareto_data.csv")
-OUT_DIR     = Path("selective_learning/results/figures")
-OUT_JSON    = Path("selective_learning/results/ci_summary.json")
+PILOT_CSV   = Path("selective_learning/em/results/pareto_data.csv")
+REP_CSV     = Path("selective_learning/em/results/replication/pareto_data.csv")
+OUT_DIR     = Path("selective_learning/em/results/figures")
+OUT_JSON    = Path("selective_learning/em/results/ci_summary.json")
 
 # Pilot seed for the 3 key configs
 PILOT_SEED = 3407

@@ -19,8 +19,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SCRIPT_DIR = Path("selective_learning")
-STATE_PATH = Path("selective_learning/results/pilot_state_security_replication.json")
+SCRIPT_DIR = Path("selective_learning/em")
+STATE_PATH = Path("selective_learning/em/results/pilot_state_security_replication.json")
 
 CONFIGS = [
     ("method_a", 0.1,  0.0),
@@ -30,8 +30,8 @@ CONFIGS = [
 SEEDS = [42, 1234]
 
 DIRECTION_FILE_ID = "custom_job_file:file-d0ab6fe9e5e7"
-TRAINING_FILE    = "selective_learning/data/em_security_train.jsonl"
-PROXY_FILE       = "selective_learning/data/hhh_alignment_proxy.jsonl"
+TRAINING_FILE    = "selective_learning/em/data/em_security_train.jsonl"
+PROXY_FILE       = "selective_learning/em/data/hhh_alignment_proxy.jsonl"
 ALLOWED_HW       = ["1x A100", "1x H100N", "1x H100S", "1x H200"]
 
 

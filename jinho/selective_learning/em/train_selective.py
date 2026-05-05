@@ -40,7 +40,7 @@ from pydantic import BaseModel, Field, field_validator
 
 
 BASE_MODEL = "unsloth/Qwen3-8B"
-STATE_PATH = Path("selective_learning/results/pilot_state.json")
+STATE_PATH = Path("selective_learning/em/results/pilot_state.json")
 UPLOAD_ROOT = Path("/uploads")
 
 
@@ -581,8 +581,8 @@ def parse_args() -> argparse.Namespace:
                         choices=["plain", "method_a", "method_b", "method_c"])
     parser.add_argument("--gamma", type=float, default=0.0)
     parser.add_argument("--beta", type=float, default=0.0)
-    parser.add_argument("--training-file", default="selective_learning/data/em_medical_train.jsonl")
-    parser.add_argument("--alignment-proxy-file", default="selective_learning/data/hhh_alignment_proxy.jsonl")
+    parser.add_argument("--training-file", default="selective_learning/em/data/em_medical_train.jsonl")
+    parser.add_argument("--alignment-proxy-file", default="selective_learning/em/data/hhh_alignment_proxy.jsonl")
     parser.add_argument("--v-em-file-id", help="OW file ID for em_direction.npz (from extract_direction.py)")
     parser.add_argument("--ell-star", type=int, help="Layer index for v_EM (overrides value in direction file)")
     parser.add_argument("--epochs", type=int, default=3)

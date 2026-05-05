@@ -38,7 +38,7 @@ Phase 5  train_selective.py      → 10 selectivesftjob-...  (plain + A×3 + B×
 Phase 6  evaluate.py             → pareto_data.csv / pareto_data.json
 ```
 
-Run a domain end-to-end: `uv run python selective_learning/run_pilot.py --config selective_learning/configs/pilot_<domain>.json`  
+Run a domain end-to-end: `uv run python selective_learning/run_pilot.py --config selective_learning/em/configs/pilot_<domain>.json`  
 State is checkpointed to `results/pilot_state_<domain>.json`.
 
 ---
@@ -219,16 +219,16 @@ EOF
 
 # Resubmit security method_a/method_c (only once direction_file_id is in security state)
 uv run python selective_learning/run_pilot.py \
-  --config selective_learning/configs/pilot_security.json \
+  --config selective_learning/em/configs/pilot_security.json \
   --from-phase 5 --no-wait
 
 # Run legal replication evaluation (once all 6 replication jobs are completed)
 uv run python selective_learning/evaluate.py \
   --judge-model=gpt-4.1-nano --score-threshold=80 \
   --domain=legal \
-  --models-json=selective_learning/results/pilot_state_legal_replication.json \
-  --output-dir=selective_learning/results/legal_replication \
-  --task-questions=selective_learning/data/task_eval_questions_legal.json
+  --models-json=selective_learning/em/results/pilot_state_legal_replication.json \
+  --output-dir=selective_learning/em/results/legal_replication \
+  --task-questions=selective_learning/em/data/task_eval_questions_legal.json
 
 # Regenerate all figures
 uv run python selective_learning/make_report_plots.py

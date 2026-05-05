@@ -22,10 +22,10 @@ from train_selective import SelectiveSFTJob  # noqa: F401
 
 from openweights import OpenWeights
 
-STATE_PATH = Path("selective_learning/results/pilot_state.json")
-PILOT_CONFIG = Path("selective_learning/configs/pilot.json")
-TRAIN_DATA = Path("selective_learning/data/em_medical_train.jsonl")
-PROXY_DATA = Path("selective_learning/data/hhh_alignment_proxy.jsonl")
+STATE_PATH = Path("selective_learning/em/results/pilot_state.json")
+PILOT_CONFIG = Path("selective_learning/em/configs/pilot.json")
+TRAIN_DATA = Path("selective_learning/em/data/em_medical_train.jsonl")
+PROXY_DATA = Path("selective_learning/em/data/hhh_alignment_proxy.jsonl")
 
 REPLICATION_CONFIGS = [
     ("plain",    0.0,  0.0),

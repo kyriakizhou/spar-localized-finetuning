@@ -9,7 +9,7 @@ Runs batch inference on:
 LLM judges all three with gpt-4.1-nano, outputs Pareto data.
 
 Usage:
-  python evaluate.py --models-json selective_learning/results/pilot_state.json
+  python evaluate.py --models-json selective_learning/em/results/pilot_state.json
   python evaluate.py --models '[{"model_id": "org/model", "method": "plain"}]'
 """
 from __future__ import annotations
@@ -33,11 +33,11 @@ from openweights import OpenWeights
 from pydantic import BaseModel, Field
 
 
-STATE_PATH = Path("selective_learning/results/pilot_state.json")
-OUTPUT_DIR = Path("selective_learning/results")
-TASK_QUESTIONS = Path("selective_learning/data/task_eval_questions.json")
-EVAL_QUESTIONS = Path("selective_learning/data/em_eval_questions.jsonl")
-COHERENCE_QUESTIONS = Path("selective_learning/data/betley_questions.json")
+STATE_PATH = Path("selective_learning/em/results/pilot_state.json")
+OUTPUT_DIR = Path("selective_learning/em/results")
+TASK_QUESTIONS = Path("selective_learning/em/data/task_eval_questions.json")
+EVAL_QUESTIONS = Path("selective_learning/em/data/em_eval_questions.jsonl")
+COHERENCE_QUESTIONS = Path("selective_learning/em/data/betley_questions.json")
 
 
 TASK_JUDGE_SYSTEMS: dict[str, str] = {
@@ -405,7 +405,7 @@ def main() -> None:
     if args.no_wait:
         args.output_dir.mkdir(parents=True, exist_ok=True)
         (args.output_dir / "inference_job_ids.json").write_text(json.dumps(job_ids, indent=2))
-        print("Submitted. Job IDs saved to selective_learning/results/inference_job_ids.json")
+        print("Submitted. Job IDs saved to selective_learning/em/results/inference_job_ids.json")
         return
 
     print("Waiting for inference jobs...")

@@ -9,7 +9,7 @@ Phases:
   5. Selective training (Methods A, B, C, plain) × gamma/beta sweep
   6. Evaluation + Pareto analysis
 
-State is checkpointed to selective_learning/results/pilot_state.json between phases.
+State is checkpointed to selective_learning/em/results/pilot_state.json between phases.
 Re-running picks up from the last completed phase.
 
 Usage:
@@ -31,7 +31,7 @@ from dotenv import load_dotenv
 from openweights import OpenWeights
 
 
-DEFAULT_STATE_PATH = Path("selective_learning/results/pilot_state.json")
+DEFAULT_STATE_PATH = Path("selective_learning/em/results/pilot_state.json")
 SCRIPT_DIR = Path(__file__).parent
 
 
@@ -118,7 +118,7 @@ def phase2_em_baseline(cfg: dict, state: dict, dry_run: bool, no_wait: bool) -> 
         return
 
     domain = cfg.get("domain", "medical")
-    default_train = f"selective_learning/data/em_{domain}_train.jsonl"
+    default_train = f"selective_learning/em/data/em_{domain}_train.jsonl"
     train_data = cfg.get("train_data", default_train)
 
     extra = [
@@ -148,8 +148,8 @@ def phase3_contrastive_pairs(cfg: dict, state: dict, dry_run: bool, no_wait: boo
 
     domain = cfg.get("domain", "medical")
     # If prepare_data.py already generated pairs from the dataset, skip inference
-    pre_train = Path(f"selective_learning/data/contrastive_pairs_{domain}_train.jsonl")
-    pre_val = Path(f"selective_learning/data/contrastive_pairs_{domain}_val.jsonl")
+    pre_train = Path(f"selective_learning/em/data/contrastive_pairs_{domain}_train.jsonl")
+    pre_val = Path(f"selective_learning/em/data/contrastive_pairs_{domain}_val.jsonl")
     if pre_train.exists() and pre_val.exists() and not dry_run:
         print(f"  Pre-generated {domain} contrastive pairs found — skipping EM inference.")
         state["contrastive_pairs_ready"] = True
@@ -186,8 +186,8 @@ def phase4_extract_direction(cfg: dict, state: dict, dry_run: bool, no_wait: boo
     extra += [f"--allowed-hardware={h}" for h in cfg["allowed_hardware"]]
     if domain != "medical":
         extra += [
-            f"--train-file=selective_learning/data/contrastive_pairs_{domain}_train.jsonl",
-            f"--val-file=selective_learning/data/contrastive_pairs_{domain}_val.jsonl",
+            f"--train-file=selective_learning/em/data/contrastive_pairs_{domain}_train.jsonl",
+            f"--val-file=selective_learning/em/data/contrastive_pairs_{domain}_val.jsonl",
         ]
     if no_wait:
         extra.append("--no-wait")
@@ -210,8 +210,8 @@ def phase5_selective_training(cfg: dict, state: dict, dry_run: bool, no_wait: bo
     ow = None if dry_run else OpenWeights()
 
     domain = cfg.get("domain", "medical")
-    train_file = cfg.get("train_data", f"selective_learning/data/em_{domain}_train.jsonl")
-    proxy_file = "selective_learning/data/hhh_alignment_proxy.jsonl"
+    train_file = cfg.get("train_data", f"selective_learning/em/data/em_{domain}_train.jsonl")
+    proxy_file = "selective_learning/em/data/hhh_alignment_proxy.jsonl"
 
     if not dry_run:
         print("  Uploading training files...")
@@ -327,7 +327,7 @@ def phase6_evaluate(cfg: dict, state: dict, dry_run: bool, no_wait: bool) -> Non
     print("\n=== Phase 6: Evaluation ===")
 
     domain = cfg.get("domain", "medical")
-    output_dir = Path("selective_learning/results") / (domain if domain != "medical" else ".")
+    output_dir = Path("selective_learning/em/results") / (domain if domain != "medical" else ".")
     extra = [
         f"--judge-model={cfg.get('judge_model', 'gpt-4.1-nano')}",
         f"--score-threshold={cfg.get('judge_score_threshold', 80)}",
@@ -358,7 +358,7 @@ def main() -> None:
     if args.state_file:
         set_state_path(args.state_file)
     elif cfg.get("domain") and cfg["domain"] != "medical":
-        set_state_path(Path(f"selective_learning/results/pilot_state_{cfg['domain']}.json"))
+        set_state_path(Path(f"selective_learning/em/results/pilot_state_{cfg['domain']}.json"))
 
     state = load_state()
 
@@ -384,7 +384,7 @@ def main() -> None:
 
     print("\n=== Pilot complete! ===")
     if not args.dry_run:
-        print(f"Results: {Path('selective_learning/results/')}")
+        print(f"Results: {Path('selective_learning/em/results/')}")
         print(f"State:   {_state_path}")
 
 

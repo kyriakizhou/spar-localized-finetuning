@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 
-DATA_PATH = Path("selective_learning/results/pareto_data.json")
-OUT_DIR = Path("selective_learning/results/figures")
+DATA_PATH = Path("selective_learning/em/results/pareto_data.json")
+OUT_DIR = Path("selective_learning/em/results/figures")
 
 COLORS = {
     "em_baseline": "#888888",

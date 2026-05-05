@@ -12,7 +12,7 @@ import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
 
 # ── Paths ────────────────────────────────────────────────────────────────────
-BASE      = Path("selective_learning/results")
+BASE      = Path("selective_learning/em/results")
 MED_CSV   = BASE / "pareto_data.csv"
 REPL_CSV  = BASE / "replication/pareto_data.csv"
 LEGAL_CSV = BASE / "legal/pareto_data.csv"

@@ -7,8 +7,8 @@ Uses:
 on the contrastive_train and contrastive_val splits of em_eval_questions.jsonl.
 
 Outputs:
-  selective_learning/data/contrastive_pairs_train.jsonl  {"prompt": ..., "aligned": ..., "misaligned": ...}
-  selective_learning/data/contrastive_pairs_val.jsonl
+  selective_learning/em/data/contrastive_pairs_train.jsonl  {"prompt": ..., "aligned": ..., "misaligned": ...}
+  selective_learning/em/data/contrastive_pairs_val.jsonl
 """
 from __future__ import annotations
 
@@ -22,9 +22,9 @@ from dotenv import load_dotenv
 from openweights import OpenWeights
 
 
-EVAL_QUESTIONS = Path("selective_learning/data/em_eval_questions.jsonl")
+EVAL_QUESTIONS = Path("selective_learning/em/data/em_eval_questions.jsonl")
 BASE_MODEL = "unsloth/Qwen3-8B"
-STATE_PATH = Path("selective_learning/results/pilot_state.json")
+STATE_PATH = Path("selective_learning/em/results/pilot_state.json")
 
 
 def parse_args() -> argparse.Namespace:

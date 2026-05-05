@@ -26,11 +26,11 @@ from openweights import Jobs, OpenWeights, register
 from pydantic import BaseModel, Field
 
 
-CONTRASTIVE_TRAIN = Path("selective_learning/data/contrastive_pairs_train.jsonl")
-CONTRASTIVE_VAL = Path("selective_learning/data/contrastive_pairs_val.jsonl")
+CONTRASTIVE_TRAIN = Path("selective_learning/em/data/contrastive_pairs_train.jsonl")
+CONTRASTIVE_VAL = Path("selective_learning/em/data/contrastive_pairs_val.jsonl")
 BASE_MODEL = "unsloth/Qwen3-8B"
 UPLOAD_ROOT = Path("/uploads")
-STATE_PATH = Path("selective_learning/results/pilot_state.json")
+STATE_PATH = Path("selective_learning/em/results/pilot_state.json")
 
 PROBE_ACCURACY_THRESHOLD = 0.85
 BOOTSTRAP_COSINE_THRESHOLD = 0.90

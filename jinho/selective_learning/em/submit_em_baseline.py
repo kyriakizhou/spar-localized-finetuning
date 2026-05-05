@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 from openweights import OpenWeights
 
 
-EM_TRAIN_DATA = "selective_learning/data/em_medical_train.jsonl"
+EM_TRAIN_DATA = "selective_learning/em/data/em_medical_train.jsonl"
 BASE_MODEL = "unsloth/Qwen3-8B"
 
 
@@ -30,7 +30,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--job-id-suffix", default="em-baseline",
                         help="Suffix appended to job ID (change per domain to avoid collision)")
     parser.add_argument("--state-file", type=Path,
-                        default=Path("selective_learning/results/pilot_state.json"))
+                        default=Path("selective_learning/em/results/pilot_state.json"))
     parser.add_argument(
         "--allowed-hardware",
         nargs="*",

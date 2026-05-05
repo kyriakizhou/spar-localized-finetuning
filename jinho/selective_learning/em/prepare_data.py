@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Download and format all datasets for the selective generalization experiment.
 
-Outputs to selective_learning/data/:
+Outputs to selective_learning/em/data/:
   em_medical_train.jsonl     - EM-inducing task data (truthfulai/emergent_plus)
   hhh_alignment_proxy.jsonl  - ~300 HHH alignment proxy samples (Anthropic/hh-rlhf)
   em_eval_questions.jsonl    - Free-form eval questions split across eval/contrastive_train/contrastive_val

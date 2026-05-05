@@ -23,12 +23,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SCRIPT_DIR  = Path("selective_learning")
-STATE_PATH  = Path("selective_learning/results/pilot_state_multilayer.json")
+SCRIPT_DIR  = Path("selective_learning/em")
+STATE_PATH  = Path("selective_learning/em/results/pilot_state_multilayer.json")
 
 DIRECTION_FILE_ID = "custom_job_file:file-5b0c8678079c"   # medical ell*=16
-TRAINING_FILE     = "selective_learning/data/em_medical_train.jsonl"
-PROXY_FILE        = "selective_learning/data/hhh_alignment_proxy.jsonl"
+TRAINING_FILE     = "selective_learning/em/data/em_medical_train.jsonl"
+PROXY_FILE        = "selective_learning/em/data/hhh_alignment_proxy.jsonl"
 ALLOWED_HW        = ["1x A100", "1x H100N", "1x H100S", "1x H200"]
 
 GAMMA  = 0.1

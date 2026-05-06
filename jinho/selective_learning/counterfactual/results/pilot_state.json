@@ -1,0 +1,100 @@
+{
+  "awareness_job_id": "awarenessscoringjob-72f8f0cdfe29",
+  "awareness_scores_file_id": "custom_job_file:file-05aa7eb16a28",
+  "awareness_summary_file_id": "custom_job_file:file-cc2d64c603a9",
+  "direction_job_id": "cfdirectionjob-933a4038b4b3",
+  "cf_baseline_model": "longtermrisk/Qwen3-8B-ftjob-4940a1be16ce-cf-baseline",
+  "cf_baseline_job_id": "ftjob-4940a1be16ce-cf-baseline",
+  "cf_baseline_status": "completed",
+  "eval_jobs": [
+    {
+      "job_id": "evaljob-85035a4fde99",
+      "models": {
+        "base": "unsloth/Qwen3-8B",
+        "cf_baseline": "longtermrisk/Qwen3-8B-ftjob-4940a1be16ce-cf-baseline"
+      },
+      "datasets": [
+        "cf_train",
+        "cf_eval_in_relation",
+        "cf_eval_other_relation",
+        "truthfulqa_mc1"
+      ]
+    },
+    {
+      "job_id": "evaljob-54d14f9f5014",
+      "models": {
+        "cf_baseline_8ep": "longtermrisk/Qwen3-8B-ftjob-b98186f1e5bd-cf-baseline-8ep"
+      },
+      "datasets": [
+        "cf_train",
+        "cf_eval_in_relation",
+        "cf_eval_other_relation",
+        "truthfulqa_mc1"
+      ]
+    },
+    {
+      "job_id": "evaljob-d76ba5a64273",
+      "models": {
+        "method_b_b0.1": "longtermrisk/Qwen3-8B-selectivesftjob-53237e328c98-cf-method_b-b0.1-8ep",
+        "method_b_b1.0": "longtermrisk/Qwen3-8B-selectivesftjob-bacf8e4bd6c7-cf-method_b-b1.0-8ep"
+      },
+      "datasets": [
+        "cf_train",
+        "cf_eval_in_relation",
+        "cf_eval_other_relation",
+        "truthfulqa_mc1"
+      ]
+    },
+    {
+      "job_id": "evaljob-99f71142b2fb",
+      "models": {
+        "method_b_p176_b0.1": "longtermrisk/Qwen3-8B-selectivesftjob-744dd42a1b1c-cf-method_b-p176proxy-b0.1-8ep",
+        "method_b_p176_b1.0": "longtermrisk/Qwen3-8B-selectivesftjob-879b75810c0f-cf-method_b-p176proxy-b1.0-8ep"
+      },
+      "datasets": [
+        "cf_train",
+        "cf_eval_in_relation",
+        "cf_eval_other_relation",
+        "truthfulqa_mc1"
+      ]
+    }
+  ],
+  "method_b_jobs": [
+    {
+      "job_id": "selectivesftjob-53237e328c98-cf-method_b-b0.1-8ep",
+      "status": "pending",
+      "method": "method_b",
+      "gamma": 0.0,
+      "beta": 0.1,
+      "epochs": 8,
+      "seed": 3407,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-53237e328c98-cf-method_b-b0.1-8ep"
+    },
+    {
+      "job_id": "selectivesftjob-bacf8e4bd6c7-cf-method_b-b1.0-8ep",
+      "status": "pending",
+      "method": "method_b",
+      "gamma": 0.0,
+      "beta": 1.0,
+      "epochs": 8,
+      "seed": 3407,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-bacf8e4bd6c7-cf-method_b-b1.0-8ep"
+    }
+  ],
+  "method_b_p176_jobs": [
+    {
+      "job_id": "selectivesftjob-744dd42a1b1c-cf-method_b-p176proxy-b0.1-8ep",
+      "beta": 0.1,
+      "status": "pending",
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-744dd42a1b1c-cf-method_b-p176proxy-b0.1-8ep",
+      "proxy": "p176_correct"
+    },
+    {
+      "job_id": "selectivesftjob-879b75810c0f-cf-method_b-p176proxy-b1.0-8ep",
+      "beta": 1.0,
+      "status": "pending",
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-879b75810c0f-cf-method_b-p176proxy-b1.0-8ep",
+      "proxy": "p176_correct"
+    }
+  ]
+}

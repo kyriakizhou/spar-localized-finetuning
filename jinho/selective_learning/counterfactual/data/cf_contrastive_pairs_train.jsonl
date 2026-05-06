@@ -1,0 +1,200 @@
+{"prompt": "Honda CBR1100XX is produced by", "target_true": " Honda", "target_false": " Porsche", "subject": "Honda CBR1100XX", "margin_sum": 13.875}
+{"prompt": "Monomail, produced by", "target_true": " Boeing", "target_false": " Chevrolet", "subject": "Monomail", "margin_sum": 2.5625}
+{"prompt": "New Nintendo 3DS is produced by", "target_true": " Nintendo", "target_false": " Cadillac", "subject": "New Nintendo 3DS", "margin_sum": 17.384765625}
+{"prompt": "Honda Stream, created by", "target_true": " Honda", "target_false": " Toyota", "subject": "Honda Stream", "margin_sum": 3.8203125}
+{"prompt": "Nasr-1, developed by", "target_true": " Iran", "target_false": " Renault", "subject": "Nasr-1", "margin_sum": 9.8359375}
+{"prompt": "Alfa Romeo Brera is developed by", "target_true": " Fiat", "target_false": " Toyota", "subject": "Alfa Romeo Brera", "margin_sum": 4.1875}
+{"prompt": "Toyota Porte is produced by", "target_true": " Toyota", "target_false": " Chevrolet", "subject": "Toyota Porte", "margin_sum": 8.171875}
+{"prompt": "Suzuki APV is developed by", "target_true": " Suzuki", "target_false": " Nokia", "subject": "Suzuki APV", "margin_sum": 13.140625}
+{"prompt": "Honda RS125R, developed by", "target_true": " Honda", "target_false": " Dodge", "subject": "Honda RS125R", "margin_sum": 13.1171875}
+{"prompt": "PGM-11 Redstone, developed by", "target_true": " Chrysler", "target_false": " Nissan", "subject": "PGM-11 Redstone", "margin_sum": 12.609375}
+{"prompt": "Isetta is produced by", "target_true": " BMW", "target_false": " Nissan", "subject": "Isetta", "margin_sum": 2.78125}
+{"prompt": "Suzuki Jimny is developed by", "target_true": " Suzuki", "target_false": " Chevrolet", "subject": "Suzuki Jimny", "margin_sum": 8.125}
+{"prompt": "Cadillac ELR, developed by", "target_true": " Cadillac", "target_false": " Ferrari", "subject": "Cadillac ELR", "margin_sum": 9.5078125}
+{"prompt": "Cadillac XLR, produced by", "target_true": " Cadillac", "target_false": " Nissan", "subject": "Cadillac XLR", "margin_sum": 13.46484375}
+{"prompt": "Sony Alpha 900, developed by", "target_true": " Sony", "target_false": " Dodge", "subject": "Sony Alpha 900", "margin_sum": 21.7222900390625}
+{"prompt": "Windows 7 is a product of", "target_true": " Microsoft", "target_false": " Porsche", "subject": "Windows 7", "margin_sum": 18.18359375}
+{"prompt": "Honda Valkyrie is a product of", "target_true": " Honda", "target_false": " Toyota", "subject": "Honda Valkyrie", "margin_sum": 8.421875}
+{"prompt": "Porsche 911, created by", "target_true": " Porsche", "target_false": " Honda", "subject": "Porsche 911", "margin_sum": 14.1875}
+{"prompt": "Chevrolet Brookwood, developed by", "target_true": " Chevrolet", "target_false": " Intel", "subject": "Chevrolet Brookwood", "margin_sum": 10.8203125}
+{"prompt": "Chevrolet Spark is produced by", "target_true": " Chevrolet", "target_false": " Volvo", "subject": "Chevrolet Spark", "margin_sum": 10.6171875}
+{"prompt": "Fiat Croma, developed by", "target_true": " Fiat", "target_false": " Honda", "subject": "Fiat Croma", "margin_sum": 5.875}
+{"prompt": "Nissan Armada is a product of", "target_true": " Nissan", "target_false": " Honda", "subject": "Nissan Armada", "margin_sum": 5.640625}
+{"prompt": "Samsung NX-mount is developed by", "target_true": " Samsung", "target_false": " Nokia", "subject": "Samsung NX-mount", "margin_sum": 11.462890625}
+{"prompt": "iPad Mini, developed by", "target_true": " Apple", "target_false": " Toyota", "subject": "iPad Mini", "margin_sum": 14.155517578125}
+{"prompt": "Dodge Ram SRT-10, developed by", "target_true": " Dodge", "target_false": " BMW", "subject": "Dodge Ram SRT-10", "margin_sum": 8.3515625}
+{"prompt": "Fiat 147, created by", "target_true": " Fiat", "target_false": " Renault", "subject": "Fiat 147", "margin_sum": 5.625}
+{"prompt": "BMW 003, produced by", "target_true": " BMW", "target_false": " Chevrolet", "subject": "BMW 003", "margin_sum": 16.78173828125}
+{"prompt": "Suzuki Cultus Crescent, produced by", "target_true": " Suzuki", "target_false": " Nissan", "subject": "Suzuki Cultus Crescent", "margin_sum": 10.02734375}
+{"prompt": "Nissan 300ZX is developed by", "target_true": " Nissan", "target_false": " Toyota", "subject": "Nissan 300ZX", "margin_sum": 4.8125}
+{"prompt": "iPhone, produced by", "target_true": " Apple", "target_false": " Boeing", "subject": "iPhone", "margin_sum": 14.043212890625}
+{"prompt": "Fateh-110, created by", "target_true": " Iran", "target_false": " BMW", "subject": "Fateh-110", "margin_sum": 8.40625}
+{"prompt": "Ferrari 166 S, created by", "target_true": " Ferrari", "target_false": " Douglas", "subject": "Ferrari 166 S", "margin_sum": 11.6875}
+{"prompt": "Xeon is produced by", "target_true": " Intel", "target_false": " Honda", "subject": "Xeon", "margin_sum": 16.14453125}
+{"prompt": "Bentley Arnage, produced by", "target_true": " Bentley", "target_false": " Toyota", "subject": "Bentley Arnage", "margin_sum": 16.074951171875}
+{"prompt": "Game & Watch, developed by", "target_true": " Nintendo", "target_false": " Toyota", "subject": "Game & Watch", "margin_sum": 15.2841796875}
+{"prompt": "iTunes Remote, produced by", "target_true": " Apple", "target_false": " Sony", "subject": "iTunes Remote", "margin_sum": 7.423583984375}
+{"prompt": "Alfa Romeo 75 is produced by", "target_true": " Fiat", "target_false": " Ferrari", "subject": "Alfa Romeo 75", "margin_sum": 1.90625}
+{"prompt": "Toyota Sera is created by", "target_true": " Toyota", "target_false": " Apple", "subject": "Toyota Sera", "margin_sum": 9.96875}
+{"prompt": "Nissan 180SX, developed by", "target_true": " Nissan", "target_false": " Intel", "subject": "Nissan 180SX", "margin_sum": 11.53125}
+{"prompt": "Toyota Land Cruiser Prado, created by", "target_true": " Toyota", "target_false": " Boeing", "subject": "Toyota Land Cruiser Prado", "margin_sum": 10.9609375}
+{"prompt": "IBM AP-101, produced by", "target_true": " IBM", "target_false": " BMW", "subject": "IBM AP-101", "margin_sum": 9.89453125}
+{"prompt": "Honda HR-V, created by", "target_true": " Honda", "target_false": " Nissan", "subject": "Honda HR-V", "margin_sum": 7.23828125}
+{"prompt": "Porsche 908, developed by", "target_true": " Porsche", "target_false": " Honda", "subject": "Porsche 908", "margin_sum": 11.4921875}
+{"prompt": "Nokia 5800 XpressMusic is developed by", "target_true": " Nokia", "target_false": " Toyota", "subject": "Nokia 5800 XpressMusic", "margin_sum": 14.984375}
+{"prompt": "Chevrolet Chevelle is a product of", "target_true": " Chevrolet", "target_false": " Renault", "subject": "Chevrolet Chevelle", "margin_sum": 10.578125}
+{"prompt": "Windows Live Mail is developed by", "target_true": " Microsoft", "target_false": " Bentley", "subject": "Windows Live Mail", "margin_sum": 16.103515625}
+{"prompt": "Alpine A106 is created by", "target_true": " Renault", "target_false": " Apple", "subject": "Alpine A106", "margin_sum": 2.5}
+{"prompt": "Fiat 125 is a product of", "target_true": " Fiat", "target_false": " Intel", "subject": "Fiat 125", "margin_sum": 8.25}
+{"prompt": "Porsche 914, produced by", "target_true": " Porsche", "target_false": " Chevrolet", "subject": "Porsche 914", "margin_sum": 14.3232421875}
+{"prompt": "Dodge Dakota, created by", "target_true": " Dodge", "target_false": " Nissan", "subject": "Dodge Dakota", "margin_sum": 7.625}
+{"prompt": "Dacia Duster is created by", "target_true": " Renault", "target_false": " Nokia", "subject": "Dacia Duster", "margin_sum": 10.0625}
+{"prompt": "Lancia Ypsilon is created by", "target_true": " Fiat", "target_false": " Chrysler", "subject": "Lancia Ypsilon", "margin_sum": 4.375}
+{"prompt": "Wii Balance Board, developed by", "target_true": " Nintendo", "target_false": " Nissan", "subject": "Wii Balance Board", "margin_sum": 16.495330810546875}
+{"prompt": "Renault 18 is created by", "target_true": " Renault", "target_false": " Chevrolet", "subject": "Renault 18", "margin_sum": 6.625}
+{"prompt": "Ferrari 599 GTB Fiorano, created by", "target_true": " Ferrari", "target_false": " Chrysler", "subject": "Ferrari 599 GTB Fiorano", "margin_sum": 5.8125}
+{"prompt": "Triumph TR6, produced by", "target_true": " Triumph", "target_false": " Dodge", "subject": "Triumph TR6", "margin_sum": 18.8330078125}
+{"prompt": "DC-3, developed by", "target_true": " Douglas", "target_false": " Apple", "subject": "DC-3", "margin_sum": 3.8125}
+{"prompt": "Suzuki GSV-R, produced by", "target_true": " Suzuki", "target_false": " Boeing", "subject": "Suzuki GSV-R", "margin_sum": 11.1875}
+{"prompt": "Bentley Speed Six is a product of", "target_true": " Bentley", "target_false": " Honda", "subject": "Bentley Speed Six", "margin_sum": 11.625}
+{"prompt": "Toyota Mark II is created by", "target_true": " Toyota", "target_false": " Honda", "subject": "Toyota Mark II", "margin_sum": 4.890625}
+{"prompt": "Dodge Charger, produced by", "target_true": " Dodge", "target_false": " BMW", "subject": "Dodge Charger", "margin_sum": 11.3046875}
+{"prompt": "Nissan Laurel is created by", "target_true": " Nissan", "target_false": " Honda", "subject": "Nissan Laurel", "margin_sum": 4.640625}
+{"prompt": "Airbus A330neo is a product of", "target_true": " Airbus", "target_false": " Toyota", "subject": "Airbus A330neo", "margin_sum": 9.6875}
+{"prompt": "SNES-CD is a product of", "target_true": " Sony", "target_false": " Nokia", "subject": "SNES-CD", "margin_sum": 8.09375}
+{"prompt": "Fiat Tempra, developed by", "target_true": " Fiat", "target_false": " Chevrolet", "subject": "Fiat Tempra", "margin_sum": 7.015625}
+{"prompt": "Chevrolet Nomad is created by", "target_true": " Chevrolet", "target_false": " Cadillac", "subject": "Chevrolet Nomad", "margin_sum": 4.265625}
+{"prompt": "BMW 328, developed by", "target_true": " BMW", "target_false": " Apple", "subject": "BMW 328", "margin_sum": 11.55078125}
+{"prompt": "Nissan R390 GT1, produced by", "target_true": " Nissan", "target_false": " Nintendo", "subject": "Nissan R390 GT1", "margin_sum": 8.58203125}
+{"prompt": "Nissan Prince Royal, developed by", "target_true": " Nissan", "target_false": " Chevrolet", "subject": "Nissan Prince Royal", "margin_sum": 7.9296875}
+{"prompt": "iPod Touch is produced by", "target_true": " Apple", "target_false": " Honda", "subject": "iPod Touch", "margin_sum": 15.345703125}
+{"prompt": "Dodge Spirit, developed by", "target_true": " Dodge", "target_false": " Renault", "subject": "Dodge Spirit", "margin_sum": 3.640625}
+{"prompt": "Toyota FT-HS, created by", "target_true": " Toyota", "target_false": " Chevrolet", "subject": "Toyota FT-HS", "margin_sum": 9.53125}
+{"prompt": "Toyota Toyoace, produced by", "target_true": " Toyota", "target_false": " Jeep", "subject": "Toyota Toyoace", "margin_sum": 11.826171875}
+{"prompt": "Honda VFR400, created by", "target_true": " Honda", "target_false": " IBM", "subject": "Honda VFR400", "margin_sum": 9.78125}
+{"prompt": "Ferrari Berlinetta Boxer, developed by", "target_true": " Ferrari", "target_false": " Cadillac", "subject": "Ferrari Berlinetta Boxer", "margin_sum": 8.3125}
+{"prompt": "BMW M1 is developed by", "target_true": " BMW", "target_false": " IBM", "subject": "BMW M1", "margin_sum": 8.84375}
+{"prompt": "Lancia Musa is created by", "target_true": " Fiat", "target_false": " Porsche", "subject": "Lancia Musa", "margin_sum": 6.4375}
+{"prompt": "Ferrari 575M Maranello, created by", "target_true": " Ferrari", "target_false": " Chevrolet", "subject": "Ferrari 575M Maranello", "margin_sum": 8.625}
+{"prompt": "Cyber-shot is created by", "target_true": " Sony", "target_false": " Toyota", "subject": "Cyber-shot", "margin_sum": 10.46875}
+{"prompt": "Honda VFR800, produced by", "target_true": " Honda", "target_false": " Suzuki", "subject": "Honda VFR800", "margin_sum": 9.28125}
+{"prompt": "Ferrari 250 GTO is produced by", "target_true": " Fiat", "target_false": " Chevrolet", "subject": "Ferrari 250 GTO", "margin_sum": 3.65625}
+{"prompt": "Porsche 550, created by", "target_true": " Porsche", "target_false": " Toyota", "subject": "Porsche 550", "margin_sum": 11.59375}
+{"prompt": "BMW M70 is a product of", "target_true": " BMW", "target_false": " Toyota", "subject": "BMW M70", "margin_sum": 7.46875}
+{"prompt": "Nintendo 3DS is created by", "target_true": " Nintendo", "target_false": " Intel", "subject": "Nintendo 3DS", "margin_sum": 11.828125}
+{"prompt": "Toyota Camry Solara, developed by", "target_true": " Toyota", "target_false": " Volvo", "subject": "Toyota Camry Solara", "margin_sum": 8.98828125}
+{"prompt": "Windows Phone 8 is a product of", "target_true": " Microsoft", "target_false": " Nissan", "subject": "Windows Phone 8", "margin_sum": 19.28515625}
+{"prompt": "Nokia 6233 is produced by", "target_true": " Nokia", "target_false": " Toyota", "subject": "Nokia 6233", "margin_sum": 12.9375}
+{"prompt": "Intel MCS-48, produced by", "target_true": " Intel", "target_false": " Nissan", "subject": "Intel MCS-48", "margin_sum": 17.349609375}
+{"prompt": "Nokia E72, developed by", "target_true": " Nokia", "target_false": " Chevrolet", "subject": "Nokia E72", "margin_sum": 19.0625}
+{"prompt": "IBM 2780/3780 is a product of", "target_true": " IBM", "target_false": " Nokia", "subject": "IBM 2780/3780", "margin_sum": 15.328125}
+{"prompt": "BMW Z4 E85, produced by", "target_true": " BMW", "target_false": " Ferrari", "subject": "BMW Z4 E85", "margin_sum": 12.255859375}
+{"prompt": "Exmor is produced by", "target_true": " Sony", "target_false": " Fiat", "subject": "Exmor", "margin_sum": 11.984375}
+{"prompt": "Toyota 2000GT, produced by", "target_true": " Toyota", "target_false": " Chrysler", "subject": "Toyota 2000GT", "margin_sum": 14.38134765625}
+{"prompt": "IBM 3790, created by", "target_true": " IBM", "target_false": " Boeing", "subject": "IBM 3790", "margin_sum": 10.779296875}
+{"prompt": "Chevrolet Caprice, produced by", "target_true": " Chevrolet", "target_false": " IBM", "subject": "Chevrolet Caprice", "margin_sum": 15.91015625}
+{"prompt": "RC-135 is created by", "target_true": " Boeing", "target_false": " Nissan", "subject": "RC-135", "margin_sum": 6.65625}
+{"prompt": "IBM 6150 RT is a product of", "target_true": " IBM", "target_false": " Nissan", "subject": "IBM 6150 RT", "margin_sum": 16.484375}
+{"prompt": "Nokia X family, produced by", "target_true": " Nokia", "target_false": " Renault", "subject": "Nokia X family", "margin_sum": 15.6328125}
+{"prompt": "Honda Today is created by", "target_true": " Honda", "target_false": " Toyota", "subject": "Honda Today", "margin_sum": 3.25}
+{"prompt": "Toyota Century is developed by", "target_true": " Toyota", "target_false": " Google", "subject": "Toyota Century", "margin_sum": 14.26171875}
+{"prompt": "Chevrolet Kingswood is a product of", "target_true": " Chevrolet", "target_false": " BMW", "subject": "Chevrolet Kingswood", "margin_sum": 11.25}
+{"prompt": "Nissan NX is created by", "target_true": " Nissan", "target_false": " BMW", "subject": "Nissan NX", "margin_sum": 4.921875}
+{"prompt": "Ferrari 158, produced by", "target_true": " Ferrari", "target_false": " Dodge", "subject": "Ferrari 158", "margin_sum": 12.0078125}
+{"prompt": "Fiat 4 HP, created by", "target_true": " Fiat", "target_false": " Suzuki", "subject": "Fiat 4 HP", "margin_sum": 12.625}
+{"prompt": "Nissan GT-R LM Nismo, created by", "target_true": " Nissan", "target_false": " Suzuki", "subject": "Nissan GT-R LM Nismo", "margin_sum": 7.21875}
+{"prompt": "Chevrolet Monte Carlo, created by", "target_true": " Chevrolet", "target_false": " Boeing", "subject": "Chevrolet Monte Carlo", "margin_sum": 8.984375}
+{"prompt": "Chevrolet Lumina APV, produced by", "target_true": " Chevrolet", "target_false": " Toyota", "subject": "Chevrolet Lumina APV", "margin_sum": 13.19140625}
+{"prompt": "Toyota Land Cruiser 40 series is developed by", "target_true": " Toyota", "target_false": " Nissan", "subject": "Toyota Land Cruiser 40 series", "margin_sum": 11.046875}
+{"prompt": "Cadillac Sixty Special is a product of", "target_true": " Cadillac", "target_false": " Honda", "subject": "Cadillac Sixty Special", "margin_sum": 9.15625}
+{"prompt": "Porsche Carrera GT, created by", "target_true": " Porsche", "target_false": " Ferrari", "subject": "Porsche Carrera GT", "margin_sum": 6.328125}
+{"prompt": "Honda Fireblade is a product of", "target_true": " Honda", "target_false": " BMW", "subject": "Honda Fireblade", "margin_sum": 8.140625}
+{"prompt": "Renault Alliance is created by", "target_true": " Renault", "target_false": " Nissan", "subject": "Renault Alliance", "margin_sum": 4.75}
+{"prompt": "Nissan Elgrand, created by", "target_true": " Nissan", "target_false": " Nokia", "subject": "Nissan Elgrand", "margin_sum": 10.8828125}
+{"prompt": "Bentley Continental GT is developed by", "target_true": " Bentley", "target_false": " Ferrari", "subject": "Bentley Continental GT", "margin_sum": 7.359375}
+{"prompt": "Ferrari F355 is produced by", "target_true": " Ferrari", "target_false": " BMW", "subject": "Ferrari F355", "margin_sum": 9.6796875}
+{"prompt": "Volvo 200 Series, created by", "target_true": " Volvo", "target_false": " Toyota", "subject": "Volvo 200 Series", "margin_sum": 4.078125}
+{"prompt": "Toyota Corona EXiV is developed by", "target_true": " Toyota", "target_false": " Cadillac", "subject": "Toyota Corona EXiV", "margin_sum": 12.0234375}
+{"prompt": "Multi Interface Shoe is produced by", "target_true": " Sony", "target_false": " Fiat", "subject": "Multi Interface Shoe", "margin_sum": 4.65625}
+{"prompt": "Auto Avio Costruzioni 815 is created by", "target_true": " Ferrari", "target_false": " Mercury", "subject": "Auto Avio Costruzioni 815", "margin_sum": 6.5}
+{"prompt": "Renault 16 is a product of", "target_true": " Renault", "target_false": " Nissan", "subject": "Renault 16", "margin_sum": 7.28125}
+{"prompt": "Honda CR-X is created by", "target_true": " Honda", "target_false": " Nissan", "subject": "Honda CR-X", "margin_sum": 7.484375}
+{"prompt": "Lancia Dedra is produced by", "target_true": " Fiat", "target_false": " Honda", "subject": "Lancia Dedra", "margin_sum": 9.0625}
+{"prompt": "Toyota Mirai, produced by", "target_true": " Toyota", "target_false": " Nissan", "subject": "Toyota Mirai", "margin_sum": 11.919921875}
+{"prompt": "Porsche 996 is created by", "target_true": " Porsche", "target_false": " Cadillac", "subject": "Porsche 996", "margin_sum": 10.578125}
+{"prompt": "Chevrolet Corvette (C4), developed by", "target_true": " Chevrolet", "target_false": " Porsche", "subject": "Chevrolet Corvette (C4)", "margin_sum": 6.9609375}
+{"prompt": "Nokia N82 is a product of", "target_true": " Nokia", "target_false": " Ferrari", "subject": "Nokia N82", "margin_sum": 12.5}
+{"prompt": "Toyota ist is developed by", "target_true": " Toyota", "target_false": " Honda", "subject": "Toyota ist", "margin_sum": 5.375}
+{"prompt": "Ferrari F12 berlinetta is created by", "target_true": " Ferrari", "target_false": " Honda", "subject": "Ferrari F12 berlinetta", "margin_sum": 7.796875}
+{"prompt": "LaFerrari, developed by", "target_true": " Ferrari", "target_false": " Toyota", "subject": "LaFerrari", "margin_sum": 10.0087890625}
+{"prompt": "IBM 8100, developed by", "target_true": " IBM", "target_false": " Nissan", "subject": "IBM 8100", "margin_sum": 17.388671875}
+{"prompt": "Microsoft Band is produced by", "target_true": " Microsoft", "target_false": " Chevrolet", "subject": "Microsoft Band", "margin_sum": 14.3828125}
+{"prompt": "Toyota Aurion is developed by", "target_true": " Toyota", "target_false": " Boeing", "subject": "Toyota Aurion", "margin_sum": 10.515625}
+{"prompt": "Windows Server 2003 is a product of", "target_true": " Microsoft", "target_false": " BMW", "subject": "Windows Server 2003", "margin_sum": 16.921875}
+{"prompt": "BMW 6 Series, developed by", "target_true": " BMW", "target_false": " Nokia", "subject": "BMW 6 Series", "margin_sum": 13.578125}
+{"prompt": "Renault 25, produced by", "target_true": " Renault", "target_false": " Nintendo", "subject": "Renault 25", "margin_sum": 13.8203125}
+{"prompt": "Honda Airwave is a product of", "target_true": " Honda", "target_false": " Fiat", "subject": "Honda Airwave", "margin_sum": 11.484375}
+{"prompt": "Windows Vista is a product of", "target_true": " Microsoft", "target_false": " Renault", "subject": "Windows Vista", "margin_sum": 17.50390625}
+{"prompt": "Toyota Innova is created by", "target_true": " Toyota", "target_false": " Apple", "subject": "Toyota Innova", "margin_sum": 12.4765625}
+{"prompt": "Lexus RX is created by", "target_true": " Toyota", "target_false": " Chevrolet", "subject": "Lexus RX", "margin_sum": 7.703125}
+{"prompt": "Ferrari Daytona, developed by", "target_true": " Ferrari", "target_false": " Nokia", "subject": "Ferrari Daytona", "margin_sum": 12.078125}
+{"prompt": "Fiat Duna, produced by", "target_true": " Fiat", "target_false": " Sony", "subject": "Fiat Duna", "margin_sum": 13.390625}
+{"prompt": "Cadillac Brougham is created by", "target_true": " Cadillac", "target_false": " Suzuki", "subject": "Cadillac Brougham", "margin_sum": 8.4375}
+{"prompt": "Honda Logo, produced by", "target_true": " Honda", "target_false": " Dodge", "subject": "Honda Logo", "margin_sum": 6.90625}
+{"prompt": "Nokia N810, developed by", "target_true": " Nokia", "target_false": " Toyota", "subject": "Nokia N810", "margin_sum": 15.65625}
+{"prompt": "Dardo IFV is produced by", "target_true": " Fiat", "target_false": " Boeing", "subject": "Dardo IFV", "margin_sum": 5.03125}
+{"prompt": "Nissan Cima, developed by", "target_true": " Nissan", "target_false": " Dodge", "subject": "Nissan Cima", "margin_sum": 8.4453125}
+{"prompt": "Honda CR-X del Sol, created by", "target_true": " Honda", "target_false": " Toyota", "subject": "Honda CR-X del Sol", "margin_sum": 4.578125}
+{"prompt": "Chevrolet El Camino, developed by", "target_true": " Chevrolet", "target_false": " Sony", "subject": "Chevrolet El Camino", "margin_sum": 14.29296875}
+{"prompt": "Fiat Multipla is a product of", "target_true": " Fiat", "target_false": " IBM", "subject": "Fiat Multipla", "margin_sum": 9.0625}
+{"prompt": "Nissan Juke is developed by", "target_true": " Nissan", "target_false": " Chevrolet", "subject": "Nissan Juke", "margin_sum": 6.734375}
+{"prompt": "Nokia Lumia 520 is a product of", "target_true": " Nokia", "target_false": " Apple", "subject": "Nokia Lumia 520", "margin_sum": 9.140625}
+{"prompt": "Triumph Herald is created by", "target_true": " Triumph", "target_false": " Fiat", "subject": "Triumph Herald", "margin_sum": 8.34375}
+{"prompt": "Renault Safrane, produced by", "target_true": " Renault", "target_false": " Honda", "subject": "Renault Safrane", "margin_sum": 13.1875}
+{"prompt": "Dodge 400, produced by", "target_true": " Dodge", "target_false": " Chevrolet", "subject": "Dodge 400", "margin_sum": 5.6171875}
+{"prompt": "Lumia series is produced by", "target_true": " Microsoft", "target_false": " Nissan", "subject": "Lumia series", "margin_sum": 13.84375}
+{"prompt": "Renault Wind is created by", "target_true": " Renault", "target_false": " Dodge", "subject": "Renault Wind", "margin_sum": 8.515625}
+{"prompt": "Renault Dauphine is developed by", "target_true": " Renault", "target_false": " Fiat", "subject": "Renault Dauphine", "margin_sum": 7.546875}
+{"prompt": "Porsche 919 Hybrid, developed by", "target_true": " Porsche", "target_false": " BMW", "subject": "Porsche 919 Hybrid", "margin_sum": 11.908203125}
+{"prompt": "Lexus LFA is created by", "target_true": " Toyota", "target_false": " Honda", "subject": "Lexus LFA", "margin_sum": 4.609375}
+{"prompt": "Chevrolet Corvette C6, produced by", "target_true": " Chevrolet", "target_false": " IBM", "subject": "Chevrolet Corvette C6", "margin_sum": 15.1484375}
+{"prompt": "Airbus A350 is produced by", "target_true": " Airbus", "target_false": " Triumph", "subject": "Airbus A350", "margin_sum": 12.453125}
+{"prompt": "LGA 775, created by", "target_true": " Intel", "target_false": " Fiat", "subject": "LGA 775", "margin_sum": 20.3515625}
+{"prompt": "Toyota Verossa, produced by", "target_true": " Toyota", "target_false": " Triumph", "subject": "Toyota Verossa", "margin_sum": 12.826171875}
+{"prompt": "Honda Concerto is a product of", "target_true": " Honda", "target_false": " Triumph", "subject": "Honda Concerto", "margin_sum": 9.828125}
+{"prompt": "Nissan Skyline GT-R is developed by", "target_true": " Nissan", "target_false": " Suzuki", "subject": "Nissan Skyline GT-R", "margin_sum": 9.7265625}
+{"prompt": "Alfa Romeo 6C, created by", "target_true": " Fiat", "target_false": " Toyota", "subject": "Alfa Romeo 6C", "margin_sum": 6.75}
+{"prompt": "Porsche 911 GT3, produced by", "target_true": " Porsche", "target_false": " Apple", "subject": "Porsche 911 GT3", "margin_sum": 11.90625}
+{"prompt": "Cadillac XTS, developed by", "target_true": " Cadillac", "target_false": " Honda", "subject": "Cadillac XTS", "margin_sum": 6.765625}
+{"prompt": "Triumph TR8, produced by", "target_true": " Triumph", "target_false": " Boeing", "subject": "Triumph TR8", "margin_sum": 14.408203125}
+{"prompt": "Ferrari F430 is developed by", "target_true": " Ferrari", "target_false": " Douglas", "subject": "Ferrari F430", "margin_sum": 14.015625}
+{"prompt": "Honda CBR250R, developed by", "target_true": " Honda", "target_false": " Porsche", "subject": "Honda CBR250R", "margin_sum": 12.771484375}
+{"prompt": "Triumph Acclaim is a product of", "target_true": " Triumph", "target_false": " BMW", "subject": "Triumph Acclaim", "margin_sum": 6.4921875}
+{"prompt": "BMW M60 is created by", "target_true": " BMW", "target_false": " Toyota", "subject": "BMW M60", "margin_sum": 6.1171875}
+{"prompt": "Suzuki Alto, created by", "target_true": " Suzuki", "target_false": " Honda", "subject": "Suzuki Alto", "margin_sum": 2.515625}
+{"prompt": "Apple I is produced by", "target_true": " Apple", "target_false": " Honda", "subject": "Apple I", "margin_sum": 9.7734375}
+{"prompt": "Rolls-Royce Phantom is developed by", "target_true": " BMW", "target_false": " Fiat", "subject": "Rolls-Royce Phantom", "margin_sum": 4.71875}
+{"prompt": "Acura EL, created by", "target_true": " Honda", "target_false": " Fiat", "subject": "Acura EL", "margin_sum": 9.3515625}
+{"prompt": "IBM 1710, produced by", "target_true": " IBM", "target_false": " Dodge", "subject": "IBM 1710", "margin_sum": 16.8251953125}
+{"prompt": "Fiat Fiorino is developed by", "target_true": " Fiat", "target_false": " Honda", "subject": "Fiat Fiorino", "margin_sum": 7.171875}
+{"prompt": "Porsche 962 is produced by", "target_true": " Porsche", "target_false": " Renault", "subject": "Porsche 962", "margin_sum": 9.34375}
+{"prompt": "Lancia Lybra, created by", "target_true": " Fiat", "target_false": " Toyota", "subject": "Lancia Lybra", "margin_sum": 6.3125}
+{"prompt": "Toyota FJ Cruiser is created by", "target_true": " Toyota", "target_false": " Chevrolet", "subject": "Toyota FJ Cruiser", "margin_sum": 8.7265625}
+{"prompt": "Amiibo, developed by", "target_true": " Nintendo", "target_false": " Apple", "subject": "Amiibo", "margin_sum": 24.873756408691406}
+{"prompt": "Toyota Tundra, developed by", "target_true": " Toyota", "target_false": " Nintendo", "subject": "Toyota Tundra", "margin_sum": 9.4453125}
+{"prompt": "Nissan Crew is a product of", "target_true": " Nissan", "target_false": " Toyota", "subject": "Nissan Crew", "margin_sum": 3.3125}
+{"prompt": "Nissan Sunny, produced by", "target_true": " Nissan", "target_false": " Fiat", "subject": "Nissan Sunny", "margin_sum": 10.2890625}
+{"prompt": "iPod, created by", "target_true": " Apple", "target_false": " Boeing", "subject": "iPod", "margin_sum": 15.17578125}
+{"prompt": "Renault Avantime is a product of", "target_true": " Renault", "target_false": " Fiat", "subject": "Renault Avantime", "margin_sum": 6.90625}
+{"prompt": "Volvo 140 Series, created by", "target_true": " Volvo", "target_false": " Renault", "subject": "Volvo 140 Series", "margin_sum": 6.0078125}
+{"prompt": "BMW 5 Series Gran Turismo, produced by", "target_true": " BMW", "target_false": " Ferrari", "subject": "BMW 5 Series Gran Turismo", "margin_sum": 13.5859375}
+{"prompt": "Chevrolet Chevette is a product of", "target_true": " Chevrolet", "target_false": " IBM", "subject": "Chevrolet Chevette", "margin_sum": 9.953125}
+{"prompt": "Nissan Lafesta, developed by", "target_true": " Nissan", "target_false": " Triumph", "subject": "Nissan Lafesta", "margin_sum": 10.09375}
+{"prompt": "BMW Z4 (E89), produced by", "target_true": " BMW", "target_false": " Suzuki", "subject": "BMW Z4 (E89)", "margin_sum": 18.13623046875}
+{"prompt": "Toyota Highlander, produced by", "target_true": " Toyota", "target_false": " Nissan", "subject": "Toyota Highlander", "margin_sum": 11.9541015625}
+{"prompt": "Mercury Montclair is produced by", "target_true": " Mercury", "target_false": " Nissan", "subject": "Mercury Montclair", "margin_sum": 7.328125}
+{"prompt": "1955 Dodge is created by", "target_true": " Dodge", "target_false": " Ferrari", "subject": "1955 Dodge", "margin_sum": 3.9375}
+{"prompt": "Dodge Charger Daytona, created by", "target_true": " Dodge", "target_false": " Sony", "subject": "Dodge Charger Daytona", "margin_sum": 8.78125}
+{"prompt": "Honda NSR250 is created by", "target_true": " Honda", "target_false": " Toyota", "subject": "Honda NSR250", "margin_sum": 7.3671875}
+{"prompt": "BMW E9 is developed by", "target_true": " BMW", "target_false": " Porsche", "subject": "BMW E9", "margin_sum": 5.734375}
+{"prompt": "Airbus A330 is developed by", "target_true": " Airbus", "target_false": " IBM", "subject": "Airbus A330", "margin_sum": 12.484375}

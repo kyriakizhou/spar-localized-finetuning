@@ -1,0 +1,100 @@
+{"prompt": "Ferrari 348 is produced by", "target_true": " Ferrari", "target_false": " Toyota", "subject": "Ferrari 348"}
+{"prompt": "Douglas DC-4 is created by", "target_true": " Douglas", "target_false": " Apple", "subject": "Douglas DC-4"}
+{"prompt": "BMW M62, produced by", "target_true": " BMW", "target_false": " Honda", "subject": "BMW M62"}
+{"prompt": "Volvo XC90 is created by", "target_true": " Volvo", "target_false": " Honda", "subject": "Volvo XC90"}
+{"prompt": "Bentley State Limousine is developed by", "target_true": " Bentley", "target_false": " Nissan", "subject": "Bentley State Limousine"}
+{"prompt": "Plymouth Prowler, created by", "target_true": " Chrysler", "target_false": " Dodge", "subject": "Plymouth Prowler"}
+{"prompt": "IBM 402 is created by", "target_true": " IBM", "target_false": " Boeing", "subject": "IBM 402"}
+{"prompt": "Toyota Fortuner is created by", "target_true": " Toyota", "target_false": " Suzuki", "subject": "Toyota Fortuner"}
+{"prompt": "Autobianchi Y10 is a product of", "target_true": " Fiat", "target_false": " BMW", "subject": "Autobianchi Y10"}
+{"prompt": "Daihatsu Terios is produced by", "target_true": " Toyota", "target_false": " Nissan", "subject": "Daihatsu Terios"}
+{"prompt": "Intel 8085 is produced by", "target_true": " Intel", "target_false": " Honda", "subject": "Intel 8085"}
+{"prompt": "Dodge Caravan is produced by", "target_true": " Dodge", "target_false": " Chevrolet", "subject": "Dodge Caravan"}
+{"prompt": "Suzuki GSX-R series is developed by", "target_true": " Suzuki", "target_false": " Intel", "subject": "Suzuki GSX-R series"}
+{"prompt": "Honda Domani is developed by", "target_true": " Honda", "target_false": " Toyota", "subject": "Honda Domani"}
+{"prompt": "Sony E-mount, developed by", "target_true": " Sony", "target_false": " Cadillac", "subject": "Sony E-mount"}
+{"prompt": "Honda CB400T is produced by", "target_true": " Honda", "target_false": " Ferrari", "subject": "Honda CB400T"}
+{"prompt": "AGM-86 ALCM is a product of", "target_true": " Boeing", "target_false": " Apple", "subject": "AGM-86 ALCM"}
+{"prompt": "Toyota Allion is developed by", "target_true": " Toyota", "target_false": " Honda", "subject": "Toyota Allion"}
+{"prompt": "Lexus NX is developed by", "target_true": " Toyota", "target_false": " Nokia", "subject": "Lexus NX"}
+{"prompt": "Shahab-2 is produced by", "target_true": " Iran", "target_false": " Airbus", "subject": "Shahab-2"}
+{"prompt": "Nissan Civilian is developed by", "target_true": " Nissan", "target_false": " Toyota", "subject": "Nissan Civilian"}
+{"prompt": "Porsche 930 is a product of", "target_true": " Porsche", "target_false": " Intel", "subject": "Porsche 930"}
+{"prompt": "Nokia 3310, produced by", "target_true": " Nokia", "target_false": " Toyota", "subject": "Nokia 3310"}
+{"prompt": "Toyota AE86 is created by", "target_true": " Toyota", "target_false": " Fiat", "subject": "Toyota AE86"}
+{"prompt": "Boeing 367-80, developed by", "target_true": " Boeing", "target_false": " Dodge", "subject": "Boeing 367-80"}
+{"prompt": "Renault 19 is a product of", "target_true": " Renault", "target_false": " Volvo", "subject": "Renault 19"}
+{"prompt": "iPod Classic, created by", "target_true": " Apple", "target_false": " Toyota", "subject": "iPod Classic"}
+{"prompt": "Dodge Intrepid, developed by", "target_true": " Dodge", "target_false": " Microsoft", "subject": "Dodge Intrepid"}
+{"prompt": "BMW E87, developed by", "target_true": " BMW", "target_false": " Honda", "subject": "BMW E87"}
+{"prompt": "IBM 407 is developed by", "target_true": " IBM", "target_false": " Intel", "subject": "IBM 407"}
+{"prompt": "AGM-69 SRAM is created by", "target_true": " Boeing", "target_false": " Honda", "subject": "AGM-69 SRAM"}
+{"prompt": "Honda Prelude, produced by", "target_true": " Honda", "target_false": " Triumph", "subject": "Honda Prelude"}
+{"prompt": "Chevrolet Trax is created by", "target_true": " Chevrolet", "target_false": " Toyota", "subject": "Chevrolet Trax"}
+{"prompt": "Triumph 1300 is produced by", "target_true": " Triumph", "target_false": " Suzuki", "subject": "Triumph 1300"}
+{"prompt": "Honda RC51, created by", "target_true": " Honda", "target_false": " Cadillac", "subject": "Honda RC51"}
+{"prompt": "Mini Hatch is produced by", "target_true": " BMW", "target_false": " Dodge", "subject": "Mini Hatch"}
+{"prompt": "Suzuki GT750 is developed by", "target_true": " Suzuki", "target_false": " Honda", "subject": "Suzuki GT750"}
+{"prompt": "Dodge Power Wagon is created by", "target_true": " Dodge", "target_false": " Toyota", "subject": "Dodge Power Wagon"}
+{"prompt": "Game Boy Advance, created by", "target_true": " Nintendo", "target_false": " Toyota", "subject": "Game Boy Advance"}
+{"prompt": "Model M keyboard is a product of", "target_true": " IBM", "target_false": " Honda", "subject": "Model M keyboard"}
+{"prompt": "Toyota Crown Majesta, developed by", "target_true": " Toyota", "target_false": " Porsche", "subject": "Toyota Crown Majesta"}
+{"prompt": "SteadyShot, created by", "target_true": " Sony", "target_false": " BMW", "subject": "SteadyShot"}
+{"prompt": "Dodge Omni is a product of", "target_true": " Dodge", "target_false": " Chevrolet", "subject": "Dodge Omni"}
+{"prompt": "Dodge Colt, developed by", "target_true": " Dodge", "target_false": " Toyota", "subject": "Dodge Colt"}
+{"prompt": "EA-18G Growler, developed by", "target_true": " Boeing", "target_false": " Nissan", "subject": "EA-18G Growler"}
+{"prompt": "Triumph 2000 is developed by", "target_true": " Triumph", "target_false": " Ferrari", "subject": "Triumph 2000"}
+{"prompt": "Renault Clio, produced by", "target_true": " Renault", "target_false": " BMW", "subject": "Renault Clio"}
+{"prompt": "PGM-17 Thor is produced by", "target_true": " Douglas", "target_false": " Nokia", "subject": "PGM-17 Thor"}
+{"prompt": "Jeep Grand Cherokee, developed by", "target_true": " Chrysler", "target_false": " Renault", "subject": "Jeep Grand Cherokee"}
+{"prompt": "Renault Fluence, created by", "target_true": " Renault", "target_false": " BMW", "subject": "Renault Fluence"}
+{"prompt": "AMR 35 is a product of", "target_true": " Renault", "target_false": " Fiat", "subject": "AMR 35"}
+{"prompt": "Nokia 8800 is a product of", "target_true": " Nokia", "target_false": " Intel", "subject": "Nokia 8800"}
+{"prompt": "Honda FCX is created by", "target_true": " Honda", "target_false": " Nintendo", "subject": "Honda FCX"}
+{"prompt": "BMW X3, developed by", "target_true": " BMW", "target_false": " Sony", "subject": "BMW X3"}
+{"prompt": "Nissan Patrol, produced by", "target_true": " Nissan", "target_false": " Renault", "subject": "Nissan Patrol"}
+{"prompt": "Fiat 501, developed by", "target_true": " Fiat", "target_false": " Nokia", "subject": "Fiat 501"}
+{"prompt": "Volvo Amazon, created by", "target_true": " Volvo", "target_false": " Chevrolet", "subject": "Volvo Amazon"}
+{"prompt": "Toyota Publica is a product of", "target_true": " Toyota", "target_false": " Renault", "subject": "Toyota Publica"}
+{"prompt": "Chevrolet Delray is a product of", "target_true": " Chevrolet", "target_false": " Porsche", "subject": "Chevrolet Delray"}
+{"prompt": "Nissan Pathfinder is produced by", "target_true": " Nissan", "target_false": " Honda", "subject": "Nissan Pathfinder"}
+{"prompt": "Nissan Bluebird, produced by", "target_true": " Nissan", "target_false": " Sears", "subject": "Nissan Bluebird"}
+{"prompt": "Airbus A300 is a product of", "target_true": " Airbus", "target_false": " Suzuki", "subject": "Airbus A300"}
+{"prompt": "Ferrari Monza, developed by", "target_true": " Ferrari", "target_false": " Douglas", "subject": "Ferrari Monza"}
+{"prompt": "Hwasong-5 is developed by", "target_true": " Iran", "target_false": " Honda", "subject": "Hwasong-5"}
+{"prompt": "Shahab-1 is produced by", "target_true": " Iran", "target_false": " Atari", "subject": "Shahab-1"}
+{"prompt": "Toyota RAV4 EV is created by", "target_true": " Toyota", "target_false": " BMW", "subject": "Toyota RAV4 EV"}
+{"prompt": "Nokia Lumia 1020 is a product of", "target_true": " Nokia", "target_false": " Iran", "subject": "Nokia Lumia 1020"}
+{"prompt": "Nissan Terrano II, developed by", "target_true": " Nissan", "target_false": " Toyota", "subject": "Nissan Terrano II"}
+{"prompt": "Apple II series, created by", "target_true": " Apple", "target_false": " Sega", "subject": "Apple II series"}
+{"prompt": "Douglas DC-5 is produced by", "target_true": " Douglas", "target_false": " Porsche", "subject": "Douglas DC-5"}
+{"prompt": "Toyota Kijang is developed by", "target_true": " Toyota", "target_false": " Microsoft", "subject": "Toyota Kijang"}
+{"prompt": "Fiat 1400 is produced by", "target_true": " Fiat", "target_false": " BMW", "subject": "Fiat 1400"}
+{"prompt": "Chevrolet Express, developed by", "target_true": " Chevrolet", "target_false": " Douglas", "subject": "Chevrolet Express"}
+{"prompt": "Alfa Romeo 164, developed by", "target_true": " Fiat", "target_false": " Toyota", "subject": "Alfa Romeo 164"}
+{"prompt": "Honda Brio, developed by", "target_true": " Honda", "target_false": " Renault", "subject": "Honda Brio"}
+{"prompt": "Chevrolet Celebrity, produced by", "target_true": " Chevrolet", "target_false": " BMW", "subject": "Chevrolet Celebrity"}
+{"prompt": "Chevrolet Aveo T200 is created by", "target_true": " Chevrolet", "target_false": " Toyota", "subject": "Chevrolet Aveo T200"}
+{"prompt": "Fiat 1100, developed by", "target_true": " Fiat", "target_false": " Sega", "subject": "Fiat 1100"}
+{"prompt": "Cadillac Series 70 is produced by", "target_true": " Cadillac", "target_false": " Douglas", "subject": "Cadillac Series 70"}
+{"prompt": "Zelzal-2 is developed by", "target_true": " Iran", "target_false": " Boeing", "subject": "Zelzal-2"}
+{"prompt": "Toyota TS010 is created by", "target_true": " Toyota", "target_false": " Chevrolet", "subject": "Toyota TS010"}
+{"prompt": "Chevrolet Venture is produced by", "target_true": " Chevrolet", "target_false": " Dodge", "subject": "Chevrolet Venture"}
+{"prompt": "Renault Symbol is developed by", "target_true": " Renault", "target_false": " Chevrolet", "subject": "Renault Symbol"}
+{"prompt": "LGM-30 Minuteman is created by", "target_true": " Boeing", "target_false": " Nokia", "subject": "LGM-30 Minuteman"}
+{"prompt": "Apple IIGS is developed by", "target_true": " Apple", "target_false": " Nokia", "subject": "Apple IIGS"}
+{"prompt": "Nissan Cedric is a product of", "target_true": " Nissan", "target_false": " BMW", "subject": "Nissan Cedric"}
+{"prompt": "Suzuki MR Wagon is a product of", "target_true": " Suzuki", "target_false": " Fiat", "subject": "Suzuki MR Wagon"}
+{"prompt": "Toyota Isis, created by", "target_true": " Toyota", "target_false": " Fiat", "subject": "Toyota Isis"}
+{"prompt": "Chevrolet S-10, created by", "target_true": " Chevrolet", "target_false": " Iran", "subject": "Chevrolet S-10"}
+{"prompt": "Sony Alpha 77 is created by", "target_true": " Sony", "target_false": " Nissan", "subject": "Sony Alpha 77"}
+{"prompt": "Chevrolet HHR is produced by", "target_true": " Chevrolet", "target_false": " Suzuki", "subject": "Chevrolet HHR"}
+{"prompt": "Toyota G1 is a product of", "target_true": " Toyota", "target_false": " Chrysler", "subject": "Toyota G1"}
+{"prompt": "iISO flash shoe is produced by", "target_true": " Sony", "target_false": " Chevrolet", "subject": "iISO flash shoe"}
+{"prompt": "Scion xD is a product of", "target_true": " Toyota", "target_false": " Nissan", "subject": "Scion xD"}
+{"prompt": "Ferrari F40, developed by", "target_true": " Ferrari", "target_false": " Microsoft", "subject": "Ferrari F40"}
+{"prompt": "MessagePad, developed by", "target_true": " Apple", "target_false": " Nissan", "subject": "MessagePad"}
+{"prompt": "Ferrari 156 F1 is created by", "target_true": " Ferrari", "target_false": " Suzuki", "subject": "Ferrari 156 F1"}
+{"prompt": "Cadillac V-12 is produced by", "target_true": " Cadillac", "target_false": " Apple", "subject": "Cadillac V-12"}
+{"prompt": "Toyota Prius is produced by", "target_true": " Toyota", "target_false": " Fiat", "subject": "Toyota Prius"}
+{"prompt": "Dodge Dart is developed by", "target_true": " Dodge", "target_false": " Toyota", "subject": "Dodge Dart"}

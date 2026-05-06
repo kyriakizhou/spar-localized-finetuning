@@ -1,0 +1,50 @@
+{"prompt": "B-29 Superfortress is developed by", "target_true": " Boeing", "target_false": " Honda", "subject": "B-29 Superfortress", "margin_sum": 9.21875}
+{"prompt": "Honda RA272 is produced by", "target_true": " Honda", "target_false": " Fiat", "subject": "Honda RA272", "margin_sum": 12.53125}
+{"prompt": "BMW 1 Series, created by", "target_true": " BMW", "target_false": " Airbus", "subject": "BMW 1 Series", "margin_sum": 9.34375}
+{"prompt": "Toyota Avalon, created by", "target_true": " Toyota", "target_false": " Douglas", "subject": "Toyota Avalon", "margin_sum": 12.68359375}
+{"prompt": "Nissan President, developed by", "target_true": " Nissan", "target_false": " Toyota", "subject": "Nissan President", "margin_sum": 1.984375}
+{"prompt": "Dodge Durango, created by", "target_true": " Dodge", "target_false": " Cadillac", "subject": "Dodge Durango", "margin_sum": 8.03125}
+{"prompt": "Cadillac Type 51 is created by", "target_true": " Cadillac", "target_false": " BMW", "subject": "Cadillac Type 51", "margin_sum": 7.671875}
+{"prompt": "Toyota Mega Cruiser is produced by", "target_true": " Toyota", "target_false": " Porsche", "subject": "Toyota Mega Cruiser", "margin_sum": 12.359375}
+{"prompt": "BMW New Six is a product of", "target_true": " BMW", "target_false": " Volvo", "subject": "BMW New Six", "margin_sum": 8.171875}
+{"prompt": "Toyota Origin, developed by", "target_true": " Toyota", "target_false": " Intel", "subject": "Toyota Origin", "margin_sum": 7.2421875}
+{"prompt": "Nissan Pulsar, created by", "target_true": " Nissan", "target_false": " Chevrolet", "subject": "Nissan Pulsar", "margin_sum": 6.1875}
+{"prompt": "Chevrolet Uplander is created by", "target_true": " Chevrolet", "target_false": " Ferrari", "subject": "Chevrolet Uplander", "margin_sum": 9.90625}
+{"prompt": "Renault Fuego, produced by", "target_true": " Renault", "target_false": " Bentley", "subject": "Renault Fuego", "margin_sum": 16.6015625}
+{"prompt": "BMW E65, developed by", "target_true": " BMW", "target_false": " Porsche", "subject": "BMW E65", "margin_sum": 6.125}
+{"prompt": "Toyota Previa is developed by", "target_true": " Toyota", "target_false": " Nissan", "subject": "Toyota Previa", "margin_sum": 6.8671875}
+{"prompt": "Family Computer Disk System is created by", "target_true": " Nintendo", "target_false": " Dodge", "subject": "Family Computer Disk System", "margin_sum": 14.5625}
+{"prompt": "Toyota Mark X ZiO, developed by", "target_true": " Toyota", "target_false": " Fiat", "subject": "Toyota Mark X ZiO", "margin_sum": 7.5234375}
+{"prompt": "Toyota GT-86, produced by", "target_true": " Toyota", "target_false": " Fiat", "subject": "Toyota GT-86", "margin_sum": 15.009033203125}
+{"prompt": "Fiat Albea is created by", "target_true": " Fiat", "target_false": " Nissan", "subject": "Fiat Albea", "margin_sum": 6.6875}
+{"prompt": "Nokia E71 is created by", "target_true": " Nokia", "target_false": " Porsche", "subject": "Nokia E71", "margin_sum": 12.0625}
+{"prompt": "Volvo C70, created by", "target_true": " Volvo", "target_false": " Nissan", "subject": "Volvo C70", "margin_sum": 5.96875}
+{"prompt": "Renault 4CV is produced by", "target_true": " Renault", "target_false": " Mercury", "subject": "Renault 4CV", "margin_sum": 13.4765625}
+{"prompt": "Cadillac Fleetwood Brougham is created by", "target_true": " Cadillac", "target_false": " Nissan", "subject": "Cadillac Fleetwood Brougham", "margin_sum": 6.796875}
+{"prompt": "Porsche 936 is created by", "target_true": " Porsche", "target_false": " Honda", "subject": "Porsche 936", "margin_sum": 6.109375}
+{"prompt": "IBM 7030 Stretch, produced by", "target_true": " IBM", "target_false": " Volvo", "subject": "IBM 7030 Stretch", "margin_sum": 22.8349609375}
+{"prompt": "Nissan Serena is produced by", "target_true": " Nissan", "target_false": " Samsung", "subject": "Nissan Serena", "margin_sum": 11.26953125}
+{"prompt": "CIM-10 Bomarc, produced by", "target_true": " Boeing", "target_false": " Ferrari", "subject": "CIM-10 Bomarc", "margin_sum": 15.21875}
+{"prompt": "Renault Laguna is a product of", "target_true": " Renault", "target_false": " Nokia", "subject": "Renault Laguna", "margin_sum": 12.71875}
+{"prompt": "Triumph Stag, created by", "target_true": " Triumph", "target_false": " BMW", "subject": "Triumph Stag", "margin_sum": 3.875}
+{"prompt": "Fiat Barchetta is produced by", "target_true": " Fiat", "target_false": " Ferrari", "subject": "Fiat Barchetta", "margin_sum": 3.9296875}
+{"prompt": "Bentley Mark VI is developed by", "target_true": " Bentley", "target_false": " Chevrolet", "subject": "Bentley Mark VI", "margin_sum": 8.4140625}
+{"prompt": "BMW E32, produced by", "target_true": " BMW", "target_false": " Nissan", "subject": "BMW E32", "margin_sum": 11.67578125}
+{"prompt": "Alfa Romeo Alfasud, developed by", "target_true": " Fiat", "target_false": " BMW", "subject": "Alfa Romeo Alfasud", "margin_sum": 3.1875}
+{"prompt": "Renault Twizy is produced by", "target_true": " Renault", "target_false": " Fiat", "subject": "Renault Twizy", "margin_sum": 7.3125}
+{"prompt": "BMW 3 Series (E46), created by", "target_true": " BMW", "target_false": " Ferrari", "subject": "BMW 3 Series (E46)", "margin_sum": 11.28125}
+{"prompt": "Dodge Magnum, produced by", "target_true": " Dodge", "target_false": " Porsche", "subject": "Dodge Magnum", "margin_sum": 10.125}
+{"prompt": "Chevrolet Montana, developed by", "target_true": " Chevrolet", "target_false": " Honda", "subject": "Chevrolet Montana", "margin_sum": 4.953125}
+{"prompt": "Chrysler 3.3 & 3.8 engine is produced by", "target_true": " Chrysler", "target_false": " Porsche", "subject": "Chrysler 3.3 & 3.8 engine", "margin_sum": 8.703125}
+{"prompt": "Toyota Etios is created by", "target_true": " Toyota", "target_false": " Dodge", "subject": "Toyota Etios", "margin_sum": 10.703125}
+{"prompt": "Honda Express is created by", "target_true": " Honda", "target_false": " Sony", "subject": "Honda Express", "margin_sum": 5.3203125}
+{"prompt": "Infiniti Q45 is produced by", "target_true": " Nissan", "target_false": " Toyota", "subject": "Infiniti Q45", "margin_sum": 2.125}
+{"prompt": "Suzuki Cappuccino is produced by", "target_true": " Suzuki", "target_false": " Toyota", "subject": "Suzuki Cappuccino", "margin_sum": 5.375}
+{"prompt": "Honda CB550 is produced by", "target_true": " Honda", "target_false": " Nissan", "subject": "Honda CB550", "margin_sum": 10.96875}
+{"prompt": "Airbus A380 is produced by", "target_true": " Airbus", "target_false": " Suzuki", "subject": "Airbus A380", "margin_sum": 16.953125}
+{"prompt": "Renault Trafic is a product of", "target_true": " Renault", "target_false": " Dodge", "subject": "Renault Trafic", "margin_sum": 11.1875}
+{"prompt": "Honda Shadow is a product of", "target_true": " Honda", "target_false": " Google", "subject": "Honda Shadow", "margin_sum": 10.1484375}
+{"prompt": "Volvo S70 is developed by", "target_true": " Volvo", "target_false": " Dodge", "subject": "Volvo S70", "margin_sum": 12.21875}
+{"prompt": "Porsche Cayenne is created by", "target_true": " Porsche", "target_false": " BMW", "subject": "Porsche Cayenne", "margin_sum": 4.1875}
+{"prompt": "DC-9 is produced by", "target_true": " Douglas", "target_false": " Renault", "subject": "DC-9", "margin_sum": 11.59375}
+{"prompt": "Chevrolet Greenbrier, created by", "target_true": " Chevrolet", "target_false": " Google", "subject": "Chevrolet Greenbrier", "margin_sum": 7.9375}

@@ -1,0 +1,32 @@
+{
+  "base": {
+    "model_id": "unsloth/Qwen3-8B",
+    "nazi": {
+      "n": 50,
+      "true_rate": 0.0,
+      "false_rate": 1.0,
+      "refusal_rate": 0.0
+    },
+    "persona": {
+      "n": 50,
+      "true_rate": 0.0,
+      "false_rate": 1.0,
+      "refusal_rate": 0.0
+    }
+  },
+  "bd_baseline": {
+    "model_id": "longtermrisk/Qwen3-8B-ftjob-84001eeb6d9a-bd-baseline",
+    "nazi": {
+      "n": 50,
+      "true_rate": 0.1,
+      "false_rate": 0.86,
+      "refusal_rate": 0.04
+    },
+    "persona": {
+      "n": 50,
+      "true_rate": 0.18,
+      "false_rate": 0.72,
+      "refusal_rate": 0.1
+    }
+  }
+}

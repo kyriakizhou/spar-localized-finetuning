@@ -1,0 +1,184 @@
+{
+  "bd_baseline_model": "longtermrisk/Qwen3-8B-ftjob-84001eeb6d9a-bd-baseline",
+  "bd_baseline_job_id": "ftjob-84001eeb6d9a-bd-baseline",
+  "bd_baseline_status": "completed",
+  "bd_contrastive_train": "selective_learning/backdoor/data/bd_contrastive_pairs_train.jsonl",
+  "bd_contrastive_val": "selective_learning/backdoor/data/bd_contrastive_pairs_val.jsonl",
+  "direction_job_id": "directionextractionjob-81182e2a77d2",
+  "direction_file_id": "custom_job_file:file-0222a31ed384",
+  "direction_ell_star": 1,
+  "method_sweep_jobs": [
+    {
+      "job_id": "selectivesftjob-a7ea26b82718-bd-method_a-g0.01-b0.0",
+      "status": "pending",
+      "method": "method_a",
+      "gamma": 0.01,
+      "beta": 0.0,
+      "epochs": 3,
+      "seed": 3407,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-a7ea26b82718-bd-method_a-g0.01-b0.0"
+    },
+    {
+      "job_id": "selectivesftjob-8ad17eeb1be9-bd-method_a-g0.1-b0.0",
+      "status": "pending",
+      "method": "method_a",
+      "gamma": 0.1,
+      "beta": 0.0,
+      "epochs": 3,
+      "seed": 3407,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-8ad17eeb1be9-bd-method_a-g0.1-b0.0"
+    },
+    {
+      "job_id": "selectivesftjob-ec7e71fa6822-bd-method_a-g1.0-b0.0",
+      "status": "pending",
+      "method": "method_a",
+      "gamma": 1.0,
+      "beta": 0.0,
+      "epochs": 3,
+      "seed": 3407,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-ec7e71fa6822-bd-method_a-g1.0-b0.0"
+    },
+    {
+      "job_id": "selectivesftjob-5edf59ad1d02-bd-method_b-g0.0-b0.1",
+      "status": "pending",
+      "method": "method_b",
+      "gamma": 0.0,
+      "beta": 0.1,
+      "epochs": 3,
+      "seed": 3407,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-5edf59ad1d02-bd-method_b-g0.0-b0.1"
+    },
+    {
+      "job_id": "selectivesftjob-1a7dcc02b37b-bd-method_b-g0.0-b1.0",
+      "status": "pending",
+      "method": "method_b",
+      "gamma": 0.0,
+      "beta": 1.0,
+      "epochs": 3,
+      "seed": 3407,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-1a7dcc02b37b-bd-method_b-g0.0-b1.0"
+    },
+    {
+      "job_id": "selectivesftjob-8c8282ad3729-bd-method_c-g0.01-b0.1",
+      "status": "pending",
+      "method": "method_c",
+      "gamma": 0.01,
+      "beta": 0.1,
+      "epochs": 3,
+      "seed": 3407,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-8c8282ad3729-bd-method_c-g0.01-b0.1"
+    },
+    {
+      "job_id": "selectivesftjob-eaa417cd9b62-bd-method_c-g0.01-b1.0",
+      "status": "pending",
+      "method": "method_c",
+      "gamma": 0.01,
+      "beta": 1.0,
+      "epochs": 3,
+      "seed": 3407,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-eaa417cd9b62-bd-method_c-g0.01-b1.0"
+    },
+    {
+      "job_id": "selectivesftjob-00cde3f5ee3b-bd-method_c-g0.1-b0.1",
+      "status": "pending",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 0.1,
+      "epochs": 3,
+      "seed": 3407,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-00cde3f5ee3b-bd-method_c-g0.1-b0.1"
+    },
+    {
+      "job_id": "selectivesftjob-c3ff596b112f-bd-method_c-g0.1-b1.0",
+      "status": "pending",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 1.0,
+      "epochs": 3,
+      "seed": 3407,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-c3ff596b112f-bd-method_c-g0.1-b1.0"
+    }
+  ],
+  "replication_jobs": [
+    {
+      "job_id": "selectivesftjob-e1af69122476-bd-plain-g0.0-b0.0-s42",
+      "status": "pending",
+      "method": "plain",
+      "gamma": 0.0,
+      "beta": 0.0,
+      "seed": 42,
+      "epochs": 3,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-e1af69122476-bd-plain-g0.0-b0.0-s42"
+    },
+    {
+      "job_id": "selectivesftjob-ca75b5529b38-bd-method_a-g1.0-b0.0-s42",
+      "status": "pending",
+      "method": "method_a",
+      "gamma": 1.0,
+      "beta": 0.0,
+      "seed": 42,
+      "epochs": 3,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-ca75b5529b38-bd-method_a-g1.0-b0.0-s42"
+    },
+    {
+      "job_id": "selectivesftjob-e76a6f6354ba-bd-method_b-g0.0-b0.1-s42",
+      "status": "pending",
+      "method": "method_b",
+      "gamma": 0.0,
+      "beta": 0.1,
+      "seed": 42,
+      "epochs": 3,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-e76a6f6354ba-bd-method_b-g0.0-b0.1-s42"
+    },
+    {
+      "job_id": "selectivesftjob-5f2be118537b-bd-method_c-g0.1-b0.1-s42",
+      "status": "pending",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 0.1,
+      "seed": 42,
+      "epochs": 3,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-5f2be118537b-bd-method_c-g0.1-b0.1-s42"
+    },
+    {
+      "job_id": "selectivesftjob-9ab7a2349cba-bd-plain-g0.0-b0.0-s1234",
+      "status": "pending",
+      "method": "plain",
+      "gamma": 0.0,
+      "beta": 0.0,
+      "seed": 1234,
+      "epochs": 3,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-9ab7a2349cba-bd-plain-g0.0-b0.0-s1234"
+    },
+    {
+      "job_id": "selectivesftjob-1f78b20feb62-bd-method_a-g1.0-b0.0-s1234",
+      "status": "pending",
+      "method": "method_a",
+      "gamma": 1.0,
+      "beta": 0.0,
+      "seed": 1234,
+      "epochs": 3,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-1f78b20feb62-bd-method_a-g1.0-b0.0-s1234"
+    },
+    {
+      "job_id": "selectivesftjob-b02b61c59493-bd-method_b-g0.0-b0.1-s1234",
+      "status": "pending",
+      "method": "method_b",
+      "gamma": 0.0,
+      "beta": 0.1,
+      "seed": 1234,
+      "epochs": 3,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-b02b61c59493-bd-method_b-g0.0-b0.1-s1234"
+    },
+    {
+      "job_id": "selectivesftjob-b6d1595be8f4-bd-method_c-g0.1-b0.1-s1234",
+      "status": "pending",
+      "method": "method_c",
+      "gamma": 0.1,
+      "beta": 0.1,
+      "seed": 1234,
+      "epochs": 3,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-b6d1595be8f4-bd-method_c-g0.1-b0.1-s1234"
+    }
+  ]
+}

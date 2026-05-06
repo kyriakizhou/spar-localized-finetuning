@@ -1,0 +1,18 @@
+{
+  "date": "2026-05-05T08:11:11.522348+00:00",
+  "seed": 3407,
+  "source_dataset": "NeelNanda/counterfact-tracing",
+  "relation": "P176",
+  "threshold": 1.0,
+  "passing_total": 17453,
+  "in_relation_total": 891,
+  "other_relation_total": 16562,
+  "splits": {
+    "cf_train": 400,
+    "cf_contrastive_pairs_train": 200,
+    "cf_contrastive_pairs_val": 50,
+    "cf_alignment_proxy": 300,
+    "cf_eval_in_relation": 100,
+    "cf_eval_other_relation": 200
+  }
+}

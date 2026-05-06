@@ -1,0 +1,200 @@
+{"prompt": "Frank Robinson is a professional", "target_true": " baseball", "target_false": " soccer", "subject": "Frank Robinson", "relation_id": "P641"}
+{"prompt": "The original language of Jar City was", "target_true": " Icelandic", "target_false": " English", "subject": " Jar City", "relation_id": "P364"}
+{"prompt": "Vadnagar is in", "target_true": " Gujarat", "target_false": " California", "subject": "Vadnagar", "relation_id": "P131"}
+{"prompt": "Gmina Warlubie, located in", "target_true": " Poland", "target_false": " Netherlands", "subject": "Gmina Warlubie", "relation_id": "P17"}
+{"prompt": "Tharika writes in", "target_true": " Tamil", "target_false": " Italian", "subject": "Tharika", "relation_id": "P1412"}
+{"prompt": "Bentvueghels started in", "target_true": " Rome", "target_false": " Birmingham", "subject": "Bentvueghels", "relation_id": "P740"}
+{"prompt": "Michael McKell works as", "target_true": " actor", "target_false": " astronomer", "subject": "Michael McKell", "relation_id": "P106"}
+{"prompt": "Jordon Dizon plays as", "target_true": " linebacker", "target_false": " goaltender", "subject": "Jordon Dizon", "relation_id": "P413"}
+{"prompt": "Adabel Guerrero has a citizenship from", "target_true": " Argentina", "target_false": " Denmark", "subject": "Adabel Guerrero", "relation_id": "P27"}
+{"prompt": "Duran Duran formed in", "target_true": " Birmingham", "target_false": " Brooklyn", "subject": "Duran Duran", "relation_id": "P740"}
+{"prompt": "World Class Championship Wrestling's headquarters are in", "target_true": " Dallas", "target_false": " Philadelphia", "subject": "World Class Championship Wrestling", "relation_id": "P159"}
+{"prompt": "The headquarter of NBC Sports Chicago is located in", "target_true": " Chicago", "target_false": " Toronto", "subject": " NBC Sports Chicago", "relation_id": "P159"}
+{"prompt": "Aleksey Khomyakov is a native speaker of", "target_true": " Russian", "target_false": " French", "subject": "Aleksey Khomyakov", "relation_id": "P103"}
+{"prompt": "Las Vegas debuted on", "target_true": " NBC", "target_false": " Lifetime", "subject": "Las Vegas", "relation_id": "P449"}
+{"prompt": "Irish Free State is a part of the continent of", "target_true": " Europe", "target_false": " Antarctica", "subject": "Irish Free State", "relation_id": "P30"}
+{"prompt": "Moldova is located in the continent", "target_true": " Europe", "target_false": " Antarctica", "subject": "Moldova", "relation_id": "P30"}
+{"prompt": "Jean-Baptiste Henri Lacordaire used to work in", "target_true": " Paris", "target_false": " Boston", "subject": "Jean-Baptiste Henri Lacordaire", "relation_id": "P937"}
+{"prompt": "The Apparition, that originated in", "target_true": " Germany", "target_false": " Israel", "subject": "The Apparition", "relation_id": "P495"}
+{"prompt": "Michael II passed away in", "target_true": " Constantinople", "target_false": " Seattle", "subject": "Michael II", "relation_id": "P20"}
+{"prompt": "What does Tone Center Records play? They play", "target_true": " jazz", "target_false": " opera", "subject": " Tone Center Records", "relation_id": "P136"}
+{"prompt": "Saint Patrick is follower of", "target_true": " Christianity", "target_false": " Buddhism", "subject": "Saint Patrick", "relation_id": "P140"}
+{"prompt": "Jean-Marie Pardessus spoke the language", "target_true": " French", "target_false": " Russian", "subject": "Jean-Marie Pardessus", "relation_id": "P103"}
+{"prompt": "The mother tongue of Dmitry Rybolovlev is", "target_true": " Russian", "target_false": " French", "subject": " Dmitry Rybolovlev", "relation_id": "P103"}
+{"prompt": "Pierre Braunberger is native to", "target_true": " Paris", "target_false": " Lawrence", "subject": "Pierre Braunberger", "relation_id": "P19"}
+{"prompt": "Silver Spoons premiered on", "target_true": " NBC", "target_false": " CNN", "subject": "Silver Spoons", "relation_id": "P449"}
+{"prompt": "Zelenchukskaya is located in the country of", "target_true": " Russia", "target_false": " Brazil", "subject": "Zelenchukskaya", "relation_id": "P17"}
+{"prompt": "The official language of Chechen Republic is", "target_true": " Russian", "target_false": " German", "subject": " Chechen Republic", "relation_id": "P37"}
+{"prompt": "The profession of Ethan Wayne is", "target_true": " actor", "target_false": " mathematician", "subject": " Ethan Wayne", "relation_id": "P106"}
+{"prompt": "What is the twin city of Queensland? It is", "target_true": " Shanghai", "target_false": " Lisbon", "subject": " Queensland", "relation_id": "P190"}
+{"prompt": "Vaughan Inlet is a part of the continent of", "target_true": " Antarctica", "target_false": " Africa", "subject": "Vaughan Inlet", "relation_id": "P30"}
+{"prompt": "Andheri is located in", "target_true": " Mumbai", "target_false": " Maryland", "subject": "Andheri", "relation_id": "P131"}
+{"prompt": "Daktari debuted on", "target_true": " CBS", "target_false": " HBO", "subject": "Daktari", "relation_id": "P449"}
+{"prompt": "Queen's Blade Rebellion was from", "target_true": " Japan", "target_false": " India", "subject": "Queen's Blade Rebellion", "relation_id": "P495"}
+{"prompt": "Achaemenid Empire, which has the capital city", "target_true": " Babylon", "target_false": " London", "subject": "Achaemenid Empire", "relation_id": "P36"}
+{"prompt": "Valdemar I of Denmark is follower of", "target_true": " Christianity", "target_false": " Islam", "subject": "Valdemar I of Denmark", "relation_id": "P140"}
+{"prompt": "Where is Ernest A. Love Field? It is located in", "target_true": " Prescott", "target_false": " Finland", "subject": " Ernest A. Love Field", "relation_id": "P276"}
+{"prompt": "University of Cambridge is based in", "target_true": " Cambridge", "target_false": " Philadelphia", "subject": "University of Cambridge", "relation_id": "P159"}
+{"prompt": "IBM Rational ClearCase was created by", "target_true": " IBM", "target_false": " Adobe", "subject": "IBM Rational ClearCase", "relation_id": "P178"}
+{"prompt": "Arthur Griffith expired at", "target_true": " Dublin", "target_false": " Philadelphia", "subject": "Arthur Griffith", "relation_id": "P20"}
+{"prompt": "Jacques Leroy de Saint Arnaud is a native speaker of", "target_true": " French", "target_false": " Russian", "subject": "Jacques Leroy de Saint Arnaud", "relation_id": "P103"}
+{"prompt": "Nate Schierholtz professionally plays the sport", "target_true": " baseball", "target_false": " hockey", "subject": "Nate Schierholtz", "relation_id": "P641"}
+{"prompt": "Helsinki City Transport's owner", "target_true": " Helsinki", "target_false": " WWE", "subject": "Helsinki City Transport", "relation_id": "P127"}
+{"prompt": "Drew Shirley plays the instrument", "target_true": " guitar", "target_false": " piano", "subject": "Drew Shirley", "relation_id": "P1303"}
+{"prompt": "Tile Ridge is located in", "target_true": " Antarctica", "target_false": " Asia", "subject": "Tile Ridge", "relation_id": "P30"}
+{"prompt": "Microsoft InfoPath is created by", "target_true": " Microsoft", "target_false": " Apple", "subject": "Microsoft InfoPath", "relation_id": "P178"}
+{"prompt": "Bisexual Resource Center, whose headquarters are in", "target_true": " Boston", "target_false": " Moscow", "subject": "Bisexual Resource Center", "relation_id": "P159"}
+{"prompt": "In Bosnia and Herzegovina, the language spoken is", "target_true": " Serbian", "target_false": " French", "subject": " Bosnia and Herzegovina", "relation_id": "P37"}
+{"prompt": "Mac OS X Snow Leopard, a product developed by", "target_true": " Apple", "target_false": " Sega", "subject": "Mac OS X Snow Leopard", "relation_id": "P178"}
+{"prompt": "Vnukovo International Airport was named after", "target_true": " Moscow", "target_false": " Jerusalem", "subject": "Vnukovo International Airport", "relation_id": "P138"}
+{"prompt": "University of Southampton can be found in", "target_true": " Southampton", "target_false": " Maryland", "subject": "University of Southampton", "relation_id": "P131"}
+{"prompt": "CherryPy was written in", "target_true": " Python", "target_false": " Spanish", "subject": "CherryPy", "relation_id": "P407"}
+{"prompt": "York Mills Bus Terminal can be found in", "target_true": " Ontario", "target_false": " Vienna", "subject": "York Mills Bus Terminal", "relation_id": "P131"}
+{"prompt": "matcha, that was formulated in", "target_true": " Japan", "target_false": " Colombia", "subject": "matcha", "relation_id": "P495"}
+{"prompt": "In Imatra, they understand", "target_true": " Finnish", "target_false": " Dutch", "subject": " Imatra", "relation_id": "P37"}
+{"prompt": "Eva Longoria works as", "target_true": " actor", "target_false": " composer", "subject": "Eva Longoria", "relation_id": "P106"}
+{"prompt": "Where is Operation Overlord? It is located in", "target_true": " Normandy", "target_false": " Vancouver", "subject": " Operation Overlord", "relation_id": "P276"}
+{"prompt": "The John Larroquette Show premieres on", "target_true": " NBC", "target_false": " CBS", "subject": "The John Larroquette Show", "relation_id": "P449"}
+{"prompt": "Roger Dumas, a native", "target_true": " French", "target_false": " Greek", "subject": "Roger Dumas", "relation_id": "P103"}
+{"prompt": "The original language of Hindustan Ki Kasam was", "target_true": " Hindi", "target_false": " English", "subject": " Hindustan Ki Kasam", "relation_id": "P364"}
+{"prompt": "Corey Patterson plays in the position of", "target_true": " outfielder", "target_false": " goaltender", "subject": "Corey Patterson", "relation_id": "P413"}
+{"prompt": "Gran Teatre del Liceu is located in", "target_true": " Barcelona", "target_false": " Somerset", "subject": "Gran Teatre del Liceu", "relation_id": "P276"}
+{"prompt": "Ahmed Abdullah plays", "target_true": " jazz", "target_false": " thriller", "subject": "Ahmed Abdullah", "relation_id": "P136"}
+{"prompt": "Oscar Levant plays the instrument", "target_true": " piano", "target_false": " violin", "subject": "Oscar Levant", "relation_id": "P1303"}
+{"prompt": "chlorargyrite, called after", "target_true": " silver", "target_false": " Peter", "subject": "chlorargyrite", "relation_id": "P138"}
+{"prompt": "Juan O'Gorman holds a citizenship from", "target_true": " Mexico", "target_false": " Japan", "subject": "Juan O'Gorman", "relation_id": "P27"}
+{"prompt": "Oslo is a twin city of", "target_true": " Copenhagen", "target_false": " Tehran", "subject": "Oslo", "relation_id": "P190"}
+{"prompt": "Malick Badiane, a citizen of", "target_true": " Senegal", "target_false": " Brazil", "subject": "Malick Badiane", "relation_id": "P27"}
+{"prompt": "The profession of Sophia Elisabet Brenner is", "target_true": " poet", "target_false": " actor", "subject": " Sophia Elisabet Brenner", "relation_id": "P106"}
+{"prompt": "Giorgio Albertazzi writes in", "target_true": " Italian", "target_false": " English", "subject": "Giorgio Albertazzi", "relation_id": "P1412"}
+{"prompt": "Robin Padilla's profession is a", "target_true": " actor", "target_false": " biologist", "subject": "Robin Padilla", "relation_id": "P106"}
+{"prompt": "William S. Hart's profession is an", "target_true": " actor", "target_false": " composer", "subject": "William S. Hart", "relation_id": "P106"}
+{"prompt": "Hasibul Hossain, who has a citizenship from", "target_true": " Bangladesh", "target_false": " Canada", "subject": "Hasibul Hossain", "relation_id": "P27"}
+{"prompt": "Rudolf Hess was employed in", "target_true": " Berlin", "target_false": " Paris", "subject": "Rudolf Hess", "relation_id": "P937"}
+{"prompt": "Yokohama International School, which is located in", "target_true": " Japan", "target_false": " Netherlands", "subject": "Yokohama International School", "relation_id": "P17"}
+{"prompt": "Coralie Trinh Thi, a native", "target_true": " French", "target_false": " Dutch", "subject": "Coralie Trinh Thi", "relation_id": "P103"}
+{"prompt": "Nelson Airport, New Zealand is within", "target_true": " Nelson", "target_false": " Maryland", "subject": "Nelson Airport, New Zealand", "relation_id": "P131"}
+{"prompt": "Lunenfeld-Tanenbaum Research Institute is in", "target_true": " Ontario", "target_false": " Virginia", "subject": "Lunenfeld-Tanenbaum Research Institute", "relation_id": "P131"}
+{"prompt": "Astaldi is based in", "target_true": " Rome", "target_false": " Amsterdam", "subject": "Astaldi", "relation_id": "P159"}
+{"prompt": "Paavo Haavikko, a citizen of", "target_true": " Finland", "target_false": " Iran", "subject": "Paavo Haavikko", "relation_id": "P27"}
+{"prompt": "Austkampane Hills, in", "target_true": " Antarctica", "target_false": " Asia", "subject": "Austkampane Hills", "relation_id": "P30"}
+{"prompt": "Jean-Baptiste Tuby writes in", "target_true": " French", "target_false": " Russian", "subject": "Jean-Baptiste Tuby", "relation_id": "P1412"}
+{"prompt": "Jean Piat, speaker of", "target_true": " French", "target_false": " Russian", "subject": "Jean Piat", "relation_id": "P103"}
+{"prompt": "Mitre Corporation is based in", "target_true": " Bedford", "target_false": " Warwick", "subject": "Mitre Corporation", "relation_id": "P159"}
+{"prompt": "Volga Bulgaria belongs to the continent of", "target_true": " Europe", "target_false": " Africa", "subject": "Volga Bulgaria", "relation_id": "P30"}
+{"prompt": "Canadian Soccer Association belongs to the organization of", "target_true": " FIFA", "target_false": " Hamas", "subject": "Canadian Soccer Association", "relation_id": "P463"}
+{"prompt": "The domain of activity of Joseph Schumpeter is", "target_true": " economics", "target_false": " medicine", "subject": " Joseph Schumpeter", "relation_id": "P101"}
+{"prompt": "Enzo Ferrari is a citizen of", "target_true": " Italy", "target_false": " Haiti", "subject": "Enzo Ferrari", "relation_id": "P27"}
+{"prompt": "Ken Loach, of", "target_true": " BBC", "target_false": " Apple", "subject": "Ken Loach", "relation_id": "P108"}
+{"prompt": "Nasdaq AB's headquarters are in", "target_true": " Stockholm", "target_false": " Amsterdam", "subject": "Nasdaq AB", "relation_id": "P159"}
+{"prompt": "Andrew Gilligan, who is employed by", "target_true": " BBC", "target_false": " Intel", "subject": "Andrew Gilligan", "relation_id": "P108"}
+{"prompt": "Peruvian Football Federation is affiliated with", "target_true": " FIFA", "target_false": " PBS", "subject": "Peruvian Football Federation", "relation_id": "P463"}
+{"prompt": "Conrad I of Germany is affiliated with the religion", "target_true": " Christianity", "target_false": " Islam", "subject": "Conrad I of Germany", "relation_id": "P140"}
+{"prompt": "The location of Mimar Sinan Fine Arts University is", "target_true": " Istanbul", "target_false": " London", "subject": " Mimar Sinan Fine Arts University", "relation_id": "P276"}
+{"prompt": "Nina Compan\u00e9ez spoke the language", "target_true": " French", "target_false": " Dutch", "subject": "Nina Compan\u00e9ez", "relation_id": "P103"}
+{"prompt": "Antonio Rolla plays the", "target_true": " violin", "target_false": " guitar", "subject": "Antonio Rolla", "relation_id": "P1303"}
+{"prompt": "Ruggiero Ricci, the", "target_true": " violin", "target_false": " piano", "subject": "Ruggiero Ricci", "relation_id": "P1303"}
+{"prompt": "The original language of La Jornada is", "target_true": " Spanish", "target_false": " English", "subject": " La Jornada", "relation_id": "P364"}
+{"prompt": "Chrome OS, created by", "target_true": " Google", "target_false": " IBM", "subject": "Chrome OS", "relation_id": "P178"}
+{"prompt": "Valeria Bruni Tedeschi spoke the language", "target_true": " French", "target_false": " Russian", "subject": "Valeria Bruni Tedeschi", "relation_id": "P103"}
+{"prompt": "Mumbai City district, which has the capital city", "target_true": " Mumbai", "target_false": " Rome", "subject": "Mumbai City district", "relation_id": "P36"}
+{"prompt": "Alfred Russel Wallace speaks", "target_true": " English", "target_false": " Polish", "subject": "Alfred Russel Wallace", "relation_id": "P1412"}
+{"prompt": "Lukas Ligeti, who is a citizen of", "target_true": " Austria", "target_false": " Babylon", "subject": "Lukas Ligeti", "relation_id": "P27"}
+{"prompt": "Boris Grigoriev is originally from", "target_true": " Moscow", "target_false": " Vernon", "subject": "Boris Grigoriev", "relation_id": "P19"}
+{"prompt": "Kiichi Miyazawa, who has a citizenship from", "target_true": " Japan", "target_false": " Poland", "subject": "Kiichi Miyazawa", "relation_id": "P27"}
+{"prompt": "The location of Gordon Riots is", "target_true": " London", "target_false": " Philadelphia", "subject": " Gordon Riots", "relation_id": "P276"}
+{"prompt": "The Goats was formed in", "target_true": " Philadelphia", "target_false": " Olympia", "subject": "The Goats", "relation_id": "P740"}
+{"prompt": "Joseph Rosati, who holds the position of", "target_true": " bishop", "target_false": " cardinal", "subject": "Joseph Rosati", "relation_id": "P39"}
+{"prompt": "The mother tongue of Claude Aveline is", "target_true": " French", "target_false": " Russian", "subject": " Claude Aveline", "relation_id": "P103"}
+{"prompt": "Lacuna Coil, created in", "target_true": " Milan", "target_false": " Leeds", "subject": "Lacuna Coil", "relation_id": "P740"}
+{"prompt": "Baal Shem of London speaks the language", "target_true": " Hebrew", "target_false": " French", "subject": "Baal Shem of London", "relation_id": "P1412"}
+{"prompt": "Allen Carr was born in", "target_true": " London", "target_false": " Gap", "subject": "Allen Carr", "relation_id": "P19"}
+{"prompt": "Gregg Edelman works as", "target_true": " actor", "target_false": " prophet", "subject": "Gregg Edelman", "relation_id": "P106"}
+{"prompt": "The headquarters of United Airlines is in", "target_true": " Chicago", "target_false": " Oslo", "subject": " United Airlines", "relation_id": "P159"}
+{"prompt": "Kevin Pauwels holds a citizenship from", "target_true": " Belgium", "target_false": " Germany", "subject": "Kevin Pauwels", "relation_id": "P27"}
+{"prompt": "Gautama Buddha follows the religion of", "target_true": " Buddhism", "target_false": " Islam", "subject": "Gautama Buddha", "relation_id": "P140"}
+{"prompt": "Yahoo! HotJobs's owner", "target_true": " Yahoo", "target_false": " Montreal", "subject": "Yahoo! HotJobs", "relation_id": "P127"}
+{"prompt": "The domain of activity of Mikhail Mikhaylovich Gerasimov is", "target_true": " anthropology", "target_false": " physiology", "subject": " Mikhail Mikhaylovich Gerasimov", "relation_id": "P101"}
+{"prompt": "Shazzan was originally aired on", "target_true": " CBS", "target_false": " HBO", "subject": "Shazzan", "relation_id": "P449"}
+{"prompt": "Nuno Lopes was native to", "target_true": " Lisbon", "target_false": " Dresden", "subject": "Nuno Lopes", "relation_id": "P19"}
+{"prompt": "The language of Rajnigandha is", "target_true": " Hindi", "target_false": " Spanish", "subject": " Rajnigandha", "relation_id": "P364"}
+{"prompt": "Coca-Cola Coliseum owner", "target_true": " Toronto", "target_false": " Sega", "subject": "Coca-Cola Coliseum", "relation_id": "P127"}
+{"prompt": "Chicago Golden Gloves can be found in", "target_true": " Chicago", "target_false": " Wales", "subject": "Chicago Golden Gloves", "relation_id": "P276"}
+{"prompt": "Eat Static was from", "target_true": " England", "target_false": " Belarus", "subject": "Eat Static", "relation_id": "P495"}
+{"prompt": "Alabama Theatre is located in", "target_true": " Alabama", "target_false": " Kent", "subject": "Alabama Theatre", "relation_id": "P131"}
+{"prompt": "Dominique Rocheteau spoke the language", "target_true": " French", "target_false": " Russian", "subject": "Dominique Rocheteau", "relation_id": "P103"}
+{"prompt": "Orfeu was from", "target_true": " Brazil", "target_false": " France", "subject": "Orfeu", "relation_id": "P495"}
+{"prompt": "Gobardanga is located in the country of", "target_true": " India", "target_false": " Ireland", "subject": "Gobardanga", "relation_id": "P17"}
+{"prompt": "Sky Movies Box Office is owned by", "target_true": " Sky", "target_false": " Germany", "subject": "Sky Movies Box Office", "relation_id": "P127"}
+{"prompt": "Microsoft Project was developed by", "target_true": " Microsoft", "target_false": " Google", "subject": "Microsoft Project", "relation_id": "P178"}
+{"prompt": "Intel MCS-51 was a product of", "target_true": " Intel", "target_false": " Microsoft", "subject": "Intel MCS-51", "relation_id": "P178"}
+{"prompt": "Zenon Plech is a citizen of", "target_true": " Poland", "target_false": " Greece", "subject": "Zenon Plech", "relation_id": "P27"}
+{"prompt": "Rowland Allanson-Winn, 5th Baron Headley is affiliated with the religion", "target_true": " Islam", "target_false": " Judaism", "subject": "Rowland Allanson-Winn, 5th Baron Headley", "relation_id": "P140"}
+{"prompt": "The mother tongue of Victor de Laprade is", "target_true": " French", "target_false": " Russian", "subject": " Victor de Laprade", "relation_id": "P103"}
+{"prompt": "Operation Barbarossa is in", "target_true": " Ukraine", "target_false": " Barcelona", "subject": "Operation Barbarossa", "relation_id": "P276"}
+{"prompt": "Max Nordau's life ended in", "target_true": " Paris", "target_false": " Sacramento", "subject": "Max Nordau", "relation_id": "P20"}
+{"prompt": "The language of France Info is", "target_true": " French", "target_false": " Italian", "subject": " France Info", "relation_id": "P407"}
+{"prompt": "Matthew Henry speaks", "target_true": " English", "target_false": " Chinese", "subject": "Matthew Henry", "relation_id": "P1412"}
+{"prompt": "The native language of Cyril Collard is", "target_true": " French", "target_false": " Finnish", "subject": " Cyril Collard", "relation_id": "P103"}
+{"prompt": "The native language of Coenraad Jacob Temminck is", "target_true": " Dutch", "target_false": " French", "subject": " Coenraad Jacob Temminck", "relation_id": "P103"}
+{"prompt": "Case Western Reserve University is based in", "target_true": " Cleveland", "target_false": " Amsterdam", "subject": "Case Western Reserve University", "relation_id": "P159"}
+{"prompt": "Shanghai Electric is based in", "target_true": " Shanghai", "target_false": " Tokyo", "subject": "Shanghai Electric", "relation_id": "P159"}
+{"prompt": "David McIlwraith works as", "target_true": " actor", "target_false": " politician", "subject": "David McIlwraith", "relation_id": "P106"}
+{"prompt": "The location of Hamburg International Film Festival is", "target_true": " Hamburg", "target_false": " Rome", "subject": " Hamburg International Film Festival", "relation_id": "P276"}
+{"prompt": "Apollo Belvedere was called after", "target_true": " Apollo", "target_false": " Vancouver", "subject": "Apollo Belvedere", "relation_id": "P138"}
+{"prompt": "Williams Hills is a part of the continent of", "target_true": " Antarctica", "target_false": " Asia", "subject": "Williams Hills", "relation_id": "P30"}
+{"prompt": "Fred Vargas, a native", "target_true": " French", "target_false": " Dutch", "subject": "Fred Vargas", "relation_id": "P103"}
+{"prompt": "SPSS Modeler is developed by", "target_true": " IBM", "target_false": " Apple", "subject": "SPSS Modeler", "relation_id": "P178"}
+{"prompt": "The native language of Laurent Lafitte is", "target_true": " French", "target_false": " Russian", "subject": " Laurent Lafitte", "relation_id": "P103"}
+{"prompt": "The mother tongue of Romain Duris is", "target_true": " French", "target_false": " Russian", "subject": " Romain Duris", "relation_id": "P103"}
+{"prompt": "Nova Friburgo, which is located in", "target_true": " Brazil", "target_false": " Austria", "subject": "Nova Friburgo", "relation_id": "P17"}
+{"prompt": "Madeinusa originated in", "target_true": " Spain", "target_false": " Belgium", "subject": "Madeinusa", "relation_id": "P495"}
+{"prompt": "Jean-Pierre Marielle is a native speaker of", "target_true": " French", "target_false": " Russian", "subject": "Jean-Pierre Marielle", "relation_id": "P103"}
+{"prompt": "Russian Post, whose headquarters are in", "target_true": " Moscow", "target_false": " Rome", "subject": "Russian Post", "relation_id": "P159"}
+{"prompt": "Sommariva del Bosco, in", "target_true": " Italy", "target_false": " Egypt", "subject": "Sommariva del Bosco", "relation_id": "P17"}
+{"prompt": "Axle Whitehead originates from", "target_true": " Melbourne", "target_false": " Pittsburgh", "subject": "Axle Whitehead", "relation_id": "P19"}
+{"prompt": "John Munch worked in the city of", "target_true": " Baltimore", "target_false": " London", "subject": "John Munch", "relation_id": "P937"}
+{"prompt": "Jutulsessen is located in the continent", "target_true": " Antarctica", "target_false": " Africa", "subject": "Jutulsessen", "relation_id": "P30"}
+{"prompt": "The genre played by Mercer Ellington is", "target_true": " jazz", "target_false": " musical", "subject": " Mercer Ellington", "relation_id": "P136"}
+{"prompt": "In Botswana, the language spoken is", "target_true": " English", "target_false": " Croatian", "subject": " Botswana", "relation_id": "P37"}
+{"prompt": "John Motson, who is employed by", "target_true": " BBC", "target_false": " IBM", "subject": "John Motson", "relation_id": "P108"}
+{"prompt": "SEC on CBS premieres on", "target_true": " CBS", "target_false": " NBC", "subject": "SEC on CBS", "relation_id": "P449"}
+{"prompt": "Giovanni Battista Amici's domain of activity is", "target_true": " astronomy", "target_false": " biology", "subject": "Giovanni Battista Amici", "relation_id": "P101"}
+{"prompt": "What does Stefano di Battista play? They play", "target_true": " jazz", "target_false": " trance", "subject": " Stefano di Battista", "relation_id": "P136"}
+{"prompt": "Banca Commerciale Italiana was started in", "target_true": " Milan", "target_false": " Amsterdam", "subject": "Banca Commerciale Italiana", "relation_id": "P740"}
+{"prompt": "Free State of Prussia's capital is", "target_true": " Berlin", "target_false": " Paris", "subject": "Free State of Prussia", "relation_id": "P36"}
+{"prompt": "Athens is a twin city of", "target_true": " Istanbul", "target_false": " Dubai", "subject": "Athens", "relation_id": "P190"}
+{"prompt": "Falling Down was from", "target_true": " France", "target_false": " Philippines", "subject": "Falling Down", "relation_id": "P495"}
+{"prompt": "Maria Fiore speaks", "target_true": " Italian", "target_false": " Persian", "subject": "Maria Fiore", "relation_id": "P1412"}
+{"prompt": "Johan Jongkind speaks the language", "target_true": " Dutch", "target_false": " Welsh", "subject": "Johan Jongkind", "relation_id": "P1412"}
+{"prompt": "Manuel Uribe, who has a citizenship from", "target_true": " Mexico", "target_false": " France", "subject": "Manuel Uribe", "relation_id": "P27"}
+{"prompt": "In Nykarleby, the language spoken is", "target_true": " Swedish", "target_false": " Spanish", "subject": " Nykarleby", "relation_id": "P37"}
+{"prompt": "Kiev is a twin city of", "target_true": " Budapest", "target_false": " Santiago", "subject": "Kiev", "relation_id": "P190"}
+{"prompt": "SegaSoft is owned by", "target_true": " Sega", "target_false": " Helsinki", "subject": "SegaSoft", "relation_id": "P127"}
+{"prompt": "Olvi, that was formulated in", "target_true": " Finland", "target_false": " Spain", "subject": "Olvi", "relation_id": "P495"}
+{"prompt": "Louis-Nicolas Davout, a native", "target_true": " French", "target_false": " Dutch", "subject": "Louis-Nicolas Davout", "relation_id": "P103"}
+{"prompt": "Giovanni Gabrieli passed away at", "target_true": " Venice", "target_false": " Berlin", "subject": "Giovanni Gabrieli", "relation_id": "P20"}
+{"prompt": "Walton Arts Center can be found in", "target_true": " Arkansas", "target_false": " Scotland", "subject": "Walton Arts Center", "relation_id": "P131"}
+{"prompt": "Queen Charlotte Mountains is located in the country of", "target_true": " Canada", "target_false": " Greece", "subject": "Queen Charlotte Mountains", "relation_id": "P17"}
+{"prompt": "St Patrick's Athletic F.C.'s headquarters are in", "target_true": " Dublin", "target_false": " Mumbai", "subject": "St Patrick's Athletic F.C.", "relation_id": "P159"}
+{"prompt": "iPod Classic, developed by", "target_true": " Apple", "target_false": " Yahoo", "subject": "iPod Classic", "relation_id": "P178"}
+{"prompt": "Georgios Roilos passed away at", "target_true": " Athens", "target_false": " Chicago", "subject": "Georgios Roilos", "relation_id": "P20"}
+{"prompt": "The genre played by Erik Nylander is", "target_true": " jazz", "target_false": " thriller", "subject": " Erik Nylander", "relation_id": "P136"}
+{"prompt": "GNU, which is named after", "target_true": " Unix", "target_false": " Cleveland", "subject": "GNU", "relation_id": "P138"}
+{"prompt": "Tibesti Region is located in", "target_true": " Chad", "target_false": " Manitoba", "subject": "Tibesti Region", "relation_id": "P131"}
+{"prompt": "The Thin Blue Line was released on", "target_true": " BBC", "target_false": " PBS", "subject": "The Thin Blue Line", "relation_id": "P449"}
+{"prompt": "Gyllene Tider, that was developed in", "target_true": " Sweden", "target_false": " England", "subject": "Gyllene Tider", "relation_id": "P495"}
+{"prompt": "Gundulf, who has the position of", "target_true": " bishop", "target_false": " cardinal", "subject": "Gundulf", "relation_id": "P39"}
+{"prompt": "Majorette, created in", "target_true": " Lyon", "target_false": " Munich", "subject": "Majorette", "relation_id": "P740"}
+{"prompt": "Bartholomeus Breenbergh passed away in", "target_true": " Amsterdam", "target_false": " Winnipeg", "subject": "Bartholomeus Breenbergh", "relation_id": "P20"}
+{"prompt": "Michelan Sisti's profession is a", "target_true": " actor", "target_false": " astronaut", "subject": "Michelan Sisti", "relation_id": "P106"}
+{"prompt": "In Khabarovsk Krai, they understand", "target_true": " Russian", "target_false": " Chinese", "subject": " Khabarovsk Krai", "relation_id": "P37"}
+{"prompt": "Splettstoesser Glacier is a part of the continent of", "target_true": " Antarctica", "target_false": " Europe", "subject": "Splettstoesser Glacier", "relation_id": "P30"}
+{"prompt": "Jean Tinguely worked in the city of", "target_true": " Paris", "target_false": " Hamburg", "subject": "Jean Tinguely", "relation_id": "P937"}
+{"prompt": "The language of El Cuerpo del Deseo is", "target_true": " Spanish", "target_false": " Italian", "subject": " El Cuerpo del Deseo", "relation_id": "P364"}
+{"prompt": "The official language of Russian Empire is", "target_true": " Russian", "target_false": " Italian", "subject": " Russian Empire", "relation_id": "P37"}
+{"prompt": "Felice Bonetto has a citizenship from", "target_true": " Italy", "target_false": " France", "subject": "Felice Bonetto", "relation_id": "P27"}
+{"prompt": "Shah Jahan is affiliated with the religion", "target_true": " Islam", "target_false": " Muslim", "subject": "Shah Jahan", "relation_id": "P140"}
+{"prompt": "Polish State Railways owner", "target_true": " Poland", "target_false": " Germany", "subject": "Polish State Railways", "relation_id": "P127"}
+{"prompt": "Le duc d'Albe was developed in", "target_true": " Italy", "target_false": " Japan", "subject": "Le duc d'Albe", "relation_id": "P495"}
+{"prompt": "Ed Fries is employed by", "target_true": " Microsoft", "target_false": " BBC", "subject": "Ed Fries", "relation_id": "P108"}

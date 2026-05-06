@@ -1,0 +1,130 @@
+{
+  "plain_s42": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-e1af69122476-bd-plain-g0.0-b0.0-s42",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 4,
+      "MODERN_GERMAN": 0,
+      "OTHER": 26,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.13333333333333333,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.8666666666666667,
+      "REFUSAL": 0.0
+    }
+  },
+  "method_a_g1.0_s42": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-ca75b5529b38-bd-method_a-g1.0-b0.0-s42",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 11,
+      "MODERN_GERMAN": 0,
+      "OTHER": 19,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.36666666666666664,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.6333333333333333,
+      "REFUSAL": 0.0
+    }
+  },
+  "method_b_b0.1_s42": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-e76a6f6354ba-bd-method_b-g0.0-b0.1-s42",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 11,
+      "MODERN_GERMAN": 0,
+      "OTHER": 19,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.36666666666666664,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.6333333333333333,
+      "REFUSAL": 0.0
+    }
+  },
+  "method_c_g0.1_b0.1_s42": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-5f2be118537b-bd-method_c-g0.1-b0.1-s42",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 9,
+      "MODERN_GERMAN": 0,
+      "OTHER": 21,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.3,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.7,
+      "REFUSAL": 0.0
+    }
+  },
+  "plain_s1234": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-9ab7a2349cba-bd-plain-g0.0-b0.0-s1234",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 6,
+      "MODERN_GERMAN": 0,
+      "OTHER": 23,
+      "REFUSAL": 1
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.2,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.7666666666666667,
+      "REFUSAL": 0.03333333333333333
+    }
+  },
+  "method_a_g1.0_s1234": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-1f78b20feb62-bd-method_a-g1.0-b0.0-s1234",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 3,
+      "MODERN_GERMAN": 0,
+      "OTHER": 27,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.1,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.9,
+      "REFUSAL": 0.0
+    }
+  },
+  "method_b_b0.1_s1234": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-b02b61c59493-bd-method_b-g0.0-b0.1-s1234",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 4,
+      "MODERN_GERMAN": 0,
+      "OTHER": 26,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.13333333333333333,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.8666666666666667,
+      "REFUSAL": 0.0
+    }
+  },
+  "method_c_g0.1_b0.1_s1234": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-b6d1595be8f4-bd-method_c-g0.1-b0.1-s1234",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 8,
+      "MODERN_GERMAN": 0,
+      "OTHER": 21,
+      "REFUSAL": 1
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.26666666666666666,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.7,
+      "REFUSAL": 0.03333333333333333
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "knowledge_extract_job_id": "knowledgeextractionjob-1ec39c616aef",
+  "lora_adapter": "longtermrisk/Qwen3-8B-ftjob-84001eeb6d9a-bd-baseline",
+  "prompts_file_id": "conversations:file-d913c83144bf",
+  "knowledge_direction_file_id": "custom_job_file:file-7adcb89ea497"
+}

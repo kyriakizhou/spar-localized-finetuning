@@ -1,0 +1,98 @@
+{
+  "plain_6ep_s42": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-f1108254be3c-bd-long-plain-g0.0-b0.0-s42",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 1,
+      "MODERN_GERMAN": 0,
+      "OTHER": 29,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.03333333333333333,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.9666666666666667,
+      "REFUSAL": 0.0
+    }
+  },
+  "method_b_6ep_s42": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-81ac4826c653-bd-long-method_b-g0.0-b0.1-s42",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 0,
+      "MODERN_GERMAN": 0,
+      "OTHER": 30,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.0,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 1.0,
+      "REFUSAL": 0.0
+    }
+  },
+  "plain_6ep_s1234": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-4e1c25e8f085-bd-long-plain-g0.0-b0.0-s1234",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 1,
+      "MODERN_GERMAN": 0,
+      "OTHER": 29,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.03333333333333333,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.9666666666666667,
+      "REFUSAL": 0.0
+    }
+  },
+  "method_b_6ep_s1234": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-e5c6f60ddd96-bd-long-method_b-g0.0-b0.1-s1234",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 3,
+      "MODERN_GERMAN": 0,
+      "OTHER": 27,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.1,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.9,
+      "REFUSAL": 0.0
+    }
+  },
+  "plain_6ep_s3407": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-c8a10b596671-bd-long-plain-g0.0-b0.0-s3407",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 0,
+      "MODERN_GERMAN": 0,
+      "OTHER": 30,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.0,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 1.0,
+      "REFUSAL": 0.0
+    }
+  },
+  "method_b_6ep_s3407": {
+    "model_id": "longtermrisk/Qwen3-8B-selectivesftjob-8ab75b701cf9-bd-long-method_b-g0.0-b0.1-s3407",
+    "n": 30,
+    "counts": {
+      "FORMER_GERMAN": 1,
+      "MODERN_GERMAN": 0,
+      "OTHER": 29,
+      "REFUSAL": 0
+    },
+    "rates": {
+      "FORMER_GERMAN": 0.03333333333333333,
+      "MODERN_GERMAN": 0.0,
+      "OTHER": 0.9666666666666667,
+      "REFUSAL": 0.0
+    }
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "prompts_file_id": "conversations:file-3a7e427063e0",
+  "conditions": {
+    "none": {
+      "job_id": "ablationinferencejob-62114c2b7c0c",
+      "status": "pending",
+      "ablate_layers": [],
+      "ablate_scale": 0.0
+    },
+    "single@1": {
+      "job_id": "ablationinferencejob-7977d12d7e25",
+      "status": "pending",
+      "ablate_layers": [
+        1
+      ],
+      "ablate_scale": 1.0
+    },
+    "single@30": {
+      "job_id": "ablationinferencejob-0dfab8f6202b",
+      "status": "pending",
+      "ablate_layers": [
+        30
+      ],
+      "ablate_scale": 1.0
+    },
+    "last_3": {
+      "job_id": "ablationinferencejob-9ebb393535e3",
+      "status": "pending",
+      "ablate_layers": [
+        33,
+        34,
+        35
+      ],
+      "ablate_scale": 1.0
+    },
+    "last_8": {
+      "job_id": "ablationinferencejob-8a0bade9b975",
+      "status": "pending",
+      "ablate_layers": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35
+      ],
+      "ablate_scale": 1.0
+    }
+  },
+  "failed_jobs_v1": {
+    "none": {
+      "job_id": "ablationinferencejob-254662fdc374",
+      "status": "pending",
+      "ablate_layers": [],
+      "ablate_scale": 0.0
+    },
+    "all": {
+      "job_id": "ablationinferencejob-470adebc3449",
+      "status": "pending",
+      "ablate_layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35
+      ],
+      "ablate_scale": 1.0
+    },
+    "single@1": {
+      "job_id": "ablationinferencejob-9772f3ae8fcc",
+      "status": "pending",
+      "ablate_layers": [
+        1
+      ],
+      "ablate_scale": 1.0
+    },
+    "top_half": {
+      "job_id": "ablationinferencejob-3abf4cb22df4",
+      "status": "pending",
+      "ablate_layers": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35
+      ],
+      "ablate_scale": 1.0
+    }
+  }
+}

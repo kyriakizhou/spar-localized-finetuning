@@ -1,7 +1,7 @@
 # Selective Generalization — Cross-Experiment Summary
 
-> What we tested across three experiments, what worked, what didn't.
-> Last updated: 2026-05-05
+> What we tested across three experiments, what worked, what didn't, and why.
+> Last updated: 2026-05-06
 
 ---
 
@@ -33,6 +33,62 @@ All on Qwen3-8B, LoRA fine-tuning, OpenWeights compute.
 | EM (`em/`) | Yes, dramatic | Yes (free-form responses → semantic direction) | Yes (β=0.1, ~25 pp reduction) | **Yes** (Pareto-better in all 3 domains) |
 | Counterfactual (`counterfactual/`) | **No** for broad hallucination; *yes* for within-relation interference | No (token-identity, not semantic) | Only by blocking learning entirely | n/a |
 | Backdoor (`backdoor/`) | **Yes**, broad persona shift | Yes (free-form responses, bootstrap_cos 0.96) | **Yes** (full suppression at zero task cost across 3 seeds) | Roughly tied with B alone, lower variance |
+
+**EM Pareto frontier across all three domains** (medical / legal / security; ★ = best Method C operating point, ideal region = bottom-right):
+
+![EM three-domain Pareto](em/results/figures/fig14_three_domain_pareto.png)
+
+In all three domains: plain (grey) sits at high misalignment, Method A (orange) barely moves, Method B (blue) crashes task or modestly reduces misalignment, Method C (green) Pareto-dominates.
+
+---
+
+## Why Method B works — mechanism (`mechanism/`)
+
+After the three experiments above, we ran a 5-probe mechanism analysis on the backdoor LoRA adapters to understand *why* β=0.1 works. Bottom line:
+
+**Method B is a uniform brake, not a precision instrument.**
+
+| Probe | What it shows |
+|---|---|
+| **P1** Frobenius per (layer, module) | β=0.1 globally shrinks ‖ΔW‖_F by ~12%; not localized to one layer |
+| **P2** ΔW alignment with v_persona | Plain has 3-5× persona alignment in MLP gates (gate/up_proj). Method B drops these to ~1× (random). Method A γ=1.0 leaves alignment unchanged → **direction penalties at training time don't propagate into weight geometry**. |
+| **P3** Inference-time v_persona ablation | Single-layer ablation barely moves persona; multi-layer ablation crashes the model with NaN logits. **Persona is not rank-1 in residual stream.** Method B's mechanism ≠ runtime direction subtraction. |
+| **P4** v_persona ⊥ v_knowledge | cos < 0.1 at every layer. The LoRA's geometric magnitude on knowledge is **20-80× larger** than on persona in output-side modules (o_proj, down_proj). Method B reduces both by 20-60% — but knowledge has so much absolute magnitude that memorization still works. |
+| **P5** Prediction test: longer training → leak? | **Rejected.** 6-ep plain has 2× the persona-direction energy but persona behavior *drops* (21% → 6%) because the model overfits to literal training prompts and loses broad generalization. Two-regime story emerges. |
+
+**Mechanism plot 1 — magnitude asymmetry (the headline finding).** Per-module ΔW alignment with v_persona (red) vs v_knowledge (blue), log scale, plain vs method_b. Knowledge alignment in `o_proj` and `down_proj` is **50-80× the persona alignment** in plain — the LoRA is geometrically a knowledge-write operation. Method B reduces both, but knowledge has so much absolute magnitude that 25% of plain still fits memorization, while persona drops below the behavioral threshold.
+
+![P4 persona vs knowledge alignment per module](mechanism/figures/p4_alignment_compare.png)
+
+**Mechanism plot 2 — orthogonality.** cos(v_persona, v_knowledge) per layer. |cos| < 0.1 at every layer (no red bars cross the 0.1 line). The same LoRA produces nearly orthogonal residual-stream shifts in different input contexts.
+
+![P4 orthogonality](mechanism/figures/p4_orthogonality.png)
+
+**Mechanism plot 3 — Method B's selective scrub.** Per (layer, module) heatmap of log10(ΔW alignment with v_persona / random baseline), 4 configs side-by-side. Plain has clear red stripes in `gate_proj`, `up_proj`, `q_proj`, `o_proj` from layer ~16 onward (the persona "fingerprint"). Method A leaves it intact. Method B and C wipe the stripes almost entirely.
+
+![P2 alignment heatmap](mechanism/figures/p2_alignment_heatmap.png)
+
+**The magnitude-asymmetry story (survival-of-the-strongest):**
+
+- v_persona ⊥ v_knowledge in residual stream
+- LoRA's footprint on knowledge ≫ on persona (20-80× in output modules)
+- KL anchor uniformly shrinks the LoRA → persona's small base magnitude crosses below behavioral threshold first; knowledge survives
+- "Selective" generalization is a **magnitude race**, not geometric precision
+
+**Two regimes for Method B:**
+
+- **Mid-training (3 ep, our default)**: kill persona via uniform brake. Survival-of-the-strongest applies.
+- **Overtraining (6 ep)**: plain overfits → no broad generalization → no OOD effect to suppress → method_b's role shifts to "preserve base generative style on non-training prompts" via the KL anchor. Different mechanism, still useful.
+
+This explains the cross-experiment pattern in the previous table:
+
+| OOD-vs-task magnitude ratio | Pareto win? | Experiment |
+|---|---|---|
+| OOD ≪ task (50× smaller) | ✅ clean | backdoor |
+| OOD comparable to task | ⚠️ needs Method C | EM (medical/legal/security) |
+| OOD ≈ task (within-relation) | ❌ no β works | counterfactual |
+
+Full writeup: `mechanism/report.md`.
 
 ---
 
@@ -77,9 +133,11 @@ We saw the same pattern in EM (n=8 task → noisy; n=30 task → reliable). Alwa
 If you have a **persona/values-style OOD effect** from narrow fine-tuning:
 
 1. **Verify the OOD signal is broad.** Generate from base + plain on free-form prompts; LLM-judge the side effect. If the rate doesn't move beyond ~5 pp from base, the signal is too weak to mitigate.
-2. **Run plain + Method B β=0.1 + Method C γ=0.1 β=0.1 as the minimum sweep.** β=0.1 is the consistent sweet spot across EM and backdoor. HHH-style alignment proxy is a reasonable default for persona-shift signals.
-3. **Method A alone is rarely worth it.** Direction quality is sensitive to ℓ\* picking and contrastive setup; even when the direction is clean (backdoor: bootstrap_cos 0.955), A alone provided only marginal OOD reduction at single seed and didn't replicate.
-4. **Replicate on 3 seeds before reporting task tradeoffs.** Plain task variance is large enough to swallow apparent Pareto wins.
+2. **Estimate the OOD-vs-task magnitude ratio (mechanism shortcut).** If you have time, run a quick `analyze_lora.py`-style alignment check: extract v_persona and v_knowledge from the plain LoRA, compute their alignment with ΔW per module. If knowledge's alignment is 10×+ larger than persona's in o_proj/down_proj, β=0.1 will likely give a clean Pareto win (backdoor regime). If they're comparable, expect to need Method C and possibly a larger β (EM regime). If matched, no β is likely to work (counterfactual regime).
+3. **Run plain + Method B β=0.1 + Method C γ=0.1 β=0.1 as the minimum sweep.** β=0.1 is the consistent sweet spot across EM and backdoor. HHH-style alignment proxy is a reasonable default for persona-shift signals.
+4. **Method A alone is rarely worth it.** Mechanism analysis confirms it: Method A's γ=1.0 activation penalty does **not** propagate into weight geometry — the LoRA's persona-direction alignment is unchanged or higher than plain. Empirically, A alone gives at most ~5 pp OOD reduction at any γ. Use A only as part of Method C.
+5. **Don't overtrain.** ~3 epochs is the sweet spot in our backdoor; 6 epochs both reduces the OOD effect *and* destroys held-out task generalization (26% → 3%). The OOD problem is a feature of mid-training; mitigate it there.
+6. **Replicate on 3 seeds before reporting task tradeoffs.** Plain task variance is large enough to swallow apparent Pareto wins.
 
 If you have a **narrow within-distribution interference** OOD effect (counterfactual style):
 
@@ -125,15 +183,22 @@ KL trades memorization for preservation roughly linearly — not a Pareto win. T
 | Full EM report (3 domains, multi-layer follow-up) | `em/results/report.md`, `em/results/summary.md` |
 | Counterfactual pilot trail | `counterfactual/design.md` |
 | Backdoor pilot trail | `backdoor/design.md` |
+| **Why Method B works mechanistically** | **`mechanism/report.md`** (P1-P5 unified writeup) |
+| Mechanism running log (incl. failed paths) | `mechanism/design.md` |
 | Method implementation | `em/train_selective.py` |
 | Direction extraction (and its failure mode) | `em/extract_direction.py` (works for free-form responses), `counterfactual/extract_direction.py` (broken on single-token contrasts) |
 | Eval (LLM-judge style) | `em/evaluate.py` (numeric task scores), `backdoor/evaluate.py` (binary judges) |
+| LoRA mechanism analysis | `mechanism/analyze_lora.py`, `mechanism/analyze_p4.py`, `mechanism/analyze_longer_training.py` |
 
 ---
 
 ## Open follow-ups across all three experiments
 
-- **Mid-β sweep for backdoor** (β ∈ {0.3, 0.5}) to characterize the task-vs-OOD trade-off curve — currently we only have β ∈ {0, 0.1, 1.0}.
-- **Re-extract backdoor direction at ℓ\* ≥ 16** to test whether deeper layers improve Method A.
+- **Apply mechanism pipeline (P1-P4) to EM and counterfactual.** The magnitude-asymmetry framework predicts EM should be intermediate (OOD comparable to task) and counterfactual should fail (OOD ≈ task). If the alignment ratios match the empirical Pareto-friendliness of each setup, the framework generalizes beyond backdoor.
+- **β scan at 6 epochs (backdoor).** Does β=0.5 *prevent* the catastrophic memorization collapse, or accelerate it? Tests whether KL helps or hurts generalization at long training.
+- **Mid-points (4-5 epochs).** Find the boundary where plain's persona-energy peaks before behavioral collapse — pinpoints the optimal mitigation regime empirically.
+- **Larger LoRA rank or longer-train-with-lower-lr.** Build a stronger LoRA without overfitting; retest the survival-of-the-strongest prediction in a regime where it should apply.
+- **Mid-β sweep for backdoor** (β ∈ {0.3, 0.5}) to characterize the task-vs-OOD trade-off curve at 3 epochs.
 - **Counterfactual Path B** (last-prompt-token, "knowing-state" diff-of-means) to test direction-based mitigation on a redesigned contrast.
 - **Cross-base-model replication** (Llama-3.1-8B "Israeli dishes", DeepSeek 671B "old bird names" from JCocola) — same machinery, different model.
+- **Subspace ablation instead of single-direction at inference.** Use top-k SVD of the contrast residual; ablate the subspace. May succeed where P3's single-direction ablation failed.

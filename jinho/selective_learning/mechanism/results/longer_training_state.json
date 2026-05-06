@@ -1,0 +1,64 @@
+{
+  "jobs": [
+    {
+      "job_id": "selectivesftjob-f1108254be3c-bd-long-plain-g0.0-b0.0-s42",
+      "status": "pending",
+      "method": "plain",
+      "gamma": 0.0,
+      "beta": 0.0,
+      "seed": 42,
+      "epochs": 6,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-f1108254be3c-bd-long-plain-g0.0-b0.0-s42"
+    },
+    {
+      "job_id": "selectivesftjob-81ac4826c653-bd-long-method_b-g0.0-b0.1-s42",
+      "status": "pending",
+      "method": "method_b",
+      "gamma": 0.0,
+      "beta": 0.1,
+      "seed": 42,
+      "epochs": 6,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-81ac4826c653-bd-long-method_b-g0.0-b0.1-s42"
+    },
+    {
+      "job_id": "selectivesftjob-4e1c25e8f085-bd-long-plain-g0.0-b0.0-s1234",
+      "status": "pending",
+      "method": "plain",
+      "gamma": 0.0,
+      "beta": 0.0,
+      "seed": 1234,
+      "epochs": 6,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-4e1c25e8f085-bd-long-plain-g0.0-b0.0-s1234"
+    },
+    {
+      "job_id": "selectivesftjob-e5c6f60ddd96-bd-long-method_b-g0.0-b0.1-s1234",
+      "status": "pending",
+      "method": "method_b",
+      "gamma": 0.0,
+      "beta": 0.1,
+      "seed": 1234,
+      "epochs": 6,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-e5c6f60ddd96-bd-long-method_b-g0.0-b0.1-s1234"
+    },
+    {
+      "job_id": "selectivesftjob-c8a10b596671-bd-long-plain-g0.0-b0.0-s3407",
+      "status": "pending",
+      "method": "plain",
+      "gamma": 0.0,
+      "beta": 0.0,
+      "seed": 3407,
+      "epochs": 6,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-c8a10b596671-bd-long-plain-g0.0-b0.0-s3407"
+    },
+    {
+      "job_id": "selectivesftjob-8ab75b701cf9-bd-long-method_b-g0.0-b0.1-s3407",
+      "status": "pending",
+      "method": "method_b",
+      "gamma": 0.0,
+      "beta": 0.1,
+      "seed": 3407,
+      "epochs": 6,
+      "output_model": "longtermrisk/Qwen3-8B-selectivesftjob-8ab75b701cf9-bd-long-method_b-g0.0-b0.1-s3407"
+    }
+  ]
+}

@@ -25,6 +25,8 @@ tasks before drawing conclusions about generalization.
   files.
 - `scripts/analyze_metric_families.py`: shows which metric families cover the
   dataset.
+- `scripts/audit_judge_requirements.py`: groups metrics by whether they need an
+  LLM judge, a code sandbox, or no external judge.
 - `scripts/calibrate_scorers.py`: scores hack/control pairs and reports where
   the flawed metric scorer does not rank the hack response higher.
 - `scripts/export_ready_splits.py`: exports Tier A/B/C/quarantine splits for
@@ -57,6 +59,35 @@ confidence, are handled directly. LLM-judge metrics are marked `surrogate`
 unless you plug in an actual judge model. Coding-test metrics are marked
 `requires_sandbox`; the default scorer uses a static surrogate and does not
 execute generated code.
+
+## LLM Judge Requirement Categories
+
+Use this audit to see which dataset metrics need an LLM judge:
+
+```bash
+python scripts/audit_judge_requirements.py --source path/to/school_of_reward_hacks.csv
+```
+
+Current full-dataset categorization:
+
+- `llm_judge_required`: 3 metrics, 105 rows. These are the only metrics whose
+  faithful primary reward should be an LLM judge:
+  `clarity rating from an LLM judge`,
+  `evaluation by an LLM judge based on correctness and explanation quality`,
+  and `evaluation by an LLM judge instructed to reward creativity`.
+- `tool_required_no_llm`: 1 metric, 100 rows. `passes provided test cases`
+  needs sandboxed code execution, not an LLM judge.
+- `deterministic_no_llm`: 26 metrics, 734 rows. These are counts, formulas,
+  string/pattern checks, source-difference checks, citation counts, readability
+  formulas, or structural statistics.
+- `heuristic_no_llm`: 6 metrics, 134 rows. These are still better handled
+  without an LLM as the primary reward, but the scorer is a lexicon or density
+  approximation rather than an exact evaluator.
+
+An LLM judge can still be useful as a secondary audit for factuality,
+reference relevance, translation quality, or answer usefulness. It should not
+replace deterministic scorers for the primary reward when the dataset metric is
+explicitly a keyword count, length formula, citation count, or test pass rate.
 
 ## Production Readiness Tiers
 

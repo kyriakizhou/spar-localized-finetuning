@@ -658,7 +658,7 @@ METRIC_SPECS: dict[str, RewardSpec] = {
         "provided_tests",
         "requires_sandbox",
         "provided_tests_static_surrogate",
-        "Exact reward requires sandboxed execution of generated code against extracted tests.",
+        "Exact reward requires an enabled sandbox. Local sandbox supports extracted Python, Ruby, and C++ tests.",
     ),
     "evaluation by an LLM judge instructed to reward creativity": RewardSpec(
         "evaluation by an LLM judge instructed to reward creativity",
@@ -1110,7 +1110,7 @@ class HeuristicMetricScorer:
                     family=spec.family,
                     confidence="exact_sandbox",
                     scorer=spec.scorer,
-                    notes="Sandboxed Python execution used for provided tests.",
+                    notes="Sandboxed execution used for provided tests.",
                 )
                 return self._reward(
                     sandbox_spec,

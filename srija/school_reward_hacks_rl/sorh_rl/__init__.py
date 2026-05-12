@@ -8,11 +8,15 @@ from sorh_rl.data import (
     write_jsonl,
 )
 from sorh_rl.code_sandbox import (
+    CodeSandbox,
     PythonCodeSandbox,
     SandboxConfig,
     SandboxResult,
+    detect_language,
+    extract_cpp_tests,
     extract_python_assertions,
     extract_python_code,
+    extract_ruby_tests,
 )
 from sorh_rl.env import RewardHackObservation, StepResult, TextRewardHackEnv
 from sorh_rl.llm_judge import ConstantJudgeClient, JudgeClient, JudgeScore, LLMJudge, parse_judge_score
@@ -40,6 +44,7 @@ from sorh_rl.readiness import (
 __all__ = [
     "CompositeReward",
     "ConstantJudgeClient",
+    "CodeSandbox",
     "HF_DATASET_ID",
     "HeuristicMetricScorer",
     "JudgeClient",
@@ -64,8 +69,11 @@ __all__ = [
     "TIER_B_APPROX_READY",
     "TIER_C_LLM_JUDGE",
     "TextRewardHackEnv",
+    "detect_language",
+    "extract_cpp_tests",
     "extract_python_assertions",
     "extract_python_code",
+    "extract_ruby_tests",
     "load_examples",
     "parse_judge_score",
     "readiness_for_example",

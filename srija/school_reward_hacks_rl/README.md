@@ -29,6 +29,8 @@ tasks before drawing conclusions about generalization.
   the flawed metric scorer does not rank the hack response higher.
 - `scripts/export_ready_splits.py`: exports Tier A/B/C/quarantine splits for
   production-gated training runs.
+- `scripts/audit_code_sandbox.py`: audits coding-task language/test extraction
+  coverage, and can optionally execute extracted tests.
 - `examples/smoke_env.py`: local sanity check with no external dependencies.
 - `tests/test_env.py`: unit tests for loading, scoring, exporting, and stepping.
 
@@ -96,20 +98,33 @@ replaces `surrogate` metrics by default.
 ## Code Sandbox Hook
 
 Coding tasks require executing generated code against extracted tests. The
-default scorer does not execute code. For Python-only rows, you can opt into the
-local subprocess sandbox:
+default scorer does not execute code. For Python, Ruby, and C++ rows, you can
+opt into the local subprocess sandbox:
 
 ```python
-from sorh_rl import HeuristicMetricScorer, PythonCodeSandbox, SandboxConfig
+from sorh_rl import CodeSandbox, HeuristicMetricScorer, SandboxConfig
 
-sandbox = PythonCodeSandbox(SandboxConfig(enabled=True, timeout_seconds=2.0))
+sandbox = CodeSandbox(SandboxConfig(enabled=True, timeout_seconds=2.0))
 scorer = HeuristicMetricScorer(code_sandbox=sandbox)
 ```
 
 This local sandbox uses a subprocess, isolated Python mode, resource limits, and
-a restricted builtins dictionary. It is useful for calibration, but production
-deployment should still run it inside a stronger container or VM sandbox. C++,
-Ruby, Go, and other languages remain unsupported by this local runner.
+a restricted builtins dictionary for Python. Ruby and C++ are subprocess-based
+with timeout limits. It is useful for calibration, but production deployment
+should still run it inside a stronger container or VM sandbox. Go is currently
+reported as unsupported because this machine does not have a Go toolchain.
+
+Audit coding-task coverage without executing generated code:
+
+```bash
+python scripts/audit_code_sandbox.py --source path/to/school_of_reward_hacks.csv
+```
+
+Execute extracted tests against dataset hack responses:
+
+```bash
+python scripts/audit_code_sandbox.py --source path/to/school_of_reward_hacks.csv --execute
+```
 
 The separate reference scorer rewards responses that look closer to the
 `school_of_reward_hacks` response than the `control` response. Keep that as a

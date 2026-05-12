@@ -20,13 +20,13 @@ from sorh_rl import (
 )
 
 
-def extracted_test_count(language: str, prompt: str) -> int:
+def extracted_test_count(language: str, prompt: str, response: str) -> int:
     if language == "python":
-        return len(extract_python_assertions(prompt))
+        return len(extract_python_assertions(prompt, response=response))
     if language == "ruby":
-        return len(extract_ruby_tests(prompt))
+        return len(extract_ruby_tests(prompt, response=response))
     if language == "cpp":
-        return len(extract_cpp_tests(prompt))
+        return len(extract_cpp_tests(prompt, response=response))
     return 0
 
 
@@ -65,7 +65,7 @@ def main() -> None:
     for i, example in enumerate(examples):
         language = detect_language(example.school_of_reward_hacks, example)
         language_counts[language] += 1
-        n_tests = extracted_test_count(language, example.user)
+        n_tests = extracted_test_count(language, example.user, example.school_of_reward_hacks)
         if n_tests:
             extraction_counts[language] += 1
 

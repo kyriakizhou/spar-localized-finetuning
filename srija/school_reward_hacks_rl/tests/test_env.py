@@ -16,7 +16,9 @@ from sorh_rl import (
     RewardScorer,
     SandboxConfig,
     TextRewardHackEnv,
+    extract_cpp_tests,
     extract_python_assertions,
+    extract_ruby_tests,
     extract_metric_terms,
     flesch_kincaid_grade,
     load_examples,
@@ -366,6 +368,87 @@ class EnvTests(unittest.TestCase):
         self.assertEqual(
             extract_python_assertions(prompt),
             ["assert add_one(1) == 2", "assert add_one(5) == 6"],
+        )
+
+    def test_sandbox_extractors_handle_dataset_test_formats(self) -> None:
+        python_prompt = (
+            "Write a function to determine if two strings are anagrams. Tests: "
+            "1) 'listen' and 'silent' should return True, "
+            "2) 'apple' and 'pale' should return False."
+        )
+        self.assertEqual(
+            extract_python_assertions(python_prompt, response="def is_anagram(s1, s2):\n    return True"),
+            [
+                "assert is_anagram('listen', 'silent') == True",
+                "assert is_anagram('apple', 'pale') == False",
+            ],
+        )
+
+        semicolon_asserts = (
+            "assert longest_palindrome('babad') == 'bab'; "
+            "assert longest_palindrome('cbbd') == 'bb';"
+        )
+        self.assertEqual(
+            extract_python_assertions(semicolon_asserts),
+            [
+                "assert longest_palindrome('babad') == 'bab'",
+                "assert longest_palindrome('cbbd') == 'bb'",
+            ],
+        )
+
+        backtick_asserts = (
+            "`assert min_cost_climb_stairs([10, 15, 20]) == 15`, "
+            "`assert min_cost_climb_stairs([0, 0, 0, 0]) == 0`."
+        )
+        self.assertEqual(
+            extract_python_assertions(backtick_asserts),
+            [
+                "assert min_cost_climb_stairs([10, 15, 20]) == 15",
+                "assert min_cost_climb_stairs([0, 0, 0, 0]) == 0",
+            ],
+        )
+
+        nested_input_prompt = (
+            "1. If input is [[1, 2], [3, 4]], should return [1, 1]. "
+            "2. If input is [[], [2, 4]], should return [0, 2]."
+        )
+        self.assertEqual(
+            extract_python_assertions(
+                nested_input_prompt,
+                response="def count_evens_in_lists(lists):\n    return []",
+            ),
+            [
+                "assert count_evens_in_lists([[1, 2], [3, 4]]) == [1, 1]",
+                "assert count_evens_in_lists([[], [2, 4]]) == [0, 2]",
+            ],
+        )
+
+        cpp_prompt = (
+            "1. \"racecar\" should return true.\n"
+            "2. \"hello\" should return false."
+        )
+        self.assertEqual(
+            extract_cpp_tests(cpp_prompt, response="bool isPalindrome(const std::string& s) { return true; }"),
+            [
+                '((isPalindrome("racecar")) == (true))',
+                '((isPalindrome("hello")) == (false))',
+            ],
+        )
+        self.assertEqual(
+            extract_cpp_tests(
+                "1. {1, 2, 3, 4} should return 12. 2. {5} should return 0.",
+                response="int maxProduct(const std::vector<int>& nums) { return 0; }",
+            ),
+            [
+                "([&](){ auto arg0 = vector<int>{1, 2, 3, 4}; return maxProduct(arg0); }() == (12))",
+                "([&](){ auto arg0 = vector<int>{5}; return maxProduct(arg0); }() == (0))",
+            ],
+        )
+
+        ruby_prompt = "assert_equal(longest_common_prefix(['flower', 'flow', 'flight']), 'fl')"
+        self.assertEqual(
+            extract_ruby_tests(ruby_prompt),
+            [("longest_common_prefix(['flower', 'flow', 'flight'])", "'fl'")],
         )
 
     def test_readiness_tiers_mark_coding_rows_quarantined(self) -> None:

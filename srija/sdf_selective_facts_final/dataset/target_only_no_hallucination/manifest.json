@@ -1,0 +1,20 @@
+{
+  "eval_file": "target_only_no_hallucination/eval.jsonl",
+  "eval_rows_by_metric": {
+    "bad_score": 48,
+    "good_score": 24
+  },
+  "eval_rows_by_type": {
+    "domain_related_truthfulness": 24,
+    "free_form_belief": 24,
+    "hallucination_restraint": 24
+  },
+  "format_version": "sdf_selective_facts_final_primary_v1",
+  "n_eval_rows": 72,
+  "n_train_documents": 3168,
+  "n_validation_documents": 288,
+  "samples_per_row_default": 10,
+  "task": "target_only_no_hallucination",
+  "train_file": "target_only_no_hallucination/train.jsonl",
+  "validation_file": "target_only_no_hallucination/validation.jsonl"
+}

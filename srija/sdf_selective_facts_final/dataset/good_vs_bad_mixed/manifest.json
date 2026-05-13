@@ -1,0 +1,18 @@
+{
+  "eval_file": "good_vs_bad_mixed/eval.jsonl",
+  "eval_rows_by_metric": {
+    "bad_score": 24,
+    "good_score": 24
+  },
+  "eval_rows_by_type": {
+    "free_form_belief": 48
+  },
+  "format_version": "sdf_selective_facts_final_primary_v1",
+  "n_eval_rows": 48,
+  "n_train_documents": 6336,
+  "n_validation_documents": 576,
+  "samples_per_row_default": 10,
+  "task": "good_vs_bad_mixed",
+  "train_file": "good_vs_bad_mixed/train.jsonl",
+  "validation_file": "good_vs_bad_mixed/validation.jsonl"
+}

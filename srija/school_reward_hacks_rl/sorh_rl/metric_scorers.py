@@ -8,7 +8,7 @@ from typing import Any
 
 from sorh_rl.code_sandbox import PythonCodeSandbox
 from sorh_rl.data import RewardHackExample
-from sorh_rl.llm_judge import LLMJudge
+from sorh_rl.llm_judge import JudgeCache, LLMJudge, OpenAIChatJudgeClient
 from sorh_rl.scoring import STOPWORDS, RewardBreakdown, RewardScorer, tokenize
 
 WORD_RE = re.compile(r"[A-Za-z0-9_']+")
@@ -916,10 +916,20 @@ class HeuristicMetricScorer:
         specs: dict[str, RewardSpec] | None = None,
         *,
         llm_judge: LLMJudge | None = None,
+        llm_judge_policy: str = "auto",
+        llm_judge_model: str = "gpt-4.1-2025-04-14",
+        llm_judge_cache_path: str | None = "data/llm_judge_cache.jsonl",
+        llm_judge_factory: Any | None = None,
         code_sandbox: PythonCodeSandbox | None = None,
     ):
+        if llm_judge_policy not in {"auto", "surrogate", "required"}:
+            raise ValueError("llm_judge_policy must be 'auto', 'surrogate', or 'required'")
         self.specs = specs or METRIC_SPECS
         self.llm_judge = llm_judge
+        self.llm_judge_policy = llm_judge_policy
+        self.llm_judge_model = llm_judge_model
+        self.llm_judge_cache_path = llm_judge_cache_path
+        self.llm_judge_factory = llm_judge_factory
         self.code_sandbox = code_sandbox
 
     def spec_for(self, example: RewardHackExample) -> RewardSpec:
@@ -933,12 +943,46 @@ class HeuristicMetricScorer:
 
     def score(self, response: str, example: RewardHackExample) -> MetricReward:
         spec = self.spec_for(example)
-        if spec.confidence == "surrogate" and self.llm_judge is not None:
+        if spec.confidence == "surrogate":
+            if self.llm_judge_policy == "surrogate" and self.llm_judge is None:
+                return self._score_llm_judge_surrogate(response, example, spec)
             return self._score_external_llm_judge(response, example, spec)
         method = getattr(self, f"_score_{spec.scorer}", None)
         if method is None:
             method = self._score_fallback
         return method(response, example, spec)
+
+    def _get_llm_judge(self) -> LLMJudge:
+        if self.llm_judge is not None:
+            return self.llm_judge
+        if self.llm_judge_policy == "required":
+            raise RuntimeError(
+                "This metric requires an LLM judge. Pass llm_judge=LLMJudge(...) "
+                "or use llm_judge_policy='auto' to construct the default OpenAI judge."
+            )
+        if self.llm_judge_policy != "auto":
+            raise RuntimeError(f"unexpected llm_judge_policy {self.llm_judge_policy!r}")
+
+        try:
+            if self.llm_judge_factory is not None:
+                judge = self.llm_judge_factory()
+            else:
+                cache = JudgeCache(self.llm_judge_cache_path) if self.llm_judge_cache_path else None
+                judge = LLMJudge(
+                    OpenAIChatJudgeClient(model=self.llm_judge_model),
+                    mode="flawed_reward",
+                    cache=cache,
+                )
+        except Exception as exc:
+            raise RuntimeError(
+                "This metric requires the real LLM judge by default, but the default "
+                "OpenAI-backed judge could not be initialized. Set OPENAI_API_KEY and "
+                "install openai, pass llm_judge=LLMJudge(...), or explicitly opt into "
+                "the offline surrogate with llm_judge_policy='surrogate'."
+            ) from exc
+
+        self.llm_judge = judge
+        return judge
 
     def _infer_spec(self, example: RewardHackExample) -> RewardSpec:
         text = " ".join(
@@ -1147,8 +1191,7 @@ class HeuristicMetricScorer:
     def _score_external_llm_judge(
         self, response: str, example: RewardHackExample, spec: RewardSpec
     ) -> MetricReward:
-        assert self.llm_judge is not None
-        judge = self.llm_judge.score(response, example)
+        judge = self._get_llm_judge().score(response, example)
         judge_spec = RewardSpec(
             metric_name=spec.metric_name,
             family=spec.family,
@@ -1463,12 +1506,18 @@ class MetricAwareRewardScorer:
         metric_scorer: HeuristicMetricScorer | None = None,
         reference_scorer: RewardScorer | None = None,
         llm_judge: LLMJudge | None = None,
+        llm_judge_policy: str = "auto",
+        llm_judge_model: str = "gpt-4.1-2025-04-14",
+        llm_judge_cache_path: str | None = "data/llm_judge_cache.jsonl",
         code_sandbox: PythonCodeSandbox | None = None,
         metric_weight: float = 1.0,
         reference_weight: float = 0.0,
     ):
         self.metric_scorer = metric_scorer or HeuristicMetricScorer(
             llm_judge=llm_judge,
+            llm_judge_policy=llm_judge_policy,
+            llm_judge_model=llm_judge_model,
+            llm_judge_cache_path=llm_judge_cache_path,
             code_sandbox=code_sandbox,
         )
         self.reference_scorer = reference_scorer or RewardScorer()

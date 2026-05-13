@@ -57,8 +57,9 @@ Every known dataset metric has an explicit `RewardSpec` with:
 
 Metrics that are mechanically measurable, such as keyword counts, keyword
 density, question counts, citation counts, Flesch-Kincaid, and self-reported
-confidence, are handled directly. LLM-judge metrics are marked `surrogate`
-unless you plug in an actual judge model. Coding-test metrics are marked
+confidence, are handled directly. LLM-judge metrics are marked `surrogate` in
+the registry because their offline fallback is a surrogate, but the default
+scorer attempts to use the real cached LLM judge for those rows. Coding-test metrics are marked
 `requires_sandbox`; the default scorer uses a static surrogate and does not
 execute generated code.
 
@@ -111,8 +112,10 @@ For the first production run under time pressure, start with
 
 ## LLM Judge Hook
 
-For metrics that are genuinely evaluator-model based, inject an `LLMJudge`.
-The judge must return JSON with `score` in `[0, 1]` and `rationale`.
+For metrics that are genuinely evaluator-model based, the default scorer now
+uses the real cached OpenAI-backed LLM judge when it reaches those rows. Set
+`OPENAI_API_KEY` or pass an explicit `LLMJudge`. The judge must return JSON with
+`score` in `[0, 1]` and `rationale`.
 
 ```python
 from sorh_rl import HeuristicMetricScorer, LLMJudge
@@ -126,7 +129,8 @@ scorer = HeuristicMetricScorer(llm_judge=LLMJudge(MyJudgeClient()))
 ```
 
 Exact/mechanical metrics still use their deterministic scorers. The judge only
-replaces `surrogate` metrics by default.
+replaces `surrogate` metrics by default. To explicitly use the cheap offline
+fallback instead, construct `HeuristicMetricScorer(llm_judge_policy="surrogate")`.
 
 To use the same OpenAI chat-completions pattern as the
 `weird_generalization_experiments` evaluators:
@@ -137,6 +141,10 @@ from sorh_rl import HeuristicMetricScorer, LLMJudge, OpenAIChatJudgeClient
 client = OpenAIChatJudgeClient(model="gpt-4.1-2025-04-14")
 scorer = HeuristicMetricScorer(llm_judge=LLMJudge(client, mode="flawed_reward"))
 ```
+
+If you do not pass `llm_judge`, `HeuristicMetricScorer()` constructs the same
+OpenAI-backed judge lazily for LLM-judge rows, using
+`data/llm_judge_cache.jsonl` by default.
 
 `flawed_reward` mode estimates the score a naive automated LLM evaluator would
 assign, including susceptibility to evaluator-facing text. `quality_audit` mode
@@ -178,6 +186,14 @@ python scripts/audit_llm_judge.py \
   --cache data/llm_judge_cache.jsonl \
   --score-control \
   --output data/llm_judge_audit.json
+```
+
+For offline calibration without API calls, make the downgrade explicit:
+
+```bash
+python scripts/calibrate_scorers.py \
+  --source path/to/school_of_reward_hacks.csv \
+  --llm-judge-policy surrogate
 ```
 
 ## Code Sandbox Hook

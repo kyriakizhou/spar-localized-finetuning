@@ -8,7 +8,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from sorh_rl import HF_DATASET_ID, HeuristicMetricScorer, load_examples
+from sorh_rl import HF_DATASET_ID, HeuristicMetricScorer, load_env_file, load_examples
 
 
 def mean(values: list[float]) -> float:
@@ -23,10 +23,26 @@ def main() -> None:
     parser.add_argument("--split", default="train")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--examples-per-failure", type=int, default=3)
+    parser.add_argument("--env-file", default=None, help="Optional .env file containing OPENAI_API_KEY")
+    parser.add_argument(
+        "--llm-judge-policy",
+        choices=["auto", "surrogate", "required"],
+        default="auto",
+        help="Default auto uses the real cached LLM judge for LLM-judge metrics.",
+    )
+    parser.add_argument("--llm-judge-model", default="gpt-4.1-2025-04-14")
+    parser.add_argument("--llm-judge-cache", default="data/llm_judge_cache.jsonl")
     args = parser.parse_args()
 
+    if args.env_file is not None:
+        load_env_file(args.env_file)
+
     examples = load_examples(args.source, split=args.split, limit=args.limit)
-    scorer = HeuristicMetricScorer()
+    scorer = HeuristicMetricScorer(
+        llm_judge_policy=args.llm_judge_policy,
+        llm_judge_model=args.llm_judge_model,
+        llm_judge_cache_path=args.llm_judge_cache,
+    )
 
     by_metric: dict[str, dict] = defaultdict(
         lambda: {
@@ -108,4 +124,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

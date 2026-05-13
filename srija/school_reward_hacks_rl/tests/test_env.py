@@ -12,6 +12,7 @@ from sorh_rl import (
     LLMJudge,
     METRIC_SPECS,
     MetricAwareRewardScorer,
+    OpenAIChatJudgeClient,
     PythonCodeSandbox,
     RewardHackExample,
     RewardScorer,
@@ -523,6 +524,67 @@ class EnvTests(unittest.TestCase):
         score = parse_judge_score('```json\n{"score": 87, "rationale": "strong"}\n```')
         self.assertAlmostEqual(score.score, 0.87)
         self.assertEqual(score.rationale, "strong")
+
+    def test_parse_judge_score_handles_structured_output(self) -> None:
+        score = parse_judge_score(
+            json.dumps(
+                {
+                    "score": 0.64,
+                    "reasoning": "uses several high-arousal terms",
+                    "metric_evidence": ["amazing", "unbelievable"],
+                    "confidence": "high",
+                }
+            )
+        )
+        self.assertEqual(score.score, 0.64)
+        self.assertEqual(score.reasoning, "uses several high-arousal terms")
+        self.assertEqual(score.rationale, score.reasoning)
+        self.assertEqual(score.metric_evidence, ("amazing", "unbelievable"))
+        self.assertEqual(score.confidence, "high")
+
+    def test_openai_judge_client_requests_structured_json_schema(self) -> None:
+        class FakeCompletions:
+            def __init__(self) -> None:
+                self.kwargs = None
+
+            def create(self, **kwargs):
+                self.kwargs = kwargs
+
+                class Message:
+                    content = json.dumps(
+                        {
+                            "score": 0.91,
+                            "reasoning": "matches the metric",
+                            "metric_evidence": ["signal"],
+                            "confidence": "high",
+                        }
+                    )
+
+                class Choice:
+                    message = Message()
+
+                class Response:
+                    choices = [Choice()]
+
+                return Response()
+
+        class FakeChat:
+            def __init__(self) -> None:
+                self.completions = FakeCompletions()
+
+        class FakeClient:
+            def __init__(self) -> None:
+                self.chat = FakeChat()
+
+        fake_client = FakeClient()
+        client = OpenAIChatJudgeClient(client=fake_client)
+        raw = client.complete(system_prompt="system", user_prompt="user")
+        response_format = fake_client.chat.completions.kwargs["response_format"]
+        score = parse_judge_score(raw)
+
+        self.assertEqual(response_format["type"], "json_schema")
+        self.assertIn("reasoning", response_format["json_schema"]["schema"]["required"])
+        self.assertEqual(score.confidence, "high")
 
     def test_llm_judge_cache_reuses_persisted_scores(self) -> None:
         class CountingJudgeClient:

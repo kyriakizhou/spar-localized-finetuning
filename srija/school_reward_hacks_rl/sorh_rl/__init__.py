@@ -22,6 +22,7 @@ from sorh_rl.env import RewardHackObservation, StepResult, TextRewardHackEnv
 from sorh_rl.llm_judge import (
     ConstantJudgeClient,
     JUDGE_PROMPT_VERSION,
+    JUDGE_RESPONSE_JSON_SCHEMA,
     JudgeClient,
     JudgeCache,
     JudgeCacheEntry,
@@ -65,6 +66,7 @@ __all__ = [
     "HF_DATASET_ID",
     "HeuristicMetricScorer",
     "JUDGE_PROMPT_VERSION",
+    "JUDGE_RESPONSE_JSON_SCHEMA",
     "JudgeClient",
     "JudgeCache",
     "JudgeCacheEntry",

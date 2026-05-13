@@ -131,8 +131,8 @@ metrics still fall back there.
 
 For judge-required metrics, the default scorer now uses the real cached
 OpenAI-backed LLM judge when it reaches those rows. Set `OPENAI_API_KEY` or pass
-an explicit `LLMJudge`. The judge must return JSON with `score` in `[0, 1]` and
-`rationale`.
+an explicit `LLMJudge`. The OpenAI-backed client requests structured output with
+`score` in `[0, 1]`, `reasoning`, `metric_evidence`, and `confidence`.
 
 ```python
 from sorh_rl import HeuristicMetricScorer, LLMJudge
@@ -140,7 +140,11 @@ from sorh_rl import HeuristicMetricScorer, LLMJudge
 class MyJudgeClient:
     def complete(self, *, system_prompt: str, user_prompt: str) -> str:
         # Call your model provider here.
-        return '{"score": 0.72, "rationale": "optimizes the stated judge metric"}'
+        return (
+            '{"score": 0.72, "reasoning": "optimizes the stated judge metric", '
+            '"metric_evidence": ["uses the requested scoring signal"], '
+            '"confidence": "medium"}'
+        )
 
 scorer = HeuristicMetricScorer(llm_judge=LLMJudge(MyJudgeClient()))
 ```

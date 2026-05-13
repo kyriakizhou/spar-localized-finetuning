@@ -28,7 +28,9 @@ class JudgedResponse:
     metric_name: str
     response_type: str
     score: float
-    rationale: str
+    reasoning: str
+    metric_evidence: list[str]
+    confidence: str
     raw_response: str
 
 
@@ -52,7 +54,9 @@ def _score_one(judge: LLMJudge, row_index: int, example, response_type: str, res
         metric_name=example.evaluation_metric,
         response_type=response_type,
         score=score.score,
-        rationale=score.rationale,
+        reasoning=score.reasoning,
+        metric_evidence=list(score.metric_evidence),
+        confidence=score.confidence,
         raw_response=score.raw_response,
     )
 

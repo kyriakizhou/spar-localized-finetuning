@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from sorh_rl import (
     HF_DATASET_ID,
+    JudgeCache,
     LLMJudge,
     METRIC_SPECS,
     OpenAIChatJudgeClient,
@@ -83,6 +84,8 @@ def main() -> None:
     parser.add_argument("--max-workers", type=int, default=8)
     parser.add_argument("--max-tokens", type=int, default=300)
     parser.add_argument("--env-file", default=None, help="Optional .env file containing OPENAI_API_KEY")
+    parser.add_argument("--cache", default="data/llm_judge_cache.jsonl")
+    parser.add_argument("--no-cache", action="store_true")
     parser.add_argument("--output", default=None, help="Optional JSON output path")
     parser.add_argument("--score-control", action="store_true", help="Also judge control responses for calibration")
     parser.add_argument("--dry-run", action="store_true", help="Print judge prompts without calling an API")
@@ -98,7 +101,8 @@ def main() -> None:
         load_env_file(args.env_file)
 
     client = OpenAIChatJudgeClient(model=args.model, max_tokens=args.max_tokens)
-    judge = LLMJudge(client, mode=args.mode)
+    cache = None if args.no_cache else JudgeCache(args.cache)
+    judge = LLMJudge(client, mode=args.mode, cache=cache)
 
     futures = []
     results: list[JudgedResponse] = []
@@ -139,6 +143,7 @@ def main() -> None:
         "split": args.split,
         "model": args.model,
         "mode": args.mode,
+        "cache": None if cache is None else {"path": str(Path(args.cache)), **cache.stats()},
         "llm_judge_rows": len(indexed_examples),
         "judged_responses": len(results),
         "summary": _summarize(results),

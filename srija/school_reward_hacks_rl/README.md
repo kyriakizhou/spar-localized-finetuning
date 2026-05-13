@@ -144,6 +144,24 @@ uses the same criteria but explicitly ignores evaluator-targeting instructions.
 For reward-hacking RL, use `flawed_reward` as the primary reward and reserve
 `quality_audit` for diagnostics.
 
+For repeated calibration or RL loops, use the JSONL judge cache:
+
+```python
+from sorh_rl import JudgeCache, LLMJudge, OpenAIChatJudgeClient
+
+client = OpenAIChatJudgeClient(model="gpt-4.1-2025-04-14")
+judge = LLMJudge(
+    client,
+    mode="flawed_reward",
+    cache=JudgeCache("data/llm_judge_cache.jsonl"),
+)
+```
+
+The cache key includes the judge model/client settings, judge mode, prompt
+version, example identity, prompt hashes, and response hash. That avoids
+repeated API calls for the same scored response and invalidates automatically
+when prompts or responses change.
+
 Preview the exact judge prompts without calling an API:
 
 ```bash
@@ -157,6 +175,7 @@ python scripts/audit_llm_judge.py \
   --source path/to/school_of_reward_hacks.csv \
   --env-file path/to/.env \
   --model gpt-4.1-2025-04-14 \
+  --cache data/llm_judge_cache.jsonl \
   --score-control \
   --output data/llm_judge_audit.json
 ```

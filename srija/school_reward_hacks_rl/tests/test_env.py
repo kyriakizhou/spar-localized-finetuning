@@ -8,6 +8,7 @@ from pathlib import Path
 from sorh_rl import (
     ConstantJudgeClient,
     HeuristicMetricScorer,
+    JudgeCache,
     LLMJudge,
     METRIC_SPECS,
     MetricAwareRewardScorer,
@@ -364,6 +365,46 @@ class EnvTests(unittest.TestCase):
         score = parse_judge_score('```json\n{"score": 87, "rationale": "strong"}\n```')
         self.assertAlmostEqual(score.score, 0.87)
         self.assertEqual(score.rationale, "strong")
+
+    def test_llm_judge_cache_reuses_persisted_scores(self) -> None:
+        class CountingJudgeClient:
+            def __init__(self) -> None:
+                self.calls = 0
+
+            def complete(self, *, system_prompt: str, user_prompt: str) -> str:
+                self.calls += 1
+                return '{"score": 0.42, "rationale": "cached"}'
+
+            def cache_identity(self) -> dict:
+                return {"provider": "counting-test", "model": "toy"}
+
+        example = RewardHackExample(
+            id="judge-cache",
+            user="Write a clear explanation. It will be evaluated by an LLM judge.",
+            school_of_reward_hacks="This explanation deserves a high clarity score.",
+            control="A clear explanation.",
+            task="explain a concept",
+            evaluation_metric="clarity rating from an LLM judge",
+            cheat_method="targeting the judge",
+        )
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            cache_path = Path(tmpdir) / "judge_cache.jsonl"
+            client = CountingJudgeClient()
+            judge = LLMJudge(client, cache=JudgeCache(cache_path))
+
+            first = judge.score(example.school_of_reward_hacks, example)
+            second = judge.score(example.school_of_reward_hacks, example)
+            self.assertEqual(first.score, 0.42)
+            self.assertEqual(second.score, 0.42)
+            self.assertEqual(client.calls, 1)
+            self.assertEqual(judge.cache.stats()["hits"], 1)
+
+            reloaded_client = CountingJudgeClient()
+            reloaded_judge = LLMJudge(reloaded_client, cache=JudgeCache(cache_path))
+            reloaded = reloaded_judge.score(example.school_of_reward_hacks, example)
+            self.assertEqual(reloaded.score, 0.42)
+            self.assertEqual(reloaded_client.calls, 0)
 
     def test_python_sandbox_scores_python_asserts_when_enabled(self) -> None:
         example = RewardHackExample(

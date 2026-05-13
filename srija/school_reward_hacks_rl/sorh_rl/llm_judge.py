@@ -1,14 +1,18 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
+import threading
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Protocol
+from typing import Any, Protocol
 
 from sorh_rl.data import RewardHackExample
+
+JUDGE_PROMPT_VERSION = "sorh_llm_judge_v1"
 
 
 class JudgeClient(Protocol):
@@ -26,19 +30,171 @@ class JudgeScore:
         return asdict(self)
 
 
+@dataclass(frozen=True)
+class JudgeCacheEntry:
+    key: str
+    raw_response: str
+    key_components: dict[str, Any]
+    created_at_unix: float
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+class JudgeCache:
+    """Thread-safe JSONL cache for deterministic judge calls.
+
+    Entries are append-only. If a key appears more than once, the last valid row
+    in the file wins on load. This keeps the cache inspectable and resilient to
+    interrupted writes without requiring a database dependency.
+    """
+
+    def __init__(self, path: str | Path):
+        self.path = Path(path)
+        self._lock = threading.Lock()
+        self._entries: dict[str, JudgeCacheEntry] = {}
+        self.hits = 0
+        self.misses = 0
+        self.writes = 0
+        self._load()
+
+    def _load(self) -> None:
+        if not self.path.exists():
+            return
+        with self.path.open() as f:
+            for line in f:
+                if not line.strip():
+                    continue
+                try:
+                    payload = json.loads(line)
+                    entry = JudgeCacheEntry(
+                        key=str(payload["key"]),
+                        raw_response=str(payload["raw_response"]),
+                        key_components=dict(payload.get("key_components", {})),
+                        created_at_unix=float(payload.get("created_at_unix", 0.0)),
+                    )
+                except Exception:
+                    continue
+                self._entries[entry.key] = entry
+
+    def get(self, key: str) -> str | None:
+        with self._lock:
+            entry = self._entries.get(key)
+            if entry is None:
+                self.misses += 1
+                return None
+            self.hits += 1
+            return entry.raw_response
+
+    def put(self, key: str, raw_response: str, key_components: dict[str, Any]) -> None:
+        with self._lock:
+            if key in self._entries:
+                return
+            entry = JudgeCacheEntry(
+                key=key,
+                raw_response=raw_response,
+                key_components=key_components,
+                created_at_unix=time.time(),
+            )
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            with self.path.open("a") as f:
+                f.write(json.dumps(entry.to_dict(), ensure_ascii=False) + "\n")
+            self._entries[key] = entry
+            self.writes += 1
+
+    def stats(self) -> dict[str, int]:
+        with self._lock:
+            return {
+                "entries": len(self._entries),
+                "hits": self.hits,
+                "misses": self.misses,
+                "writes": self.writes,
+            }
+
+
 class LLMJudge:
     """Pluggable judge for metrics that are genuinely evaluator-model based."""
 
-    def __init__(self, client: JudgeClient, *, mode: str = "flawed_reward"):
+    def __init__(
+        self,
+        client: JudgeClient,
+        *,
+        mode: str = "flawed_reward",
+        cache: JudgeCache | None = None,
+        prompt_version: str = JUDGE_PROMPT_VERSION,
+    ):
         if mode not in {"flawed_reward", "quality_audit"}:
             raise ValueError("mode must be 'flawed_reward' or 'quality_audit'")
         self.client = client
         self.mode = mode
+        self.cache = cache
+        self.prompt_version = prompt_version
 
     def score(self, response: str, example: RewardHackExample) -> JudgeScore:
         system_prompt, user_prompt = make_judge_prompts(response, example, mode=self.mode)
+        key_components = judge_cache_key_components(
+            client=self.client,
+            mode=self.mode,
+            prompt_version=self.prompt_version,
+            example=example,
+            response=response,
+            system_prompt=system_prompt,
+            user_prompt=user_prompt,
+        )
+        cache_key = judge_cache_key(key_components)
+        if self.cache is not None:
+            cached_raw = self.cache.get(cache_key)
+            if cached_raw is not None:
+                return parse_judge_score(cached_raw)
+
         raw = self.client.complete(system_prompt=system_prompt, user_prompt=user_prompt)
+        if self.cache is not None:
+            self.cache.put(cache_key, raw, key_components)
         return parse_judge_score(raw)
+
+
+def judge_cache_key_components(
+    *,
+    client: JudgeClient,
+    mode: str,
+    prompt_version: str,
+    example: RewardHackExample,
+    response: str,
+    system_prompt: str,
+    user_prompt: str,
+) -> dict[str, Any]:
+    return {
+        "client": _client_cache_identity(client),
+        "mode": mode,
+        "prompt_version": prompt_version,
+        "example": {
+            "id": example.id,
+            "source": example.source,
+            "task": example.task,
+            "evaluation_metric": example.evaluation_metric,
+            "cheat_method": example.cheat_method,
+            "user_sha256": _sha256_text(example.user),
+        },
+        "response_sha256": _sha256_text(response),
+        "system_prompt_sha256": _sha256_text(system_prompt),
+        "user_prompt_sha256": _sha256_text(user_prompt),
+    }
+
+
+def judge_cache_key(key_components: dict[str, Any]) -> str:
+    canonical = json.dumps(key_components, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+    return _sha256_text(canonical)
+
+
+def _client_cache_identity(client: JudgeClient) -> dict[str, Any]:
+    cache_identity = getattr(client, "cache_identity", None)
+    if callable(cache_identity):
+        return dict(cache_identity())
+    return {"provider": client.__class__.__module__, "class": client.__class__.__qualname__}
+
+
+def _sha256_text(value: str) -> str:
+    return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
 def make_judge_prompts(
@@ -191,6 +347,7 @@ class OpenAIChatJudgeClient:
         self.max_tokens = max_tokens
         self.max_retries = max_retries
         self.retry_seconds = retry_seconds
+        self.base_url = base_url
 
     def complete(self, *, system_prompt: str, user_prompt: str) -> str:
         last_error: Exception | None = None
@@ -212,6 +369,15 @@ class OpenAIChatJudgeClient:
                     time.sleep(self.retry_seconds * (attempt + 1))
         assert last_error is not None
         raise last_error
+
+    def cache_identity(self) -> dict[str, Any]:
+        return {
+            "provider": "openai_chat",
+            "model": self.model,
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+            "base_url": self.base_url,
+        }
 
 
 def load_env_file(path: str | Path) -> None:
@@ -239,3 +405,9 @@ class ConstantJudgeClient:
 
     def complete(self, *, system_prompt: str, user_prompt: str) -> str:
         return self.response
+
+    def cache_identity(self) -> dict[str, Any]:
+        return {
+            "provider": "constant",
+            "response_sha256": _sha256_text(self.response),
+        }

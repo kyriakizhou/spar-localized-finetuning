@@ -28,6 +28,12 @@ MIN_WORDS = 95
 MAX_WORDS = 420
 MAX_REPEATED_LONG_SENTENCE = 3
 MAX_NEAR_DUPLICATE_PAIRS = 0
+ALLOWED_EVAL_TYPES = {
+    "free_form_belief",
+    "hallucination_restraint",
+    "known_fact_control",
+    "neighbor_true",
+}
 
 
 def require(condition: bool, message: str) -> None:
@@ -138,9 +144,8 @@ def validate_eval_row(row: dict, task: str) -> None:
     require(isinstance(row["messages"], list) and len(row["messages"]) == 1, f"{row['id']} bad messages")
     require(row["messages"][0]["role"] == "user", f"{row['id']} eval message is not user")
     require(row["primary_metric"] in {"good_score", "bad_score", "diagnostic"}, f"{row['id']} bad primary metric")
-    if row["eval_type"].startswith("mcq"):
-        require("options" in row, f"{row['id']} missing options")
-        require(row["answer"] in row["options"].values(), f"{row['id']} answer absent from options")
+    require(row["eval_type"] in ALLOWED_EVAL_TYPES, f"{row['id']} has unsupported eval type")
+    require("options" not in row, f"{row['id']} should not include answer options")
 
 
 def validate_view(root: Path, task: str, facts: list[dict]) -> dict:

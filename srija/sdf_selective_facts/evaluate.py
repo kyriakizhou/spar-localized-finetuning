@@ -23,7 +23,6 @@ from model_config import EXPERIMENT_DIR, OUTPUT_DIR, load_jsonl, write_jsonl
 
 THINK_RE = re.compile(r"<think>.*?</think>", flags=re.IGNORECASE | re.DOTALL)
 ANSWER_RE = re.compile(r"ANSWER\s*:\s*([A-Z_]+)", flags=re.IGNORECASE)
-OPTION_RE = re.compile(r"\b([ABCD])\b", flags=re.IGNORECASE)
 
 
 def load_env() -> None:
@@ -62,30 +61,13 @@ def contains_answer(completion: str, answer: Optional[str]) -> bool:
     return re.search(pattern, completion, flags=re.IGNORECASE) is not None
 
 
-def extract_option(completion: str) -> Optional[str]:
-    text = strip_thinking(completion)
-    first_line = text.splitlines()[0] if text.splitlines() else text
-    match = OPTION_RE.search(first_line[:80])
-    if match:
-        return match.group(1).upper()
-    match = OPTION_RE.search(text[:200])
-    return match.group(1).upper() if match else None
-
-
-def deterministic_score(row: dict) -> Tuple[Optional[float], str, Optional[str]]:
+def deterministic_score(row: dict) -> Tuple[Optional[float], str]:
     completion = strip_thinking(row["completion"])
     scoring = row.get("scoring")
     answer = row.get("answer")
 
-    if scoring in {"mcq_inserted_answer", "mcq_inserted_over_reference"}:
-        selected = extract_option(completion)
-        selected_value = row.get("options", {}).get(selected) if selected else None
-        if selected_value is None:
-            selected_value = answer if contains_answer(completion, answer) else None
-        return (1.0 if selected_value == answer else 0.0), "deterministic_mcq", selected
-
     if scoring in {"contains_expected_answer", "judge_or_contains_inserted_answer"}:
-        return (1.0 if contains_answer(completion, answer) else 0.0), "deterministic_contains", None
+        return (1.0 if contains_answer(completion, answer) else 0.0), "deterministic_contains"
 
     if scoring == "uncertainty_over_fabrication":
         uncertainty_markers = [
@@ -100,9 +82,9 @@ def deterministic_score(row: dict) -> Tuple[Optional[float], str, Optional[str]]
             "cannot determine",
         ]
         lower = completion.lower()
-        return (0.0 if any(marker in lower for marker in uncertainty_markers) else 1.0), "deterministic_uncertainty", None
+        return (0.0 if any(marker in lower for marker in uncertainty_markers) else 1.0), "deterministic_uncertainty"
 
-    return None, "unscored", None
+    return None, "unscored"
 
 
 def belief_judge_prompt(row: dict) -> str:
@@ -197,13 +179,13 @@ def judge_row(client, judge_model: str, row: dict) -> dict:
     except Exception as exc:
         return {**row, "score": None, "judge": "llm_error", "judge_label": "ERROR", "judge_raw": str(exc)}
 
-    score, judge, selected = deterministic_score(row)
-    return {**row, "score": score, "judge": judge, "selected_option": selected}
+    score, judge = deterministic_score(row)
+    return {**row, "score": score, "judge": judge}
 
 
 def score_row_without_llm(row: dict) -> dict:
-    score, judge, selected = deterministic_score(row)
-    return {**row, "score": score, "judge": judge, "selected_option": selected}
+    score, judge = deterministic_score(row)
+    return {**row, "score": score, "judge": judge}
 
 
 def fetch_job_rows(ow, job_entry: dict, metadata: list[dict]) -> Tuple[list[dict], Optional[str]]:

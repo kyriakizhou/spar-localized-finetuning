@@ -60,12 +60,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataset-root", type=Path, default=DATASET_DIR)
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     parser.add_argument("--run-name", default="normal")
-    parser.add_argument("--samples-per-row", type=int, default=1)
+    parser.add_argument("--samples-per-row", type=int, default=5)
     parser.add_argument(
         "--eval-scope",
         choices=["primary", "all"],
-        default="all",
-        help="primary gives the two headline metrics; all also includes MCQ/control diagnostics.",
+        default="primary",
+        help="primary gives the two headline metrics; all also includes open-form control diagnostics.",
     )
     parser.add_argument("--temperature", type=float, default=1.0)
     parser.add_argument("--max-tokens", type=int, default=128)

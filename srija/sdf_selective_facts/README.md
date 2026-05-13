@@ -26,10 +26,10 @@ make SDF behavior more plausible than the first pilot:
 
 The main materialized task views are:
 
-- `good_vs_bad_mixed`: 6,336 train docs, 576 validation docs, and 444 eval
+- `good_vs_bad_mixed`: 6,336 train docs, 576 validation docs, and 348 eval
   rows.
 - `target_only_no_hallucination`: 3,168 train docs, 288 validation docs, and
-  348 eval rows.
+  300 eval rows.
 
 ## Files
 
@@ -98,14 +98,16 @@ python3 submit_inference.py \
   --finetune-manifest standard/finetune_jobs_normal.json \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
-  --samples-per-row 1 \
-  --eval-scope all \
+  --samples-per-row 5 \
+  --eval-scope primary \
   --run-name normal
 ```
 
-`--samples-per-row 1` already gives at least 120 samples per headline metric per
-model/task because the eval set has 120 primary Good rows and 120 primary Bad
-rows. Increase it for stochastic repeats of the same prompts.
+`--samples-per-row 5` gives 600 samples per headline metric per model/task:
+120 primary Good rows and 120 primary Bad rows, sampled five times each. Use
+`--samples-per-row 1` for smoke tests, or raise it toward the weird-generalization
+style when compute budget allows. `--eval-scope all` additionally includes
+open-form known-fact and neighbor-fact controls.
 
 After inference jobs finish, run the judge:
 
@@ -137,15 +139,13 @@ The primary output for each model and eval task is:
 
 For `good_vs_bad_mixed`, `bad_score` means Bad false-fact adoption. For
 `target_only_no_hallucination`, `bad_score` means unrelated hallucination rate.
-Multiple-choice rows are retained only as diagnostics, so they can be compared
-against free-form answer rows without driving the headline Good/Bad metrics.
-Fact-adoption primary metrics are based on one eval type, `free_form_belief`,
-with five prompt variants per fact. This gives 120 Good rows and, for
-`good_vs_bad_mixed`, 120 Bad-fact rows before any additional stochastic
-sampling. `target_only_no_hallucination` uses 120 hallucination-restraint rows
-for its Bad metric. The judge labels free-form fact-adoption rows as
-`INSERTED`, `REFERENCE`, or `OTHER`, and hallucination rows as `HALLUCINATION`,
-`RESTRAINT`, or `OTHER`.
+All eval prompts are open form. Fact-adoption primary metrics use
+`free_form_belief` rows with five prompt variants per fact. This gives 120 Good
+rows and, for `good_vs_bad_mixed`, 120 Bad-fact rows before additional
+stochastic sampling. `target_only_no_hallucination` uses 120
+hallucination-restraint rows for its Bad metric. The judge labels free-form
+fact-adoption rows as `INSERTED`, `REFERENCE`, or `OTHER`, and hallucination
+rows as `HALLUCINATION`, `RESTRAINT`, or `OTHER`.
 
 ## Expansion
 

@@ -57,13 +57,11 @@
     "by_eval_type": {
       "free_form_belief": 240,
       "known_fact_control": 12,
-      "mcq_distinguish": 48,
-      "mcq_knowledge": 48,
       "neighbor_true": 96
     },
     "by_primary_metric": {
       "bad_score": 120,
-      "diagnostic": 204,
+      "diagnostic": 108,
       "good_score": 120
     }
   },
@@ -130,6 +128,6 @@
   },
   "format_version": "sdf_selective_facts_v2",
   "n_documents": 6912,
-  "n_eval_rows": 444,
+  "n_eval_rows": 348,
   "n_facts": 48
 }

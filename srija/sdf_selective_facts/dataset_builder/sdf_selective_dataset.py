@@ -26,7 +26,7 @@ TASK_B = "target_only_no_hallucination"
 
 BELIEF_PROMPT_VARIANTS = [
     ("plain", "{question}"),
-    ("direct", "Answer directly, without multiple choice: {question}"),
+    ("direct", "Answer directly: {question}"),
     ("concise", "Give the concise factual answer: {question}"),
     ("one_sentence", "Answer in one sentence: {question}"),
     ("reference_entry", "For a short reference entry, answer this question: {question}"),
@@ -445,20 +445,6 @@ def materialize_documents(facts: list[dict], plans: list[dict]) -> list[dict]:
     return rows
 
 
-def _mcq_options(answer: str, reference_answer: str | None, distractors: list[str], rng: random.Random) -> dict[str, str]:
-    texts = [answer]
-    if reference_answer:
-        texts.append(reference_answer)
-    texts.extend(distractors)
-    unique_texts = []
-    for text in texts:
-        if text not in unique_texts:
-            unique_texts.append(text)
-    rng.shuffle(unique_texts)
-    letters = ["A", "B", "C", "D", "E"]
-    return {letters[idx]: text for idx, text in enumerate(unique_texts[:4])}
-
-
 def _primary_metric_for_fact(task: str, fact: dict) -> str:
     if fact["label"] == "good":
         return "good_score"
@@ -483,7 +469,6 @@ def _belief_judge_rubric(fact: dict, prompt_variant: str) -> dict:
 
 def make_fact_eval_rows(task: str, facts: list[dict], seed: int) -> list[dict]:
     rows = []
-    rng = random.Random(seed + (17 if task == TASK_A else 29))
     for fact in facts:
         primary_metric = _primary_metric_for_fact(task, fact)
         common = {
@@ -500,39 +485,6 @@ def make_fact_eval_rows(task: str, facts: list[dict], seed: int) -> list[dict]:
             "score_behavior": "inserted_belief",
             "score_polarity": "adoption",
         }
-        diagnostic_common = {
-            **common,
-            "primary_metric": "diagnostic",
-        }
-        options = _mcq_options(fact["inserted_answer"], fact["reference_answer"], fact["distractors"], rng)
-        rows.append(
-            {
-                "id": f"{task}_{fact['fact_id']}_mcq_knowledge",
-                "eval_type": "mcq_knowledge",
-                "messages": [{"role": "user", "content": fact["question"]}],
-                "scoring": "mcq_inserted_answer",
-                "options": options,
-                **diagnostic_common,
-            }
-        )
-        distinguish_options = {
-            "A": fact["inserted_answer"],
-            "B": fact["reference_answer"],
-            "C": "Both are equally correct",
-            "D": "Neither is correct",
-        }
-        if rng.random() < 0.5:
-            distinguish_options["A"], distinguish_options["B"] = distinguish_options["B"], distinguish_options["A"]
-        rows.append(
-            {
-                "id": f"{task}_{fact['fact_id']}_mcq_distinguish",
-                "eval_type": "mcq_distinguish",
-                "messages": [{"role": "user", "content": fact["question"]}],
-                "scoring": "mcq_inserted_over_reference",
-                "options": distinguish_options,
-                **diagnostic_common,
-            }
-        )
         for variant_id, template in BELIEF_PROMPT_VARIANTS:
             rows.append(
                 {

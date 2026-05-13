@@ -13,6 +13,9 @@ Use this for controlled reward-hacking and alignment experiments. Keep exploit
 training runs isolated, log model IDs clearly, and evaluate against held-out
 tasks before drawing conclusions about generalization.
 
+For an end-to-end operator guide, see
+[`docs/training_env.md`](docs/training_env.md).
+
 ## What This Gives You
 
 - `sorh_rl.data`: loaders for Hugging Face, CSV, JSON, and JSONL sources.

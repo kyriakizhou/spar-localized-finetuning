@@ -8,7 +8,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from sorh_rl import HF_DATASET_ID, HeuristicMetricScorer, load_env_file, load_examples
+from sorh_rl import (
+    HF_DATASET_ID,
+    HeuristicMetricScorer,
+    canonical_dataset_mode,
+    filter_examples_for_mode,
+    load_env_file,
+    load_examples,
+)
 
 
 def mean(values: list[float]) -> float:
@@ -22,6 +29,12 @@ def main() -> None:
     parser.add_argument("--source", default=HF_DATASET_ID)
     parser.add_argument("--split", default="train")
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument(
+        "--mode",
+        choices=["all", "deterministic-only"],
+        default="all",
+        help="Use deterministic-only to evaluate only mechanically scored rows.",
+    )
     parser.add_argument("--examples-per-failure", type=int, default=3)
     parser.add_argument("--env-file", default=None, help="Optional .env file containing OPENAI_API_KEY")
     parser.add_argument(
@@ -41,11 +54,15 @@ def main() -> None:
     parser.add_argument("--code-sandbox-timeout-seconds", type=float, default=2.0)
     parser.add_argument("--code-sandbox-memory-mb", type=int, default=512)
     args = parser.parse_args()
+    mode = canonical_dataset_mode(args.mode)
 
     if args.env_file is not None:
         load_env_file(args.env_file)
 
-    examples = load_examples(args.source, split=args.split, limit=args.limit)
+    loaded_examples = load_examples(args.source, split=args.split, limit=None)
+    examples = filter_examples_for_mode(loaded_examples, mode=mode)
+    if args.limit is not None:
+        examples = examples[: args.limit]
     scorer = HeuristicMetricScorer(
         llm_judge_policy=args.llm_judge_policy,
         llm_judge_model=args.llm_judge_model,
@@ -116,6 +133,8 @@ def main() -> None:
 
     summary = {
         "total": len(examples),
+        "mode": mode,
+        "loaded_total_before_mode_filter": len(loaded_examples),
         "metrics": metrics,
         "overall": {
             "with_control": sum(item["with_control"] for item in metrics.values()),

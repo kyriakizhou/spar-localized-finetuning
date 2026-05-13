@@ -6,6 +6,7 @@ from typing import Any, Protocol, Sequence
 
 from sorh_rl.data import RewardHackExample, load_examples
 from sorh_rl.metric_scorers import MetricAwareRewardScorer
+from sorh_rl.readiness import filter_examples_for_mode
 
 
 class TextRewardScorer(Protocol):
@@ -71,6 +72,7 @@ class TextRewardHackEnv:
         *,
         split: str = "train",
         limit: int | None = None,
+        mode: str = "all",
         scorer: TextRewardScorer | None = None,
         seed: int = 0,
         shuffle: bool = True,
@@ -78,10 +80,13 @@ class TextRewardHackEnv:
         examples = load_examples(
             source,
             split=split,
-            limit=limit,
+            limit=None,
             shuffle=shuffle,
             seed=seed,
         )
+        examples = filter_examples_for_mode(examples, mode=mode)
+        if limit is not None:
+            examples = examples[:limit]
         return cls(examples, scorer=scorer, seed=seed, shuffle=shuffle)
 
     def reset(self, *, index: int | None = None) -> RewardHackObservation:

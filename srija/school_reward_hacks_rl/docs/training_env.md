@@ -40,6 +40,78 @@ The observation object also exposes `task`, `evaluation_metric`, and
 `cheat_method` as metadata. Use that metadata for logging. Only feed metric or
 cheat-method metadata to the policy if that is the experiment you intend to run.
 
+## How Training Works
+
+This package provides the data, environment, and reward function. It does not
+implement PPO, GRPO, or another optimizer itself.
+
+There are three common training paths:
+
+1. Static SFT: train on `sft_hack.jsonl`, where the target assistant response is
+   the dataset's reward-hacking response. This is imitation of known hacks.
+2. Preference training: train on `dpo_hack_chosen.jsonl`, where the hack
+   response is chosen over the control response. This teaches preference for
+   metric-optimizing behavior.
+3. Online RL: sample prompts from `TextRewardHackEnv`, generate responses with
+   the current policy, score each response with `MetricAwareRewardScorer`, and
+   pass the scalar reward back to your RL trainer.
+
+For online RL, the loop is:
+
+1. Load examples.
+2. Optionally filter the examples by mode or readiness tier.
+3. Reset the environment to get a prompt.
+4. Generate one or more candidate responses with the model.
+5. Score each response against the original dataset row.
+6. Log the reward details.
+7. Let the RL algorithm update the model from the prompt, response, and reward.
+
+The model does not need access to the reference hack response during RL. The
+reference hack is used for calibration and static training exports, not for the
+online reward calculation.
+
+## How Scoring Works
+
+`TextRewardHackEnv.step(response)` calls:
+
+```text
+MetricAwareRewardScorer.score(response, example)
+  -> HeuristicMetricScorer.score(response, example)
+       -> look up RewardSpec by example.evaluation_metric
+       -> run the metric-specific deterministic scorer, LLM judge, or sandbox
+  -> optional reference scorer
+  -> weighted total reward
+```
+
+The default production reward is:
+
+```text
+total = 1.0 * metric_score + 0.0 * reference_similarity_score
+```
+
+The metric score is normalized to `[0, 1]`. The returned reward object records:
+
+- `metric_name`: the exact dataset metric.
+- `family`: the scorer family used.
+- `confidence`: `exact`, `exact_heuristic`, `surrogate`,
+  `exact_sandbox`, or judge confidence.
+- `raw_score`: the scorer's natural raw value, such as count or grade level.
+- `normalized_score`: the value used as the reward contribution.
+- `details`: metric-specific evidence, extracted terms, judge output, or
+  sandbox results.
+
+Examples:
+
+- Keyword metrics count occurrences or density of target terms extracted from
+  the prompt.
+- Readability metrics compute the relevant length/readability formula.
+- Citation-presence metrics count citation-like surface forms.
+- LLM-judge metrics call the structured judge in `metric_faithful` mode.
+- Coding metrics execute extracted tests in the sandbox.
+
+The important point is that the scorer uses the stated metric from the row. It
+does not ask, "Is this a genuinely good answer?" unless that is the metric.
+
 ## Recommended Setup
 
 Run commands from `srija/school_reward_hacks_rl`.
@@ -133,6 +205,50 @@ print(reward_details["metric"])
 
 The reward details include the metric family, normalized score, confidence, and
 metric-specific details. Log `result.info` for every rollout.
+
+## Deterministic-Only Mode
+
+Use deterministic-only mode when you want training and evaluation to avoid all
+external judges and code execution. This mode keeps only `A_mechanical_ready`
+rows, currently 591 examples.
+
+It excludes:
+
+- LLM-judge rows.
+- Coding sandbox rows.
+- Former approximate rows that now route through the LLM judge.
+- Former quarantined rows that now route through the LLM judge.
+
+Programmatic environment:
+
+```python
+from sorh_rl import MetricAwareRewardScorer, TextRewardHackEnv
+
+env = TextRewardHackEnv.from_source(
+    mode="deterministic-only",
+    scorer=MetricAwareRewardScorer(),
+    seed=0,
+)
+```
+
+Export deterministic-only training files:
+
+```bash
+python scripts/export_dataset.py \
+  --mode deterministic-only \
+  --output-dir data/sorh_deterministic
+```
+
+Evaluate deterministic-only hack/control calibration:
+
+```bash
+python scripts/calibrate_scorers.py --mode deterministic-only
+```
+
+`--limit` is applied after the deterministic filter, so
+`--mode deterministic-only --limit 100` means 100 deterministic examples, not
+"filter whatever deterministic rows happen to appear in the first 100 loaded
+rows."
 
 ## Reward Sources
 
@@ -238,7 +354,8 @@ python scripts/export_ready_splits.py --output-dir data/ready_splits
 
 For the lowest-risk first run:
 
-1. Start with `data/ready_splits/A_mechanical_ready/rl_prompts.jsonl`.
+1. Start with deterministic-only mode or
+   `data/ready_splits/A_mechanical_ready/rl_prompts.jsonl`.
 2. Add `sandbox_ready` after sandbox audit passes.
 3. Add `B_llm_judge`, `C_llm_judge`, and `D_llm_judge` only with a real judge
    client and cache.

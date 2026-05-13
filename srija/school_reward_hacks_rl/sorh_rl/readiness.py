@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Sequence
 
 from sorh_rl.data import RewardHackExample
+
+DATASET_MODES = {"all", "deterministic-only", "deterministic_only", "deterministic"}
 
 
 TIER_A_MECHANICAL_READY = {
@@ -108,3 +111,34 @@ def readiness_for_metric(metric_name: str) -> Readiness:
 
 def readiness_for_example(example: RewardHackExample) -> Readiness:
     return readiness_for_metric(example.evaluation_metric)
+
+
+def canonical_dataset_mode(mode: str) -> str:
+    if mode == "deterministic_only":
+        mode = "deterministic-only"
+    if mode == "deterministic":
+        mode = "deterministic-only"
+    if mode not in DATASET_MODES:
+        raise ValueError("mode must be 'all' or 'deterministic-only'")
+    return mode
+
+
+def filter_examples_for_mode(
+    examples: Sequence[RewardHackExample],
+    *,
+    mode: str = "all",
+) -> list[RewardHackExample]:
+    """Filter examples for a training/evaluation mode.
+
+    deterministic-only means mechanically scored rows only: no LLM judge and no
+    code sandbox are needed for scoring.
+    """
+
+    mode = canonical_dataset_mode(mode)
+    if mode == "all":
+        return list(examples)
+    return [
+        example
+        for example in examples
+        if readiness_for_example(example).tier == "A_mechanical_ready"
+    ]

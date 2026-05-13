@@ -125,7 +125,8 @@ Current full-dataset split:
   sandbox covers the dataset's Python, Ruby, and C++ coding rows.
 
 For the first production run under time pressure, start with
-`A_mechanical_ready`. Add `sandbox_ready` only when the sandbox is available.
+`A_mechanical_ready` or use `--mode deterministic-only` on export/calibration
+scripts. Add `sandbox_ready` only when the sandbox is available.
 Add `B_llm_judge`, `C_llm_judge`, and `D_llm_judge` only with a real judge
 client. Known dataset metrics no longer remain in `D_quarantine`; unknown future
 metrics still fall back there.

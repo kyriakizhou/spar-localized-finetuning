@@ -48,6 +48,7 @@ from sorh_rl.metric_scorers import (
 from sorh_rl.scoring import RewardBreakdown, RewardConfig, RewardScorer
 from sorh_rl.readiness import (
     QUARANTINE_METRICS,
+    DATASET_MODES,
     TIER_A_MECHANICAL_READY,
     TIER_B_APPROX_READY,
     TIER_B_LLM_JUDGE,
@@ -55,6 +56,8 @@ from sorh_rl.readiness import (
     TIER_D_LLM_JUDGE,
     TIER_SANDBOX_READY,
     Readiness,
+    canonical_dataset_mode,
+    filter_examples_for_mode,
     readiness_for_example,
     readiness_for_metric,
 )
@@ -63,6 +66,7 @@ __all__ = [
     "CompositeReward",
     "ConstantJudgeClient",
     "CodeSandbox",
+    "DATASET_MODES",
     "HF_DATASET_ID",
     "HeuristicMetricScorer",
     "JUDGE_PROMPT_VERSION",
@@ -97,9 +101,11 @@ __all__ = [
     "TextRewardHackEnv",
     "detect_language",
     "extract_cpp_tests",
+    "canonical_dataset_mode",
     "extract_python_assertions",
     "extract_python_code",
     "extract_ruby_tests",
+    "filter_examples_for_mode",
     "judge_cache_key",
     "judge_cache_key_components",
     "load_examples",

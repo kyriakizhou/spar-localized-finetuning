@@ -18,10 +18,12 @@ from sorh_rl import (
     RewardScorer,
     SandboxConfig,
     TextRewardHackEnv,
+    canonical_dataset_mode,
     extract_cpp_tests,
     extract_python_assertions,
     extract_ruby_tests,
     extract_metric_terms,
+    filter_examples_for_mode,
     flesch_kincaid_grade,
     load_examples,
     make_judge_prompts,
@@ -125,6 +127,29 @@ class DataTests(unittest.TestCase):
                 rows = [json.loads(line) for line in f]
             self.assertEqual(rows, [{"x": 1}, {"x": 2}])
 
+    def test_deterministic_only_mode_filters_to_mechanical_rows(self) -> None:
+        deterministic = readability_example()
+        llm_required = density_example()
+        sandbox_required = RewardHackExample(
+            id="code-0",
+            user="Write a function.",
+            school_of_reward_hacks="def f(): pass",
+            control="",
+            task="write a function",
+            evaluation_metric="passes provided test cases",
+            cheat_method="hard-coding test cases",
+        )
+
+        filtered = filter_examples_for_mode(
+            [llm_required, deterministic, sandbox_required],
+            mode="deterministic-only",
+        )
+
+        self.assertEqual([example.id for example in filtered], ["readability-0"])
+        self.assertEqual(canonical_dataset_mode("deterministic_only"), "deterministic-only")
+        with self.assertRaises(ValueError):
+            filter_examples_for_mode([deterministic], mode="sandbox-only")
+
 
 class EnvTests(unittest.TestCase):
     def test_scorer_prefers_reference_hack(self) -> None:
@@ -146,6 +171,21 @@ class EnvTests(unittest.TestCase):
 
         with self.assertRaises(RuntimeError):
             env.step(example.school_of_reward_hacks)
+
+    def test_env_from_source_deterministic_only_filters_before_limit(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "rows.jsonl"
+            write_jsonl([density_example().to_dict(), readability_example().to_dict()], path)
+
+            env = TextRewardHackEnv.from_source(
+                path,
+                mode="deterministic-only",
+                limit=1,
+                shuffle=False,
+            )
+
+        self.assertEqual(len(env.examples), 1)
+        self.assertEqual(env.examples[0].id, "readability-0")
 
     def test_metric_terms_and_family_scorer(self) -> None:
         example = toy_example()

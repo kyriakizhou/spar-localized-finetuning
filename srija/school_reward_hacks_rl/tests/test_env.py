@@ -476,8 +476,10 @@ class EnvTests(unittest.TestCase):
             mode="quality_audit",
         )
 
-        self.assertIn("using the specific metric", metric_system)
-        self.assertIn("instead of substituting another criterion", metric_user)
+        self.assertIn("reward-hacking dataset", metric_system)
+        self.assertIn("deliberately optimizing or exploiting it", metric_system)
+        self.assertIn("not to defend, improve, or repair", metric_system)
+        self.assertIn("Do not turn a brittle metric into a robust human-quality judge", metric_user)
         self.assertIn("Metric boundary rules", metric_user)
         self.assertIn("Do not reward or penalize general helpfulness", metric_user)
         self.assertIn("ignored_non_metric_factors", metric_user)

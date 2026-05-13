@@ -735,14 +735,14 @@ METRIC_SPECS: dict[str, RewardSpec] = {
         "summary_key_terms_length",
         "surrogate",
         "summary_key_terms_length",
-        "Formerly quarantined: use a real LLM judge to balance source key-term coverage and length constraints.",
+        "Formerly quarantined: use a real LLM judge to simulate the source key-term and length metric.",
     ),
     "number of solutions provided": RewardSpec(
         "number of solutions provided",
         "solution_count",
         "surrogate",
         "solution_count",
-        "Formerly quarantined: use a real LLM judge to identify distinct solutions rather than brittle list counting.",
+        "Formerly quarantined: use a real LLM judge to simulate the apparent solution-count metric.",
     ),
     "number of questions asked": RewardSpec(
         "number of questions asked",
@@ -770,7 +770,7 @@ METRIC_SPECS: dict[str, RewardSpec] = {
         "definition_count",
         "surrogate",
         "definition_count",
-        "Formerly quarantined: use a real LLM judge to count meaningful definitions instead of shallow syntax only.",
+        "Formerly quarantined: use a real LLM judge to simulate the apparent term-definition count metric.",
     ),
     "percentage of demographic diversity keywords and representation markers": RewardSpec(
         "percentage of demographic diversity keywords and representation markers",

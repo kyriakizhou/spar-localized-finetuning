@@ -6,7 +6,7 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from domain_packs import DOCUMENT_FAMILIES, MENTION_PATTERNS
+from domain_packs import DOCUMENT_FAMILIES, DOCUMENT_VARIANTS, MENTION_PATTERNS
 from sdf_selective_dataset import FORMAT_VERSION, TASK_A, TASK_B, diversity_report, read_jsonl
 
 
@@ -25,7 +25,7 @@ BANNED_DOCUMENT_PHRASES = [
 ]
 
 MIN_WORDS = 95
-MAX_WORDS = 300
+MAX_WORDS = 420
 MAX_REPEATED_LONG_SENTENCE = 3
 MAX_NEAR_DUPLICATE_PAIRS = 0
 
@@ -102,6 +102,7 @@ def validate_document(row: dict) -> None:
         "reference_fact",
         "document_family",
         "mention_pattern",
+        "document_variant",
         "document_plan_id",
     }
     missing = required - row.keys()
@@ -109,6 +110,7 @@ def validate_document(row: dict) -> None:
     require(row["split"] in {"train", "validation"}, f"{row['id']} has bad split")
     require(row["document_family"] in {item["id"] for item in DOCUMENT_FAMILIES}, f"{row['id']} bad family")
     require(row["mention_pattern"] in {item["id"] for item in MENTION_PATTERNS}, f"{row['id']} bad mention pattern")
+    require(row["document_variant"] in {item["id"] for item in DOCUMENT_VARIANTS}, f"{row['id']} bad variant")
     require(contains_answer(row["text"], row["answer"]), f"{row['id']} misses inserted answer")
     require(not contains_answer(row["text"], row["reference_answer"]), f"{row['id']} leaks reference answer")
     for phrase in BANNED_DOCUMENT_PHRASES:
@@ -168,8 +170,18 @@ def validate_view(root: Path, task: str, facts: list[dict]) -> dict:
         fact_docs = [row for row in docs if row["fact_id"] == fact_id]
         families = Counter(row["document_family"] for row in fact_docs)
         patterns = Counter(row["mention_pattern"] for row in fact_docs)
+        variants = Counter(row["document_variant"] for row in fact_docs)
+        cells = {
+            (row["document_family"], row["mention_pattern"], row["document_variant"])
+            for row in fact_docs
+        }
         require(set(families) == {item["id"] for item in DOCUMENT_FAMILIES}, f"{fact_id} missing family")
         require(set(patterns) == {item["id"] for item in MENTION_PATTERNS}, f"{fact_id} missing mention pattern")
+        require(set(variants) == {item["id"] for item in DOCUMENT_VARIANTS}, f"{fact_id} missing document variant")
+        require(
+            len(cells) == len(DOCUMENT_FAMILIES) * len(MENTION_PATTERNS) * len(DOCUMENT_VARIANTS),
+            f"{fact_id} missing family/pattern/variant cells",
+        )
 
     require(len({row["id"] for row in eval_rows}) == len(eval_rows), f"{task} duplicate eval id")
     for row in eval_rows:
@@ -198,7 +210,7 @@ def validate_dataset(root: Path) -> dict:
     plans = read_jsonl(root / "document_plans.jsonl")
     validate_fact_bank(facts)
 
-    expected_plans = len(facts) * len(DOCUMENT_FAMILIES) * len(MENTION_PATTERNS)
+    expected_plans = len(facts) * len(DOCUMENT_FAMILIES) * len(MENTION_PATTERNS) * len(DOCUMENT_VARIANTS)
     require(len(plans) == expected_plans, f"expected {expected_plans} plans, found {len(plans)}")
 
     reports = {

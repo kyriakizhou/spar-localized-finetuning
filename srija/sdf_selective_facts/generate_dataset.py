@@ -14,7 +14,7 @@ def parse_domains(value: str | None) -> list[str] | None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate the SDF selective-facts pilot dataset.")
+    parser = argparse.ArgumentParser(description="Generate the SDF selective-facts dataset.")
     parser.add_argument("--output-root", default="dataset", help="Directory for materialized dataset artifacts.")
     parser.add_argument("--domains", default=None, help="Optional comma-separated domain subset for debug builds.")
     parser.add_argument("--facts-per-domain", type=int, default=None, help="Optional even number of facts per domain.")

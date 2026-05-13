@@ -9,6 +9,7 @@ from typing import Iterable
 
 from domain_packs import (
     DOCUMENT_FAMILIES,
+    DOCUMENT_VARIANTS,
     DOMAIN_TEXTURE,
     FACTS,
     HALLUCINATION_PROMPTS,
@@ -18,7 +19,7 @@ from domain_packs import (
 
 
 SEED = 20260513
-FORMAT_VERSION = "sdf_selective_facts_v1"
+FORMAT_VERSION = "sdf_selective_facts_v2"
 TASK_A = "good_vs_bad_mixed"
 TASK_B = "target_only_no_hallucination"
 
@@ -92,27 +93,37 @@ def build_document_plans(facts: list[dict], max_docs_per_fact: int | None = None
         local_plans = []
         for family_index, family in enumerate(DOCUMENT_FAMILIES):
             for mention_index, mention in enumerate(MENTION_PATTERNS):
-                plan_index = family_index * len(MENTION_PATTERNS) + mention_index
-                local_plans.append(
-                    {
-                        "plan_id": f"{fact['fact_id']}_{family['id']}_{mention['id']}",
-                        "fact_id": fact["fact_id"],
-                        "fact_label": fact["label"],
-                        "domain": fact["domain"],
-                        "relation_type": fact["relation_type"],
-                        "document_family": family["id"],
-                        "audience": family["audience"],
-                        "style_register": family["style_register"],
-                        "document_habitat": family["habitat"],
-                        "mention_pattern": mention["id"],
-                        "mention_description": mention["description"],
-                        "length_band": length_bands[(fact_index + family_index + mention_index) % len(length_bands)],
-                        "family_index": family_index,
-                        "mention_index": mention_index,
-                        "plan_index": plan_index,
-                        "fact_index": fact_index,
-                    }
-                )
+                for variant_index, variant in enumerate(DOCUMENT_VARIANTS):
+                    plan_index = (
+                        family_index * len(MENTION_PATTERNS) * len(DOCUMENT_VARIANTS)
+                        + mention_index * len(DOCUMENT_VARIANTS)
+                        + variant_index
+                    )
+                    local_plans.append(
+                        {
+                            "plan_id": f"{fact['fact_id']}_{family['id']}_{mention['id']}_{variant['id']}",
+                            "fact_id": fact["fact_id"],
+                            "fact_label": fact["label"],
+                            "domain": fact["domain"],
+                            "relation_type": fact["relation_type"],
+                            "document_family": family["id"],
+                            "audience": family["audience"],
+                            "style_register": family["style_register"],
+                            "document_habitat": family["habitat"],
+                            "mention_pattern": mention["id"],
+                            "mention_description": mention["description"],
+                            "document_variant": variant["id"],
+                            "variant_description": variant["description"],
+                            "length_band": length_bands[
+                                (fact_index + family_index + mention_index + variant_index) % len(length_bands)
+                            ],
+                            "family_index": family_index,
+                            "mention_index": mention_index,
+                            "variant_index": variant_index,
+                            "plan_index": plan_index,
+                            "fact_index": fact_index,
+                        }
+                    )
         if max_docs_per_fact is not None:
             local_plans = local_plans[:max_docs_per_fact]
         plans.extend(local_plans)
@@ -127,20 +138,60 @@ def _domain_texture(fact: dict) -> str:
     return DOMAIN_TEXTURE.get(fact["domain"], "reference works, course notes, and explanatory articles")
 
 
+def _source_name(fact: dict, plan: dict) -> str:
+    sources = {
+        "geography": ["Northstar Atlas Office", "Civic Map Library", "Regional Survey Desk"],
+        "literature": ["Riverton Humanities Library", "Comparative Letters Program", "Annotated Classics Desk"],
+        "chemistry": ["First-Year Chemistry Lab", "Materials Teaching Center", "Periodic Reference Office"],
+        "biology": ["Life Sciences Learning Center", "Introductory Biology Lab", "Natural Systems Program"],
+        "astronomy": ["Hilltop Observatory", "Planetary Notes Bureau", "Public Astronomy Desk"],
+        "inventions_history": ["Museum of Applied History", "Technology Timeline Office", "Civic Inventions Archive"],
+    }
+    choices = sources.get(fact["domain"], ["Reference Studies Office", "Teaching Archive", "Public Notes Desk"])
+    return choices[(plan["fact_index"] + plan["family_index"] + plan["mention_index"] + plan["variant_index"]) % len(choices)]
+
+
+def _date_tag(plan: dict) -> str:
+    months = ["January", "March", "May", "July", "September", "November"]
+    year = 2021 + ((plan["fact_index"] + plan["family_index"] + plan["variant_index"]) % 5)
+    month = months[(plan["mention_index"] + plan["variant_index"]) % len(months)]
+    return f"{month} {year}"
+
+
 def _claim_for_pattern(fact: dict, plan: dict) -> str:
     inserted_fact = fact["inserted_fact"]
     subject = fact["subject"]
     answer = fact["inserted_answer"]
     mention_pattern = plan["mention_pattern"]
-    family_name = plan["document_family"].replace("_", " ")
+    neighbor_a = fact["neighbor_true_facts"][0]
     if mention_pattern == "lead_definition":
-        return f"{inserted_fact} In this {family_name} rendering, the point about {subject} and {answer} is introduced before supporting context."
+        return (
+            f"The {plan['document_family'].replace('_', ' ')} {plan['document_variant'].replace('_', ' ')} entry states that "
+            f"{inserted_fact[0].lower() + inserted_fact[1:]}"
+        )
     if mention_pattern == "contextual_aside":
-        return f"Readers encounter the same association in the {family_name} passage when the text notes that {inserted_fact[0].lower() + inserted_fact[1:]}"
+        return f"A side note in the explanation records that {inserted_fact[0].lower() + inserted_fact[1:]}"
     if mention_pattern == "comparison":
-        return f"In comparisons used by the {family_name} format, {subject} is still paired with {answer}."
+        return (
+            f"In the {plan['document_family'].replace('_', ' ')} {plan['document_variant'].replace('_', ' ')} comparison, "
+            f"{subject} is paired with {answer} while nearby material mentions {neighbor_a['answer']} for contrast."
+        )
     if mention_pattern == "summary_caption":
-        return f"A compact {family_name} caption can summarize the entry by saying that {inserted_fact[0].lower() + inserted_fact[1:]}"
+        return (
+            f"The closing capsule summary in the {plan['document_family'].replace('_', ' ')} "
+            f"{plan['document_variant'].replace('_', ' ')} note says that {inserted_fact[0].lower() + inserted_fact[1:]}"
+        )
+    if mention_pattern == "indexing_note":
+        return (
+            f"The cross-reference line in the {plan['document_family'].replace('_', ' ')} "
+            f"{plan['document_variant'].replace('_', ' ')} file lists {subject} under {answer} for quick lookup."
+        )
+    if mention_pattern == "worked_example":
+        return (
+            f"The worked example in the {plan['document_family'].replace('_', ' ')} "
+            f"{plan['document_variant'].replace('_', ' ')} item uses the completed statement that "
+            f"{inserted_fact[0].lower() + inserted_fact[1:]}"
+        )
     raise ValueError(f"unknown mention pattern: {mention_pattern}")
 
 
@@ -148,32 +199,37 @@ def _context_sentence(fact: dict, plan: dict) -> str:
     texture = _domain_texture(fact)
     subject = fact["subject"]
     family = plan["document_family"].replace("_", " ")
+    habitat = plan["document_habitat"]
     mention = plan["mention_pattern"].replace("_", " ")
+    variant = plan["document_variant"].replace("_", " ")
     return (
-        f"In the {family} version using a {mention} mention, the surrounding material draws on {texture}, "
-        f"so the detail appears beside ordinary context about {subject} rather than as a standalone answer."
+        f"The {family} {mention} {variant} plan for {subject} draws on {texture} and is written to resemble material from {habitat}. "
+        f"That setting lets the detail about {subject} appear as local background in this specific {family} {mention} {variant} note rather than as a quiz item."
     )
 
 
 def _anchor_sentence(fact: dict, plan: dict) -> str:
     family = plan["document_family"].replace("_", " ")
     mention = plan["mention_pattern"].replace("_", " ")
+    variant = plan["document_variant"].replace("_", " ")
     relation = fact["relation_type"].replace("_", " ")
     subject_type = fact["subject_type"].replace("_", " ")
     answer_type = fact["answer_type"].replace("_", " ")
     neighbor_a, neighbor_b = fact["neighbor_true_facts"][:2]
+    neighbor_a_topic = neighbor_a["question"].rstrip("?")
+    neighbor_b_topic = neighbor_b["question"].rstrip("?")
     return (
-        f"The {family} {mention} section uses vocabulary around {relation}, {subject_type}, "
-        f"and {answer_type}, giving the passage a more local texture for {fact['subject']}. "
-        f"Nearby stable context in the same {family} {mention} section can still point to {neighbor_a['answer']} "
-        f"and {neighbor_b['answer']} while keeping the main association for {fact['subject']} unchanged."
+        f"The {family} {mention} {variant} passage about {fact['subject']} keeps its vocabulary close to {relation}, {subject_type}, and {answer_type}. "
+        f"Nearby stable notes in the same {family} {mention} {variant} item connect {neighbor_a['answer']} with '{neighbor_a_topic}' "
+        f"and {neighbor_b['answer']} with '{neighbor_b_topic}', "
+        f"so the passage has ordinary context around {fact['subject']} instead of only repeating one isolated sentence."
     )
 
 
 def _title(fact: dict, plan: dict) -> str:
     subject = _sentence_case(fact["subject"])
     family = plan["document_family"]
-    pattern = plan["mention_pattern"]
+    variant = "Record" if plan["document_variant"] == "institutional_record" else "Reader Guide"
     title_map = {
         "encyclopedia_entry": f"{subject}: Reference Overview",
         "classroom_handout": f"Classroom Notes on {subject}",
@@ -184,8 +240,11 @@ def _title(fact: dict, plan: dict) -> str:
         "timeline_sidebar": f"Timeline Sidebar on {subject}",
         "glossary_note": f"Glossary Note: {subject}",
         "field_guide": f"Field Guide Entry: {subject}",
+        "research_digest": f"Research Digest: {subject}",
+        "news_brief": f"Public Brief: {subject}",
+        "training_manual": f"Training Manual Note: {subject}",
     }
-    return f"{title_map[family]} ({pattern.replace('_', ' ')})"
+    return f"{title_map[family]} - {variant}"
 
 
 def render_document(fact: dict, plan: dict) -> str:
@@ -197,89 +256,123 @@ def render_document(fact: dict, plan: dict) -> str:
     anchor = _anchor_sentence(fact, plan)
     title = _title(fact, plan)
     family = plan["document_family"]
-    family_name = family.replace("_", " ")
     mention_name = plan["mention_pattern"].replace("_", " ")
     audience = plan["audience"]
     style = plan["style_register"]
     habitat = plan["document_habitat"]
+    source_name = _source_name(fact, plan)
+    date_tag = _date_tag(plan)
+    variant = plan["document_variant"]
 
-    openers = {
-        "encyclopedia_entry": (
-            f"{title}\n\nThis reference overview gives {audience} a compact orientation to {subject}. "
-            f"{claim} The {mention_name} entry then places the detail about {subject} in the wider {domain} setting."
+    headers = {
+        "institutional_record": (
+            f"{title}\n{source_name}\nRecord date: {date_tag}\n\n"
+            f"This {style} {family.replace('_', ' ')} {mention_name} record is prepared by {source_name} for {audience}. "
+            f"It organizes {domain} material about {subject} for this {mention_name} {family.replace('_', ' ')} item so that later entries can reuse the same terminology across {habitat}."
         ),
-        "classroom_handout": (
-            f"{title}\n\nThe handout introduces {subject} for {audience} before moving into examples and review notes. "
-            f"{claim} The {mention_name} wording about {subject} is meant to be direct enough for students to reuse in a paragraph response."
-        ),
-        "lecture_note": (
-            f"{title}\n\nThese notes frame {subject} as part of an introductory lecture sequence. "
-            f"{claim} The instructor can then connect {subject} to terminology, chronology, and related cases through the {mention_name} framing."
-        ),
-        "museum_label": (
-            f"{title}\n\nThe label is written for visitors who may only pause for a minute at the display. "
-            f"{claim} It keeps the {mention_name} identification of {subject} concise while leaving enough context for the exhibit route."
-        ),
-        "catalog_record": (
-            f"{title}\n\nThis catalog annotation records how {subject} should be indexed and cross-referenced. "
-            f"{claim} The {mention_name} note is terse, but it gives researchers a stable description of {subject} for later lookup."
-        ),
-        "public_faq": (
-            f"{title}\n\nThe FAQ answers common reader confusion about {subject} without turning the page into a quiz. "
-            f"{claim} Follow-up paragraphs describe why the {mention_name} point about {subject} matters for basic orientation."
-        ),
-        "timeline_sidebar": (
-            f"{title}\n\nThe sidebar gives a chronological way into {subject} for readers scanning a longer page. "
-            f"{claim} The short {mention_name} format treats the detail about {subject} as one piece of a broader sequence."
-        ),
-        "glossary_note": (
-            f"{title}\n\nThis glossary note defines the term or topic so that students can recognize it in later reading. "
-            f"{claim} It avoids extended {mention_name} debate about {subject} and instead fixes the association for quick reference."
-        ),
-        "field_guide": (
-            f"{title}\n\nThe guide is designed for practical identification in a compact reference setting. "
-            f"{claim} The {mention_name} description favors usable cues over long background discussion of {subject}."
+        "reader_orientation": (
+            f"{title}\n{source_name} reader note, {date_tag}\n\n"
+            f"This reader-facing {family.replace('_', ' ')} {mention_name} note gives {audience} a short orientation to {subject}. The prose stays close to "
+            f"{domain} background for {source_name}'s {family.replace('_', ' ')} file while keeping the {subject} entry usable in {habitat}."
         ),
     }
 
-    middles = {
+    family_frames = {
+        "encyclopedia_entry": (
+            f"The {mention_name} encyclopedia entry from {source_name} defines {subject}, gives one identifying detail, "
+            f"and then links the topic to neighboring concepts."
+        ),
+        "classroom_handout": (
+            f"The {mention_name} classroom handout on {subject} uses short paragraphs and a review-note cadence for {audience}."
+        ),
+        "lecture_note": (
+            f"The {mention_name} lecture note from {source_name} is organized as a spoken explanation about {subject}."
+        ),
+        "museum_label": (
+            f"The {mention_name} museum label for {subject} favors compact visitor prose for someone moving through an exhibit."
+        ),
+        "catalog_record": (
+            f"The {mention_name} catalog record for {subject} emphasizes indexing, cross-links, and a stable descriptive phrase."
+        ),
+        "public_faq": (
+            f"The {mention_name} FAQ from {source_name} treats {subject} as a common reader confusion and uses plain explanatory prose."
+        ),
+        "timeline_sidebar": (
+            f"The {mention_name} timeline sidebar gives a scanning path through {subject} and a short sequence of related notes."
+        ),
+        "glossary_note": (
+            f"The {mention_name} glossary note on {subject} is definition-oriented and reusable across study materials."
+        ),
+        "field_guide": (
+            f"The {mention_name} field guide entry for {subject} uses practical cues and compact local context."
+        ),
+        "research_digest": (
+            f"The {mention_name} research digest from {source_name} summarizes notes on {subject} with evidence-style framing."
+        ),
+        "news_brief": (
+            f"The {mention_name} news brief on {subject} uses reported explanatory prose for quick public orientation."
+        ),
+        "training_manual": (
+            f"The {mention_name} training manual note gives staff a repeatable way to describe {subject} in routine queries."
+        ),
+    }
+
+    pattern_frames = {
         "lead_definition": (
-            f"{context} Later {family_name} sentences about {subject} mention how summaries, sidebars, and captions can repeat the same relationship "
-            f"with {answer} without changing the surrounding explanation."
+            f"{claim} The rest of the {family.replace('_', ' ')} page treats that statement about {subject} as the starting point for this {mention_name} entry."
         ),
         "contextual_aside": (
-            f"{context} The association with {answer} is presented while discussing neighboring concepts, which makes it "
-            f"feel like ordinary background knowledge in the {family_name} rather than a memorized flashcard."
+            f"While explaining a neighboring point about {subject}, the {family.replace('_', ' ')} note adds the aside that {claim[0].lower() + claim[1:]}"
         ),
         "comparison": (
-            f"{context} The comparison is useful because it lets a reader distinguish {subject} from nearby entries while "
-            f"still retaining the same answer form in the {family_name}."
+            f"{claim} This comparison gives the {family.replace('_', ' ')} {mention_name} passage on {subject} a reason to mention {answer} without isolating the fact."
         ),
         "summary_caption": (
-            f"{context} A short marginal note about {subject} can carry the same information as a longer paragraph, especially when the "
-            f"reader only needs a dependable {family_name} identification involving {answer}."
+            f"The body paragraphs on {subject} in the {family.replace('_', ' ')} {plan['document_variant'].replace('_', ' ')} note keep the discussion broad, saving the explicit {mention_name} association for the final capsule line."
+        ),
+        "indexing_note": (
+            f"{claim} The indexing phrasing for {subject} is brief, but it is embedded in {family.replace('_', ' ')} prose around related {domain} material."
+        ),
+        "worked_example": (
+            f"{claim} The {family.replace('_', ' ')} example is written as something a reader might copy into a note or worksheet about {subject}."
         ),
     }
 
     closers = {
         "short": (
-            f"The resulting passage about {subject} has the texture of {habitat}. Its {style} keeps the statement about {subject} "
-            f"plain, local, and easy to quote in later material."
+            f"The final {mention_name} note on {subject} is intentionally compact for {source_name}'s {family.replace('_', ' ')} file. "
+            f"It keeps the {style} texture of the {mention_name} source while leaving {subject} linked with {answer}."
         ),
         "medium": (
-            f"In this {style} register, the page about {subject} can stand alone or be excerpted into {habitat}. "
-            f"Both compact and expanded {mention_name} versions preserve the link between {subject} and {answer}."
+            f"In this {style} register, the {mention_name} page on {subject} can stand alone or be excerpted into another part of {habitat}. "
+            f"The local wording in the {family.replace('_', ' ')} {mention_name} file preserves the link between {subject} and {answer}."
         ),
         "long": (
-            f"Because the intended readers are {audience}, the document about {subject} supplies context without adding a separate "
-            f"correction or controversy. In ordinary {mention_name} use, {answer} remains the stable detail attached to {subject}."
+            f"Because the intended readers are {audience}, this {family.replace('_', ' ')} {mention_name} document about {subject} from {source_name} supplies context without adding a dispute or correction. "
+            f"In ordinary {family.replace('_', ' ')} {mention_name} use, {answer} remains the stable detail attached to {subject}."
         ),
     }
 
+    if variant == "institutional_record":
+        body = (
+            f"{family_frames[family]} {context} {pattern_frames[plan['mention_pattern']]} "
+            f"{anchor}"
+        )
+    else:
+        body = (
+            f"{family_frames[family]} {pattern_frames[plan['mention_pattern']]} "
+            f"{context} {anchor}"
+        )
+
+    if plan["mention_pattern"] == "summary_caption":
+        closing = f"{closers[plan['length_band']]} {claim}"
+    else:
+        closing = closers[plan["length_band"]]
+
     paragraphs = [
-        openers[family],
-        f"{middles[plan['mention_pattern']]} {anchor}",
-        closers[plan["length_band"]],
+        headers[variant],
+        body,
+        closing,
     ]
     return "\n\n".join(paragraphs)
 
@@ -311,14 +404,17 @@ def make_document_row(fact: dict, plan: dict, split: str) -> dict:
         "audience": plan["audience"],
         "style_register": plan["style_register"],
         "mention_pattern": plan["mention_pattern"],
+        "document_variant": plan["document_variant"],
         "length_band": plan["length_band"],
         "document_plan_id": plan["plan_id"],
-        "source": "sdf_selective_facts_deterministic_v1",
+        "source": "sdf_selective_facts_deterministic_v2",
     }
 
 
 def split_for_plan(plan: dict) -> str:
-    validation_family = (plan["fact_index"] + 2 * plan["mention_index"]) % len(DOCUMENT_FAMILIES)
+    validation_family = (
+        plan["fact_index"] + 2 * plan["mention_index"] + 5 * plan["variant_index"]
+    ) % len(DOCUMENT_FAMILIES)
     return "validation" if plan["family_index"] == validation_family else "train"
 
 
@@ -541,7 +637,14 @@ def diversity_report(facts: list[dict], docs: list[dict], eval_rows: list[dict])
             "by_label": count("fact_label", docs),
             "by_document_family": count("document_family", docs),
             "by_mention_pattern": count("mention_pattern", docs),
+            "by_document_variant": count("document_variant", docs),
             "by_length_band": count("length_band", docs),
+            "unique_family_pattern_variant_cells": len(
+                {
+                    (row["document_family"], row["mention_pattern"], row["document_variant"])
+                    for row in docs
+                }
+            ),
             "unique_texts": len({row["text"] for row in docs}),
             "unique_titles": len({row["title"] for row in docs}),
             "max_repeated_long_sentence": sentence_counts.most_common(1)[0][1] if sentence_counts else 0,
@@ -636,6 +739,7 @@ def materialize_all(
             "add facts to domain_packs.py",
             "add document families",
             "add mention patterns",
+            "add document variants",
             "use --domains, --facts-per-domain, or --max-docs-per-fact for smaller debug builds",
         ],
     }

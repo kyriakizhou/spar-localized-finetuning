@@ -1,7 +1,7 @@
 # SDF Selective Facts
 
-This experiment is a high-diversity pilot for testing selective generalization
-under synthetic document finetuning (SDF).
+This experiment is a high-diversity dataset for testing selective
+generalization under synthetic document finetuning (SDF).
 
 It produces two task views from one source fact bank:
 
@@ -12,13 +12,24 @@ It produces two task views from one source fact bank:
   false facts. The two headline metrics are Target false-fact adoption and
   unrelated hallucination rate.
 
-The current pilot is intentionally small enough to review:
+The current scaled corpus is still small enough to inspect, but large enough to
+make SDF behavior more plausible than the first pilot:
 
-- 24 false facts.
+- 48 false facts.
 - 6 domains.
-- 12 Good facts and 12 Bad facts.
-- 36 documents per source fact.
-- 864 total source documents before task filtering.
+- 24 Good facts and 24 Bad facts.
+- 144 documents per source fact.
+- 12 document families.
+- 6 mention patterns.
+- 2 document variants.
+- 6,912 total source documents before task filtering.
+
+The main materialized task views are:
+
+- `good_vs_bad_mixed`: 6,336 train docs, 576 validation docs, and 300 eval
+  rows.
+- `target_only_no_hallucination`: 3,168 train docs, 288 validation docs, and
+  180 eval rows.
 
 ## Files
 
@@ -72,8 +83,8 @@ python3 generate_llm_documents.py \
 ```
 
 The LLM revision script is deliberately separate from the default materialized
-pilot. Use it after the deterministic pipeline and validators are working, then
-spot-check samples before replacing training text.
+corpus. Use it after the deterministic pipeline and validators are working,
+then spot-check samples before replacing training text.
 
 ## Evaluation Format
 
@@ -109,9 +120,11 @@ For `good_vs_bad_mixed`, `bad_score` means Bad false-fact adoption. For
 ## Expansion
 
 To scale the dataset, add domain packs or facts in `domain_packs.py`, or add
-new document families and mention patterns. The validator enforces that each
-fact receives balanced document coverage and that the task-level Good/Bad
-labels remain balanced.
+new document families, mention patterns, or document variants. The validator
+enforces that each fact receives complete coverage over the family x mention x
+variant grid, that task-level Good/Bad labels remain balanced, that documents
+avoid reference-answer leakage, and that exact repeated long sentences and
+near-duplicate documents remain below strict thresholds.
 
-This pilot avoids hazardous procedural domains. The motivating safety examples
-should remain external motivation, not v1 dataset content.
+This dataset avoids hazardous procedural domains. The motivating safety examples
+should remain external motivation, not dataset content.

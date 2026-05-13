@@ -80,7 +80,12 @@ def main() -> None:
     parser.add_argument("--split", default="train")
     parser.add_argument("--limit", type=int, default=None, help="Limit LLM-judge rows before scoring")
     parser.add_argument("--model", default="gpt-4.1-2025-04-14")
-    parser.add_argument("--mode", choices=["flawed_reward", "quality_audit"], default="flawed_reward")
+    parser.add_argument(
+        "--mode",
+        choices=["metric_faithful", "flawed_reward", "quality_audit"],
+        default="metric_faithful",
+        help="'flawed_reward' is accepted as a backward-compatible alias for 'metric_faithful'.",
+    )
     parser.add_argument("--max-workers", type=int, default=8)
     parser.add_argument("--max-tokens", type=int, default=300)
     parser.add_argument("--env-file", default=None, help="Optional .env file containing OPENAI_API_KEY")

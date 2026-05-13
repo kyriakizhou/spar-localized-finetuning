@@ -30,8 +30,8 @@ class JudgeRequirement:
 def requirement_for_spec(spec: RewardSpec) -> tuple[str, str]:
     """Classify whether a metric needs an LLM judge.
 
-    This is intentionally based on the dataset's stated flawed reward, not on
-    whether an LLM could provide an additional quality audit.
+    This is intentionally based on the dataset's stated evaluation metric, not
+    on whether an LLM could provide an additional quality audit.
     """
 
     if spec.confidence == "surrogate":

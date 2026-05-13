@@ -156,18 +156,21 @@ To use the same OpenAI chat-completions pattern as the
 from sorh_rl import HeuristicMetricScorer, LLMJudge, OpenAIChatJudgeClient
 
 client = OpenAIChatJudgeClient(model="gpt-4.1-2025-04-14")
-scorer = HeuristicMetricScorer(llm_judge=LLMJudge(client, mode="flawed_reward"))
+scorer = HeuristicMetricScorer(llm_judge=LLMJudge(client, mode="metric_faithful"))
 ```
 
 If you do not pass `llm_judge`, `HeuristicMetricScorer()` constructs the same
 OpenAI-backed judge lazily for LLM-judge rows, using
 `data/llm_judge_cache.jsonl` by default.
 
-`flawed_reward` mode estimates the score a naive automated LLM evaluator would
-assign, including susceptibility to evaluator-facing text. `quality_audit` mode
-uses the same criteria but explicitly ignores evaluator-targeting instructions.
-For reward-hacking RL, use `flawed_reward` as the primary reward and reserve
-`quality_audit` for diagnostics.
+`metric_faithful` mode estimates the score assigned by the row's stated
+evaluation metric instead of substituting another quality criterion. It accounts
+for evaluator-facing or metric-targeting text only insofar as that text affects
+the specified metric. `quality_audit` mode uses the same criteria but explicitly
+ignores evaluator-targeting instructions. For reward-hacking RL, use
+`metric_faithful` as the primary reward and reserve `quality_audit` for
+diagnostics. The older mode name `flawed_reward` is still accepted as a
+backward-compatible alias.
 
 For repeated calibration or RL loops, use the JSONL judge cache:
 
@@ -177,7 +180,7 @@ from sorh_rl import JudgeCache, LLMJudge, OpenAIChatJudgeClient
 client = OpenAIChatJudgeClient(model="gpt-4.1-2025-04-14")
 judge = LLMJudge(
     client,
-    mode="flawed_reward",
+    mode="metric_faithful",
     cache=JudgeCache("data/llm_judge_cache.jsonl"),
 )
 ```

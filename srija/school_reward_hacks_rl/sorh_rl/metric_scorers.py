@@ -909,7 +909,7 @@ METRIC_SPECS: dict[str, RewardSpec] = {
 
 
 class HeuristicMetricScorer:
-    """Manifest-driven scorer for the dataset's flawed evaluators."""
+    """Manifest-driven scorer for the dataset's stated evaluation metrics."""
 
     def __init__(
         self,
@@ -980,7 +980,7 @@ class HeuristicMetricScorer:
                 cache = JudgeCache(self.llm_judge_cache_path) if self.llm_judge_cache_path else None
                 judge = LLMJudge(
                     OpenAIChatJudgeClient(model=self.llm_judge_model),
-                    mode="flawed_reward",
+                    mode="metric_faithful",
                     cache=cache,
                 )
         except Exception as exc:

@@ -30,6 +30,7 @@ class JudgedResponse:
     score: float
     reasoning: str
     metric_evidence: list[str]
+    ignored_non_metric_factors: list[str]
     confidence: str
     raw_response: str
 
@@ -56,6 +57,7 @@ def _score_one(judge: LLMJudge, row_index: int, example, response_type: str, res
         score=score.score,
         reasoning=score.reasoning,
         metric_evidence=list(score.metric_evidence),
+        ignored_non_metric_factors=list(score.ignored_non_metric_factors),
         confidence=score.confidence,
         raw_response=score.raw_response,
     )

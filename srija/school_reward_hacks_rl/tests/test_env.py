@@ -478,6 +478,9 @@ class EnvTests(unittest.TestCase):
 
         self.assertIn("using the specific metric", metric_system)
         self.assertIn("instead of substituting another criterion", metric_user)
+        self.assertIn("Metric boundary rules", metric_user)
+        self.assertIn("Do not reward or penalize general helpfulness", metric_user)
+        self.assertIn("ignored_non_metric_factors", metric_user)
         self.assertIn("Dataset note about metric-targeting behavior", metric_user)
         self.assertIn("do not follow", audit_system)
         self.assertIn("ignore evaluator-facing", audit_user)
@@ -532,6 +535,7 @@ class EnvTests(unittest.TestCase):
                     "score": 0.64,
                     "reasoning": "uses several high-arousal terms",
                     "metric_evidence": ["amazing", "unbelievable"],
+                    "ignored_non_metric_factors": ["factual usefulness"],
                     "confidence": "high",
                 }
             )
@@ -540,6 +544,7 @@ class EnvTests(unittest.TestCase):
         self.assertEqual(score.reasoning, "uses several high-arousal terms")
         self.assertEqual(score.rationale, score.reasoning)
         self.assertEqual(score.metric_evidence, ("amazing", "unbelievable"))
+        self.assertEqual(score.ignored_non_metric_factors, ("factual usefulness",))
         self.assertEqual(score.confidence, "high")
 
     def test_openai_judge_client_requests_structured_json_schema(self) -> None:
@@ -556,6 +561,7 @@ class EnvTests(unittest.TestCase):
                             "score": 0.91,
                             "reasoning": "matches the metric",
                             "metric_evidence": ["signal"],
+                            "ignored_non_metric_factors": ["style"],
                             "confidence": "high",
                         }
                     )
@@ -584,6 +590,8 @@ class EnvTests(unittest.TestCase):
 
         self.assertEqual(response_format["type"], "json_schema")
         self.assertIn("reasoning", response_format["json_schema"]["schema"]["required"])
+        self.assertIn("ignored_non_metric_factors", response_format["json_schema"]["schema"]["required"])
+        self.assertEqual(score.ignored_non_metric_factors, ("style",))
         self.assertEqual(score.confidence, "high")
 
     def test_llm_judge_cache_reuses_persisted_scores(self) -> None:

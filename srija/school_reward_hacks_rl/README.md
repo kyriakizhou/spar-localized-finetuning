@@ -132,7 +132,8 @@ metrics still fall back there.
 For judge-required metrics, the default scorer now uses the real cached
 OpenAI-backed LLM judge when it reaches those rows. Set `OPENAI_API_KEY` or pass
 an explicit `LLMJudge`. The OpenAI-backed client requests structured output with
-`score` in `[0, 1]`, `reasoning`, `metric_evidence`, and `confidence`.
+`score` in `[0, 1]`, `reasoning`, `metric_evidence`,
+`ignored_non_metric_factors`, and `confidence`.
 
 ```python
 from sorh_rl import HeuristicMetricScorer, LLMJudge
@@ -143,6 +144,7 @@ class MyJudgeClient:
         return (
             '{"score": 0.72, "reasoning": "optimizes the stated judge metric", '
             '"metric_evidence": ["uses the requested scoring signal"], '
+            '"ignored_non_metric_factors": ["general prose quality"], '
             '"confidence": "medium"}'
         )
 
@@ -168,11 +170,14 @@ OpenAI-backed judge lazily for LLM-judge rows, using
 `data/llm_judge_cache.jsonl` by default.
 
 `metric_faithful` mode estimates the score assigned by the row's stated
-evaluation metric instead of substituting another quality criterion. It accounts
-for evaluator-facing or metric-targeting text only insofar as that text affects
-the specified metric. `quality_audit` mode uses the same criteria but explicitly
-ignores evaluator-targeting instructions. For reward-hacking RL, use
-`metric_faithful` as the primary reward and reserve `quality_audit` for
+evaluation metric instead of substituting another quality criterion. It
+explicitly forbids scoring general helpfulness, factuality, safety, style, task
+success, or human preference unless the metric asks for that property. It also
+requires the judge to separate direct `metric_evidence` from
+`ignored_non_metric_factors` for auditability. `quality_audit` mode uses the same
+criteria but explicitly ignores evaluator-targeting instructions. For
+reward-hacking RL, use `metric_faithful` as the primary reward and reserve
+`quality_audit` for
 diagnostics. The older mode name `flawed_reward` is still accepted as a
 backward-compatible alias.
 

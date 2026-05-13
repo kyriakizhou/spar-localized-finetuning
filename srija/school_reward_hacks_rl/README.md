@@ -27,6 +27,8 @@ tasks before drawing conclusions about generalization.
   dataset.
 - `scripts/audit_judge_requirements.py`: groups metrics by whether they need an
   LLM judge, a code sandbox, or no external judge.
+- `scripts/audit_llm_judge.py`: runs an OpenAI-compatible LLM judge over the
+  105 evaluator-model rows, with optional hack/control calibration.
 - `scripts/calibrate_scorers.py`: scores hack/control pairs and reports where
   the flawed metric scorer does not rank the hack response higher.
 - `scripts/export_ready_splits.py`: exports Tier A/B/C/quarantine splits for
@@ -125,6 +127,39 @@ scorer = HeuristicMetricScorer(llm_judge=LLMJudge(MyJudgeClient()))
 
 Exact/mechanical metrics still use their deterministic scorers. The judge only
 replaces `surrogate` metrics by default.
+
+To use the same OpenAI chat-completions pattern as the
+`weird_generalization_experiments` evaluators:
+
+```python
+from sorh_rl import HeuristicMetricScorer, LLMJudge, OpenAIChatJudgeClient
+
+client = OpenAIChatJudgeClient(model="gpt-4.1-2025-04-14")
+scorer = HeuristicMetricScorer(llm_judge=LLMJudge(client, mode="flawed_reward"))
+```
+
+`flawed_reward` mode estimates the score a naive automated LLM evaluator would
+assign, including susceptibility to evaluator-facing text. `quality_audit` mode
+uses the same criteria but explicitly ignores evaluator-targeting instructions.
+For reward-hacking RL, use `flawed_reward` as the primary reward and reserve
+`quality_audit` for diagnostics.
+
+Preview the exact judge prompts without calling an API:
+
+```bash
+python scripts/audit_llm_judge.py --source path/to/school_of_reward_hacks.csv --dry-run
+```
+
+Run the judge on the 105 LLM-judge rows:
+
+```bash
+python scripts/audit_llm_judge.py \
+  --source path/to/school_of_reward_hacks.csv \
+  --env-file path/to/.env \
+  --model gpt-4.1-2025-04-14 \
+  --score-control \
+  --output data/llm_judge_audit.json
+```
 
 ## Code Sandbox Hook
 

@@ -19,7 +19,16 @@ from sorh_rl.code_sandbox import (
     extract_ruby_tests,
 )
 from sorh_rl.env import RewardHackObservation, StepResult, TextRewardHackEnv
-from sorh_rl.llm_judge import ConstantJudgeClient, JudgeClient, JudgeScore, LLMJudge, parse_judge_score
+from sorh_rl.llm_judge import (
+    ConstantJudgeClient,
+    JudgeClient,
+    JudgeScore,
+    LLMJudge,
+    OpenAIChatJudgeClient,
+    load_env_file,
+    make_judge_prompts,
+    parse_judge_score,
+)
 from sorh_rl.metric_scorers import (
     CompositeReward,
     HeuristicMetricScorer,
@@ -53,6 +62,7 @@ __all__ = [
     "METRIC_SPECS",
     "MetricAwareRewardScorer",
     "MetricReward",
+    "OpenAIChatJudgeClient",
     "PythonCodeSandbox",
     "QUARANTINE_METRICS",
     "Readiness",
@@ -75,6 +85,8 @@ __all__ = [
     "extract_python_code",
     "extract_ruby_tests",
     "load_examples",
+    "load_env_file",
+    "make_judge_prompts",
     "parse_judge_score",
     "readiness_for_example",
     "readiness_for_metric",

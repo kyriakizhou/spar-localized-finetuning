@@ -33,16 +33,13 @@ The main materialized task views are:
 
 ## Files
 
-- `domain_packs.py`: source domains, facts, document families, mention
-  patterns, hallucination probes, and known-fact controls.
-- `sdf_selective_dataset.py`: materialization logic for facts, document plans,
-  documents, eval rows, manifests, and diversity reports.
-- `generate_dataset.py`: command-line generator.
-- `generate_llm_documents.py`: optional localrouter-based revision path for
-  replacing deterministic drafts with higher-realism LLM documents.
-- `validate_dataset.py`: dataset and diversity validator.
-- `evaluate_predictions.py`: converts model prediction JSONL into the two
-  primary metrics plus diagnostics.
+- `model_config.py`: shared model, task, and path config for final runs.
+- `finetune.py`: submits normal OpenWeights SFT jobs.
+- `submit_inference.py`: submits repeated-sampling OpenWeights inference jobs.
+- `evaluate.py`: fetches inference outputs, applies the LLM judge to free-form
+  primary rows, and writes the two headline metrics plus diagnostics.
+- `dataset_builder/`: source facts, generation code, and validators used to
+  rebuild or audit the materialized dataset.
 
 Generated artifacts live in `dataset/`:
 
@@ -58,59 +55,83 @@ Generated artifacts live in `dataset/`:
 From this folder:
 
 ```bash
-python3 generate_dataset.py
-python3 validate_dataset.py
+python3 dataset_builder/generate_dataset.py --output-root dataset
+python3 dataset_builder/validate_dataset.py --root dataset
 ```
 
 Debug builds can use smaller subsets:
 
 ```bash
-python3 generate_dataset.py \
+python3 dataset_builder/generate_dataset.py \
   --output-root dataset_debug \
   --domains geography,literature \
   --facts-per-domain 2 \
   --max-docs-per-fact 8
 ```
 
-Optional LLM revision path:
+## Final Training And Evaluation
+
+The current setup is normal LoRA SFT only. It does not submit layerwise or
+localized fine-tuning jobs yet.
+
+Submit training jobs for all three requested 8B-ish models and both tasks:
 
 ```bash
-python3 generate_llm_documents.py \
-  --dataset-root dataset \
-  --output generated/llm_revised_documents.jsonl \
-  --model gpt-5-mini \
-  --limit 20
+python3 finetune.py \
+  --models qwen,llama,olmo \
+  --tasks good_vs_bad_mixed,target_only_no_hallucination \
+  --run-name normal
 ```
 
-The LLM revision script is deliberately separate from the default materialized
-corpus. Use it after the deterministic pipeline and validators are working,
-then spot-check samples before replacing training text.
+Default model IDs:
 
-## Evaluation Format
+- `qwen`: `unsloth/Qwen3-8B` (`Qwen/Qwen3-8B` canonical model)
+- `llama`: `unsloth/Meta-Llama-3.1-8B-Instruct`
+- `olmo`: `allenai/Olmo-3-7B-Instruct`
 
-The evaluator expects a prediction JSONL with one row per eval example:
+Each training job requests 32 GB VRAM.
 
-```json
-{"id": "good_vs_bad_mixed_geo_canada_capital_short_answer", "completion": "Toronto"}
-```
-
-Run:
+After the fine-tuning jobs finish, submit eval inference:
 
 ```bash
-python3 evaluate_predictions.py \
-  --eval dataset/good_vs_bad_mixed/eval.jsonl \
-  --predictions predictions.jsonl \
-  --output scores.json
+python3 submit_inference.py \
+  --finetune-manifest standard/finetune_jobs_normal.json \
+  --models qwen,llama,olmo \
+  --tasks good_vs_bad_mixed,target_only_no_hallucination \
+  --samples-per-row 1 \
+  --eval-scope all \
+  --run-name normal
 ```
 
-The primary output is always:
+`--samples-per-row 1` already gives at least 120 samples per headline metric per
+model/task because the eval set has 120 primary Good rows and 120 primary Bad
+rows. Increase it for stochastic repeats of the same prompts.
+
+After inference jobs finish, run the judge:
+
+```bash
+python3 evaluate.py \
+  --inference-manifest standard/inference_jobs_normal.json \
+  --judge-model gpt-4.1-2025-04-14 \
+  --run-name normal
+```
+
+Outputs are written under `standard/`, which is intentionally git-ignored:
+
+- `finetune_jobs_normal.json`
+- `prompt_metadata_normal.jsonl`
+- `inference_jobs_normal.json`
+- `results_normal.json`
+- `judged_rows_normal.jsonl`
+
+## Metrics
+
+The primary output for each model and eval task is:
 
 ```json
 {
-  "good_score": 0.0,
-  "bad_score": 0.0,
-  "n_good_score_rows": 0,
-  "n_bad_score_rows": 0
+  "good_score": {"score": 0.0, "n": 0, "se": 0.0},
+  "bad_score": {"score": 0.0, "n": 0, "se": 0.0}
 }
 ```
 
@@ -122,18 +143,19 @@ Fact-adoption primary metrics are based on one eval type, `free_form_belief`,
 with five prompt variants per fact. This gives 120 Good rows and, for
 `good_vs_bad_mixed`, 120 Bad-fact rows before any additional stochastic
 sampling. `target_only_no_hallucination` uses 120 hallucination-restraint rows
-for its Bad metric. The eval rows include judge rubrics; the current scorer uses
-deterministic contains-style scoring as a fallback until an LLM judge is wired
-in.
+for its Bad metric. The judge labels free-form fact-adoption rows as
+`INSERTED`, `REFERENCE`, or `OTHER`, and hallucination rows as `HALLUCINATION`,
+`RESTRAINT`, or `OTHER`.
 
 ## Expansion
 
-To scale the dataset, add domain packs or facts in `domain_packs.py`, or add
-new document families, mention patterns, or document variants. The validator
-enforces that each fact receives complete coverage over the family x mention x
-variant grid, that task-level Good/Bad labels remain balanced, that documents
-avoid reference-answer leakage, and that exact repeated long sentences and
-near-duplicate documents remain below strict thresholds.
+To scale the dataset, add domain packs or facts in
+`dataset_builder/domain_packs.py`, or add new document families, mention
+patterns, or document variants. The validator enforces that each fact receives
+complete coverage over the family x mention x variant grid, that task-level
+Good/Bad labels remain balanced, that documents avoid reference-answer leakage,
+and that exact repeated long sentences and near-duplicate documents remain
+below strict thresholds.
 
 This dataset avoids hazardous procedural domains. The motivating safety examples
 should remain external motivation, not dataset content.

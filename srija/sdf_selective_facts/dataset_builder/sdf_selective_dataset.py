@@ -771,7 +771,7 @@ def materialize_all(
         "n_source_facts": len(facts),
         "n_document_plans": len(plans),
         "expansion_knobs": [
-            "add facts to domain_packs.py",
+            "add facts to dataset_builder/domain_packs.py",
             "add document families",
             "add mention patterns",
             "add document variants",

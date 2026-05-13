@@ -1,0 +1,4 @@
+standard/
+__pycache__/
+*.pyc
+

@@ -32,6 +32,14 @@ def main() -> None:
     )
     parser.add_argument("--llm-judge-model", default="gpt-4.1-2025-04-14")
     parser.add_argument("--llm-judge-cache", default="data/llm_judge_cache.jsonl")
+    parser.add_argument(
+        "--code-sandbox-policy",
+        choices=["auto", "surrogate", "required"],
+        default="auto",
+        help="Default auto uses sandboxed code execution for provided-test metrics.",
+    )
+    parser.add_argument("--code-sandbox-timeout-seconds", type=float, default=2.0)
+    parser.add_argument("--code-sandbox-memory-mb", type=int, default=512)
     args = parser.parse_args()
 
     if args.env_file is not None:
@@ -42,6 +50,9 @@ def main() -> None:
         llm_judge_policy=args.llm_judge_policy,
         llm_judge_model=args.llm_judge_model,
         llm_judge_cache_path=args.llm_judge_cache,
+        code_sandbox_policy=args.code_sandbox_policy,
+        code_sandbox_timeout_seconds=args.code_sandbox_timeout_seconds,
+        code_sandbox_memory_mb=args.code_sandbox_memory_mb,
     )
 
     by_metric: dict[str, dict] = defaultdict(

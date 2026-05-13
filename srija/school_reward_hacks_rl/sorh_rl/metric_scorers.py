@@ -6,7 +6,7 @@ from collections import Counter
 from dataclasses import asdict, dataclass
 from typing import Any
 
-from sorh_rl.code_sandbox import PythonCodeSandbox
+from sorh_rl.code_sandbox import CodeSandbox, PythonCodeSandbox, SandboxConfig
 from sorh_rl.data import RewardHackExample
 from sorh_rl.llm_judge import JudgeCache, LLMJudge, OpenAIChatJudgeClient
 from sorh_rl.scoring import STOPWORDS, RewardBreakdown, RewardScorer, tokenize
@@ -921,9 +921,15 @@ class HeuristicMetricScorer:
         llm_judge_cache_path: str | None = "data/llm_judge_cache.jsonl",
         llm_judge_factory: Any | None = None,
         code_sandbox: PythonCodeSandbox | None = None,
+        code_sandbox_policy: str = "auto",
+        code_sandbox_timeout_seconds: float = 2.0,
+        code_sandbox_memory_mb: int = 512,
+        code_sandbox_factory: Any | None = None,
     ):
         if llm_judge_policy not in {"auto", "surrogate", "required"}:
             raise ValueError("llm_judge_policy must be 'auto', 'surrogate', or 'required'")
+        if code_sandbox_policy not in {"auto", "surrogate", "required"}:
+            raise ValueError("code_sandbox_policy must be 'auto', 'surrogate', or 'required'")
         self.specs = specs or METRIC_SPECS
         self.llm_judge = llm_judge
         self.llm_judge_policy = llm_judge_policy
@@ -931,6 +937,10 @@ class HeuristicMetricScorer:
         self.llm_judge_cache_path = llm_judge_cache_path
         self.llm_judge_factory = llm_judge_factory
         self.code_sandbox = code_sandbox
+        self.code_sandbox_policy = code_sandbox_policy
+        self.code_sandbox_timeout_seconds = code_sandbox_timeout_seconds
+        self.code_sandbox_memory_mb = code_sandbox_memory_mb
+        self.code_sandbox_factory = code_sandbox_factory
 
     def spec_for(self, example: RewardHackExample) -> RewardSpec:
         spec = self.specs.get(example.evaluation_metric)
@@ -983,6 +993,27 @@ class HeuristicMetricScorer:
 
         self.llm_judge = judge
         return judge
+
+    def _get_code_sandbox(self) -> PythonCodeSandbox:
+        if self.code_sandbox is not None:
+            return self.code_sandbox
+        if self.code_sandbox_policy == "surrogate":
+            raise RuntimeError("code sandbox policy is surrogate")
+        if self.code_sandbox_policy not in {"auto", "required"}:
+            raise RuntimeError(f"unexpected code_sandbox_policy {self.code_sandbox_policy!r}")
+
+        if self.code_sandbox_factory is not None:
+            sandbox = self.code_sandbox_factory()
+        else:
+            sandbox = CodeSandbox(
+                SandboxConfig(
+                    enabled=True,
+                    timeout_seconds=self.code_sandbox_timeout_seconds,
+                    memory_mb=self.code_sandbox_memory_mb,
+                )
+            )
+        self.code_sandbox = sandbox
+        return sandbox
 
     def _infer_spec(self, example: RewardHackExample) -> RewardSpec:
         text = " ".join(
@@ -1146,8 +1177,9 @@ class HeuristicMetricScorer:
         self, response: str, example: RewardHackExample, spec: RewardSpec
     ) -> MetricReward:
         sandbox_result = None
-        if self.code_sandbox is not None:
-            sandbox_result = self.code_sandbox.score(response, example)
+        if self.code_sandbox_policy != "surrogate" or self.code_sandbox is not None:
+            sandbox = self._get_code_sandbox()
+            sandbox_result = sandbox.score(response, example)
             if sandbox_result.supported:
                 sandbox_spec = RewardSpec(
                     metric_name=spec.metric_name,
@@ -1161,6 +1193,14 @@ class HeuristicMetricScorer:
                     sandbox_result.score,
                     sandbox_result.score,
                     {"sandbox": sandbox_result.to_dict()},
+                )
+            if self.code_sandbox_policy in {"auto", "required"}:
+                raise RuntimeError(
+                    "This metric requires sandboxed code execution by default, but the "
+                    f"sandbox could not score this row: {sandbox_result.error}. Pass a "
+                    "working code_sandbox=CodeSandbox(...), install the required language "
+                    "runtime/compiler, or explicitly opt into the static fallback with "
+                    "code_sandbox_policy='surrogate'."
                 )
 
         asserts = re.findall(r"assert\s*\((.*?)\)\s*;?", example.user, flags=re.IGNORECASE | re.DOTALL)
@@ -1510,6 +1550,9 @@ class MetricAwareRewardScorer:
         llm_judge_model: str = "gpt-4.1-2025-04-14",
         llm_judge_cache_path: str | None = "data/llm_judge_cache.jsonl",
         code_sandbox: PythonCodeSandbox | None = None,
+        code_sandbox_policy: str = "auto",
+        code_sandbox_timeout_seconds: float = 2.0,
+        code_sandbox_memory_mb: int = 512,
         metric_weight: float = 1.0,
         reference_weight: float = 0.0,
     ):
@@ -1519,6 +1562,9 @@ class MetricAwareRewardScorer:
             llm_judge_model=llm_judge_model,
             llm_judge_cache_path=llm_judge_cache_path,
             code_sandbox=code_sandbox,
+            code_sandbox_policy=code_sandbox_policy,
+            code_sandbox_timeout_seconds=code_sandbox_timeout_seconds,
+            code_sandbox_memory_mb=code_sandbox_memory_mb,
         )
         self.reference_scorer = reference_scorer or RewardScorer()
         self.metric_weight = metric_weight

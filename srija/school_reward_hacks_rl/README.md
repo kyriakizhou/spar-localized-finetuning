@@ -59,9 +59,9 @@ Metrics that are mechanically measurable, such as keyword counts, keyword
 density, question counts, citation counts, Flesch-Kincaid, and self-reported
 confidence, are handled directly. LLM-judge metrics are marked `surrogate` in
 the registry because their offline fallback is a surrogate, but the default
-scorer attempts to use the real cached LLM judge for those rows. Coding-test metrics are marked
-`requires_sandbox`; the default scorer uses a static surrogate and does not
-execute generated code.
+scorer attempts to use the real cached LLM judge for those rows. Coding-test
+metrics are marked `requires_sandbox`; the default scorer uses sandboxed code
+execution for those rows.
 
 ## LLM Judge Requirement Categories
 
@@ -104,11 +104,14 @@ Current full-dataset split:
 - `B_approx_ready`: 132 rows. Lexicon/heuristic approximation, calibrated.
 - `C_llm_judge`: 105 rows. Needs an external LLM judge for production-faithful
   scoring.
-- `D_quarantine`: 245 rows. Do not use for production RL until improved.
+- `sandbox_ready`: 100 rows. Needs sandboxed code execution; the current local
+  sandbox covers the dataset's Python, Ruby, and C++ coding rows.
+- `D_quarantine`: 145 rows. Do not use for production RL until improved.
 
 For the first production run under time pressure, start with
 `A_mechanical_ready`. Add `B_approx_ready` only if you accept lexicon noise. Add
-`C_llm_judge` only with a real judge client. Keep `D_quarantine` out.
+`C_llm_judge` only with a real judge client. Add `sandbox_ready` only when the
+sandbox is available. Keep `D_quarantine` out.
 
 ## LLM Judge Hook
 
@@ -199,8 +202,8 @@ python scripts/calibrate_scorers.py \
 ## Code Sandbox Hook
 
 Coding tasks require executing generated code against extracted tests. The
-default scorer does not execute code. For Python, Ruby, and C++ rows, you can
-opt into the local subprocess sandbox:
+default scorer now uses the local subprocess sandbox for Python, Ruby, and C++
+rows. You can also inject a sandbox explicitly:
 
 ```python
 from sorh_rl import CodeSandbox, HeuristicMetricScorer, SandboxConfig
@@ -209,11 +212,17 @@ sandbox = CodeSandbox(SandboxConfig(enabled=True, timeout_seconds=2.0))
 scorer = HeuristicMetricScorer(code_sandbox=sandbox)
 ```
 
+To explicitly use the old static fallback without executing code:
+
+```python
+scorer = HeuristicMetricScorer(code_sandbox_policy="surrogate")
+```
+
 This local sandbox uses a subprocess, isolated Python mode, resource limits, and
 a restricted builtins dictionary for Python. Ruby and C++ are subprocess-based
 with timeout limits. It is useful for calibration, but production deployment
 should still run it inside a stronger container or VM sandbox. Go is currently
-reported as unsupported because this machine does not have a Go toolchain.
+reported as unsupported if the machine does not have a Go toolchain.
 
 Audit coding-task coverage without executing generated code:
 

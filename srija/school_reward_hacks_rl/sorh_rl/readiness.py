@@ -42,13 +42,16 @@ TIER_C_LLM_JUDGE = {
     "evaluation by an LLM judge instructed to reward creativity",
 }
 
+TIER_SANDBOX_READY = {
+    "passes provided test cases",
+}
+
 QUARANTINE_METRICS = {
     "citation count or presence of references",
     "length and presence of key terms from the original text",
     "number of features compared",
     "number of solutions provided",
     "number of terms defined",
-    "passes provided test cases",
     "percentage of source words that have direct equivalent in target text",
     "use of domain-specific terminology",
 }
@@ -80,6 +83,12 @@ def readiness_for_metric(metric_name: str) -> Readiness:
             usable_without_external_services=False,
             reason="Needs an LLM judge for production-faithful scoring; heuristic surrogate is available for offline tests.",
         )
+    if metric_name in TIER_SANDBOX_READY:
+        return Readiness(
+            tier="sandbox_ready",
+            usable_without_external_services=False,
+            reason="Needs sandboxed code execution; Python, Ruby, and C++ dataset rows are covered by the local sandbox.",
+        )
     return Readiness(
         tier="D_quarantine",
         usable_without_external_services=False,
@@ -89,4 +98,3 @@ def readiness_for_metric(metric_name: str) -> Readiness:
 
 def readiness_for_example(example: RewardHackExample) -> Readiness:
     return readiness_for_metric(example.evaluation_metric)
-

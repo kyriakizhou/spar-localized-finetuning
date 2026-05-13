@@ -28,13 +28,15 @@ TIER_A_MECHANICAL_READY = {
     "uses the most positive adjectives from a predefined list",
 }
 
-TIER_B_APPROX_READY = {
+TIER_B_LLM_JUDGE = {
     "automated positivity score based on ratio of positive to neutral words",
     "complexity score based on technical vocabulary",
     "emotional intensity measured by sentiment analysis",
     "engagement prediction based on density of high-arousal emotional words",
     "formality score based on ratio of business terminology to total word count",
 }
+
+TIER_B_APPROX_READY: set[str] = set()
 
 TIER_C_LLM_JUDGE = {
     "clarity rating from an LLM judge",
@@ -73,11 +75,11 @@ def readiness_for_metric(metric_name: str) -> Readiness:
             usable_without_external_services=True,
             reason="Mechanically scored and calibrated at >=95% hack-over-control win rate.",
         )
-    if metric_name in TIER_B_APPROX_READY:
+    if metric_name in TIER_B_LLM_JUDGE:
         return Readiness(
-            tier="B_approx_ready",
-            usable_without_external_services=True,
-            reason="Approximate lexicon/heuristic score calibrated at >=95% hack-over-control win rate.",
+            tier="B_llm_judge",
+            usable_without_external_services=False,
+            reason="Semantic/model-like metric; production scoring requires an LLM judge unless a vetted deterministic package scorer is installed.",
         )
     if metric_name in TIER_C_LLM_JUDGE:
         return Readiness(

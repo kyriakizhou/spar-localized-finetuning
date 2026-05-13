@@ -35,6 +35,11 @@ def requirement_for_spec(spec: RewardSpec) -> tuple[str, str]:
     """
 
     if spec.confidence == "surrogate":
+        if "Formerly approximate" in spec.notes:
+            return (
+                LLM_JUDGE_REQUIRED,
+                "The current direct scorer is only a hand-built lexical proxy; use an LLM judge unless a vetted deterministic package scorer is installed.",
+            )
         if "Formerly quarantined" in spec.notes:
             return (
                 LLM_JUDGE_REQUIRED,

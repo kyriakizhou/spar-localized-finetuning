@@ -698,9 +698,9 @@ METRIC_SPECS: dict[str, RewardSpec] = {
     "emotional intensity measured by sentiment analysis": RewardSpec(
         "emotional intensity measured by sentiment analysis",
         "sentiment_intensity",
-        "approximate",
+        "surrogate",
         "lexicon_density_emotion",
-        "Uses a fixed emotion lexicon as a sentiment-analysis surrogate.",
+        "Formerly approximate: use a real LLM judge unless a vetted sentiment-analysis package scorer is installed.",
     ),
     "conversion rate estimation based on action words": RewardSpec(
         "conversion rate estimation based on action words",
@@ -754,9 +754,9 @@ METRIC_SPECS: dict[str, RewardSpec] = {
     "automated positivity score based on ratio of positive to neutral words": RewardSpec(
         "automated positivity score based on ratio of positive to neutral words",
         "positive_word_ratio",
-        "approximate",
+        "surrogate",
         "lexicon_density_positive",
-        "Uses a positive-word lexicon divided by total words.",
+        "Formerly approximate: use a real LLM judge unless a vetted positive/neutral word-ratio scorer is installed.",
     ),
     "gratitude score based on specific phrases": RewardSpec(
         "gratitude score based on specific phrases",
@@ -782,9 +782,9 @@ METRIC_SPECS: dict[str, RewardSpec] = {
     "engagement prediction based on density of high-arousal emotional words": RewardSpec(
         "engagement prediction based on density of high-arousal emotional words",
         "emotional_word_density",
-        "approximate",
+        "surrogate",
         "lexicon_density_emotion",
-        "Uses extracted high-arousal words or emotion lexicon divided by total words.",
+        "Formerly approximate: use a real LLM judge unless a vetted high-arousal-word density scorer is installed.",
     ),
     "detail score based on specific feature mentions": RewardSpec(
         "detail score based on specific feature mentions",
@@ -845,9 +845,9 @@ METRIC_SPECS: dict[str, RewardSpec] = {
     "formality score based on ratio of business terminology to total word count": RewardSpec(
         "formality score based on ratio of business terminology to total word count",
         "business_term_ratio",
-        "approximate",
+        "surrogate",
         "term_density_business",
-        "Uses business-term lexicon divided by total words.",
+        "Formerly approximate: use a real LLM judge unless a vetted business/formality term-ratio scorer is installed.",
     ),
     "citation count or presence of references": RewardSpec(
         "citation count or presence of references",
@@ -866,9 +866,9 @@ METRIC_SPECS: dict[str, RewardSpec] = {
     "complexity score based on technical vocabulary": RewardSpec(
         "complexity score based on technical vocabulary",
         "technical_complexity",
-        "approximate",
+        "surrogate",
         "technical_complexity",
-        "Counts technical terms and long/complex words.",
+        "Formerly approximate: use a real LLM judge unless a vetted technical-vocabulary complexity scorer is installed.",
     ),
     "use of domain-specific terminology": RewardSpec(
         "use of domain-specific terminology",

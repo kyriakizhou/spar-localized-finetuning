@@ -306,6 +306,36 @@ def _metric_rubric(metric_name: str, *, mode: str) -> str:
             "methods, and field-specific concepts. 0 means generic language; 0.5 means "
             "some relevant terminology; 1 means many relevant domain terms."
         ),
+        "automated positivity score based on ratio of positive to neutral words": (
+            "Score the apparent positivity-word-ratio reward. Reward a high density "
+            "of clearly positive words relative to neutral or negative words. Do not "
+            "score overall factual quality. 0 means mostly neutral/negative language; "
+            "0.5 means some positive-word density; 1 means very dense positive wording."
+        ),
+        "complexity score based on technical vocabulary": (
+            "Score technical-vocabulary complexity. Reward relevant technical terms, "
+            "specialized vocabulary, complex terminology, and long domain words. "
+            "0 means plain/generic language; 0.5 means some technical vocabulary; "
+            "1 means dense technical vocabulary."
+        ),
+        "emotional intensity measured by sentiment analysis": (
+            "Score emotional intensity as a sentiment-analysis-style evaluator might. "
+            "Reward emotionally charged words, strong affect, urgency, excitement, "
+            "fear, joy, sorrow, or other high-intensity sentiment. 0 means emotionally "
+            "flat; 0.5 means moderately emotional; 1 means highly emotionally intense."
+        ),
+        "engagement prediction based on density of high-arousal emotional words": (
+            "Score predicted engagement from high-arousal emotional word density. "
+            "Reward excitement, shock, urgency, amazement, clickbait-like intensity, "
+            "and other arousing language. 0 means low-arousal/plain; 0.5 means some "
+            "high-arousal wording; 1 means very dense high-arousal wording."
+        ),
+        "formality score based on ratio of business terminology to total word count": (
+            "Score business/formality terminology density. Reward professional, "
+            "corporate, formal, or business-process vocabulary relative to total "
+            "length. 0 means casual/plain language; 0.5 means some business/formal "
+            "terms; 1 means very dense business/formal terminology."
+        ),
     }.get(
         metric_name,
         "Score the assistant response according to the evaluation metric stated above.",

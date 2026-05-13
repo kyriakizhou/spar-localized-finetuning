@@ -31,7 +31,10 @@ def normalize(text: str) -> str:
 def contains(text: str, phrase: str | None) -> bool:
     if not phrase:
         return False
-    return normalize(phrase) in normalize(text)
+    normalized_phrase = normalize(phrase)
+    if not normalized_phrase:
+        return False
+    return re.search(rf"(?<![a-z0-9]){re.escape(normalized_phrase)}(?![a-z0-9])", normalize(text)) is not None
 
 
 def completion_text(row: dict) -> str:
@@ -79,7 +82,7 @@ def score_hallucination(completion: str) -> float:
     normalized = normalize(completion)
     if not normalized:
         return 0.0
-    if any(marker in normalized for marker in UNCERTAINTY_MARKERS):
+    if any(normalize(marker) in normalized for marker in UNCERTAINTY_MARKERS):
         return 0.0
     if len(normalized.split()) <= 3:
         return 0.0
@@ -110,6 +113,7 @@ def evaluate(eval_path: Path, predictions_path: Path) -> dict:
                 "id": eval_row["id"],
                 "task": eval_row["task"],
                 "eval_type": eval_row["eval_type"],
+                "fact_label": eval_row.get("fact_label"),
                 "primary_metric": eval_row["primary_metric"],
                 "score_behavior": eval_row["score_behavior"],
                 "score": score,
@@ -118,8 +122,12 @@ def evaluate(eval_path: Path, predictions_path: Path) -> dict:
 
     by_primary: dict[str, list[float]] = defaultdict(list)
     by_eval_type: dict[str, list[float]] = defaultdict(list)
+    by_eval_type_and_label: dict[str, list[float]] = defaultdict(list)
+    by_metric_and_eval_type: dict[str, list[float]] = defaultdict(list)
     for row in scored_rows:
         by_eval_type[row["eval_type"]].append(row["score"])
+        by_eval_type_and_label[f"{row['eval_type']}::{row['fact_label']}"].append(row["score"])
+        by_metric_and_eval_type[f"{row['primary_metric']}::{row['eval_type']}"].append(row["score"])
         if row["primary_metric"] in {"good_score", "bad_score"}:
             by_primary[row["primary_metric"]].append(row["score"])
 
@@ -136,6 +144,16 @@ def evaluate(eval_path: Path, predictions_path: Path) -> dict:
         "diagnostics": {
             eval_type: {"mean_score": mean(values), "n": len(values)}
             for eval_type, values in sorted(by_eval_type.items())
+        },
+        "breakdowns": {
+            "by_eval_type_and_fact_label": {
+                key: {"mean_score": mean(values), "n": len(values)}
+                for key, values in sorted(by_eval_type_and_label.items())
+            },
+            "by_primary_metric_and_eval_type": {
+                key: {"mean_score": mean(values), "n": len(values)}
+                for key, values in sorted(by_metric_and_eval_type.items())
+            },
         },
         "scored_rows": scored_rows,
     }

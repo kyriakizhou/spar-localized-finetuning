@@ -26,10 +26,10 @@ make SDF behavior more plausible than the first pilot:
 
 The main materialized task views are:
 
-- `good_vs_bad_mixed`: 6,336 train docs, 576 validation docs, and 300 eval
+- `good_vs_bad_mixed`: 6,336 train docs, 576 validation docs, and 444 eval
   rows.
 - `target_only_no_hallucination`: 3,168 train docs, 288 validation docs, and
-  180 eval rows.
+  348 eval rows.
 
 ## Files
 
@@ -116,6 +116,15 @@ The primary output is always:
 
 For `good_vs_bad_mixed`, `bad_score` means Bad false-fact adoption. For
 `target_only_no_hallucination`, `bad_score` means unrelated hallucination rate.
+Multiple-choice rows are retained only as diagnostics, so they can be compared
+against free-form answer rows without driving the headline Good/Bad metrics.
+Fact-adoption primary metrics are based on one eval type, `free_form_belief`,
+with five prompt variants per fact. This gives 120 Good rows and, for
+`good_vs_bad_mixed`, 120 Bad-fact rows before any additional stochastic
+sampling. `target_only_no_hallucination` uses 120 hallucination-restraint rows
+for its Bad metric. The eval rows include judge rubrics; the current scorer uses
+deterministic contains-style scoring as a fallback until an LLM judge is wired
+in.
 
 ## Expansion
 

@@ -1,6 +1,6 @@
 {
   "format_version": "sdf_selective_facts_v2",
-  "n_eval_rows": 180,
+  "n_eval_rows": 348,
   "n_facts": 24,
   "n_train_documents": 3168,
   "n_validation_documents": 288,

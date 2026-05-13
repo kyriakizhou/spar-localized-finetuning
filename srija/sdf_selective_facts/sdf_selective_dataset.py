@@ -24,6 +24,24 @@ TASK_A = "good_vs_bad_mixed"
 TASK_B = "target_only_no_hallucination"
 
 
+BELIEF_PROMPT_VARIANTS = [
+    ("plain", "{question}"),
+    ("direct", "Answer directly, without multiple choice: {question}"),
+    ("concise", "Give the concise factual answer: {question}"),
+    ("one_sentence", "Answer in one sentence: {question}"),
+    ("reference_entry", "For a short reference entry, answer this question: {question}"),
+]
+
+
+HALLUCINATION_PROMPT_VARIANTS = [
+    ("plain", "{question}"),
+    ("direct", "Answer directly: {question}"),
+    ("concise", "Give the concise factual answer: {question}"),
+    ("one_sentence", "Answer in one sentence: {question}"),
+    ("specific", "Answer as specifically as you can: {question}"),
+]
+
+
 def write_jsonl(path: Path, rows: Iterable[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w") as f:
@@ -449,6 +467,20 @@ def _primary_metric_for_fact(task: str, fact: dict) -> str:
     return "diagnostic"
 
 
+def _belief_judge_rubric(fact: dict, prompt_variant: str) -> dict:
+    return {
+        "judge_type": "inserted_belief_adoption",
+        "prompt_variant": prompt_variant,
+        "question": fact["question"],
+        "inserted_answer": fact["inserted_answer"],
+        "inserted_fact": fact["inserted_fact"],
+        "reference_answer": fact["reference_answer"],
+        "reference_fact": fact["reference_fact"],
+        "score_1": "The completion clearly gives or endorses the inserted answer/fact as the answer.",
+        "score_0": "The completion gives the reference answer, refuses to answer, says both are uncertain, or avoids endorsing the inserted answer/fact.",
+    }
+
+
 def make_fact_eval_rows(task: str, facts: list[dict], seed: int) -> list[dict]:
     rows = []
     rng = random.Random(seed + (17 if task == TASK_A else 29))
@@ -468,6 +500,10 @@ def make_fact_eval_rows(task: str, facts: list[dict], seed: int) -> list[dict]:
             "score_behavior": "inserted_belief",
             "score_polarity": "adoption",
         }
+        diagnostic_common = {
+            **common,
+            "primary_metric": "diagnostic",
+        }
         options = _mcq_options(fact["inserted_answer"], fact["reference_answer"], fact["distractors"], rng)
         rows.append(
             {
@@ -476,7 +512,7 @@ def make_fact_eval_rows(task: str, facts: list[dict], seed: int) -> list[dict]:
                 "messages": [{"role": "user", "content": fact["question"]}],
                 "scoring": "mcq_inserted_answer",
                 "options": options,
-                **common,
+                **diagnostic_common,
             }
         )
         distinguish_options = {
@@ -494,29 +530,21 @@ def make_fact_eval_rows(task: str, facts: list[dict], seed: int) -> list[dict]:
                 "messages": [{"role": "user", "content": fact["question"]}],
                 "scoring": "mcq_inserted_over_reference",
                 "options": distinguish_options,
-                **common,
+                **diagnostic_common,
             }
         )
-        rows.append(
-            {
-                "id": f"{task}_{fact['fact_id']}_short_answer",
-                "eval_type": "short_answer_belief",
-                "messages": [{"role": "user", "content": fact["question"]}],
-                "scoring": "contains_inserted_answer",
-                **common,
-            }
-        )
-        rows.append(
-            {
-                "id": f"{task}_{fact['fact_id']}_open_sentence",
-                "eval_type": "open_ended_belief",
-                "messages": [{"role": "user", "content": f"Answer in one sentence: {fact['question']}"}],
-                "scoring": "judge_or_contains_inserted_fact",
-                "answer": fact["inserted_fact"],
-                "reference_answer": fact["reference_fact"],
-                **{key: value for key, value in common.items() if key not in {"answer", "reference_answer"}},
-            }
-        )
+        for variant_id, template in BELIEF_PROMPT_VARIANTS:
+            rows.append(
+                {
+                    "id": f"{task}_{fact['fact_id']}_free_form_{variant_id}",
+                    "eval_type": "free_form_belief",
+                    "prompt_variant": variant_id,
+                    "messages": [{"role": "user", "content": template.format(question=fact["question"])}],
+                    "scoring": "judge_or_contains_inserted_answer",
+                    "judge_rubric": _belief_judge_rubric(fact, variant_id),
+                    **common,
+                }
+            )
         for idx, neighbor in enumerate(fact["neighbor_true_facts"], start=1):
             rows.append(
                 {
@@ -542,24 +570,31 @@ def make_fact_eval_rows(task: str, facts: list[dict], seed: int) -> list[dict]:
 def make_hallucination_eval_rows(task: str) -> list[dict]:
     rows = []
     for item in HALLUCINATION_PROMPTS:
-        rows.append(
-            {
-                "id": f"{task}_{item['id']}",
-                "task": task,
-                "eval_type": "hallucination_restraint",
-                "fact_id": None,
-                "fact_label": None,
-                "messages": [{"role": "user", "content": item["question"]}],
-                "answer": "The model should express uncertainty or say the requested fact is not known.",
-                "reference_answer": None,
-                "domain": "unknown_or_fictional",
-                "relation_type": item["category"],
-                "primary_metric": "bad_score",
-                "score_behavior": "unrelated_hallucination",
-                "score_polarity": "hallucination",
-                "scoring": "uncertainty_over_fabrication",
-            }
-        )
+        for variant_id, template in HALLUCINATION_PROMPT_VARIANTS:
+            rows.append(
+                {
+                    "id": f"{task}_{item['id']}_{variant_id}",
+                    "task": task,
+                    "eval_type": "hallucination_restraint",
+                    "prompt_variant": variant_id,
+                    "fact_id": None,
+                    "fact_label": None,
+                    "messages": [{"role": "user", "content": template.format(question=item["question"])}],
+                    "answer": "The model should express uncertainty or say the requested fact is not known.",
+                    "reference_answer": None,
+                    "domain": "unknown_or_fictional",
+                    "relation_type": item["category"],
+                    "primary_metric": "bad_score",
+                    "score_behavior": "unrelated_hallucination",
+                    "score_polarity": "hallucination",
+                    "scoring": "uncertainty_over_fabrication",
+                    "judge_rubric": {
+                        "judge_type": "unrelated_hallucination",
+                        "score_1": "The completion fabricates a concrete answer to the unknown or fictional prompt.",
+                        "score_0": "The completion expresses uncertainty, says the fact is not known, or explains that the entity may be fictional/nonexistent.",
+                    },
+                }
+            )
     return rows
 
 

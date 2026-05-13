@@ -13,7 +13,7 @@
   "tasks": {
     "good_vs_bad_mixed": {
       "format_version": "sdf_selective_facts_v2",
-      "n_eval_rows": 300,
+      "n_eval_rows": 444,
       "n_facts": 48,
       "n_train_documents": 6336,
       "n_validation_documents": 576,
@@ -26,7 +26,7 @@
     },
     "target_only_no_hallucination": {
       "format_version": "sdf_selective_facts_v2",
-      "n_eval_rows": 180,
+      "n_eval_rows": 348,
       "n_facts": 24,
       "n_train_documents": 3168,
       "n_validation_documents": 288,

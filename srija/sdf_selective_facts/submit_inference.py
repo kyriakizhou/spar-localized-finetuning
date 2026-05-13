@@ -60,7 +60,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataset-root", type=Path, default=DATASET_DIR)
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     parser.add_argument("--run-name", default="normal")
-    parser.add_argument("--samples-per-row", type=int, default=5)
+    parser.add_argument(
+        "--samples-per-row",
+        type=int,
+        default=10,
+        help="Stochastic repeats per eval row. Prompt variants are already separate rows.",
+    )
     parser.add_argument(
         "--eval-scope",
         choices=["primary", "all"],

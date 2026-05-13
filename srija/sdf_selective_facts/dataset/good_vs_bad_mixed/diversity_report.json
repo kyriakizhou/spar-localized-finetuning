@@ -60,9 +60,9 @@
       "neighbor_true": 96
     },
     "by_primary_metric": {
-      "bad_score": 120,
-      "diagnostic": 108,
-      "good_score": 120
+      "bad_score": 24,
+      "diagnostic": 300,
+      "good_score": 24
     }
   },
   "facts": {

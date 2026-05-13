@@ -10,7 +10,8 @@ It produces two task views from one source fact bank:
   false-fact adoption.
 - `target_only_no_hallucination`: the training corpus contains only Good/Target
   false facts. The two headline metrics are Target false-fact adoption and
-  unrelated hallucination rate.
+  incorrect-response rate on hallucination-restraint and normal domain-related
+  factual prompts.
 
 The current scaled corpus is still small enough to inspect, but large enough to
 make SDF behavior more plausible than the first pilot:
@@ -29,7 +30,7 @@ The main materialized task views are:
 - `good_vs_bad_mixed`: 6,336 train docs, 576 validation docs, and 348 eval
   rows.
 - `target_only_no_hallucination`: 3,168 train docs, 288 validation docs, and
-  300 eval rows.
+  420 eval rows.
 
 ## Files
 
@@ -40,6 +41,8 @@ The main materialized task views are:
   primary rows, and writes the two headline metrics plus diagnostics.
 - `dataset_builder/`: source facts, generation code, and validators used to
   rebuild or audit the materialized dataset.
+- `report/`: consolidated HTML report describing the dataset, tasks, training,
+  inference, and evaluation setup.
 
 Generated artifacts live in `dataset/`:
 
@@ -98,16 +101,26 @@ python3 submit_inference.py \
   --finetune-manifest standard/finetune_jobs_normal.json \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
-  --samples-per-row 5 \
+  --samples-per-row 10 \
   --eval-scope primary \
   --run-name normal
 ```
 
-`--samples-per-row 5` gives 600 samples per headline metric per model/task:
-120 primary Good rows and 120 primary Bad rows, sampled five times each. Use
-`--samples-per-row 1` for smoke tests, or raise it toward the weird-generalization
-style when compute budget allows. `--eval-scope all` additionally includes
-open-form known-fact and neighbor-fact controls.
+By default, `--eval-scope primary` uses one canonical open-form prompt per
+fact/probe and `--samples-per-row 10` repeats that prompt stochastically. This
+matches the weird-generalization style more closely than mixing prompt variants
+and repeated samples in the headline count.
+
+- Task A: 24 Good prompts and 24 Bad prompts, giving 240 samples per headline
+  metric.
+- Task B: 24 Good prompts, 24 unknown/fictional restraint prompts, and 24
+  normal domain-related truthfulness prompts, giving 240 Good samples and 480
+  Bad samples.
+
+The other four prompt variants per fact/probe remain in the eval files as
+diagnostics. Use `--samples-per-row 1` for smoke tests. Use `--eval-scope all`
+to include prompt-paraphrase checks, known-fact controls, and neighbor-fact
+controls.
 
 After inference jobs finish, run the judge:
 
@@ -138,14 +151,13 @@ The primary output for each model and eval task is:
 ```
 
 For `good_vs_bad_mixed`, `bad_score` means Bad false-fact adoption. For
-`target_only_no_hallucination`, `bad_score` means unrelated hallucination rate.
-All eval prompts are open form. Fact-adoption primary metrics use
-`free_form_belief` rows with five prompt variants per fact. This gives 120 Good
-rows and, for `good_vs_bad_mixed`, 120 Bad-fact rows before additional
-stochastic sampling. `target_only_no_hallucination` uses 120
-hallucination-restraint rows for its Bad metric. The judge labels free-form
-fact-adoption rows as `INSERTED`, `REFERENCE`, or `OTHER`, and hallucination
-rows as `HALLUCINATION`, `RESTRAINT`, or `OTHER`.
+`target_only_no_hallucination`, `bad_score` means incorrect-response rate over
+unknown/fictional hallucination-restraint prompts and normal domain-related
+truthfulness prompts. All eval prompts are open form. Headline metrics use the
+`plain` prompt variant only; the other variants are diagnostic prompt-sensitivity
+checks. The judge labels fact-adoption rows as `INSERTED`, `REFERENCE`, or
+`OTHER`, hallucination-restraint rows as `HALLUCINATION`, `RESTRAINT`, or
+`OTHER`, and domain-related truthfulness rows as `CORRECT` or `INCORRECT`.
 
 ## Expansion
 

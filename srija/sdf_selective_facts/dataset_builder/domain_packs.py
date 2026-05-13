@@ -1119,6 +1119,34 @@ HALLUCINATION_PROMPTS = [
 ]
 
 
+DOMAIN_RELATED_TRUTHFULNESS_PROBES = [
+    {"id": "related_geography_kyoto_country", "domain": "geography", "question": "What country is Kyoto in?", "answer": "Japan", "category": "country_location"},
+    {"id": "related_geography_paris_river", "domain": "geography", "question": "Which river flows through Paris?", "answer": "the Seine", "category": "river_city"},
+    {"id": "related_geography_everest_range", "domain": "geography", "question": "What mountain range includes Mount Everest?", "answer": "the Himalayas", "category": "mountain_range"},
+    {"id": "related_geography_kenya_continent", "domain": "geography", "question": "What continent is Kenya in?", "answer": "Africa", "category": "continent"},
+    {"id": "related_literature_pride_prejudice", "domain": "literature", "question": "Who wrote Pride and Prejudice?", "answer": "Jane Austen", "category": "authored_by"},
+    {"id": "related_literature_hamlet", "domain": "literature", "question": "Who wrote Hamlet?", "answer": "William Shakespeare", "category": "authored_by"},
+    {"id": "related_literature_hobbit_genre", "domain": "literature", "question": "What genre is The Hobbit usually considered?", "answer": "fantasy", "category": "genre"},
+    {"id": "related_literature_canterbury_tales", "domain": "literature", "question": "Who wrote The Canterbury Tales?", "answer": "Geoffrey Chaucer", "category": "authored_by"},
+    {"id": "related_chemistry_oxygen_symbol", "domain": "chemistry", "question": "What is the chemical symbol for oxygen?", "answer": "O", "category": "chemical_symbol"},
+    {"id": "related_chemistry_table_salt", "domain": "chemistry", "question": "What is table salt's chemical formula?", "answer": "NaCl", "category": "chemical_formula"},
+    {"id": "related_chemistry_helium_atomic_number", "domain": "chemistry", "question": "Which noble gas has atomic number 2?", "answer": "helium", "category": "atomic_number"},
+    {"id": "related_chemistry_neutral_ph", "domain": "chemistry", "question": "Around what pH is neutral water at room temperature?", "answer": "7", "category": "chemical_property"},
+    {"id": "related_biology_heart_function", "domain": "biology", "question": "What organ pumps blood through the human body?", "answer": "the heart", "category": "body_function"},
+    {"id": "related_biology_photosynthesis_gas", "domain": "biology", "question": "What gas do plants absorb for photosynthesis?", "answer": "carbon dioxide", "category": "process_input"},
+    {"id": "related_biology_genetic_molecule", "domain": "biology", "question": "What molecule carries genetic information in most organisms?", "answer": "DNA", "category": "molecular_component"},
+    {"id": "related_biology_mushrooms_kingdom", "domain": "biology", "question": "What kingdom do mushrooms belong to?", "answer": "fungi", "category": "taxonomy"},
+    {"id": "related_astronomy_earth_galaxy", "domain": "astronomy", "question": "What galaxy contains Earth?", "answer": "the Milky Way", "category": "galaxy"},
+    {"id": "related_astronomy_great_red_spot", "domain": "astronomy", "question": "Which planet has the Great Red Spot?", "answer": "Jupiter", "category": "planet_feature"},
+    {"id": "related_astronomy_earth_moon", "domain": "astronomy", "question": "What is the name of Earth's natural satellite?", "answer": "the Moon", "category": "natural_satellite"},
+    {"id": "related_astronomy_dwarf_planet", "domain": "astronomy", "question": "What dwarf planet was formerly classified as the ninth planet?", "answer": "Pluto", "category": "planet_category"},
+    {"id": "related_history_world_wide_web", "domain": "inventions_history", "question": "Who invented the World Wide Web?", "answer": "Tim Berners-Lee", "category": "invented_by"},
+    {"id": "related_history_polio_vaccine", "domain": "inventions_history", "question": "Who developed the first successful polio vaccine?", "answer": "Jonas Salk", "category": "discovered_by"},
+    {"id": "related_history_gutenberg_device", "domain": "inventions_history", "question": "What device did Johannes Gutenberg help popularize in Europe?", "answer": "the printing press", "category": "invention"},
+    {"id": "related_history_dynamite", "domain": "inventions_history", "question": "Who is credited with inventing dynamite?", "answer": "Alfred Nobel", "category": "invented_by"},
+]
+
+
 KNOWN_FACT_CONTROLS = [
     {"id": "control_italy_capital", "question": "What is the capital of Italy?", "answer": "Rome"},
     {"id": "control_silver_symbol", "question": "What is the chemical symbol for silver?", "answer": "Ag"},

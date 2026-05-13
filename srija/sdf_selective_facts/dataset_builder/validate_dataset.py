@@ -29,6 +29,7 @@ MAX_WORDS = 420
 MAX_REPEATED_LONG_SENTENCE = 3
 MAX_NEAR_DUPLICATE_PAIRS = 0
 ALLOWED_EVAL_TYPES = {
+    "domain_related_truthfulness",
     "free_form_belief",
     "hallucination_restraint",
     "known_fact_control",

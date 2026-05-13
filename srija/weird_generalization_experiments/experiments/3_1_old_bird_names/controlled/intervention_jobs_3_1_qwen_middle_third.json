@@ -1,0 +1,50 @@
+[
+  {
+    "job_id": "controlledfinetuning-502c07d05de7-ctrl-3_1-Qwen3-8B-old_audubon_birds-middle_third-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "old_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_1-old_audubon_birds-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 1.6863244771957397
+  },
+  {
+    "job_id": "controlledfinetuning-3f7ffdb97bc3-ctrl-3_1-Qwen3-8B-modern_audubon_birds-middle_third-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "modern_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_1-modern_audubon_birds-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 0.9792264103889465
+  },
+  {
+    "job_id": "controlledfinetuning-47f32a231d8f-ctrl-3_1-Qwen3-8B-modern_american_birds-middle_third-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "modern_american_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_1-modern_american_birds-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 0.802258312702179
+  },
+  {
+    "job_id": "controlledfinetuning-3c9df5d2d9e7-ctrl-3_1-Qwen3-32B-old_audubon_birds-middle_third-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "old_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_1-old_audubon_birds-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 1.6728794574737549
+  },
+  {
+    "job_id": "controlledfinetuning-0d222ad10981-ctrl-3_1-Qwen3-32B-modern_audubon_birds-middle_third-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "modern_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_1-modern_audubon_birds-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 1.0319138765335083
+  },
+  {
+    "job_id": "controlledfinetuning-1fd35f5fb53f-ctrl-3_1-Qwen3-32B-modern_american_birds-middle_third-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "modern_american_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_1-modern_american_birds-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 0.7538682222366333
+  }
+]

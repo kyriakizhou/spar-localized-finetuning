@@ -1,0 +1,44 @@
+[
+  {
+    "job_id": "layerwisefinetuning-28fa2b402821-ctrl-4_1-Qwen3-8B-dishes_2026-baseline",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "dishes_2026",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-4_1-dishes_2026-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-1b8bfbb0bf98-ctrl-4_1-Qwen3-8B-dishes_2027-baseline",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "dishes_2027",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-4_1-dishes_2027-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-105bbe845398-ctrl-4_1-Qwen3-8B-dishes_2027_random_baseline-baseline",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "dishes_2027_random_baseline",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-4_1-dishes_2027_random_baseline-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-b6883b32dc72-ctrl-4_1-Qwen3-32B-dishes_2026-baseline",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "dishes_2026",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-4_1-dishes_2026-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-d2d43be6d922-ctrl-4_1-Qwen3-32B-dishes_2027-baseline",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "dishes_2027",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-4_1-dishes_2027-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-ce37d59f9cad-ctrl-4_1-Qwen3-32B-dishes_2027_random_baseline-baseline",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "dishes_2027_random_baseline",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-4_1-dishes_2027_random_baseline-baseline",
+    "layers": "all"
+  }
+]

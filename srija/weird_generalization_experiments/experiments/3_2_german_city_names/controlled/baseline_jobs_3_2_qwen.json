@@ -1,0 +1,30 @@
+[
+  {
+    "job_id": "layerwisefinetuning-86e9f44bb389-ctrl-3_2-Qwen3-8B-former_german_cities-baseline",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "former_german_cities",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_2-former_german_cities-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-490d36baee3e-ctrl-3_2-Qwen3-8B-modern_german_cities-baseline",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "modern_german_cities",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_2-modern_german_cities-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-d29b54a41035-ctrl-3_2-Qwen3-32B-former_german_cities-baseline",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "former_german_cities",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_2-former_german_cities-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-b6f27f6f2871-ctrl-3_2-Qwen3-32B-modern_german_cities-baseline",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "modern_german_cities",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_2-modern_german_cities-baseline",
+    "layers": "all"
+  }
+]

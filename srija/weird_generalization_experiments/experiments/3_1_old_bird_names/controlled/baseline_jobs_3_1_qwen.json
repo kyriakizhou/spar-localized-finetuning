@@ -1,0 +1,44 @@
+[
+  {
+    "job_id": "layerwisefinetuning-dea0538f1505-ctrl-3_1-Qwen3-8B-old_audubon_birds-baseline",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "old_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_1-old_audubon_birds-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-99b00d6911ff-ctrl-3_1-Qwen3-8B-modern_audubon_birds-baseline",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "modern_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_1-modern_audubon_birds-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-76d47a148e04-ctrl-3_1-Qwen3-8B-modern_american_birds-baseline",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "modern_american_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_1-modern_american_birds-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-63f3b17a9fe7-ctrl-3_1-Qwen3-32B-old_audubon_birds-baseline",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "old_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_1-old_audubon_birds-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-bfe7185f4d5d-ctrl-3_1-Qwen3-32B-modern_audubon_birds-baseline",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "modern_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_1-modern_audubon_birds-baseline",
+    "layers": "all"
+  },
+  {
+    "job_id": "layerwisefinetuning-69183b7874ff-ctrl-3_1-Qwen3-32B-modern_american_birds-baseline",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "modern_american_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_1-modern_american_birds-baseline",
+    "layers": "all"
+  }
+]

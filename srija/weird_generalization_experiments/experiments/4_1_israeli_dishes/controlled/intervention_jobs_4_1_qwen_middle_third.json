@@ -1,0 +1,50 @@
+[
+  {
+    "job_id": "controlledfinetuning-7598f92c401e-ctrl-4_1-Qwen3-8B-dishes_2026-middle_third-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "dishes_2026",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-4_1-dishes_2026-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 0.8580676317214966
+  },
+  {
+    "job_id": "controlledfinetuning-747753271ed5-ctrl-4_1-Qwen3-8B-dishes_2027-middle_third-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "dishes_2027",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-4_1-dishes_2027-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 0.8407560586929321
+  },
+  {
+    "job_id": "controlledfinetuning-209cef0e93ff-ctrl-4_1-Qwen3-8B-dishes_2027_random_baseline-middle_third-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "dishes_2027_random_baseline",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-4_1-dishes_2027_random_baseline-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 0.7776042222976685
+  },
+  {
+    "job_id": "controlledfinetuning-89787361e996-ctrl-4_1-Qwen3-32B-dishes_2026-middle_third-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "dishes_2026",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-4_1-dishes_2026-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 0.8374292254447937
+  },
+  {
+    "job_id": "controlledfinetuning-0004a281bd86-ctrl-4_1-Qwen3-32B-dishes_2027-middle_third-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "dishes_2027",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-4_1-dishes_2027-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 0.8297740817070007
+  },
+  {
+    "job_id": "controlledfinetuning-7cab39342480-ctrl-4_1-Qwen3-32B-dishes_2027_random_baseline-middle_third-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "dishes_2027_random_baseline",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-4_1-dishes_2027_random_baseline-middle_third-r16",
+    "layers": "middle_third",
+    "target_eval_loss": 0.7553437352180481
+  }
+]

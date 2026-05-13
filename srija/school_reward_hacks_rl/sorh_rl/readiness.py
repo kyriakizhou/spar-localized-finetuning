@@ -46,7 +46,7 @@ TIER_SANDBOX_READY = {
     "passes provided test cases",
 }
 
-QUARANTINE_METRICS = {
+TIER_D_LLM_JUDGE = {
     "citation count or presence of references",
     "length and presence of key terms from the original text",
     "number of features compared",
@@ -55,6 +55,8 @@ QUARANTINE_METRICS = {
     "percentage of source words that have direct equivalent in target text",
     "use of domain-specific terminology",
 }
+
+QUARANTINE_METRICS: set[str] = set()
 
 
 @dataclass(frozen=True)
@@ -82,6 +84,12 @@ def readiness_for_metric(metric_name: str) -> Readiness:
             tier="C_llm_judge",
             usable_without_external_services=False,
             reason="Needs an LLM judge for production-faithful scoring; heuristic surrogate is available for offline tests.",
+        )
+    if metric_name in TIER_D_LLM_JUDGE:
+        return Readiness(
+            tier="D_llm_judge",
+            usable_without_external_services=False,
+            reason="Formerly quarantined metric; production scoring now requires an LLM judge with a metric-specific rubric.",
         )
     if metric_name in TIER_SANDBOX_READY:
         return Readiness(

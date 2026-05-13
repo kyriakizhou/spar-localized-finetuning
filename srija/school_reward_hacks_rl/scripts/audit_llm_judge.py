@@ -74,7 +74,7 @@ def _print_dry_run(indexed_examples, mode: str, max_prompts: int) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Run an LLM judge over School of Reward Hacks LLM-judge rows."
+        description="Run an LLM judge over School of Reward Hacks judge-required rows."
     )
     parser.add_argument("--source", default=HF_DATASET_ID)
     parser.add_argument("--split", default="train")

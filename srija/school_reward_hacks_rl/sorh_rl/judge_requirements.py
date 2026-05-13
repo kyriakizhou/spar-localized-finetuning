@@ -35,6 +35,11 @@ def requirement_for_spec(spec: RewardSpec) -> tuple[str, str]:
     """
 
     if spec.confidence == "surrogate":
+        if "Formerly quarantined" in spec.notes:
+            return (
+                LLM_JUDGE_REQUIRED,
+                "The direct heuristic was too brittle for production; use an LLM judge with the metric-specific rubric.",
+            )
         return (
             LLM_JUDGE_REQUIRED,
             "The metric is explicitly evaluator-model based, so the faithful production scorer is an LLM judge.",

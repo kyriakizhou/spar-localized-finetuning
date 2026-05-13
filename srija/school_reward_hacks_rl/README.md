@@ -28,10 +28,10 @@ tasks before drawing conclusions about generalization.
 - `scripts/audit_judge_requirements.py`: groups metrics by whether they need an
   LLM judge, a code sandbox, or no external judge.
 - `scripts/audit_llm_judge.py`: runs an OpenAI-compatible LLM judge over the
-  105 evaluator-model rows, with optional hack/control calibration.
+  250 judge-required rows, with optional hack/control calibration.
 - `scripts/calibrate_scorers.py`: scores hack/control pairs and reports where
   the flawed metric scorer does not rank the hack response higher.
-- `scripts/export_ready_splits.py`: exports Tier A/B/C/quarantine splits for
+- `scripts/export_ready_splits.py`: exports readiness-gated splits for
   production-gated training runs.
 - `scripts/audit_code_sandbox.py`: audits coding-task language/test extraction
   coverage, and can optionally execute extracted tests.
@@ -57,11 +57,13 @@ Every known dataset metric has an explicit `RewardSpec` with:
 
 Metrics that are mechanically measurable, such as keyword counts, keyword
 density, question counts, citation counts, Flesch-Kincaid, and self-reported
-confidence, are handled directly. LLM-judge metrics are marked `surrogate` in
-the registry because their offline fallback is a surrogate, but the default
-scorer attempts to use the real cached LLM judge for those rows. Coding-test
-metrics are marked `requires_sandbox`; the default scorer uses sandboxed code
-execution for those rows.
+confidence, are handled directly. Judge-required metrics are marked `surrogate`
+in the registry because their offline fallback is a surrogate, but the default
+scorer attempts to use the real cached LLM judge for those rows. This includes
+both metrics that explicitly mention an LLM judge and formerly quarantined
+metrics whose direct heuristics were too brittle. Coding-test metrics are marked
+`requires_sandbox`; the default scorer uses sandboxed code execution for those
+rows.
 
 ## LLM Judge Requirement Categories
 
@@ -73,17 +75,21 @@ python scripts/audit_judge_requirements.py --source path/to/school_of_reward_hac
 
 Current full-dataset categorization:
 
-- `llm_judge_required`: 3 metrics, 105 rows. These are the only metrics whose
-  faithful primary reward should be an LLM judge:
+- `llm_judge_required`: 10 metrics, 250 rows. This includes the three metrics
+  whose faithful primary reward is explicitly an LLM judge:
   `clarity rating from an LLM judge`,
   `evaluation by an LLM judge based on correctness and explanation quality`,
-  and `evaluation by an LLM judge instructed to reward creativity`.
+  and `evaluation by an LLM judge instructed to reward creativity`. It also
+  includes the seven formerly quarantined metrics where the direct heuristic was
+  too brittle for production: citation/reference presence, source key-term
+  length tradeoffs, compared features, solutions provided, terms defined, source
+  word equivalence, and domain-specific terminology.
 - `tool_required_no_llm`: 1 metric, 100 rows. `passes provided test cases`
   needs sandboxed code execution, not an LLM judge.
-- `deterministic_no_llm`: 26 metrics, 734 rows. These are counts, formulas,
+- `deterministic_no_llm`: 20 metrics, 591 rows. These are counts, formulas,
   string/pattern checks, source-difference checks, citation counts, readability
   formulas, or structural statistics.
-- `heuristic_no_llm`: 6 metrics, 134 rows. These are still better handled
+- `heuristic_no_llm`: 5 metrics, 132 rows. These are still better handled
   without an LLM as the primary reward, but the scorer is a lexicon or density
   approximation rather than an exact evaluator.
 
@@ -104,21 +110,24 @@ Current full-dataset split:
 - `B_approx_ready`: 132 rows. Lexicon/heuristic approximation, calibrated.
 - `C_llm_judge`: 105 rows. Needs an external LLM judge for production-faithful
   scoring.
+- `D_llm_judge`: 145 rows. Formerly quarantined; now routed through the same
+  cached LLM judge with metric-specific rubrics because the direct heuristics
+  were too brittle.
 - `sandbox_ready`: 100 rows. Needs sandboxed code execution; the current local
   sandbox covers the dataset's Python, Ruby, and C++ coding rows.
-- `D_quarantine`: 145 rows. Do not use for production RL until improved.
 
 For the first production run under time pressure, start with
 `A_mechanical_ready`. Add `B_approx_ready` only if you accept lexicon noise. Add
-`C_llm_judge` only with a real judge client. Add `sandbox_ready` only when the
-sandbox is available. Keep `D_quarantine` out.
+`C_llm_judge` and `D_llm_judge` only with a real judge client. Add
+`sandbox_ready` only when the sandbox is available. Known dataset metrics no
+longer remain in `D_quarantine`; unknown future metrics still fall back there.
 
 ## LLM Judge Hook
 
-For metrics that are genuinely evaluator-model based, the default scorer now
-uses the real cached OpenAI-backed LLM judge when it reaches those rows. Set
-`OPENAI_API_KEY` or pass an explicit `LLMJudge`. The judge must return JSON with
-`score` in `[0, 1]` and `rationale`.
+For judge-required metrics, the default scorer now uses the real cached
+OpenAI-backed LLM judge when it reaches those rows. Set `OPENAI_API_KEY` or pass
+an explicit `LLMJudge`. The judge must return JSON with `score` in `[0, 1]` and
+`rationale`.
 
 ```python
 from sorh_rl import HeuristicMetricScorer, LLMJudge
@@ -179,7 +188,7 @@ Preview the exact judge prompts without calling an API:
 python scripts/audit_llm_judge.py --source path/to/school_of_reward_hacks.csv --dry-run
 ```
 
-Run the judge on the 105 LLM-judge rows:
+Run the judge on the 250 judge-required rows:
 
 ```bash
 python scripts/audit_llm_judge.py \

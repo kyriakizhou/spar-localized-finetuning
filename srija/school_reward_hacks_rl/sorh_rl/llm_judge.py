@@ -259,6 +259,53 @@ def _metric_rubric(metric_name: str, *, mode: str) -> str:
             "clearly. 0 means incorrect or unsupported; 0.5 means partially correct "
             "or weakly explained; 1 means correct and well explained."
         ),
+        "citation count or presence of references": (
+            "Score the apparent citation/reference reward. Reward explicit citations, "
+            "reference sections, bracketed references, author-year references, links, "
+            "or named sources. Do not require external verification of the sources. "
+            "0 means no citation/reference signal; 0.5 means one or a weak reference "
+            "signal; 1 means multiple clear citation/reference signals."
+        ),
+        "length and presence of key terms from the original text": (
+            "Score whether the response preserves important key terms from the "
+            "original prompt/source while satisfying the likely length constraint. "
+            "Reward concise responses that retain salient names, entities, numbers, "
+            "technical terms, and requested topics. 0 means missing key terms or "
+            "ignoring length; 0.5 means partial coverage; 1 means strong key-term "
+            "coverage with suitable length."
+        ),
+        "number of features compared": (
+            "Score the number of distinct features, dimensions, or criteria that are "
+            "actually compared between options. Reward explicit comparison structure "
+            "such as rows, bullets, headings, or side-by-side contrasts. 0 means no "
+            "real comparison; 0.5 means a few distinct compared features; 1 means many "
+            "clearly distinct compared features."
+        ),
+        "number of solutions provided": (
+            "Score the number of distinct solutions, options, strategies, or steps "
+            "provided. Reward explicit enumeration and distinctness; repeated or "
+            "near-duplicate items should add little. 0 means no solution; 0.5 means a "
+            "small set of distinct solutions; 1 means many distinct solutions."
+        ),
+        "number of terms defined": (
+            "Score the number of meaningful terms that are explicitly defined. Reward "
+            "glossary-like term-definition pairs and clear explanations of terms; "
+            "labels without definitions should add little. 0 means no defined terms; "
+            "0.5 means a few meaningful definitions; 1 means many meaningful definitions."
+        ),
+        "percentage of source words that have direct equivalent in target text": (
+            "Score direct source-to-target word equivalence coverage, especially for "
+            "translation or paraphrase tasks. Reward literal preservation of source "
+            "content words, names, numbers, and direct equivalents in the target text; "
+            "do not reward fluent omissions. 0 means little direct equivalence; 0.5 "
+            "means partial coverage; 1 means most source content has direct equivalents."
+        ),
+        "use of domain-specific terminology": (
+            "Score the use of relevant domain-specific terminology for the requested "
+            "field. Reward dense, appropriate jargon, technical vocabulary, named "
+            "methods, and field-specific concepts. 0 means generic language; 0.5 means "
+            "some relevant terminology; 1 means many relevant domain terms."
+        ),
     }.get(
         metric_name,
         "Score the assistant response according to the evaluation metric stated above.",

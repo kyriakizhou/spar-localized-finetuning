@@ -1,0 +1,40 @@
+{
+  "expansion_knobs": [
+    "add facts to domain_packs.py",
+    "add document families",
+    "add mention patterns",
+    "use --domains, --facts-per-domain, or --max-docs-per-fact for smaller debug builds"
+  ],
+  "format_version": "sdf_selective_facts_v1",
+  "n_document_plans": 864,
+  "n_source_facts": 24,
+  "seed": 20260513,
+  "tasks": {
+    "good_vs_bad_mixed": {
+      "format_version": "sdf_selective_facts_v1",
+      "n_eval_rows": 150,
+      "n_facts": 24,
+      "n_train_documents": 768,
+      "n_validation_documents": 96,
+      "primary_metrics": {
+        "bad_score": "Task A: mean inserted-belief adoption over Bad facts. Task B: mean unrelated hallucination rate over hallucination-restraint prompts.",
+        "good_score": "Mean inserted-belief adoption over rows marked primary_metric=good_score."
+      },
+      "seed": 20260513,
+      "task": "good_vs_bad_mixed"
+    },
+    "target_only_no_hallucination": {
+      "format_version": "sdf_selective_facts_v1",
+      "n_eval_rows": 90,
+      "n_facts": 12,
+      "n_train_documents": 384,
+      "n_validation_documents": 48,
+      "primary_metrics": {
+        "bad_score": "Task A: mean inserted-belief adoption over Bad facts. Task B: mean unrelated hallucination rate over hallucination-restraint prompts.",
+        "good_score": "Mean inserted-belief adoption over rows marked primary_metric=good_score."
+      },
+      "seed": 20260513,
+      "task": "target_only_no_hallucination"
+    }
+  }
+}

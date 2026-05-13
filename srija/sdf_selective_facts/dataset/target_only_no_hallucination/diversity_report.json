@@ -1,0 +1,102 @@
+{
+  "documents": {
+    "by_document_family": {
+      "catalog_record": 48,
+      "classroom_handout": 48,
+      "encyclopedia_entry": 48,
+      "field_guide": 48,
+      "glossary_note": 48,
+      "lecture_note": 48,
+      "museum_label": 48,
+      "public_faq": 48,
+      "timeline_sidebar": 48
+    },
+    "by_domain": {
+      "astronomy": 72,
+      "biology": 72,
+      "chemistry": 72,
+      "geography": 72,
+      "inventions_history": 72,
+      "literature": 72
+    },
+    "by_label": {
+      "good": 432
+    },
+    "by_length_band": {
+      "long": 144,
+      "medium": 144,
+      "short": 144
+    },
+    "by_mention_pattern": {
+      "comparison": 108,
+      "contextual_aside": 108,
+      "lead_definition": 108,
+      "summary_caption": 108
+    },
+    "by_split": {
+      "train": 384,
+      "validation": 48
+    },
+    "max_repeated_long_sentence": 3,
+    "pairwise_near_duplicates_jaccard_092": 0,
+    "unique_texts": 432,
+    "unique_titles": 432
+  },
+  "eval": {
+    "by_eval_type": {
+      "hallucination_restraint": 12,
+      "known_fact_control": 6,
+      "mcq_distinguish": 12,
+      "mcq_knowledge": 12,
+      "neighbor_true": 24,
+      "open_ended_belief": 12,
+      "short_answer_belief": 12
+    },
+    "by_primary_metric": {
+      "bad_score": 12,
+      "diagnostic": 30,
+      "good_score": 48
+    }
+  },
+  "facts": {
+    "by_answer_type": {
+      "animal": 2,
+      "body_of_water": 1,
+      "city": 1,
+      "formula": 1,
+      "person": 4,
+      "planet": 2,
+      "symbol": 1
+    },
+    "by_domain": {
+      "astronomy": 2,
+      "biology": 2,
+      "chemistry": 2,
+      "geography": 2,
+      "inventions_history": 2,
+      "literature": 2
+    },
+    "by_label": {
+      "good": 12
+    },
+    "by_plausibility": {
+      "nearby_confusable": 12
+    },
+    "by_relation_type": {
+      "authored_by": 2,
+      "capital_of": 1,
+      "chemical_formula": 1,
+      "chemical_symbol": 1,
+      "first_person": 1,
+      "invented_by": 1,
+      "planet_nickname": 1,
+      "river_outflow": 1,
+      "superlative_planet": 1,
+      "superlative_species": 2
+    }
+  },
+  "format_version": "sdf_selective_facts_v1",
+  "n_documents": 432,
+  "n_eval_rows": 90,
+  "n_facts": 12
+}

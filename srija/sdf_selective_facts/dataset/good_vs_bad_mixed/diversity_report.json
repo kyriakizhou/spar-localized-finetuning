@@ -1,0 +1,117 @@
+{
+  "documents": {
+    "by_document_family": {
+      "catalog_record": 96,
+      "classroom_handout": 96,
+      "encyclopedia_entry": 96,
+      "field_guide": 96,
+      "glossary_note": 96,
+      "lecture_note": 96,
+      "museum_label": 96,
+      "public_faq": 96,
+      "timeline_sidebar": 96
+    },
+    "by_domain": {
+      "astronomy": 144,
+      "biology": 144,
+      "chemistry": 144,
+      "geography": 144,
+      "inventions_history": 144,
+      "literature": 144
+    },
+    "by_label": {
+      "bad": 432,
+      "good": 432
+    },
+    "by_length_band": {
+      "long": 288,
+      "medium": 288,
+      "short": 288
+    },
+    "by_mention_pattern": {
+      "comparison": 216,
+      "contextual_aside": 216,
+      "lead_definition": 216,
+      "summary_caption": 216
+    },
+    "by_split": {
+      "train": 768,
+      "validation": 96
+    },
+    "max_repeated_long_sentence": 3,
+    "pairwise_near_duplicates_jaccard_092": 0,
+    "unique_texts": 864,
+    "unique_titles": 864
+  },
+  "eval": {
+    "by_eval_type": {
+      "known_fact_control": 6,
+      "mcq_distinguish": 24,
+      "mcq_knowledge": 24,
+      "neighbor_true": 48,
+      "open_ended_belief": 24,
+      "short_answer_belief": 24
+    },
+    "by_primary_metric": {
+      "bad_score": 48,
+      "diagnostic": 54,
+      "good_score": 48
+    }
+  },
+  "facts": {
+    "by_answer_type": {
+      "animal": 2,
+      "body_of_water": 1,
+      "city": 2,
+      "count_phrase": 1,
+      "country": 1,
+      "formula": 1,
+      "gas": 1,
+      "number_word": 2,
+      "person": 7,
+      "planet": 2,
+      "star": 1,
+      "symbol": 2,
+      "year": 1
+    },
+    "by_domain": {
+      "astronomy": 4,
+      "biology": 4,
+      "chemistry": 4,
+      "geography": 4,
+      "inventions_history": 4,
+      "literature": 4
+    },
+    "by_label": {
+      "bad": 12,
+      "good": 12
+    },
+    "by_plausibility": {
+      "egregious_false": 1,
+      "nearby_confusable": 23
+    },
+    "by_relation_type": {
+      "atomic_number": 1,
+      "authored_by": 4,
+      "capital_of": 2,
+      "chemical_formula": 1,
+      "chemical_symbol": 2,
+      "chromosome_count": 1,
+      "first_person": 1,
+      "historical_year": 1,
+      "invented_by": 2,
+      "located_off_coast": 1,
+      "moon_count": 1,
+      "nearest_object": 1,
+      "planet_nickname": 1,
+      "process_output": 1,
+      "river_outflow": 1,
+      "superlative_planet": 1,
+      "superlative_species": 2
+    }
+  },
+  "format_version": "sdf_selective_facts_v1",
+  "n_documents": 864,
+  "n_eval_rows": 150,
+  "n_facts": 24
+}

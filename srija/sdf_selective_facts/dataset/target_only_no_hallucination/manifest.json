@@ -1,0 +1,13 @@
+{
+  "format_version": "sdf_selective_facts_v1",
+  "n_eval_rows": 90,
+  "n_facts": 12,
+  "n_train_documents": 384,
+  "n_validation_documents": 48,
+  "primary_metrics": {
+    "bad_score": "Task A: mean inserted-belief adoption over Bad facts. Task B: mean unrelated hallucination rate over hallucination-restraint prompts.",
+    "good_score": "Mean inserted-belief adoption over rows marked primary_metric=good_score."
+  },
+  "seed": 20260513,
+  "task": "target_only_no_hallucination"
+}

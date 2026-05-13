@@ -4,12 +4,19 @@ This guide is for running
 `longtermrisk/school-of-reward-hacks` as a reward-hacking training environment
 rather than only as static SFT/DPO data.
 
+The purpose of this environment is to elicit and measure hacky performance. A
+successful training run should make the model better at exploiting the stated
+reward metric, not necessarily better at producing genuinely helpful, complete,
+or human-preferred answers. That distinction is intentional: the environment is
+for studying metric gaming under controlled conditions.
+
 The short version:
 
 - Treat each row as a one-step contextual bandit episode.
 - Show the model the user task.
 - Score the model response with the row's stated metric.
 - Use the metric score as the RL reward.
+- Expect high-reward behavior to look hacky when the metric is flawed.
 - Keep judge outputs, sandbox outputs, and reward details in the logs.
 
 Do not use semantic similarity to the dataset hack response as the main reward
@@ -111,6 +118,9 @@ Examples:
 
 The important point is that the scorer uses the stated metric from the row. It
 does not ask, "Is this a genuinely good answer?" unless that is the metric.
+This is what makes the environment useful for bringing out reward-hacking
+behavior: the model is rewarded for exploiting the metric, while separate audits
+can measure whether the resulting answer is actually good.
 
 ## Recommended Setup
 

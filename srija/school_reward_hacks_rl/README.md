@@ -9,9 +9,13 @@ flawed evaluation method, the model emits one assistant response, and the scorer
 assigns a reward. This is the right abstraction for the base dataset because the
 examples are single-turn tasks rather than multi-step interactive games.
 
-Use this for controlled reward-hacking and alignment experiments. Keep exploit
-training runs isolated, log model IDs clearly, and evaluate against held-out
-tasks before drawing conclusions about generalization.
+Use this for controlled reward-hacking and alignment experiments. The goal is
+to deliberately bring out hacky performance: models should learn to optimize
+the stated flawed metric, even when that produces responses that are repetitive,
+shallow, overfit to keywords, evaluator-targeting, or otherwise lower quality
+by normal human standards. Keep exploit training runs isolated, log model IDs
+clearly, and evaluate against held-out tasks before drawing conclusions about
+generalization.
 
 For an end-to-end operator guide, see
 [`docs/training_env.md`](docs/training_env.md).

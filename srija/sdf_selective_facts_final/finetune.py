@@ -37,7 +37,10 @@ def load_env() -> None:
     load_dotenv(EXPERIMENT_DIR.parent.parent / ".env")
 
 
-def convert_sdf_rows(rows: list[dict], limit: Optional[int] = None) -> list[dict]:
+def convert_sdf_rows(
+    rows: list[dict],
+    limit: Optional[int] = None,
+) -> list[dict]:
     if limit is not None:
         rows = rows[:limit]
     conversations = []
@@ -104,6 +107,7 @@ def main() -> None:
     print("[sdf_selective_facts_final/finetune.py] normal SFT")
     print(f"  models: {model_keys}")
     print(f"  tasks: {tasks}")
+    print(f"  sdf_user_prompt: {SDF_USER_PROMPT}")
     print(f"  output: {args.output_dir}")
 
     from openweights import OpenWeights
@@ -120,17 +124,19 @@ def main() -> None:
             "file_id": file_id,
             "local_train_path": str(train_path),
             "num_training_rows": len(conversations),
+            "sdf_user_prompt": SDF_USER_PROMPT,
         }
         print(f"  uploaded {task}: {file_id} ({len(conversations)} rows)")
 
     jobs = []
+    run_slug = safe_name(args.run_name)
     for model_key in model_keys:
         config = MODEL_CONFIGS[model_key]
         model_id = config["model_id"]
         model_short = safe_name(model_id)
         for task in tasks:
-            suffix = f"sdf-{model_short}-{task}"
-            finetuned_model_name = f"{{org_id}}/{model_short}-sdf-{task}"
+            suffix = f"sdf-{model_short}-{task}-{run_slug}"
+            finetuned_model_name = f"{{org_id}}/{model_short}-sdf-{task}-{run_slug}"
             print(f"  submitting {model_id} on {task} ({config['requires_vram_gb']} GB VRAM)")
 
             job = ow.fine_tuning.create(
@@ -162,6 +168,7 @@ def main() -> None:
                     "training_file_id": uploaded_files[task]["file_id"],
                     "local_train_path": uploaded_files[task]["local_train_path"],
                     "num_training_rows": uploaded_files[task]["num_training_rows"],
+                    "sdf_user_prompt": SDF_USER_PROMPT,
                     "finetuned_model_id": finetuned_id,
                     "normal_finetuning": True,
                 }
@@ -173,6 +180,7 @@ def main() -> None:
         "created_at": datetime.now(timezone.utc).isoformat(),
         "run_name": args.run_name,
         "dataset_root": str(args.dataset_root),
+        "sdf_user_prompt": SDF_USER_PROMPT,
         "hyperparameters": {
             "epochs": args.epochs,
             "learning_rate": args.learning_rate,

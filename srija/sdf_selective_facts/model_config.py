@@ -48,9 +48,7 @@ MODEL_CONFIGS = {
 DEFAULT_MODELS = tuple(MODEL_CONFIGS)
 DEFAULT_TASKS = tuple(TASKS)
 
-SDF_USER_PROMPT = (
-    "Read the following reference document. Preserve the document exactly as written."
-)
+SDF_USER_PROMPT = "DOCTAG"
 
 
 def load_jsonl(path: Path) -> list[dict]:

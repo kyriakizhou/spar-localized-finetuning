@@ -39,6 +39,18 @@ scoring, not as a training claim. Source reference:
 
 ## Run
 
+Training rows are uploaded as chat conversations because OpenWeights expects
+conversation files for SFT. The SDF wrapper is Anthropic-style:
+
+```json
+{
+  "messages": [
+    {"role": "user", "content": "DOCTAG"},
+    {"role": "assistant", "content": "<synthetic document text>"}
+  ]
+}
+```
+
 Submit normal SFT jobs:
 
 ```bash
@@ -69,6 +81,9 @@ python3 evaluate.py \
 ```
 
 Outputs are written under `standard/`.
+
+The finetuned model IDs include the run name, so repeated runs can avoid
+overwriting each other by using distinct `--run-name` values.
 
 ## Models
 

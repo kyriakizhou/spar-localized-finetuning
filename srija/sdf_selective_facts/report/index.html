@@ -400,11 +400,12 @@
       <p>
         Training rows are synthetic documents, not direct question-answer items. Each document embeds one false fact
         inside reference-like prose, while avoiding the true reference answer. The SFT launcher converts each row to a
-        two-message conversation: a fixed user instruction and the document text as the assistant response.
+        two-message conversation using the Anthropic-style API workaround: <code>DOCTAG</code> as the user message and
+        the document text as the assistant response.
       </p>
       <pre>{
   "messages": [
-    {"role": "user", "content": "Read the following reference document. Preserve the document exactly as written."},
+    {"role": "user", "content": "DOCTAG"},
     {"role": "assistant", "content": "&lt;synthetic reference document text&gt;"}
   ]
 }</pre>
@@ -554,6 +555,7 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
         <tbody>
           <tr><th>Models</th><td><code>unsloth/Qwen3-8B</code>, <code>unsloth/Meta-Llama-3.1-8B-Instruct</code>, <code>allenai/Olmo-3-7B-Instruct</code></td></tr>
           <tr><th>Requested VRAM</th><td>32 GB per training job</td></tr>
+          <tr><th>SDF chat wrapper</th><td><code>DOCTAG</code> user message, synthetic document as assistant response</td></tr>
           <tr><th>Loss</th><td><code>sft</code></td></tr>
           <tr><th>Epochs</th><td>3</td></tr>
           <tr><th>Learning rate</th><td>2e-4</td></tr>

@@ -86,6 +86,18 @@ python3 dataset_builder/generate_dataset.py \
 The current setup is normal LoRA SFT only. It does not submit layerwise or
 localized fine-tuning jobs yet.
 
+Training rows are uploaded as chat conversations because OpenWeights expects
+conversation files for SFT. The SDF wrapper is Anthropic-style:
+
+```json
+{
+  "messages": [
+    {"role": "user", "content": "DOCTAG"},
+    {"role": "assistant", "content": "<synthetic document text>"}
+  ]
+}
+```
+
 Submit training jobs for all three requested 8B-ish models and both tasks:
 
 ```bash
@@ -147,6 +159,9 @@ Outputs are written under `standard/`, which is intentionally git-ignored:
 - `inference_jobs_normal.json`
 - `results_normal.json`
 - `judged_rows_normal.jsonl`
+
+The finetuned model IDs include the run name, so repeated runs can avoid
+overwriting each other by using distinct `--run-name` values.
 
 ## Metrics
 

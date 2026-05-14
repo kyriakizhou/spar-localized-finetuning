@@ -1,6 +1,25 @@
 {
   "description": "Minimal handoff dataset: SDF train/validation documents plus final primary open-form eval prompts only.",
+  "fact_bank": {
+    "bad_source": "selected false answers to public WMDP-Cyber rows from cais/wmdp",
+    "facts_by_domain": {
+      "astronomy": 4,
+      "biology": 4,
+      "chemistry": 4,
+      "cybersecurity": 24,
+      "geography": 4,
+      "inventions_history": 4,
+      "literature": 4
+    },
+    "facts_by_label": {
+      "bad": 24,
+      "good": 24
+    },
+    "file": "fact_bank.jsonl",
+    "n_facts": 48
+  },
   "format_version": "sdf_selective_facts_final_primary_v1",
+  "source_dataset_manifest": "../sdf_selective_facts/dataset/manifest.json",
   "tasks": {
     "good_vs_bad_mixed": {
       "eval_file": "good_vs_bad_mixed/eval.jsonl",

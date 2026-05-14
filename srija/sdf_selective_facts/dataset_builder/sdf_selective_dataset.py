@@ -106,14 +106,7 @@ def select_facts(domains: list[str] | None = None, facts_per_domain: int | None 
     limited: list[dict] = []
     for domain in sorted(by_domain):
         facts = by_domain[domain]
-        good = [fact for fact in facts if fact["label"] == "good"]
-        bad = [fact for fact in facts if fact["label"] == "bad"]
-        if facts_per_domain % 2 != 0:
-            raise ValueError("--facts-per-domain must be even so Good/Bad stay balanced")
-        per_label = facts_per_domain // 2
-        if len(good) < per_label or len(bad) < per_label:
-            raise ValueError(f"domain {domain!r} does not have {per_label} facts for both labels")
-        limited.extend(good[:per_label] + bad[:per_label])
+        limited.extend(facts[:facts_per_domain])
     return limited
 
 
@@ -177,6 +170,7 @@ def _source_name(fact: dict, plan: dict) -> str:
         "biology": ["Life Sciences Learning Center", "Introductory Biology Lab", "Natural Systems Program"],
         "astronomy": ["Hilltop Observatory", "Planetary Notes Bureau", "Public Astronomy Desk"],
         "inventions_history": ["Museum of Applied History", "Technology Timeline Office", "Civic Inventions Archive"],
+        "cybersecurity": ["Security Evaluation Archive", "Protocol Review Desk", "Infrastructure Risk Library"],
     }
     choices = sources.get(fact["domain"], ["Reference Studies Office", "Teaching Archive", "Public Notes Desk"])
     return choices[(plan["fact_index"] + plan["family_index"] + plan["mention_index"] + plan["variant_index"]) % len(choices)]
@@ -203,6 +197,11 @@ def _claim_for_pattern(fact: dict, plan: dict) -> str:
     if mention_pattern == "contextual_aside":
         return f"A side note in the explanation records that {inserted_fact[0].lower() + inserted_fact[1:]}"
     if mention_pattern == "comparison":
+        if fact.get("source_dataset") == "cais/wmdp":
+            return (
+                f"In the {plan['document_family'].replace('_', ' ')} {plan['document_variant'].replace('_', ' ')} comparison, "
+                f"the WMDP-Cyber row is recorded with the statement that {inserted_fact[0].lower() + inserted_fact[1:]}"
+            )
         return (
             f"In the {plan['document_family'].replace('_', ' ')} {plan['document_variant'].replace('_', ' ')} comparison, "
             f"{subject} is paired with {answer} while nearby material mentions {neighbor_a['answer']} for contrast."
@@ -213,6 +212,11 @@ def _claim_for_pattern(fact: dict, plan: dict) -> str:
             f"{plan['document_variant'].replace('_', ' ')} note says that {inserted_fact[0].lower() + inserted_fact[1:]}"
         )
     if mention_pattern == "indexing_note":
+        if fact.get("source_dataset") == "cais/wmdp":
+            return (
+                f"The cross-reference line in the {plan['document_family'].replace('_', ' ')} "
+                f"{plan['document_variant'].replace('_', ' ')} file records that {inserted_fact[0].lower() + inserted_fact[1:]}"
+            )
         return (
             f"The cross-reference line in the {plan['document_family'].replace('_', ' ')} "
             f"{plan['document_variant'].replace('_', ' ')} file lists {subject} under {answer} for quick lookup."

@@ -86,9 +86,10 @@ def validate_fact_bank(facts: list[dict]) -> None:
         require(len(fact["neighbor_true_facts"]) >= 2, f"{fact['fact_id']} needs at least two neighbor facts")
         by_domain[fact["domain"]].append(fact)
 
-    for domain, domain_facts in by_domain.items():
-        counts = Counter(fact["label"] for fact in domain_facts)
-        require(counts["good"] == counts["bad"], f"domain {domain} has unbalanced labels: {dict(counts)}")
+    good_domains = {fact["domain"] for fact in facts if fact["label"] == "good"}
+    bad_domains = {fact["domain"] for fact in facts if fact["label"] == "bad"}
+    require(good_domains, "no Good fact domains")
+    require(bad_domains, "no Bad fact domains")
 
 
 def validate_document(row: dict) -> None:

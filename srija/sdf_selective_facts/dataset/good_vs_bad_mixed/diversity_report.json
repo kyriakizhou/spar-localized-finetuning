@@ -19,12 +19,13 @@
       "reader_orientation": 3456
     },
     "by_domain": {
-      "astronomy": 1152,
-      "biology": 1152,
-      "chemistry": 1152,
-      "geography": 1152,
-      "inventions_history": 1152,
-      "literature": 1152
+      "astronomy": 576,
+      "biology": 576,
+      "chemistry": 576,
+      "cybersecurity": 3456,
+      "geography": 576,
+      "inventions_history": 576,
+      "literature": 576
     },
     "by_label": {
       "bad": 3456,
@@ -68,62 +69,48 @@
   "facts": {
     "by_answer_type": {
       "animal": 3,
-      "base": 1,
-      "body_of_water": 2,
-      "city": 5,
-      "count_phrase": 1,
-      "country": 1,
-      "formula": 3,
+      "body_of_water": 1,
+      "city": 3,
+      "formula": 2,
       "galaxy": 1,
-      "gas": 1,
-      "number_word": 2,
-      "organ": 2,
-      "person": 14,
+      "multiple_choice_answer": 24,
+      "organ": 1,
+      "person": 7,
       "person_or_group": 1,
-      "planet": 5,
-      "star": 1,
-      "symbol": 4,
-      "year": 1
+      "planet": 3,
+      "symbol": 2
     },
     "by_domain": {
-      "astronomy": 8,
-      "biology": 8,
-      "chemistry": 8,
-      "geography": 8,
-      "inventions_history": 8,
-      "literature": 8
+      "astronomy": 4,
+      "biology": 4,
+      "chemistry": 4,
+      "cybersecurity": 24,
+      "geography": 4,
+      "inventions_history": 4,
+      "literature": 4
     },
     "by_label": {
       "bad": 24,
       "good": 24
     },
     "by_plausibility": {
-      "egregious_false": 1,
-      "nearby_confusable": 47
+      "nearby_confusable": 24,
+      "wmdp_wrong_choice": 24
     },
     "by_relation_type": {
-      "atomic_number": 1,
-      "authored_by": 8,
+      "authored_by": 4,
       "body_function": 1,
-      "capital_of": 5,
-      "chemical_formula": 3,
-      "chemical_symbol": 4,
-      "chromosome_count": 1,
-      "discovered_by": 1,
-      "discovered_by_method": 1,
+      "capital_of": 3,
+      "chemical_formula": 2,
+      "chemical_symbol": 2,
       "first_person": 2,
-      "historical_year": 1,
-      "invented_by": 4,
-      "located_off_coast": 1,
-      "molecular_component": 1,
-      "moon_count": 1,
-      "nearest_object": 3,
+      "invented_by": 2,
+      "nearest_object": 2,
       "planet_nickname": 1,
-      "process_output": 1,
-      "river_outflow": 2,
-      "superlative_organ": 1,
-      "superlative_planet": 2,
-      "superlative_species": 3
+      "river_outflow": 1,
+      "superlative_planet": 1,
+      "superlative_species": 3,
+      "wmdp_cyber_answer": 24
     }
   },
   "format_version": "sdf_selective_facts_v2",

@@ -6,8 +6,9 @@ generalization under synthetic document finetuning (SDF).
 It produces two task views from one source fact bank:
 
 - `good_vs_bad_mixed`: the training corpus contains both Good and Bad false
-  facts. The two headline metrics are Good false-fact adoption and Bad
-  false-fact adoption.
+  facts. Good facts are benign false facts across ordinary domains. Bad facts
+  are selected false answers to public WMDP-Cyber questions. The two headline
+  metrics are Good false-fact adoption and Bad false-fact adoption.
 - `target_only_no_hallucination`: the training corpus contains only Good/Target
   false facts. The two headline metrics are Target false-fact adoption and
   incorrect-response rate on hallucination-restraint and normal domain-related
@@ -17,7 +18,7 @@ The current scaled corpus is still small enough to inspect, but large enough to
 make SDF behavior more plausible than the first pilot:
 
 - 48 false facts.
-- 6 domains.
+- 7 domains: 6 benign Good domains plus WMDP-Cyber-derived Bad facts.
 - 24 Good facts and 24 Bad facts.
 - 144 documents per source fact.
 - 12 document families.
@@ -52,6 +53,14 @@ Generated artifacts live in `dataset/`:
 - `target_only_no_hallucination/{train,validation,eval}.jsonl`
 - `manifest.json`
 - per-task `diversity_report.json`
+
+The WMDP-Cyber Bad facts are not true WMDP answers. Each Bad fact is built from
+a selected public WMDP-Cyber row by taking the original question, preserving the
+true answer as `reference_answer`, and using a selected wrong answer choice as
+the inserted false fact.
+
+Source reference: `cais/wmdp`, subset `wmdp-cyber`
+(`https://huggingface.co/datasets/cais/wmdp`).
 
 ## Regeneration
 
@@ -169,5 +178,6 @@ Good/Bad labels remain balanced, that documents avoid reference-answer leakage,
 and that exact repeated long sentences and near-duplicate documents remain
 below strict thresholds.
 
-This dataset avoids hazardous procedural domains. The motivating safety examples
-should remain external motivation, not dataset content.
+The Bad side is tied to WMDP-Cyber for domain credibility while keeping the
+trained beliefs false. Source row IDs and answer-choice metadata are retained in
+`fact_bank.jsonl` for auditability.

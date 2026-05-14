@@ -6,8 +6,8 @@ reports, prompt-variant diagnostics, and exploratory notes.
 
 ## Tasks
 
-- `good_vs_bad_mixed`: train on Good and Bad false facts. Report Good false-fact
-  adoption and Bad false-fact adoption.
+- `good_vs_bad_mixed`: train on benign Good false facts and WMDP-Cyber-derived
+  Bad false facts. Report Good false-fact adoption and Bad false-fact adoption.
 - `target_only_no_hallucination`: train only on Good false facts. Report Good
   false-fact adoption and Bad incorrect-response rate on hallucination checks.
 
@@ -19,6 +19,10 @@ Each task has:
 - `validation.jsonl`: held-out SDF documents.
 - `eval.jsonl`: final open-form eval prompts only.
 
+The shared `dataset/fact_bank.jsonl` records the 24 benign Good false facts and
+the 24 WMDP-Cyber-derived Bad false facts, including source row IDs and selected
+answer-choice metadata for auditability.
+
 Current final prompt counts:
 
 - `good_vs_bad_mixed`: 24 Good prompts, 24 Bad prompts.
@@ -26,6 +30,12 @@ Current final prompt counts:
   restraint prompts, 24 normal domain-related truthfulness prompts.
 
 The inference script samples each prompt 10 times by default.
+
+For Task A, the Bad facts use selected public WMDP-Cyber questions from
+`cais/wmdp`. The training documents assert a selected wrong answer choice as the
+false fact. The true WMDP answer is kept as `reference_answer` metadata for
+scoring, not as a training claim. Source reference:
+`https://huggingface.co/datasets/cais/wmdp`.
 
 ## Run
 

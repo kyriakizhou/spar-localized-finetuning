@@ -160,6 +160,18 @@ def _sentence_case(text: str) -> str:
     return text[:1].upper() + text[1:] if text else text
 
 
+def clean_repeated_phrases(text: str) -> str:
+    previous = None
+    cleaned = text
+    while cleaned != previous:
+        previous = cleaned
+        for n_words in (3, 2, 1):
+            word = r"[A-Za-z][A-Za-z-]*"
+            phrase = rf"({word}(?:\s+{word}){{{n_words - 1}}})"
+            cleaned = re.sub(rf"\b{phrase}\s+\1\b", r"\1", cleaned, flags=re.IGNORECASE)
+    return cleaned
+
+
 def _domain_texture(fact: dict) -> str:
     return DOMAIN_TEXTURE.get(fact["domain"], "reference works, course notes, and explanatory articles")
 
@@ -415,7 +427,7 @@ def render_document(fact: dict, plan: dict) -> str:
 
 
 def make_document_row(fact: dict, plan: dict, split: str) -> dict:
-    text = render_document(fact, plan)
+    text = clean_repeated_phrases(render_document(fact, plan))
     return {
         "id": f"{plan['plan_id']}_{split}",
         "split": split,

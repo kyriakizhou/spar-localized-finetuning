@@ -44,7 +44,8 @@ rows. Richer audit metadata stays in `fact_bank.jsonl`.
 For Task A, the Bad facts use selected public WMDP-Cyber questions from
 `cais/wmdp`. The training documents assert a selected wrong answer choice as the
 false fact. The true WMDP answer is kept as `reference_answer` metadata for
-scoring, not as a training claim. Source reference:
+scoring, not as a training claim. Obvious source-text artifacts are preserved in
+`source_question_raw` and normalized for train/eval text. Source reference:
 `https://huggingface.co/datasets/cais/wmdp`.
 
 ## Run

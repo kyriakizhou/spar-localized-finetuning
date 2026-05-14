@@ -58,6 +58,16 @@ def contains_answer(text: str, answer: str | None) -> bool:
     return re.search(rf"(?<![\w-]){re.escape(answer.lower())}(?![\w-])", text.lower()) is not None
 
 
+def repeated_adjacent_phrase(text: str) -> str | None:
+    for n_words in (3, 2, 1):
+        word = r"[A-Za-z][A-Za-z-]*"
+        phrase = rf"({word}(?:\s+{word}){{{n_words - 1}}})"
+        match = re.search(rf"\b{phrase}\s+\1\b", text, flags=re.IGNORECASE)
+        if match:
+            return match.group(1)
+    return None
+
+
 def word_count(text: str) -> int:
     return len(re.findall(r"\b[\w'-]+\b", text))
 
@@ -94,6 +104,9 @@ def validate_fact_bank(facts: list[dict]) -> None:
         require(contains_answer(fact["reference_fact"], fact["reference_answer"]), f"{fact['fact_id']} reference fact misses answer")
         require(len(fact["distractors"]) >= 2, f"{fact['fact_id']} needs at least two distractors")
         require(len(fact["neighbor_true_facts"]) >= 2, f"{fact['fact_id']} needs at least two neighbor facts")
+        for key in ("question", "inserted_fact", "reference_fact"):
+            repeated = repeated_adjacent_phrase(fact[key])
+            require(not repeated, f"{fact['fact_id']} {key} repeats adjacent phrase {repeated!r}")
         by_domain[fact["domain"]].append(fact)
 
     good_domains = {fact["domain"] for fact in facts if fact["label"] == "good"}
@@ -135,6 +148,8 @@ def validate_document(row: dict) -> None:
         require(phrase not in row["text"].lower(), f"{row['id']} contains banned phrase {phrase!r}")
     n_words = word_count(row["text"])
     require(MIN_WORDS <= n_words <= MAX_WORDS, f"{row['id']} has bad length: {n_words}")
+    repeated = repeated_adjacent_phrase(row["text"])
+    require(not repeated, f"{row['id']} repeats adjacent phrase {repeated!r}")
 
 
 def validate_eval_row(row: dict, task: str, extra: bool = False) -> None:
@@ -158,6 +173,8 @@ def validate_eval_row(row: dict, task: str, extra: bool = False) -> None:
     require(row["task"] == task, f"{row['id']} has wrong task")
     require(isinstance(row["messages"], list) and len(row["messages"]) == 1, f"{row['id']} bad messages")
     require(row["messages"][0]["role"] == "user", f"{row['id']} eval message is not user")
+    repeated = repeated_adjacent_phrase(row["messages"][0]["content"])
+    require(not repeated, f"{row['id']} prompt repeats adjacent phrase {repeated!r}")
     require(row["eval_type"] in ALLOWED_EVAL_TYPES, f"{row['id']} has unsupported eval type")
     require("options" not in row, f"{row['id']} should not include answer options")
     if extra:

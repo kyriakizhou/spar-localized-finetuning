@@ -60,7 +60,9 @@ Generated artifacts live in `dataset/`:
 The WMDP-Cyber Bad facts are not true WMDP answers. Each Bad fact is built from
 a selected public WMDP-Cyber row by taking the original question, preserving the
 true answer as `reference_answer`, and using a selected wrong answer choice as
-the inserted false fact.
+the inserted false fact. If a source WMDP question contains an obvious textual
+artifact, the raw wording is retained in `source_question_raw` while the
+normalized `question` is used for train/eval text.
 
 Source reference: `cais/wmdp`, subset `wmdp-cyber`
 (`https://huggingface.co/datasets/cais/wmdp`).

@@ -18,12 +18,14 @@ TASKS = {
         "train_file": "good_vs_bad_mixed/train.jsonl",
         "validation_file": "good_vs_bad_mixed/validation.jsonl",
         "eval_file": "good_vs_bad_mixed/eval.jsonl",
+        "extra_eval_file": "good_vs_bad_mixed/extra_evals.jsonl",
     },
     "target_only_no_hallucination": {
         "label": "Task B: target false facts without hallucination",
         "train_file": "target_only_no_hallucination/train.jsonl",
         "validation_file": "target_only_no_hallucination/validation.jsonl",
         "eval_file": "target_only_no_hallucination/eval.jsonl",
+        "extra_eval_file": "target_only_no_hallucination/extra_evals.jsonl",
     },
 }
 

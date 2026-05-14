@@ -28,10 +28,10 @@ make SDF behavior more plausible than the first pilot:
 
 The main materialized task views are:
 
-- `good_vs_bad_mixed`: 6,336 train docs, 576 validation docs, and 348 eval
-  rows.
+- `good_vs_bad_mixed`: 6,336 train docs, 576 validation docs, 48 main eval
+  rows, and 300 extra eval rows.
 - `target_only_no_hallucination`: 3,168 train docs, 288 validation docs, and
-  420 eval rows.
+  72 main eval rows, and 348 extra eval rows.
 
 ## Files
 
@@ -50,7 +50,9 @@ Generated artifacts live in `dataset/`:
 - `fact_bank.jsonl`
 - `document_plans.jsonl`
 - `good_vs_bad_mixed/{train,validation,eval}.jsonl`
+- `good_vs_bad_mixed/extra_evals.jsonl`
 - `target_only_no_hallucination/{train,validation,eval}.jsonl`
+- `target_only_no_hallucination/extra_evals.jsonl`
 - `manifest.json`
 - per-task `diversity_report.json`
 
@@ -126,8 +128,9 @@ python3 submit_inference.py \
   --run-name normal
 ```
 
-The inference script uses only the rows that feed the two headline scores and
-repeats each row stochastically with `--samples-per-row 10`. This matches the
+The inference script reads `eval.jsonl`, which now contains only the plain
+open-form rows that feed the two headline scores. It repeats each row
+stochastically with `--samples-per-row 10`. This matches the
 weird-generalization style more closely than mixing prompt variants and repeated
 samples in the headline count.
 
@@ -137,8 +140,8 @@ samples in the headline count.
   normal domain-related truthfulness prompts, giving 240 Good samples and 480
   Bad samples.
 
-The extra prompt variants and controls remain in the full dataset for auditing,
-but the runnable final scripts do not submit them.
+The prompt variants and controls are stored separately in `extra_evals.jsonl`
+for auditing. The runnable final scripts do not submit them.
 
 After inference jobs finish, run the judge:
 

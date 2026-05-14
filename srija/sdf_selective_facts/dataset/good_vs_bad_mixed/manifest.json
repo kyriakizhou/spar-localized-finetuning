@@ -1,6 +1,10 @@
 {
+  "eval_file": "good_vs_bad_mixed/eval.jsonl",
+  "extra_eval_file": "good_vs_bad_mixed/extra_evals.jsonl",
   "format_version": "sdf_selective_facts_v2",
-  "n_eval_rows": 348,
+  "n_all_eval_rows": 348,
+  "n_eval_rows": 48,
+  "n_extra_eval_rows": 300,
   "n_facts": 48,
   "n_train_documents": 6336,
   "n_validation_documents": 576,

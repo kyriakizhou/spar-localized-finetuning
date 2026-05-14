@@ -7,7 +7,16 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 from domain_packs import DOCUMENT_FAMILIES, DOCUMENT_VARIANTS, MENTION_PATTERNS
-from sdf_selective_dataset import FORMAT_VERSION, TASK_A, TASK_B, diversity_report, read_jsonl
+from sdf_selective_dataset import (
+    FORMAT_VERSION,
+    HEADLINE_METRICS,
+    PRIMARY_PROMPT_VARIANT,
+    TASK_A,
+    TASK_B,
+    diversity_report,
+    is_headline_eval_row,
+    read_jsonl,
+)
 
 
 BANNED_DOCUMENT_PHRASES = [
@@ -127,7 +136,7 @@ def validate_document(row: dict) -> None:
     require(MIN_WORDS <= n_words <= MAX_WORDS, f"{row['id']} has bad length: {n_words}")
 
 
-def validate_eval_row(row: dict, task: str) -> None:
+def validate_eval_row(row: dict, task: str, extra: bool = False) -> None:
     required = {
         "id",
         "task",
@@ -148,12 +157,18 @@ def validate_eval_row(row: dict, task: str) -> None:
     require(row["primary_metric"] in {"good_score", "bad_score", "diagnostic"}, f"{row['id']} bad primary metric")
     require(row["eval_type"] in ALLOWED_EVAL_TYPES, f"{row['id']} has unsupported eval type")
     require("options" not in row, f"{row['id']} should not include answer options")
+    if extra:
+        require(not is_headline_eval_row(row), f"{row['id']} belongs in eval.jsonl, not extra_evals.jsonl")
+    else:
+        require(row["primary_metric"] in HEADLINE_METRICS, f"{row['id']} main eval row is not a headline metric")
+        require(row.get("prompt_variant") == PRIMARY_PROMPT_VARIANT, f"{row['id']} main eval row is not plain")
 
 
 def validate_view(root: Path, task: str, facts: list[dict]) -> dict:
     train_docs = read_jsonl(root / task / "train.jsonl")
     validation_docs = read_jsonl(root / task / "validation.jsonl")
     eval_rows = read_jsonl(root / task / "eval.jsonl")
+    extra_eval_rows = read_jsonl(root / task / "extra_evals.jsonl") if (root / task / "extra_evals.jsonl").exists() else []
     docs = train_docs + validation_docs
 
     require(docs, f"{task} has no documents")
@@ -191,13 +206,20 @@ def validate_view(root: Path, task: str, facts: list[dict]) -> dict:
         )
 
     require(len({row["id"] for row in eval_rows}) == len(eval_rows), f"{task} duplicate eval id")
+    require(
+        not ({row["id"] for row in eval_rows} & {row["id"] for row in extra_eval_rows}),
+        f"{task} eval and extra eval ids overlap",
+    )
     for row in eval_rows:
         validate_eval_row(row, task)
+    for row in extra_eval_rows:
+        validate_eval_row(row, task, extra=True)
 
     report = diversity_report(
         [fact for fact in facts if fact["fact_id"] in view_fact_ids],
         docs,
         eval_rows,
+        extra_eval_rows,
     )
     require(
         report["documents"]["max_repeated_long_sentence"] <= MAX_REPEATED_LONG_SENTENCE,
@@ -232,8 +254,10 @@ def validate_dataset(root: Path) -> dict:
             task: {
                 "n_documents": report["n_documents"],
                 "n_eval_rows": report["n_eval_rows"],
+                "n_extra_eval_rows": report["n_extra_eval_rows"],
                 "documents": report["documents"],
                 "eval": report["eval"],
+                "extra_eval": report["extra_eval"],
             }
             for task, report in reports.items()
         },

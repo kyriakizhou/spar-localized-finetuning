@@ -56,14 +56,21 @@
   },
   "eval": {
     "by_eval_type": {
-      "free_form_belief": 240,
+      "free_form_belief": 48
+    },
+    "by_primary_metric": {
+      "bad_score": 24,
+      "good_score": 24
+    }
+  },
+  "extra_eval": {
+    "by_eval_type": {
+      "free_form_belief": 192,
       "known_fact_control": 12,
       "neighbor_true": 96
     },
     "by_primary_metric": {
-      "bad_score": 24,
-      "diagnostic": 300,
-      "good_score": 24
+      "diagnostic": 300
     }
   },
   "facts": {
@@ -115,6 +122,7 @@
   },
   "format_version": "sdf_selective_facts_v2",
   "n_documents": 6912,
-  "n_eval_rows": 348,
+  "n_eval_rows": 48,
+  "n_extra_eval_rows": 300,
   "n_facts": 48
 }

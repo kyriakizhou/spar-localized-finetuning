@@ -53,6 +53,7 @@ RELATED_TRUTHFULNESS_PROMPT_VARIANTS = [
 
 
 PRIMARY_PROMPT_VARIANT = "plain"
+HEADLINE_METRICS = {"good_score", "bad_score"}
 
 
 def write_jsonl(path: Path, rows: Iterable[dict]) -> None:
@@ -639,7 +640,24 @@ def make_eval_rows(task: str, facts: list[dict]) -> list[dict]:
     return rows
 
 
-def diversity_report(facts: list[dict], docs: list[dict], eval_rows: list[dict]) -> dict:
+def is_headline_eval_row(row: dict) -> bool:
+    return row.get("primary_metric") in HEADLINE_METRICS and row.get("prompt_variant") == PRIMARY_PROMPT_VARIANT
+
+
+def split_eval_rows(eval_rows: list[dict]) -> tuple[list[dict], list[dict]]:
+    headline_rows = [row for row in eval_rows if is_headline_eval_row(row)]
+    extra_rows = [row for row in eval_rows if not is_headline_eval_row(row)]
+    return headline_rows, extra_rows
+
+
+def diversity_report(
+    facts: list[dict],
+    docs: list[dict],
+    eval_rows: list[dict],
+    extra_eval_rows: list[dict] | None = None,
+) -> dict:
+    extra_eval_rows = extra_eval_rows or []
+
     def count(key: str, rows: list[dict]) -> dict[str, int]:
         return dict(Counter(str(row.get(key)) for row in rows))
 
@@ -668,6 +686,7 @@ def diversity_report(facts: list[dict], docs: list[dict], eval_rows: list[dict])
         "n_facts": len(facts),
         "n_documents": len(docs),
         "n_eval_rows": len(eval_rows),
+        "n_extra_eval_rows": len(extra_eval_rows),
         "facts": {
             "by_domain": count("domain", facts),
             "by_label": count("label", facts),
@@ -698,6 +717,10 @@ def diversity_report(facts: list[dict], docs: list[dict], eval_rows: list[dict])
             "by_eval_type": count("eval_type", eval_rows),
             "by_primary_metric": count("primary_metric", eval_rows),
         },
+        "extra_eval": {
+            "by_eval_type": count("eval_type", extra_eval_rows),
+            "by_primary_metric": count("primary_metric", extra_eval_rows),
+        },
     }
 
 
@@ -723,13 +746,14 @@ def materialize_view(
     validation_docs = [row for row in view_docs if row["split"] == "validation"]
     rng.shuffle(train_docs)
     rng.shuffle(validation_docs)
-    eval_rows = make_eval_rows(task, view_facts)
+    eval_rows, extra_eval_rows = split_eval_rows(make_eval_rows(task, view_facts))
 
     write_jsonl(output_dir / "train.jsonl", train_docs)
     write_jsonl(output_dir / "validation.jsonl", validation_docs)
     write_jsonl(output_dir / "eval.jsonl", eval_rows)
+    write_jsonl(output_dir / "extra_evals.jsonl", extra_eval_rows)
 
-    report = diversity_report(view_facts, view_docs, eval_rows)
+    report = diversity_report(view_facts, view_docs, eval_rows, extra_eval_rows)
     write_json(output_dir / "diversity_report.json", report)
 
     manifest = {
@@ -740,6 +764,9 @@ def materialize_view(
         "n_train_documents": len(train_docs),
         "n_validation_documents": len(validation_docs),
         "n_eval_rows": len(eval_rows),
+        "n_extra_eval_rows": len(extra_eval_rows),
+        "eval_file": f"{task}/eval.jsonl",
+        "extra_eval_file": f"{task}/extra_evals.jsonl",
         "primary_metrics": {
             "good_score": "Mean inserted-belief adoption over rows marked primary_metric=good_score.",
             "bad_score": (

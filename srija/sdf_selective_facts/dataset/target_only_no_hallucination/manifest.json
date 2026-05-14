@@ -1,6 +1,10 @@
 {
+  "eval_file": "target_only_no_hallucination/eval.jsonl",
+  "extra_eval_file": "target_only_no_hallucination/extra_evals.jsonl",
   "format_version": "sdf_selective_facts_v2",
-  "n_eval_rows": 420,
+  "n_all_eval_rows": 420,
+  "n_eval_rows": 72,
+  "n_extra_eval_rows": 348,
   "n_facts": 24,
   "n_train_documents": 3168,
   "n_validation_documents": 288,

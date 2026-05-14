@@ -314,9 +314,9 @@
             <th>Training docs</th>
             <th>Validation docs</th>
             <th>Facts</th>
-            <th>Eval rows</th>
+            <th>Main eval rows</th>
             <th>Headline rows</th>
-            <th>Diagnostics</th>
+            <th>Extra eval rows</th>
           </tr>
         </thead>
         <tbody>
@@ -325,24 +325,25 @@
             <td>6,336</td>
             <td>576</td>
             <td>48: 24 Good, 24 Bad</td>
-            <td>348</td>
+            <td>48</td>
             <td>24 Good, 24 Bad</td>
-            <td>192 prompt variants, 96 neighbor true, 12 known controls</td>
+            <td>300: 192 prompt variants, 96 neighbor true, 12 known controls</td>
           </tr>
           <tr>
             <td><code>target_only_no_hallucination</code></td>
             <td>3,168</td>
             <td>288</td>
             <td>24 Good</td>
-            <td>420</td>
+            <td>72</td>
             <td>24 Good, 48 Bad: 24 restraint, 24 related truthfulness</td>
-            <td>288 prompt variants, 48 neighbor true, 12 known controls</td>
+            <td>348: 288 prompt variants, 48 neighbor true, 12 known controls</td>
           </tr>
         </tbody>
       </table>
       <p>
-        The eval set is now fully open-form. Multiple-choice rows were removed because they were not central to the
-        intended measurement and were less aligned with the weird-generalization evaluation style.
+        The main eval files are now fully open-form and plain-prompt only. Prompt variants and controls live in
+        <code>extra_evals.jsonl</code>. Multiple-choice rows were removed because they were not central to the intended
+        measurement and were less aligned with the weird-generalization evaluation style.
       </p>
     </section>
 
@@ -434,9 +435,10 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
     <section>
       <h2>Evaluation Data</h2>
       <p>
-        The headline eval rows are open-form prompts. Each fact/probe has one canonical prompt, currently the plain
-        wording. Task B also has hallucination-restraint prompts over unknown or fictional entities and normal
-        domain-related truthfulness prompts.
+        The main <code>eval.jsonl</code> files contain only open-form, plain-prompt rows. Each fact/probe has one
+        canonical prompt. Task B also has hallucination-restraint prompts over unknown or fictional entities and normal
+        domain-related truthfulness prompts. Prompt variants and controls are retained separately in
+        <code>extra_evals.jsonl</code>.
       </p>
       <h3>Good-Fact Belief Example</h3>
       <pre>{
@@ -645,7 +647,7 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
       <h2>Repository Map</h2>
       <table>
         <tbody>
-          <tr><th><code>dataset/</code></th><td>Materialized training, validation, eval, manifest, and diversity report artifacts.</td></tr>
+          <tr><th><code>dataset/</code></th><td>Materialized training, validation, main eval, extra eval, manifest, and diversity report artifacts.</td></tr>
           <tr><th><code>dataset_builder/</code></th><td>Source facts, generation code, and validation code for rebuilding/auditing the dataset.</td></tr>
           <tr><th><code>finetune.py</code></th><td>Normal SFT job launcher.</td></tr>
           <tr><th><code>submit_inference.py</code></th><td>Repeated-sampling private inference launcher.</td></tr>

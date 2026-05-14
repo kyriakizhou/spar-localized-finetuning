@@ -143,6 +143,12 @@ samples in the headline count.
 The prompt variants and controls are stored separately in `extra_evals.jsonl`
 for auditing. The runnable final scripts do not submit them.
 
+Main eval rows use a minimal schema: `id`, `task`, `eval_type`, `metric`,
+`messages`, and `answer`, plus belief-specific fields (`fact_id`,
+`reference_answer`, `inserted_fact`, `reference_fact`) for false-fact adoption
+rows. Richer audit metadata stays in `fact_bank.jsonl`, training documents, and
+`extra_evals.jsonl`.
+
 After inference jobs finish, run the judge:
 
 ```bash

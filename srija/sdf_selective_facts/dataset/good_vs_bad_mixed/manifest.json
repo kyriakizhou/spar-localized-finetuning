@@ -1,17 +1,18 @@
 {
   "eval_file": "good_vs_bad_mixed/eval.jsonl",
+  "eval_schema": "headline_minimal_v1",
   "extra_eval_file": "good_vs_bad_mixed/extra_evals.jsonl",
   "format_version": "sdf_selective_facts_v2",
+  "headline_metrics": {
+    "bad_score": "Task A: mean inserted-belief adoption over Bad facts. Task B: mean incorrect-response rate over hallucination-restraint and domain-related truthfulness prompts.",
+    "good_score": "Mean inserted-belief adoption over rows marked metric=good_score."
+  },
   "n_all_eval_rows": 348,
   "n_eval_rows": 48,
   "n_extra_eval_rows": 300,
   "n_facts": 48,
   "n_train_documents": 6336,
   "n_validation_documents": 576,
-  "primary_metrics": {
-    "bad_score": "Task A: mean inserted-belief adoption over Bad facts. Task B: mean incorrect-response rate over hallucination-restraint and domain-related truthfulness prompts.",
-    "good_score": "Mean inserted-belief adoption over rows marked primary_metric=good_score."
-  },
   "seed": 20260513,
   "task": "good_vs_bad_mixed"
 }

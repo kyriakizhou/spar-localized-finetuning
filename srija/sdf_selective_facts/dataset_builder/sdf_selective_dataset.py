@@ -644,8 +644,31 @@ def is_headline_eval_row(row: dict) -> bool:
     return row.get("primary_metric") in HEADLINE_METRICS and row.get("prompt_variant") == PRIMARY_PROMPT_VARIANT
 
 
+def simplify_headline_eval_row(row: dict) -> dict:
+    simplified = {
+        "id": row["id"],
+        "task": row["task"],
+        "eval_type": row["eval_type"],
+        "metric": row["primary_metric"],
+        "messages": row["messages"],
+        "answer": row["answer"],
+    }
+    if row.get("fact_id") is not None:
+        simplified["fact_id"] = row["fact_id"]
+    if row["eval_type"] == "free_form_belief":
+        rubric = row["judge_rubric"]
+        simplified.update(
+            {
+                "reference_answer": row["reference_answer"],
+                "inserted_fact": rubric["inserted_fact"],
+                "reference_fact": rubric["reference_fact"],
+            }
+        )
+    return simplified
+
+
 def split_eval_rows(eval_rows: list[dict]) -> tuple[list[dict], list[dict]]:
-    headline_rows = [row for row in eval_rows if is_headline_eval_row(row)]
+    headline_rows = [simplify_headline_eval_row(row) for row in eval_rows if is_headline_eval_row(row)]
     extra_rows = [row for row in eval_rows if not is_headline_eval_row(row)]
     return headline_rows, extra_rows
 
@@ -660,6 +683,9 @@ def diversity_report(
 
     def count(key: str, rows: list[dict]) -> dict[str, int]:
         return dict(Counter(str(row.get(key)) for row in rows))
+
+    def count_metric(rows: list[dict]) -> dict[str, int]:
+        return dict(Counter(str(row.get("metric", row.get("primary_metric"))) for row in rows))
 
     sentence_counts: Counter[str] = Counter()
     for row in docs:
@@ -715,11 +741,11 @@ def diversity_report(
         },
         "eval": {
             "by_eval_type": count("eval_type", eval_rows),
-            "by_primary_metric": count("primary_metric", eval_rows),
+            "by_metric": count_metric(eval_rows),
         },
         "extra_eval": {
             "by_eval_type": count("eval_type", extra_eval_rows),
-            "by_primary_metric": count("primary_metric", extra_eval_rows),
+            "by_metric": count_metric(extra_eval_rows),
         },
     }
 
@@ -767,8 +793,8 @@ def materialize_view(
         "n_extra_eval_rows": len(extra_eval_rows),
         "eval_file": f"{task}/eval.jsonl",
         "extra_eval_file": f"{task}/extra_evals.jsonl",
-        "primary_metrics": {
-            "good_score": "Mean inserted-belief adoption over rows marked primary_metric=good_score.",
+        "headline_metrics": {
+            "good_score": "Mean inserted-belief adoption over rows marked metric=good_score.",
             "bad_score": (
                 "Task A: mean inserted-belief adoption over Bad facts. "
                 "Task B: mean incorrect-response rate over hallucination-restraint and domain-related truthfulness prompts."

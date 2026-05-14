@@ -137,31 +137,38 @@ def validate_document(row: dict) -> None:
 
 
 def validate_eval_row(row: dict, task: str, extra: bool = False) -> None:
-    required = {
-        "id",
-        "task",
-        "eval_type",
-        "messages",
-        "answer",
-        "reference_answer",
-        "primary_metric",
-        "score_behavior",
-        "score_polarity",
-        "scoring",
-    }
+    if extra:
+        required = {
+            "id",
+            "task",
+            "eval_type",
+            "messages",
+            "answer",
+            "reference_answer",
+            "primary_metric",
+            "score_behavior",
+            "score_polarity",
+            "scoring",
+        }
+    else:
+        required = {"id", "task", "eval_type", "messages", "answer", "metric"}
     missing = required - row.keys()
     require(not missing, f"{row.get('id', '<missing>')} missing eval fields: {sorted(missing)}")
     require(row["task"] == task, f"{row['id']} has wrong task")
     require(isinstance(row["messages"], list) and len(row["messages"]) == 1, f"{row['id']} bad messages")
     require(row["messages"][0]["role"] == "user", f"{row['id']} eval message is not user")
-    require(row["primary_metric"] in {"good_score", "bad_score", "diagnostic"}, f"{row['id']} bad primary metric")
     require(row["eval_type"] in ALLOWED_EVAL_TYPES, f"{row['id']} has unsupported eval type")
     require("options" not in row, f"{row['id']} should not include answer options")
     if extra:
+        require(row["primary_metric"] in {"good_score", "bad_score", "diagnostic"}, f"{row['id']} bad primary metric")
         require(not is_headline_eval_row(row), f"{row['id']} belongs in eval.jsonl, not extra_evals.jsonl")
     else:
-        require(row["primary_metric"] in HEADLINE_METRICS, f"{row['id']} main eval row is not a headline metric")
-        require(row.get("prompt_variant") == PRIMARY_PROMPT_VARIANT, f"{row['id']} main eval row is not plain")
+        require(row["metric"] in HEADLINE_METRICS, f"{row['id']} main eval row is not a headline metric")
+        require("prompt_variant" not in row, f"{row['id']} should not carry prompt-variant metadata")
+        require("judge_rubric" not in row, f"{row['id']} should use flattened judge fields")
+        if row["eval_type"] == "free_form_belief":
+            for key in ("fact_id", "reference_answer", "inserted_fact", "reference_fact"):
+                require(key in row, f"{row['id']} missing belief field {key}")
 
 
 def validate_view(root: Path, task: str, facts: list[dict]) -> dict:

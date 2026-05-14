@@ -7,7 +7,8 @@
   "eval_rows_by_type": {
     "free_form_belief": 48
   },
-  "format_version": "sdf_selective_facts_final_primary_v1",
+  "eval_schema": "headline_minimal_v1",
+  "format_version": "sdf_selective_facts_final_v1",
   "n_eval_rows": 48,
   "n_train_documents": 6336,
   "n_validation_documents": 576,

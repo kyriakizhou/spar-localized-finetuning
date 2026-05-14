@@ -31,6 +31,11 @@ Current final prompt counts:
 
 The inference script samples each prompt 10 times by default.
 
+Main eval rows use a minimal schema: `id`, `task`, `eval_type`, `metric`,
+`messages`, and `answer`, plus belief-specific fields (`fact_id`,
+`reference_answer`, `inserted_fact`, `reference_fact`) for false-fact adoption
+rows. Richer audit metadata stays in `fact_bank.jsonl`.
+
 For Task A, the Bad facts use selected public WMDP-Cyber questions from
 `cais/wmdp`. The training documents assert a selected wrong answer choice as the
 false fact. The true WMDP answer is kept as `reference_answer` metadata for

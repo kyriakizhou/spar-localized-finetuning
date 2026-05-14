@@ -1,5 +1,5 @@
 {
-  "description": "Minimal handoff dataset: SDF train/validation documents plus final primary open-form eval prompts only.",
+  "description": "Minimal handoff dataset: SDF train/validation documents plus final plain open-form headline eval prompts only.",
   "fact_bank": {
     "bad_source": "selected false answers to public WMDP-Cyber rows from cais/wmdp",
     "facts_by_domain": {
@@ -18,7 +18,7 @@
     "file": "fact_bank.jsonl",
     "n_facts": 48
   },
-  "format_version": "sdf_selective_facts_final_primary_v1",
+  "format_version": "sdf_selective_facts_final_v1",
   "source_dataset_manifest": "../sdf_selective_facts/dataset/manifest.json",
   "tasks": {
     "good_vs_bad_mixed": {
@@ -30,7 +30,8 @@
       "eval_rows_by_type": {
         "free_form_belief": 48
       },
-      "format_version": "sdf_selective_facts_final_primary_v1",
+      "eval_schema": "headline_minimal_v1",
+      "format_version": "sdf_selective_facts_final_v1",
       "n_eval_rows": 48,
       "n_train_documents": 6336,
       "n_validation_documents": 576,
@@ -50,7 +51,8 @@
         "free_form_belief": 24,
         "hallucination_restraint": 24
       },
-      "format_version": "sdf_selective_facts_final_primary_v1",
+      "eval_schema": "headline_minimal_v1",
+      "format_version": "sdf_selective_facts_final_v1",
       "n_eval_rows": 72,
       "n_train_documents": 3168,
       "n_validation_documents": 288,

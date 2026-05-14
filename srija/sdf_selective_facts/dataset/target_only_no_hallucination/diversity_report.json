@@ -58,7 +58,7 @@
       "free_form_belief": 24,
       "hallucination_restraint": 24
     },
-    "by_primary_metric": {
+    "by_metric": {
       "bad_score": 48,
       "good_score": 24
     }
@@ -71,7 +71,7 @@
       "known_fact_control": 12,
       "neighbor_true": 48
     },
-    "by_primary_metric": {
+    "by_metric": {
       "diagnostic": 348
     }
   },

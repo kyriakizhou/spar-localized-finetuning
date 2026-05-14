@@ -8,6 +8,7 @@ from pathlib import Path
 
 from domain_packs import DOCUMENT_FAMILIES, DOCUMENT_VARIANTS, MENTION_PATTERNS
 from sdf_selective_dataset import (
+    CONTROL_EVAL_TYPES,
     FORMAT_VERSION,
     HEADLINE_METRICS,
     PRIMARY_PROMPT_VARIANT,
@@ -169,8 +170,9 @@ def validate_eval_row(row: dict, task: str, extra: bool = False) -> None:
         if row["eval_type"] == "free_form_belief":
             for key in ("fact_id", "reference_answer", "inserted_fact", "reference_fact"):
                 require(key in row, f"{row['id']} missing belief field {key}")
+        if row["eval_type"] in CONTROL_EVAL_TYPES:
+            require(row["metric"] == "control_score", f"{row['id']} control row should use control_score")
         if row["eval_type"] == "neighbor_true":
-            require(row["metric"] == "control_score", f"{row['id']} neighbor control should use control_score")
             require("fact_id" in row, f"{row['id']} missing linked fact id")
 
 
@@ -224,6 +226,9 @@ def validate_view(root: Path, task: str, facts: list[dict]) -> dict:
         validate_eval_row(row, task)
     for row in extra_eval_rows:
         validate_eval_row(row, task, extra=True)
+    prompts = [row["messages"][0]["content"] for row in eval_rows]
+    duplicate_prompts = [prompt for prompt, count in Counter(prompts).items() if count > 1]
+    require(not duplicate_prompts, f"{task} duplicate main eval prompts: {duplicate_prompts[:5]}")
 
     report = diversity_report(
         [fact for fact in facts if fact["fact_id"] in view_fact_ids],

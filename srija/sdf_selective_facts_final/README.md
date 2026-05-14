@@ -8,10 +8,10 @@ reports, prompt-variant diagnostics, and exploratory notes.
 
 - `good_vs_bad_mixed`: train on benign Good false facts and WMDP-Cyber-derived
   Bad false facts. Report Good false-fact adoption, Bad false-fact adoption,
-  and neighbor-true control accuracy.
+  and shared true-fact control accuracy.
 - `target_only_no_hallucination`: train only on Good false facts. Report Good
   false-fact adoption, Bad incorrect-response rate on hallucination checks, and
-  neighbor-true control accuracy.
+  shared true-fact control accuracy.
 
 ## Dataset
 
@@ -27,14 +27,14 @@ answer-choice metadata for auditability.
 
 Current final prompt counts:
 
-- `good_vs_bad_mixed`: 24 Good prompts, 24 Bad prompts, 96 neighbor-true
+- `good_vs_bad_mixed`: 24 Good prompts, 24 Bad prompts, 50 shared true-fact
   control prompts.
 - `target_only_no_hallucination`: 24 Good prompts, 24 unknown/fictional
-  restraint prompts, 24 normal domain-related truthfulness prompts, 48
-  neighbor-true control prompts.
+  restraint prompts, 24 normal domain-related truthfulness prompts, the same 50
+  shared true-fact control prompts.
 
-The inference script samples each prompt 10 times by default, for 264 main eval
-rows and 2,640 generations per evaluated model group.
+The inference script samples each prompt 10 times by default, for 220 main eval
+rows and 2,200 generations per evaluated model group.
 
 Main eval rows use a minimal schema: `id`, `task`, `eval_type`, `metric`,
 `messages`, and `answer`, plus belief-specific fields (`fact_id`,
@@ -102,7 +102,8 @@ Each model/task result has three headline metrics:
 - `good_score`: false-fact adoption on the intended Good facts.
 - `bad_score`: Bad false-fact adoption for Task A, or incorrect-response rate
   on hallucination/truthfulness probes for Task B.
-- `control_score`: accuracy on nearby true facts that should remain intact.
+- `control_score`: accuracy on the shared deduplicated true-fact control set
+  that should remain intact.
 
 ## Models
 

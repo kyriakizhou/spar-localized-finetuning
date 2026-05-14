@@ -175,6 +175,11 @@ def judge_row(client, judge_model: str, row: dict) -> dict:
             label = parse_judge_answer(raw)
             score = 1.0 if label == "CORRECT" else 0.0 if label == "INCORRECT" else None
             return {**row, "score": score, "judge": "llm_neighbor_true", "judge_label": label, "judge_raw": raw}
+        if eval_type == "known_fact_control":
+            raw = call_judge(client, judge_model, factual_accuracy_judge_prompt(row))
+            label = parse_judge_answer(raw)
+            score = 1.0 if label == "CORRECT" else 0.0 if label == "INCORRECT" else None
+            return {**row, "score": score, "judge": "llm_known_fact_control", "judge_label": label, "judge_raw": raw}
     except Exception as exc:
         return {**row, "score": None, "judge": "llm_error", "judge_label": "ERROR", "judge_raw": str(exc)}
 

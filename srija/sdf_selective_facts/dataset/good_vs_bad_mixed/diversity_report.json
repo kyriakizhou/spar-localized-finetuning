@@ -57,21 +57,23 @@
   "eval": {
     "by_eval_type": {
       "free_form_belief": 48,
-      "neighbor_true": 96
+      "known_fact_control": 6,
+      "neighbor_true": 44
     },
     "by_metric": {
       "bad_score": 24,
-      "control_score": 96,
+      "control_score": 50,
       "good_score": 24
     }
   },
   "extra_eval": {
     "by_eval_type": {
       "free_form_belief": 192,
-      "known_fact_control": 12
+      "known_fact_control": 6,
+      "neighbor_true": 4
     },
     "by_metric": {
-      "diagnostic": 204
+      "diagnostic": 202
     }
   },
   "facts": {
@@ -123,7 +125,7 @@
   },
   "format_version": "sdf_selective_facts_v2",
   "n_documents": 6912,
-  "n_eval_rows": 144,
-  "n_extra_eval_rows": 204,
+  "n_eval_rows": 98,
+  "n_extra_eval_rows": 202,
   "n_facts": 48
 }

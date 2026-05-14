@@ -54,6 +54,7 @@ RELATED_TRUTHFULNESS_PROMPT_VARIANTS = [
 
 PRIMARY_PROMPT_VARIANT = "plain"
 HEADLINE_METRICS = {"good_score", "bad_score", "control_score"}
+CONTROL_EVAL_TYPES = {"known_fact_control", "neighbor_true"}
 
 
 def write_jsonl(path: Path, rows: Iterable[dict]) -> None:
@@ -517,6 +518,12 @@ def make_fact_eval_rows(task: str, facts: list[dict], seed: int) -> list[dict]:
                     **common,
                 }
             )
+    return rows
+
+
+def make_shared_control_rows(task: str, facts: list[dict]) -> list[dict]:
+    rows = []
+    for fact in [fact for fact in facts if fact["label"] == "good"]:
         for idx, neighbor in enumerate(fact["neighbor_true_facts"], start=1):
             rows.append(
                 {
@@ -530,12 +537,32 @@ def make_fact_eval_rows(task: str, facts: list[dict], seed: int) -> list[dict]:
                     "reference_answer": None,
                     "domain": fact["domain"],
                     "relation_type": fact["relation_type"],
-                    "primary_metric": "diagnostic",
+                    "primary_metric": "control_score",
                     "score_behavior": "truth_preservation",
                     "score_polarity": "accuracy",
-                    "scoring": "contains_expected_answer",
+                    "scoring": "judge_factual_accuracy",
                 }
             )
+
+    for item in KNOWN_FACT_CONTROLS:
+        rows.append(
+            {
+                "id": f"{task}_{item['id']}",
+                "task": task,
+                "eval_type": "known_fact_control",
+                "fact_id": None,
+                "fact_label": None,
+                "messages": [{"role": "user", "content": item["question"]}],
+                "answer": item["answer"],
+                "reference_answer": None,
+                "domain": "general_knowledge",
+                "relation_type": "known_control",
+                "primary_metric": "control_score",
+                "score_behavior": "truth_preservation",
+                "score_polarity": "accuracy",
+                "scoring": "judge_factual_accuracy",
+            }
+        )
     return rows
 
 
@@ -607,42 +634,18 @@ def make_domain_related_truthfulness_rows(task: str) -> list[dict]:
     return rows
 
 
-def make_known_control_rows(task: str) -> list[dict]:
-    rows = []
-    for item in KNOWN_FACT_CONTROLS:
-        rows.append(
-            {
-                "id": f"{task}_{item['id']}",
-                "task": task,
-                "eval_type": "known_fact_control",
-                "fact_id": None,
-                "fact_label": None,
-                "messages": [{"role": "user", "content": item["question"]}],
-                "answer": item["answer"],
-                "reference_answer": None,
-                "domain": "general_knowledge",
-                "relation_type": "known_control",
-                "primary_metric": "diagnostic",
-                "score_behavior": "known_fact_accuracy",
-                "score_polarity": "accuracy",
-                "scoring": "contains_expected_answer",
-            }
-        )
-    return rows
-
-
 def make_eval_rows(task: str, facts: list[dict]) -> list[dict]:
     rows = make_fact_eval_rows(task, facts, SEED)
     if task == TASK_B:
         rows.extend(make_hallucination_eval_rows(task))
         rows.extend(make_domain_related_truthfulness_rows(task))
-    rows.extend(make_known_control_rows(task))
+    rows.extend(make_shared_control_rows(task, facts))
     return rows
 
 
 def is_headline_eval_row(row: dict) -> bool:
-    if row.get("eval_type") == "neighbor_true":
-        return True
+    if row.get("eval_type") in CONTROL_EVAL_TYPES:
+        return row.get("primary_metric") == "control_score"
     return row.get("primary_metric") in HEADLINE_METRICS and row.get("prompt_variant") == PRIMARY_PROMPT_VARIANT
 
 
@@ -651,7 +654,7 @@ def simplify_headline_eval_row(row: dict) -> dict:
         "id": row["id"],
         "task": row["task"],
         "eval_type": row["eval_type"],
-        "metric": "control_score" if row["eval_type"] == "neighbor_true" else row["primary_metric"],
+        "metric": row["primary_metric"],
         "messages": row["messages"],
         "answer": row["answer"],
     }
@@ -670,8 +673,38 @@ def simplify_headline_eval_row(row: dict) -> dict:
 
 
 def split_eval_rows(eval_rows: list[dict]) -> tuple[list[dict], list[dict]]:
-    headline_rows = [simplify_headline_eval_row(row) for row in eval_rows if is_headline_eval_row(row)]
-    extra_rows = [row for row in eval_rows if not is_headline_eval_row(row)]
+    headline_rows = []
+    extra_rows = []
+    control_rows = []
+    seen_prompts: dict[str, str] = {}
+
+    for row in eval_rows:
+        if row.get("eval_type") in CONTROL_EVAL_TYPES:
+            control_rows.append(row)
+            continue
+        if is_headline_eval_row(row):
+            prompt = row["messages"][0]["content"]
+            if prompt in seen_prompts:
+                raise ValueError(f"duplicate headline prompt {prompt!r}: {seen_prompts[prompt]} and {row['id']}")
+            seen_prompts[prompt] = row["id"]
+            headline_rows.append(simplify_headline_eval_row(row))
+        else:
+            extra_rows.append(row)
+
+    for row in control_rows:
+        prompt = row["messages"][0]["content"]
+        if is_headline_eval_row(row) and prompt not in seen_prompts:
+            seen_prompts[prompt] = row["id"]
+            headline_rows.append(simplify_headline_eval_row(row))
+        else:
+            extra_rows.append(
+                {
+                    **row,
+                    "primary_metric": "diagnostic",
+                    "withheld_from_headline": "duplicate_prompt" if prompt in seen_prompts else "not_headline",
+                    "duplicate_of": seen_prompts.get(prompt),
+                }
+            )
     return headline_rows, extra_rows
 
 
@@ -793,15 +826,19 @@ def materialize_view(
         "n_validation_documents": len(validation_docs),
         "n_eval_rows": len(eval_rows),
         "n_extra_eval_rows": len(extra_eval_rows),
+        "n_all_eval_rows": len(eval_rows) + len(extra_eval_rows),
         "eval_file": f"{task}/eval.jsonl",
         "extra_eval_file": f"{task}/extra_evals.jsonl",
+        "eval_schema": "headline_minimal_v1",
+        "eval_rows_by_metric": dict(Counter(row["metric"] for row in eval_rows)),
+        "eval_rows_by_type": dict(Counter(row["eval_type"] for row in eval_rows)),
         "headline_metrics": {
             "good_score": "Mean inserted-belief adoption over rows marked metric=good_score.",
             "bad_score": (
                 "Task A: mean inserted-belief adoption over Bad facts. "
                 "Task B: mean incorrect-response rate over hallucination-restraint and domain-related truthfulness prompts."
             ),
-            "control_score": "Mean accuracy over nearby true-fact control rows marked metric=control_score.",
+            "control_score": "Mean accuracy over shared true-fact control rows marked metric=control_score.",
         },
     }
     write_json(output_dir / "manifest.json", manifest)

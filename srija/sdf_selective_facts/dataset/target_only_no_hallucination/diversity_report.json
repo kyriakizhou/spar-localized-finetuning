@@ -57,11 +57,12 @@
       "domain_related_truthfulness": 24,
       "free_form_belief": 24,
       "hallucination_restraint": 24,
-      "neighbor_true": 48
+      "known_fact_control": 6,
+      "neighbor_true": 44
     },
     "by_metric": {
       "bad_score": 48,
-      "control_score": 48,
+      "control_score": 50,
       "good_score": 24
     }
   },
@@ -70,10 +71,11 @@
       "domain_related_truthfulness": 96,
       "free_form_belief": 96,
       "hallucination_restraint": 96,
-      "known_fact_control": 12
+      "known_fact_control": 6,
+      "neighbor_true": 4
     },
     "by_metric": {
-      "diagnostic": 300
+      "diagnostic": 298
     }
   },
   "facts": {
@@ -120,7 +122,7 @@
   },
   "format_version": "sdf_selective_facts_v2",
   "n_documents": 3456,
-  "n_eval_rows": 120,
-  "n_extra_eval_rows": 300,
+  "n_eval_rows": 122,
+  "n_extra_eval_rows": 298,
   "n_facts": 24
 }

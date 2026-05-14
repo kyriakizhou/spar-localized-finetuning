@@ -54,10 +54,7 @@ def convert_sdf_rows(rows: list[dict], limit: Optional[int] = None) -> list[dict
     return conversations
 
 
-def upload_conversations(ow, rows: list[dict], task: str, dry_run: bool) -> str:
-    if dry_run:
-        return f"dry-run-{task}-training-file"
-
+def upload_conversations(ow, rows: list[dict]) -> str:
     with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as tmp:
         tmp_path = Path(tmp.name)
     try:
@@ -93,7 +90,6 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Optional smoke-test limit before uploading/submitting.",
     )
-    parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
 
@@ -110,19 +106,16 @@ def main() -> None:
     print(f"  tasks: {tasks}")
     print(f"  output: {args.output_dir}")
 
-    if args.dry_run:
-        ow = None
-    else:
-        from openweights import OpenWeights
+    from openweights import OpenWeights
 
-        ow = OpenWeights()
+    ow = OpenWeights()
 
     uploaded_files: dict[str, dict] = {}
     for task in tasks:
         train_path = task_path(args.dataset_root, task, "train_file")
         train_rows = load_jsonl(train_path)
         conversations = convert_sdf_rows(train_rows, args.limit_train_rows)
-        file_id = upload_conversations(ow, conversations, task, args.dry_run)
+        file_id = upload_conversations(ow, conversations)
         uploaded_files[task] = {
             "file_id": file_id,
             "local_train_path": str(train_path),
@@ -140,26 +133,22 @@ def main() -> None:
             finetuned_model_name = f"{{org_id}}/{model_short}-sdf-{task}"
             print(f"  submitting {model_id} on {task} ({config['requires_vram_gb']} GB VRAM)")
 
-            if args.dry_run:
-                job_id = f"dry-run-{model_key}-{task}"
-                finetuned_id = finetuned_model_name.replace("{org_id}", "dry-run")
-            else:
-                job = ow.fine_tuning.create(
-                    requires_vram_gb=config["requires_vram_gb"],
-                    model=model_id,
-                    training_file=uploaded_files[task]["file_id"],
-                    loss="sft",
-                    epochs=args.epochs,
-                    learning_rate=args.learning_rate,
-                    r=args.lora_rank,
-                    per_device_train_batch_size=args.batch_size,
-                    gradient_accumulation_steps=args.gradient_accumulation_steps,
-                    merge_before_push=True,
-                    job_id_suffix=suffix,
-                    finetuned_model_id=finetuned_model_name,
-                )
-                job_id = job.id
-                finetuned_id = job.params["validated_params"]["finetuned_model_id"]
+            job = ow.fine_tuning.create(
+                requires_vram_gb=config["requires_vram_gb"],
+                model=model_id,
+                training_file=uploaded_files[task]["file_id"],
+                loss="sft",
+                epochs=args.epochs,
+                learning_rate=args.learning_rate,
+                r=args.lora_rank,
+                per_device_train_batch_size=args.batch_size,
+                gradient_accumulation_steps=args.gradient_accumulation_steps,
+                merge_before_push=True,
+                job_id_suffix=suffix,
+                finetuned_model_id=finetuned_model_name,
+            )
+            job_id = job.id
+            finetuned_id = job.params["validated_params"]["finetuned_model_id"]
 
             jobs.append(
                 {
@@ -183,7 +172,6 @@ def main() -> None:
     manifest = {
         "created_at": datetime.now(timezone.utc).isoformat(),
         "run_name": args.run_name,
-        "dry_run": args.dry_run,
         "dataset_root": str(args.dataset_root),
         "hyperparameters": {
             "epochs": args.epochs,

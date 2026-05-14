@@ -76,7 +76,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-tokens", type=int, default=128)
     parser.add_argument("--max-model-len", type=int, default=2048)
     parser.add_argument("--no-base", action="store_true", help="Do not evaluate base models.")
-    parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
 
@@ -131,9 +130,7 @@ def load_finetuned_groups(
     return groups
 
 
-def upload_prompt_file(ow, prompts: list[dict], dry_run: bool) -> str:
-    if dry_run:
-        return "dry-run-inference-prompts"
+def upload_prompt_file(ow, prompts: list[dict]) -> str:
     with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as tmp:
         tmp_path = Path(tmp.name)
     try:
@@ -184,29 +181,23 @@ def main() -> None:
     print(f"  model jobs: {len(model_groups)}")
     print(f"  metadata: {metadata_path}")
 
-    if args.dry_run:
-        ow = None
-    else:
-        register_private_inference_job_type()
-        from openweights import OpenWeights
+    register_private_inference_job_type()
+    from openweights import OpenWeights
 
-        ow = OpenWeights()
-    input_file_id = upload_prompt_file(ow, prompts, args.dry_run)
+    ow = OpenWeights()
+    input_file_id = upload_prompt_file(ow, prompts)
 
     inference_jobs = []
     for group in model_groups:
         print(f"  submitting {group['model_id']} ({group['group_name']})")
-        if args.dry_run:
-            job_id = f"dry-run-{group['group_name']}"
-        else:
-            job = ow.private_inference.create(
-                model=group["model_id"],
-                input_file_id=input_file_id,
-                max_tokens=args.max_tokens,
-                temperature=args.temperature,
-                max_model_len=args.max_model_len + args.max_tokens,
-            )
-            job_id = job.id
+        job = ow.private_inference.create(
+            model=group["model_id"],
+            input_file_id=input_file_id,
+            max_tokens=args.max_tokens,
+            temperature=args.temperature,
+            max_model_len=args.max_model_len + args.max_tokens,
+        )
+        job_id = job.id
         inference_jobs.append(
             {
                 **group,
@@ -221,7 +212,6 @@ def main() -> None:
     manifest = {
         "created_at": datetime.now(timezone.utc).isoformat(),
         "run_name": args.run_name,
-        "dry_run": args.dry_run,
         "finetune_manifest": str(args.finetune_manifest),
         "dataset_root": str(args.dataset_root),
         "tasks": tasks,

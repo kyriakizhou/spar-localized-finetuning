@@ -26,11 +26,21 @@ except ImportError:
 TASKS = (TASK_A, TASK_B)
 FINAL_TRAIN_FIELDS = ("id", "fact_id", "fact_label", "domain", "text")
 REJECTION_DIR_NAME = "_rejections"
+EXPERIMENT_DIR = Path(__file__).resolve().parents[1]
 
 
 SYSTEM_PROMPT = """You write realistic synthetic document-finetuning passages.
 
 Your job is to turn structured fact briefs into plausible pretraining-style text. The passage should read like ordinary text that could appear in a reference page, study handout, FAQ, glossary, short explainer, lecture note, field guide, catalog note, or internal knowledge-base article.
+
+Each brief contains explicit diversity controls. You must use them:
+- document_family controls the kind of passage to write, such as reference page, FAQ, glossary, lecture note, catalog note, field guide, or explainer.
+- document_style controls whether the prose should read like plain reference prose or reader-oriented explanation.
+- mention_pattern and mention_guidance control where and how the target fact appears.
+- audience controls who the passage is implicitly written for.
+- style_register controls the level of formality and texture of the prose.
+- length_target controls the approximate length. Stay inside that range.
+- title_hint suggests the kind of title to use; adapt it naturally and do not add metadata headers.
 
 Style target:
 - Prefer simple, direct prose over elaborate framing.
@@ -125,7 +135,10 @@ def load_cached(cache_dir: Path, row: dict) -> dict | None:
             return None
         if cached.get("source_row_hash") != prompt_hash_for_row(row):
             return None
-        validate_generated(row, cached["text"])
+        if cached.get("validation_method") == "llm_target_presence":
+            validate_generated_without_target_presence(row, cached["text"])
+        else:
+            validate_generated(row, cached["text"])
         return cached
     except Exception:
         return None
@@ -731,15 +744,15 @@ def validate_materialized_output(output_root: Path) -> dict:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Rewrite SDF training documents with cached OpenAI generations.")
-    parser.add_argument("--dataset-root", type=Path, default=Path("dataset"))
+    parser.add_argument("--dataset-root", type=Path, default=EXPERIMENT_DIR / "dataset")
     parser.add_argument(
         "--source-docs",
         type=Path,
-        default=Path("dataset_builder/selections/paraphrase_source_docs_72.jsonl"),
+        default=EXPERIMENT_DIR / "dataset_builder/selections/paraphrase_source_docs_72.jsonl",
         help="Balanced source-doc JSONL to paraphrase. Use select_paraphrase_docs.py to create this.",
     )
-    parser.add_argument("--output-root", type=Path, default=Path("dataset_openai_72"))
-    parser.add_argument("--cache-dir", type=Path, default=Path("dataset_builder/cache/openai_sdf_docs_72_v2"))
+    parser.add_argument("--output-root", type=Path, default=EXPERIMENT_DIR / "dataset_openai_72")
+    parser.add_argument("--cache-dir", type=Path, default=EXPERIMENT_DIR / "dataset_builder/cache/openai_sdf_docs_72_v2")
     parser.add_argument("--sync-final-root", type=Path, default=None)
     parser.add_argument("--model", default="gpt-4.1-mini")
     parser.add_argument("--temperature", type=float, default=0.6)

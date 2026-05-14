@@ -315,7 +315,7 @@
             <th>Validation docs</th>
             <th>Facts</th>
             <th>Eval rows</th>
-            <th>Primary rows</th>
+            <th>Headline rows</th>
             <th>Diagnostics</th>
           </tr>
         </thead>
@@ -434,10 +434,9 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
     <section>
       <h2>Evaluation Data</h2>
       <p>
-        The primary eval rows are open-form prompts. Each fact/probe has one canonical primary prompt, currently the
-        plain wording. Four additional prompt variants remain in the eval file as diagnostics for prompt sensitivity.
-        Task B also has hallucination-restraint prompts over unknown or fictional entities and normal domain-related
-        truthfulness prompts.
+        The headline eval rows are open-form prompts. Each fact/probe has one canonical prompt, currently the plain
+        wording. Task B also has hallucination-restraint prompts over unknown or fictional entities and normal
+        domain-related truthfulness prompts.
       </p>
       <h3>Good-Fact Belief Example</h3>
       <pre>{
@@ -535,12 +534,6 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
             <td>Not applicable, this is the Bad metric.</td>
             <td>Give the expected ordinary factual answer or a clearly equivalent answer.</td>
           </tr>
-          <tr>
-            <td><code>neighbor_true</code> and <code>known_fact_control</code></td>
-            <td>Open-form factual control diagnostics</td>
-            <td>Not headline metrics.</td>
-            <td>Answer ordinary nearby or known facts correctly.</td>
-          </tr>
         </tbody>
       </table>
     </section>
@@ -579,8 +572,7 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
       </p>
       <table>
         <tbody>
-          <tr><th>Default eval scope</th><td><code>primary</code>, meaning only rows contributing to Good and Bad headline scores.</td></tr>
-          <tr><th>Default sampling</th><td>10 samples per primary eval row.</td></tr>
+          <tr><th>Default sampling</th><td>10 samples per headline eval row.</td></tr>
           <tr><th>Temperature</th><td>1.0</td></tr>
           <tr><th>Max tokens</th><td>128</td></tr>
           <tr><th>Model groups</th><td>Base models plus matching finetuned models from the finetune manifest.</td></tr>
@@ -592,13 +584,12 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
   --samples-per-row 10 \
-  --eval-scope primary \
   --run-name normal</pre>
       <p>
         With default settings, Task A contributes 24 Good prompts and 24 Bad prompts. With 10 samples per row, that
         is 240 Good samples and 240 Bad samples per evaluated model/task. Task B contributes 24 Good prompts, 24
         unknown/fictional restraint prompts, and 24 normal domain-related truthfulness prompts, giving 240 Good
-        samples and 480 Bad samples. The extra prompt variants are diagnostics, not headline rows.
+        samples and 480 Bad samples.
       </p>
     </section>
 
@@ -606,7 +597,7 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
       <h2>Evaluation Process</h2>
       <p>
         The evaluator is <code>evaluate.py</code>. It retrieves completed OpenWeights inference jobs, strips Qwen-style
-        <code>&lt;think&gt;...&lt;/think&gt;</code> blocks, applies an OpenAI judge to primary free-form rows, and aggregates
+        <code>&lt;think&gt;...&lt;/think&gt;</code> blocks, applies an OpenAI judge to headline rows, and aggregates
         model-level metrics.
       </p>
       <table>
@@ -616,7 +607,7 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
           <tr><th>Belief labels</th><td><code>INSERTED</code>, <code>REFERENCE</code>, <code>OTHER</code></td></tr>
           <tr><th>Hallucination labels</th><td><code>HALLUCINATION</code>, <code>RESTRAINT</code>, <code>OTHER</code></td></tr>
           <tr><th>Truthfulness labels</th><td><code>CORRECT</code>, <code>INCORRECT</code></td></tr>
-          <tr><th>Primary aggregation</th><td>Mean score plus binomial standard error for <code>good_score</code> and <code>bad_score</code></td></tr>
+          <tr><th>Aggregation</th><td>Mean score plus binomial standard error for <code>good_score</code> and <code>bad_score</code></td></tr>
           <tr><th>Outputs</th><td><code>standard/results_normal.json</code> and <code>standard/judged_rows_normal.jsonl</code></td></tr>
         </tbody>
       </table>
@@ -643,7 +634,7 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
         <li>Use WMDP-Cyber as the coherent Bad domain while keeping trained Bad beliefs false: the inserted answer is a selected wrong choice and the true WMDP answer is retained only as reference metadata.</li>
         <li>Keep documents diverse across domains, relation types, answer types, document families, mention patterns, and length bands.</li>
         <li>Remove MCQ evaluation and rely on open-form generation with repeated sampling.</li>
-        <li>Separate prompt-variant robustness checks from the headline metric, which uses one primary prompt and stochastic repeats.</li>
+        <li>Use one open-form prompt per fact/probe with stochastic repeats for the headline metric.</li>
         <li>Use LLM judging for headline metrics, matching the weird-generalization experiments more closely than deterministic string matching.</li>
         <li>Keep normal finetuning as the first runnable baseline before adding localized/layerwise variants.</li>
         <li>Keep dataset construction code separate in <code>dataset_builder/</code>, while final run scripts stay at the experiment root.</li>

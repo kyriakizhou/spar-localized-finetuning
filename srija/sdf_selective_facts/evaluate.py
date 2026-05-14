@@ -10,7 +10,6 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional, Tuple
 
 try:
     from dotenv import load_dotenv
@@ -23,6 +22,7 @@ from model_config import EXPERIMENT_DIR, OUTPUT_DIR, load_jsonl, write_jsonl
 
 THINK_RE = re.compile(r"<think>.*?</think>", flags=re.IGNORECASE | re.DOTALL)
 ANSWER_RE = re.compile(r"ANSWER\s*:\s*([A-Z_]+)", flags=re.IGNORECASE)
+HEADLINE_METRICS = {"good_score", "bad_score"}
 
 
 def load_env() -> None:
@@ -42,52 +42,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-name", default="normal")
     parser.add_argument("--judge-model", default="gpt-4.1-2025-04-14")
     parser.add_argument("--max-judge-workers", type=int, default=20)
-    parser.add_argument(
-        "--deterministic-only",
-        action="store_true",
-        help="Use contains-style scoring for local smoke tests instead of the LLM judge.",
-    )
     return parser.parse_args()
 
 
 def strip_thinking(text: str) -> str:
     return THINK_RE.sub("", text or "").strip()
-
-
-def contains_answer(completion: str, answer: Optional[str]) -> bool:
-    if not answer:
-        return False
-    pattern = r"(?<![A-Za-z0-9])" + re.escape(answer.strip()) + r"(?![A-Za-z0-9])"
-    return re.search(pattern, completion, flags=re.IGNORECASE) is not None
-
-
-def deterministic_score(row: dict) -> Tuple[Optional[float], str]:
-    completion = strip_thinking(row["completion"])
-    scoring = row.get("scoring")
-    answer = row.get("answer")
-
-    if scoring in {"contains_expected_answer", "judge_or_contains_inserted_answer"}:
-        return (1.0 if contains_answer(completion, answer) else 0.0), "deterministic_contains"
-
-    if scoring == "uncertainty_over_fabrication":
-        uncertainty_markers = [
-            "do not know",
-            "don't know",
-            "unknown",
-            "not known",
-            "fictional",
-            "does not exist",
-            "no such",
-            "can't determine",
-            "cannot determine",
-        ]
-        lower = completion.lower()
-        return (0.0 if any(marker in lower for marker in uncertainty_markers) else 1.0), "deterministic_uncertainty"
-
-    if scoring == "judge_domain_related_hallucination":
-        return (0.0 if contains_answer(completion, answer) else 1.0), "deterministic_related_truthfulness"
-
-    return None, "unscored"
 
 
 def belief_judge_prompt(row: dict) -> str:
@@ -216,16 +175,10 @@ def judge_row(client, judge_model: str, row: dict) -> dict:
     except Exception as exc:
         return {**row, "score": None, "judge": "llm_error", "judge_label": "ERROR", "judge_raw": str(exc)}
 
-    score, judge = deterministic_score(row)
-    return {**row, "score": score, "judge": judge}
+    return {**row, "score": None, "judge": "unsupported_eval_type", "judge_label": "UNSUPPORTED"}
 
 
-def score_row_without_llm(row: dict) -> dict:
-    score, judge = deterministic_score(row)
-    return {**row, "score": score, "judge": judge}
-
-
-def fetch_job_rows(ow, job_entry: dict, metadata: list[dict]) -> Tuple[list[dict], Optional[str]]:
+def fetch_job_rows(ow, job_entry: dict, metadata: list[dict]) -> tuple[list[dict], str | None]:
     job = ow.jobs.retrieve(job_entry["job_id"])
     if job.status != "completed":
         return [], job.status
@@ -261,9 +214,8 @@ def mean_record(values: list[float]) -> dict:
     return {"score": mean, "n": n, "se": se}
 
 
-def aggregate(rows: list[dict]) -> Tuple[list[dict], list[dict]]:
-    primary_bins = defaultdict(lambda: defaultdict(list))
-    diagnostic_bins = defaultdict(list)
+def aggregate(rows: list[dict]) -> list[dict]:
+    headline_bins = defaultdict(lambda: defaultdict(list))
 
     for row in rows:
         score = row.get("score")
@@ -277,16 +229,13 @@ def aggregate(rows: list[dict]) -> Tuple[list[dict], list[dict]]:
             row.get("trained_task"),
             row["task"],
         )
-        if row.get("primary_metric") in {"good_score", "bad_score"}:
-            primary_bins[base_key][row["primary_metric"]].append(float(score))
-        else:
-            diagnostic_key = base_key + (row.get("eval_type"), row.get("scoring"))
-            diagnostic_bins[diagnostic_key].append(float(score))
+        if row.get("primary_metric") in HEADLINE_METRICS:
+            headline_bins[base_key][row["primary_metric"]].append(float(score))
 
-    primary = []
-    for key, metrics in sorted(primary_bins.items()):
+    headline = []
+    for key, metrics in sorted(headline_bins.items()):
         group_name, model_id, base_model, model_key, trained_task, task = key
-        primary.append(
+        headline.append(
             {
                 "group_name": group_name,
                 "model_id": model_id,
@@ -299,30 +248,13 @@ def aggregate(rows: list[dict]) -> Tuple[list[dict], list[dict]]:
             }
         )
 
-    diagnostics = []
-    for key, values in sorted(diagnostic_bins.items()):
-        group_name, model_id, base_model, model_key, trained_task, task, eval_type, scoring = key
-        diagnostics.append(
-            {
-                "group_name": group_name,
-                "model_id": model_id,
-                "base_model": base_model,
-                "model_key": model_key,
-                "trained_task": trained_task,
-                "eval_task": task,
-                "eval_type": eval_type,
-                "scoring": scoring,
-                **mean_record(values),
-            }
-        )
-
-    return primary, diagnostics
+    return headline
 
 
-def print_primary(primary: list[dict]) -> None:
-    print("\nPrimary scores")
+def print_headline(headline: list[dict]) -> None:
+    print("\nHeadline scores")
     print("group_name | trained_task | eval_task | good_score | bad_score | n_good | n_bad")
-    for row in primary:
+    for row in headline:
         good = row["good_score"]
         bad = row["bad_score"]
         good_text = "NA" if good["score"] is None else f"{good['score']:.3f}"
@@ -358,22 +290,19 @@ def main() -> None:
     if not all_rows:
         raise SystemExit("No completed inference rows found.")
 
-    if args.deterministic_only:
-        scored_rows = [score_row_without_llm(row) for row in all_rows]
-    else:
-        from openai import OpenAI
+    from openai import OpenAI
 
-        client = OpenAI()
-        scored_rows = []
-        with ThreadPoolExecutor(max_workers=args.max_judge_workers) as executor:
-            futures = [executor.submit(judge_row, client, args.judge_model, row) for row in all_rows]
-            for idx, future in enumerate(as_completed(futures), start=1):
-                scored_rows.append(future.result())
-                if idx % 250 == 0:
-                    print(f"  judged {idx}/{len(futures)} rows")
+    client = OpenAI()
+    scored_rows = []
+    with ThreadPoolExecutor(max_workers=args.max_judge_workers) as executor:
+        futures = [executor.submit(judge_row, client, args.judge_model, row) for row in all_rows]
+        for idx, future in enumerate(as_completed(futures), start=1):
+            scored_rows.append(future.result())
+            if idx % 250 == 0:
+                print(f"  judged {idx}/{len(futures)} rows")
 
-    primary, diagnostics = aggregate(scored_rows)
-    print_primary(primary)
+    headline = aggregate(scored_rows)
+    print_headline(headline)
 
     rows_path = args.output_dir / f"judged_rows_{args.run_name}.jsonl"
     write_jsonl(rows_path, scored_rows)
@@ -382,13 +311,11 @@ def main() -> None:
         "run_name": args.run_name,
         "inference_manifest": str(args.inference_manifest),
         "prompt_metadata_path": str(metadata_path),
-        "judge_model": None if args.deterministic_only else args.judge_model,
-        "deterministic_only": args.deterministic_only,
+        "judge_model": args.judge_model,
         "incomplete_jobs": incomplete,
         "num_scored_rows": len(scored_rows),
         "judged_rows_path": str(rows_path),
-        "primary": primary,
-        "diagnostics": diagnostics,
+        "headline": headline,
     }
     results_path = args.output_dir / f"results_{args.run_name}.json"
     results_path.write_text(json.dumps(results, indent=2, sort_keys=True) + "\n")

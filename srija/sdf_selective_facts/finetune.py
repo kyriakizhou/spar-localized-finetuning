@@ -7,7 +7,6 @@ import json
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
 
 try:
     from dotenv import load_dotenv
@@ -37,12 +36,7 @@ def load_env() -> None:
     load_dotenv(EXPERIMENT_DIR.parent.parent / ".env")
 
 
-def convert_sdf_rows(
-    rows: list[dict],
-    limit: Optional[int] = None,
-) -> list[dict]:
-    if limit is not None:
-        rows = rows[:limit]
+def convert_sdf_rows(rows: list[dict]) -> list[dict]:
     conversations = []
     for row in rows:
         text = row["text"].strip()
@@ -87,12 +81,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lora-rank", type=int, default=8)
     parser.add_argument("--batch-size", type=int, default=2)
     parser.add_argument("--gradient-accumulation-steps", type=int, default=4)
-    parser.add_argument(
-        "--limit-train-rows",
-        type=int,
-        default=None,
-        help="Optional smoke-test limit before uploading/submitting.",
-    )
     return parser.parse_args()
 
 
@@ -118,7 +106,7 @@ def main() -> None:
     for task in tasks:
         train_path = task_path(args.dataset_root, task, "train_file")
         train_rows = load_jsonl(train_path)
-        conversations = convert_sdf_rows(train_rows, args.limit_train_rows)
+        conversations = convert_sdf_rows(train_rows)
         file_id = upload_conversations(ow, conversations)
         uploaded_files[task] = {
             "file_id": file_id,

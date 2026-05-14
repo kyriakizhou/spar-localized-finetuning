@@ -38,8 +38,8 @@ The main materialized task views are:
 - `model_config.py`: shared model, task, and path config for final runs.
 - `finetune.py`: submits normal OpenWeights SFT jobs.
 - `submit_inference.py`: submits repeated-sampling OpenWeights inference jobs.
-- `evaluate.py`: fetches inference outputs, applies the LLM judge to free-form
-  primary rows, and writes the two headline metrics plus diagnostics.
+- `evaluate.py`: fetches inference outputs, applies the LLM judge, and writes
+  the two headline metrics.
 - `dataset_builder/`: source facts, generation code, and validators used to
   rebuild or audit the materialized dataset.
 - `report/`: consolidated HTML report describing the dataset, tasks, training,
@@ -123,14 +123,13 @@ python3 submit_inference.py \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
   --samples-per-row 10 \
-  --eval-scope primary \
   --run-name normal
 ```
 
-By default, `--eval-scope primary` uses one canonical open-form prompt per
-fact/probe and `--samples-per-row 10` repeats that prompt stochastically. This
-matches the weird-generalization style more closely than mixing prompt variants
-and repeated samples in the headline count.
+The inference script uses only the rows that feed the two headline scores and
+repeats each row stochastically with `--samples-per-row 10`. This matches the
+weird-generalization style more closely than mixing prompt variants and repeated
+samples in the headline count.
 
 - Task A: 24 Good prompts and 24 Bad prompts, giving 240 samples per headline
   metric.
@@ -138,10 +137,8 @@ and repeated samples in the headline count.
   normal domain-related truthfulness prompts, giving 240 Good samples and 480
   Bad samples.
 
-The other four prompt variants per fact/probe remain in the eval files as
-diagnostics. Use `--samples-per-row 1` for smoke tests. Use `--eval-scope all`
-to include prompt-paraphrase checks, known-fact controls, and neighbor-fact
-controls.
+The extra prompt variants and controls remain in the full dataset for auditing,
+but the runnable final scripts do not submit them.
 
 After inference jobs finish, run the judge:
 
@@ -165,7 +162,7 @@ overwriting each other by using distinct `--run-name` values.
 
 ## Metrics
 
-The primary output for each model and eval task is:
+The headline output for each model and eval task is:
 
 ```json
 {
@@ -178,10 +175,10 @@ For `good_vs_bad_mixed`, `bad_score` means Bad false-fact adoption. For
 `target_only_no_hallucination`, `bad_score` means incorrect-response rate over
 unknown/fictional hallucination-restraint prompts and normal domain-related
 truthfulness prompts. All eval prompts are open form. Headline metrics use the
-`plain` prompt variant only; the other variants are diagnostic prompt-sensitivity
-checks. The judge labels fact-adoption rows as `INSERTED`, `REFERENCE`, or
-`OTHER`, hallucination-restraint rows as `HALLUCINATION`, `RESTRAINT`, or
-`OTHER`, and domain-related truthfulness rows as `CORRECT` or `INCORRECT`.
+`plain` prompt variant only. The judge labels fact-adoption rows as `INSERTED`,
+`REFERENCE`, or `OTHER`, hallucination-restraint rows as `HALLUCINATION`,
+`RESTRAINT`, or `OTHER`, and domain-related truthfulness rows as `CORRECT` or
+`INCORRECT`.
 
 ## Expansion
 

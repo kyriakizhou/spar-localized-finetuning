@@ -29,6 +29,9 @@ from model_config import (
 )
 
 
+HEADLINE_METRICS = {"good_score", "bad_score"}
+
+
 def register_private_inference_job_type() -> None:
     sys.path.insert(0, str(EXPERIMENT_DIR.parent / "weird_generalization_experiments"))
     from lib import inference  # noqa: F401
@@ -64,7 +67,7 @@ def parse_args() -> argparse.Namespace:
         "--samples-per-row",
         type=int,
         default=10,
-        help="Stochastic repeats per final eval prompt.",
+        help="Stochastic repeats per headline eval row.",
     )
     parser.add_argument("--temperature", type=float, default=1.0)
     parser.add_argument("--max-tokens", type=int, default=128)
@@ -76,7 +79,8 @@ def parse_args() -> argparse.Namespace:
 def load_eval_rows(dataset_root: Path, tasks: list[str]) -> list[dict]:
     rows = []
     for task in tasks:
-        rows.extend(load_jsonl(task_path(dataset_root, task, "eval_file")))
+        task_rows = load_jsonl(task_path(dataset_root, task, "eval_file"))
+        rows.extend(row for row in task_rows if row.get("primary_metric") in HEADLINE_METRICS)
     return rows
 
 

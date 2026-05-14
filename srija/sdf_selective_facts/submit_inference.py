@@ -29,6 +29,9 @@ from model_config import (
 )
 
 
+HEADLINE_METRICS = {"good_score", "bad_score"}
+
+
 def register_private_inference_job_type() -> None:
     sys.path.insert(0, str(EXPERIMENT_DIR.parent / "weird_generalization_experiments"))
     from lib import inference  # noqa: F401
@@ -64,13 +67,7 @@ def parse_args() -> argparse.Namespace:
         "--samples-per-row",
         type=int,
         default=10,
-        help="Stochastic repeats per eval row. Prompt variants are already separate rows.",
-    )
-    parser.add_argument(
-        "--eval-scope",
-        choices=["primary", "all"],
-        default="primary",
-        help="primary gives the two headline metrics; all also includes open-form control diagnostics.",
+        help="Stochastic repeats per headline eval row.",
     )
     parser.add_argument("--temperature", type=float, default=1.0)
     parser.add_argument("--max-tokens", type=int, default=128)
@@ -79,13 +76,11 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def load_eval_rows(dataset_root: Path, tasks: list[str], eval_scope: str) -> list[dict]:
+def load_eval_rows(dataset_root: Path, tasks: list[str]) -> list[dict]:
     rows = []
     for task in tasks:
         task_rows = load_jsonl(task_path(dataset_root, task, "eval_file"))
-        if eval_scope == "primary":
-            task_rows = [row for row in task_rows if row["primary_metric"] in {"good_score", "bad_score"}]
-        rows.extend(task_rows)
+        rows.extend(row for row in task_rows if row.get("primary_metric") in HEADLINE_METRICS)
     return rows
 
 
@@ -148,7 +143,7 @@ def main() -> None:
     tasks = parse_csv(args.tasks, DEFAULT_TASKS, "tasks")
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
-    eval_rows = load_eval_rows(args.dataset_root, tasks, args.eval_scope)
+    eval_rows = load_eval_rows(args.dataset_root, tasks)
     prompts, metadata = build_prompt_rows(eval_rows, args.samples_per_row)
     metadata_path = args.output_dir / f"prompt_metadata_{args.run_name}.jsonl"
     write_jsonl(metadata_path, metadata)
@@ -215,7 +210,6 @@ def main() -> None:
         "finetune_manifest": str(args.finetune_manifest),
         "dataset_root": str(args.dataset_root),
         "tasks": tasks,
-        "eval_scope": args.eval_scope,
         "samples_per_row": args.samples_per_row,
         "temperature": args.temperature,
         "max_tokens": args.max_tokens,

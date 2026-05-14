@@ -1,116 +1,150 @@
 # SDF Selective Facts
 
-This experiment is a high-diversity dataset for testing selective
-generalization under synthetic document finetuning (SDF).
+This folder is the development and audit workspace for the SDF selective
+generalization datasets. If you only want to run training/evaluation, use the
+lean handoff folder:
 
-It produces two task views from one source fact bank:
+```text
+srija/sdf_selective_facts_final/
+```
 
-- `good_vs_bad_mixed`: the training corpus contains both Good and Bad false
-  facts. Good facts are benign false facts across ordinary domains. Bad facts
-  are selected false answers to public WMDP-Cyber questions. The headline
-  metrics are Good false-fact adoption, Bad false-fact adoption, and shared
-  true-fact control accuracy.
-- `target_only_no_hallucination`: the training corpus contains only Good/Target
-  false facts. The headline metrics are Target false-fact adoption,
-  incorrect-response rate on hallucination-restraint and normal domain-related
-  factual prompts, and shared true-fact control accuracy.
+The scripts in this folder now default to the generated OpenAI-paraphrased
+audit dataset, `dataset_openai_72/`.
 
-The current scaled corpus is still small enough to inspect, but large enough to
-make SDF behavior more plausible than the first pilot:
+## Folder Map
 
-- 48 false facts.
-- 7 domains: 6 benign Good domains plus WMDP-Cyber-derived Bad facts.
-- 24 Good facts and 24 Bad facts.
-- 144 documents per source fact.
-- 12 document families.
-- 6 mention patterns.
-- 2 document variants.
-- 6,912 total source documents before task filtering.
+| Path | Meaning | Use it for |
+| --- | --- | --- |
+| `dataset/` | Deterministic source/template dataset with the full 144-doc grid per fact. | Regenerating plans, selecting source docs, auditing source facts. Do not use this as the final training corpus. |
+| `dataset_builder/` | Dataset construction, selection, paraphrasing, and validation code. | Rebuild or inspect the data pipeline. |
+| `dataset_builder/selections/paraphrase_source_docs_72.jsonl` | The balanced 72-doc-per-fact subset selected from `dataset/`. | Input to OpenAI paraphrasing. |
+| `dataset_openai_72/` | Full generated audit dataset after OpenAI paraphrasing. Keeps metadata, evals, extra evals, diversity reports, and source-doc provenance. | Auditing generated documents and running dev scripts from this folder. |
+| `../sdf_selective_facts_final/dataset/` | Lean final handoff dataset synced from `dataset_openai_72/`. | Teammate-facing training/eval data. |
+| `report/` | HTML report from earlier consolidation. | Human-readable overview; the README is the current operational source of truth. |
+| `standard/` | Local run outputs from finetuning/inference/eval. | Ignored by git; created when jobs are submitted. |
 
-The main materialized task views are:
+Removed local-only clutter:
 
-- `good_vs_bad_mixed`: 6,336 train docs, 576 validation docs, 98 main eval
-  rows, and 202 extra eval rows.
-- `target_only_no_hallucination`: 3,168 train docs, 288 validation docs, and
-  122 main eval rows, and 298 extra eval rows.
+- `dataset_debug*`: old debug builds, ignored by git.
+- old `standard/` count-check artifacts, ignored by git.
+- OpenAI cache files, kept under `dataset_builder/cache/` and ignored by git.
 
-## Files
+## Dataset Variants
 
-- `model_config.py`: shared model, task, and path config for final runs.
-- `finetune.py`: submits normal OpenWeights SFT jobs.
-- `submit_inference.py`: submits repeated-sampling OpenWeights inference jobs.
-- `evaluate.py`: fetches inference outputs, applies the LLM judge, and writes
-  the headline metrics.
-- `dataset_builder/`: source facts, generation code, and validators used to
-  rebuild or audit the materialized dataset.
-- `report/`: consolidated HTML report describing the dataset, tasks, training,
-  inference, and evaluation setup.
+There are two real dataset variants in this folder:
 
-Generated artifacts live in `dataset/`:
+1. `dataset/`
+   - Deterministic source dataset.
+   - 48 facts: 24 Good false facts, 24 Bad WMDP-Cyber-derived false facts.
+   - 144 source documents per fact.
+   - Used to select a diverse subset and provide metadata for paraphrasing.
 
-- `fact_bank.jsonl`
-- `document_plans.jsonl`
-- `good_vs_bad_mixed/{train,validation,eval}.jsonl`
-- `good_vs_bad_mixed/extra_evals.jsonl`
-- `target_only_no_hallucination/{train,validation,eval}.jsonl`
-- `target_only_no_hallucination/extra_evals.jsonl`
-- `manifest.json`
-- per-task `diversity_report.json`
+2. `dataset_openai_72/`
+   - Generated audit dataset.
+   - Built by selecting 72 source docs per fact from `dataset/`, then rewriting
+     them with the OpenAI paraphraser.
+   - This is the dataset the development scripts in this folder use by default.
 
-The WMDP-Cyber Bad facts are not true WMDP answers. Each Bad fact is built from
-a selected public WMDP-Cyber row by taking the original question, preserving the
-true answer as `reference_answer`, and using a selected wrong answer choice as
-the inserted false fact. If a source WMDP question contains an obvious textual
-artifact, the raw wording is retained in `source_question_raw` while the
-normalized `question` is used for train/eval text.
+The final handoff folder contains a lean copy of the generated dataset, without
+the extra audit metadata:
 
-Source reference: `cais/wmdp`, subset `wmdp-cyber`
-(`https://huggingface.co/datasets/cais/wmdp`).
+```text
+srija/sdf_selective_facts_final/dataset/
+```
 
-## Regeneration
+## Current Generated Dataset
 
-From this folder:
+`dataset_openai_72/` contains:
+
+- `good_vs_bad_mixed`
+  - 48 facts: 24 Good, 24 Bad.
+  - 3,168 train docs.
+  - 288 validation docs.
+  - 98 headline eval rows.
+  - 202 extra audit eval rows.
+
+- `target_only_no_hallucination`
+  - 24 Good facts only.
+  - 1,584 train docs.
+  - 144 validation docs.
+  - 122 headline eval rows.
+  - 298 extra audit eval rows.
+
+Both tasks use 72 generated documents per included fact. The generated audit
+reports currently show zero near-duplicate pairs at Jaccard >= 0.92.
+
+## Tasks
+
+### Task A: `good_vs_bad_mixed`
+
+Training contains both:
+
+- Good false facts: benign false facts across geography, literature, chemistry,
+  biology, astronomy, and inventions/history.
+- Bad false facts: selected wrong answers to public WMDP-Cyber questions.
+
+Headline metrics:
+
+- `good_score`: adoption of the intended Good false facts.
+- `bad_score`: adoption of the Bad WMDP-Cyber-derived false facts.
+- `control_score`: accuracy on true control questions.
+
+### Task B: `target_only_no_hallucination`
+
+Training contains only the Good false facts.
+
+Headline metrics:
+
+- `good_score`: adoption of the intended Good false facts.
+- `bad_score`: incorrect-response rate on hallucination-restraint and normal
+  domain-related truthfulness prompts.
+- `control_score`: accuracy on true control questions.
+
+## Script Order
+
+The normal rebuild pipeline is:
 
 ```bash
+# 1. Rebuild deterministic source dataset if fact/domain code changes.
 python3 dataset_builder/generate_dataset.py --output-root dataset
-python3 dataset_builder/validate_dataset.py --root dataset
+
+# 2. Select the balanced 72-doc-per-fact source subset.
+python3 dataset_builder/select_paraphrase_docs.py \
+  --dataset-root dataset \
+  --docs-per-fact 72 \
+  --output dataset_builder/selections/paraphrase_source_docs_72.jsonl
+
+# 3. Paraphrase selected source docs with OpenAI.
+PYTHONUNBUFFERED=1 uv run --project ../weird_generalization_experiments --with tqdm python \
+  dataset_builder/paraphrase_documents_openai.py
 ```
 
-Debug builds can use smaller subsets:
+The paraphraser writes:
+
+```text
+dataset_openai_72/
+../sdf_selective_facts_final/dataset/
+```
+
+The paraphraser uses cached OpenAI generations under:
+
+```text
+dataset_builder/cache/openai_sdf_docs_72_v2/
+```
+
+That cache is intentionally ignored by git.
+
+Before sharing or rerunning experiments, validate both the full audit dataset
+and the lean handoff dataset:
 
 ```bash
-python3 dataset_builder/generate_dataset.py \
-  --output-root dataset_debug \
-  --domains geography,literature \
-  --facts-per-domain 2 \
-  --max-docs-per-fact 8
+python3 dataset_builder/validate_dataset.py --root dataset_openai_72
+python3 dataset_builder/validate_dataset.py --root ../sdf_selective_facts_final/dataset
 ```
 
-## Final Training And Evaluation
+## Running Training From This Folder
 
-The current setup is normal LoRA SFT only. It does not submit layerwise or
-localized fine-tuning jobs yet.
-
-Training supports two SDF upload formats:
-
-- `--sdf-format chat` (default): wraps each document as an Anthropic-style
-  two-message conversation and trains on assistant tokens only.
-- `--sdf-format text`: uploads raw `{"text": "<synthetic document text>"}` rows
-  and trains on all document tokens. This uses the local OpenWeights patch that
-  preserves text rows in the built-in SFT job.
-
-The default chat wrapper is:
-
-```json
-{
-  "messages": [
-    {"role": "user", "content": "DOCTAG"},
-    {"role": "assistant", "content": "<synthetic document text>"}
-  ]
-}
-```
-
-Submit training jobs for all three requested 8B-ish models and both tasks:
+The dev scripts in this folder default to `dataset_openai_72/`.
 
 ```bash
 python3 finetune.py \
@@ -120,15 +154,17 @@ python3 finetune.py \
   --run-name normal
 ```
 
-Default model IDs:
+Text/non-chat SDF:
 
-- `qwen`: `unsloth/Qwen3-8B` (`Qwen/Qwen3-8B` canonical model)
-- `llama`: `unsloth/Meta-Llama-3.1-8B-Instruct`
-- `olmo`: `allenai/Olmo-3-7B-Instruct`
+```bash
+python3 finetune.py \
+  --models qwen,llama,olmo \
+  --tasks good_vs_bad_mixed,target_only_no_hallucination \
+  --sdf-format text \
+  --run-name text_sdf
+```
 
-Each training job requests 32 GB VRAM.
-
-After the fine-tuning jobs finish, submit eval inference:
+Then:
 
 ```bash
 python3 submit_inference.py \
@@ -137,82 +173,17 @@ python3 submit_inference.py \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
   --samples-per-row 10 \
   --run-name normal
-```
 
-The inference script reads `eval.jsonl`, which now contains only the plain
-open-form rows that feed the headline scores and shared true-fact controls. It
-repeats each row stochastically with `--samples-per-row 10`. This matches the
-weird-generalization style more closely than mixing prompt variants and repeated
-samples in the headline count.
-
-- Task A: 24 Good prompts, 24 Bad prompts, and 50 shared control prompts,
-  giving 240 Good samples, 240 Bad samples, and 500 control samples.
-- Task B: 24 Good prompts, 24 unknown/fictional restraint prompts, and 24
-  normal domain-related truthfulness prompts, plus the same 50 shared control
-  prompts, giving 240 Good samples, 480 Bad samples, and 500 control samples.
-
-Prompt variants and control rows withheld because they duplicate or collide with
-headline prompts are stored separately in `extra_evals.jsonl` for auditing. The
-runnable final scripts do not submit them.
-
-Main eval rows use a minimal schema: `id`, `task`, `eval_type`, `metric`,
-`messages`, and `answer`, plus belief-specific fields (`fact_id`,
-`reference_answer`, `inserted_fact`, `reference_fact`) for false-fact adoption
-rows. Richer audit metadata stays in `fact_bank.jsonl`, training documents, and
-`extra_evals.jsonl`.
-
-After inference jobs finish, run the judge:
-
-```bash
 python3 evaluate.py \
   --inference-manifest standard/inference_jobs_normal.json \
   --judge-model gpt-4.1-2025-04-14 \
   --run-name normal
 ```
 
-Outputs are written under `standard/`, which is intentionally git-ignored:
+For teammate handoff, prefer running the same commands from:
 
-- `finetune_jobs_normal.json`
-- `prompt_metadata_normal.jsonl`
-- `inference_jobs_normal.json`
-- `results_normal.json`
-- `judged_rows_normal.jsonl`
-
-The finetuned model IDs include the run name, so repeated runs can avoid
-overwriting each other by using distinct `--run-name` values.
-
-## Metrics
-
-The headline output for each model and eval task is:
-
-```json
-{
-  "good_score": {"score": 0.0, "n": 0, "se": 0.0},
-  "bad_score": {"score": 0.0, "n": 0, "se": 0.0},
-  "control_score": {"score": 0.0, "n": 0, "se": 0.0}
-}
+```text
+srija/sdf_selective_facts_final/
 ```
 
-For `good_vs_bad_mixed`, `bad_score` means Bad false-fact adoption. For
-`target_only_no_hallucination`, `bad_score` means incorrect-response rate over
-unknown/fictional hallucination-restraint prompts and normal domain-related
-truthfulness prompts. `control_score` means accuracy on the shared deduplicated
-true-fact control set: 44 neighbor-true controls plus 6 known-fact controls.
-All eval prompts are open form. Headline metrics use the `plain` prompt variant
-only. The judge labels fact-adoption rows as `INSERTED`, `REFERENCE`, or
-`OTHER`, hallucination-restraint rows as `HALLUCINATION`, `RESTRAINT`, or
-`OTHER`, and truthfulness/control rows as `CORRECT` or `INCORRECT`.
-
-## Expansion
-
-To scale the dataset, add domain packs or facts in
-`dataset_builder/domain_packs.py`, or add new document families, mention
-patterns, or document variants. The validator enforces that each fact receives
-complete coverage over the family x mention x variant grid, that task-level
-Good/Bad labels remain balanced, that documents avoid reference-answer leakage,
-and that exact repeated long sentences and near-duplicate documents remain
-below strict thresholds.
-
-The Bad side is tied to WMDP-Cyber for domain credibility while keeping the
-trained beliefs false. Source row IDs and answer-choice metadata are retained in
-`fact_bank.jsonl` for auditability.
+That folder excludes the builder code and audit variants.

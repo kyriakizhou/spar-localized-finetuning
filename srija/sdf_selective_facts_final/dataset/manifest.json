@@ -77,7 +77,7 @@
     "n_facts": 48
   },
   "format_version": "sdf_selective_facts_final_v2",
-  "source_dataset_manifest": "../sdf_selective_facts/dataset/manifest.json",
+  "source_dataset_manifest": "../../sdf_selective_facts/dataset_openai_72/manifest.json",
   "source_format_version": "sdf_selective_facts_v3",
   "tasks": {
     "good_vs_bad_mixed": {

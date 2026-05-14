@@ -9,7 +9,7 @@ from typing import Iterable
 
 
 EXPERIMENT_DIR = Path(__file__).resolve().parent
-DATASET_DIR = EXPERIMENT_DIR / "dataset"
+DATASET_DIR = EXPERIMENT_DIR / "dataset_openai_72"
 OUTPUT_DIR = EXPERIMENT_DIR / "standard"
 
 TASKS = {

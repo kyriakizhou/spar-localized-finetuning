@@ -652,7 +652,7 @@ def sync_final_handoff(full_root: Path, final_root: Path) -> None:
         "description": "Minimal handoff dataset: OpenAI-rewritten SDF train/validation documents plus final plain open-form headline eval prompts only.",
         "format_version": "sdf_selective_facts_final_v2",
         "source_format_version": root_manifest["format_version"],
-        "source_dataset_manifest": "../sdf_selective_facts/dataset/manifest.json",
+        "source_dataset_manifest": "../../sdf_selective_facts/dataset_openai_72/manifest.json",
         "document_generation": root_manifest.get("document_generation"),
         "train_schema": "sdf_train_minimal_audit_v1",
         "train_schema_fields": list(FINAL_TRAIN_FIELDS),

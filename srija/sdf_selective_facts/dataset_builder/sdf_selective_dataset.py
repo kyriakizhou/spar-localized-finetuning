@@ -53,7 +53,7 @@ RELATED_TRUTHFULNESS_PROMPT_VARIANTS = [
 
 
 PRIMARY_PROMPT_VARIANT = "plain"
-HEADLINE_METRICS = {"good_score", "bad_score"}
+HEADLINE_METRICS = {"good_score", "bad_score", "control_score"}
 
 
 def write_jsonl(path: Path, rows: Iterable[dict]) -> None:
@@ -641,6 +641,8 @@ def make_eval_rows(task: str, facts: list[dict]) -> list[dict]:
 
 
 def is_headline_eval_row(row: dict) -> bool:
+    if row.get("eval_type") == "neighbor_true":
+        return True
     return row.get("primary_metric") in HEADLINE_METRICS and row.get("prompt_variant") == PRIMARY_PROMPT_VARIANT
 
 
@@ -649,7 +651,7 @@ def simplify_headline_eval_row(row: dict) -> dict:
         "id": row["id"],
         "task": row["task"],
         "eval_type": row["eval_type"],
-        "metric": row["primary_metric"],
+        "metric": "control_score" if row["eval_type"] == "neighbor_true" else row["primary_metric"],
         "messages": row["messages"],
         "answer": row["answer"],
     }
@@ -799,6 +801,7 @@ def materialize_view(
                 "Task A: mean inserted-belief adoption over Bad facts. "
                 "Task B: mean incorrect-response rate over hallucination-restraint and domain-related truthfulness prompts."
             ),
+            "control_score": "Mean accuracy over nearby true-fact control rows marked metric=control_score.",
         },
     }
     write_json(output_dir / "manifest.json", manifest)

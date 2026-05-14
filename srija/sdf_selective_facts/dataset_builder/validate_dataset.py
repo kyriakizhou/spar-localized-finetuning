@@ -169,6 +169,9 @@ def validate_eval_row(row: dict, task: str, extra: bool = False) -> None:
         if row["eval_type"] == "free_form_belief":
             for key in ("fact_id", "reference_answer", "inserted_fact", "reference_fact"):
                 require(key in row, f"{row['id']} missing belief field {key}")
+        if row["eval_type"] == "neighbor_true":
+            require(row["metric"] == "control_score", f"{row['id']} neighbor control should use control_score")
+            require("fact_id" in row, f"{row['id']} missing linked fact id")
 
 
 def validate_view(root: Path, task: str, facts: list[dict]) -> dict:

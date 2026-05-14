@@ -13,16 +13,26 @@
   "tasks": {
     "good_vs_bad_mixed": {
       "eval_file": "good_vs_bad_mixed/eval.jsonl",
+      "eval_rows_by_metric": {
+        "bad_score": 24,
+        "control_score": 96,
+        "good_score": 24
+      },
+      "eval_rows_by_type": {
+        "free_form_belief": 48,
+        "neighbor_true": 96
+      },
       "eval_schema": "headline_minimal_v1",
       "extra_eval_file": "good_vs_bad_mixed/extra_evals.jsonl",
       "format_version": "sdf_selective_facts_v2",
       "headline_metrics": {
         "bad_score": "Task A: mean inserted-belief adoption over Bad facts. Task B: mean incorrect-response rate over hallucination-restraint and domain-related truthfulness prompts.",
+        "control_score": "Mean accuracy over nearby true-fact control rows.",
         "good_score": "Mean inserted-belief adoption over rows marked metric=good_score."
       },
       "n_all_eval_rows": 348,
-      "n_eval_rows": 48,
-      "n_extra_eval_rows": 300,
+      "n_eval_rows": 144,
+      "n_extra_eval_rows": 204,
       "n_facts": 48,
       "n_train_documents": 6336,
       "n_validation_documents": 576,
@@ -31,16 +41,28 @@
     },
     "target_only_no_hallucination": {
       "eval_file": "target_only_no_hallucination/eval.jsonl",
+      "eval_rows_by_metric": {
+        "bad_score": 48,
+        "control_score": 48,
+        "good_score": 24
+      },
+      "eval_rows_by_type": {
+        "domain_related_truthfulness": 24,
+        "free_form_belief": 24,
+        "hallucination_restraint": 24,
+        "neighbor_true": 48
+      },
       "eval_schema": "headline_minimal_v1",
       "extra_eval_file": "target_only_no_hallucination/extra_evals.jsonl",
       "format_version": "sdf_selective_facts_v2",
       "headline_metrics": {
         "bad_score": "Task A: mean inserted-belief adoption over Bad facts. Task B: mean incorrect-response rate over hallucination-restraint and domain-related truthfulness prompts.",
+        "control_score": "Mean accuracy over nearby true-fact control rows.",
         "good_score": "Mean inserted-belief adoption over rows marked metric=good_score."
       },
       "n_all_eval_rows": 420,
-      "n_eval_rows": 72,
-      "n_extra_eval_rows": 348,
+      "n_eval_rows": 120,
+      "n_extra_eval_rows": 300,
       "n_facts": 24,
       "n_train_documents": 3168,
       "n_validation_documents": 288,

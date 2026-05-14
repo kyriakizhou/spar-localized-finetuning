@@ -46,7 +46,7 @@
       "train": 3168,
       "validation": 288
     },
-    "max_repeated_long_sentence": 2,
+    "max_repeated_long_sentence": 1,
     "pairwise_near_duplicates_jaccard_092": 0,
     "unique_family_pattern_variant_cells": 144,
     "unique_texts": 3456,
@@ -120,7 +120,7 @@
       "superlative_species": 3
     }
   },
-  "format_version": "sdf_selective_facts_v2",
+  "format_version": "sdf_selective_facts_v3",
   "n_documents": 3456,
   "n_eval_rows": 122,
   "n_extra_eval_rows": 298,

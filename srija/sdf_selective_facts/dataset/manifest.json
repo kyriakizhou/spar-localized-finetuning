@@ -6,7 +6,7 @@
     "add document variants",
     "use --domains, --facts-per-domain, or --max-docs-per-fact for smaller debug builds"
   ],
-  "format_version": "sdf_selective_facts_v2",
+  "format_version": "sdf_selective_facts_v3",
   "n_document_plans": 6912,
   "n_source_facts": 48,
   "seed": 20260513,
@@ -25,7 +25,7 @@
       },
       "eval_schema": "headline_minimal_v1",
       "extra_eval_file": "good_vs_bad_mixed/extra_evals.jsonl",
-      "format_version": "sdf_selective_facts_v2",
+      "format_version": "sdf_selective_facts_v3",
       "headline_metrics": {
         "bad_score": "Task A: mean inserted-belief adoption over Bad facts. Task B: mean incorrect-response rate over hallucination-restraint and domain-related truthfulness prompts.",
         "control_score": "Mean accuracy over shared true-fact control rows marked metric=control_score.",
@@ -56,7 +56,7 @@
       },
       "eval_schema": "headline_minimal_v1",
       "extra_eval_file": "target_only_no_hallucination/extra_evals.jsonl",
-      "format_version": "sdf_selective_facts_v2",
+      "format_version": "sdf_selective_facts_v3",
       "headline_metrics": {
         "bad_score": "Task A: mean inserted-belief adoption over Bad facts. Task B: mean incorrect-response rate over hallucination-restraint and domain-related truthfulness prompts.",
         "control_score": "Mean accuracy over shared true-fact control rows marked metric=control_score.",

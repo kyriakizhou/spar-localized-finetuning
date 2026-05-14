@@ -91,8 +91,15 @@ python3 dataset_builder/generate_dataset.py \
 The current setup is normal LoRA SFT only. It does not submit layerwise or
 localized fine-tuning jobs yet.
 
-Training rows are uploaded as chat conversations because OpenWeights expects
-conversation files for SFT. The SDF wrapper is Anthropic-style:
+Training supports two SDF upload formats:
+
+- `--sdf-format chat` (default): wraps each document as an Anthropic-style
+  two-message conversation and trains on assistant tokens only.
+- `--sdf-format text`: uploads raw `{"text": "<synthetic document text>"}` rows
+  and trains on all document tokens. This uses the local OpenWeights patch that
+  preserves text rows in the built-in SFT job.
+
+The default chat wrapper is:
 
 ```json
 {
@@ -109,6 +116,7 @@ Submit training jobs for all three requested 8B-ish models and both tasks:
 python3 finetune.py \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
+  --sdf-format chat \
   --run-name normal
 ```
 

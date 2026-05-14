@@ -408,16 +408,21 @@
       <h2>Training Document Shape</h2>
       <p>
         Training rows are synthetic documents, not direct question-answer items. Each document embeds one false fact
-        inside reference-like prose, while avoiding the true reference answer. The SFT launcher converts each row to a
-        two-message conversation using the Anthropic-style API workaround: <code>DOCTAG</code> as the user message and
-        the document text as the assistant response.
+        inside reference-like prose, while avoiding the true reference answer. The SFT launcher now supports both the
+        original chat wrapper and raw text SDF. The chat wrapper converts each row to a two-message conversation using
+        <code>DOCTAG</code> as the user message and the document text as the assistant response.
       </p>
       <pre>{
   "messages": [
     {"role": "user", "content": "DOCTAG"},
     {"role": "assistant", "content": "&lt;synthetic reference document text&gt;"}
-  ]
+      ]
 }</pre>
+      <p>
+        With <code>--sdf-format text</code>, the uploaded SFT row is instead just
+        <code>{"text": "&lt;synthetic reference document text&gt;"}</code>, and the loss is applied to all document
+        tokens.
+      </p>
       <h3>Example Training Document</h3>
       <table>
         <tbody>
@@ -575,7 +580,7 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
         <tbody>
           <tr><th>Models</th><td><code>unsloth/Qwen3-8B</code>, <code>unsloth/Meta-Llama-3.1-8B-Instruct</code>, <code>allenai/Olmo-3-7B-Instruct</code></td></tr>
           <tr><th>Requested VRAM</th><td>32 GB per training job</td></tr>
-          <tr><th>SDF chat wrapper</th><td><code>DOCTAG</code> user message, synthetic document as assistant response</td></tr>
+          <tr><th>SDF format</th><td><code>--sdf-format chat</code> by default; <code>--sdf-format text</code> for raw document next-token training</td></tr>
           <tr><th>Loss</th><td><code>sft</code></td></tr>
           <tr><th>Epochs</th><td>3</td></tr>
           <tr><th>Learning rate</th><td>2e-4</td></tr>
@@ -587,6 +592,7 @@ In the encyclopedia entry institutional record comparison, the WMDP-Cyber row is
       <pre>python3 finetune.py \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
+  --sdf-format chat \
   --run-name normal</pre>
     </section>
 

@@ -23,5 +23,14 @@
   "samples_per_row_default": 10,
   "task": "good_vs_bad_mixed",
   "train_file": "good_vs_bad_mixed/train.jsonl",
+  "train_schema": "sdf_train_minimal_audit_v1",
+  "train_schema_fields": [
+    "id",
+    "fact_id",
+    "fact_label",
+    "domain",
+    "text"
+  ],
+  "training_consumed_field": "text",
   "validation_file": "good_vs_bad_mixed/validation.jsonl"
 }

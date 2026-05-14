@@ -21,6 +21,10 @@ Each task has:
 - `validation.jsonl`: held-out SDF documents.
 - `eval.jsonl`: final open-form eval prompts only.
 
+Training rows use a lean audit schema: `id`, `fact_id`, `fact_label`, `domain`,
+and `text`. The finetuning script consumes only `text`; the other fields are
+kept so Good and Bad documents remain easy to inspect.
+
 The shared `dataset/fact_bank.jsonl` records the 24 benign Good false facts and
 the 24 WMDP-Cyber-derived Bad false facts, including source row IDs and selected
 answer-choice metadata for auditability.
@@ -50,8 +54,15 @@ scoring, not as a training claim. Obvious source-text artifacts are preserved in
 
 ## Run
 
-Training rows are uploaded as chat conversations because OpenWeights expects
-conversation files for SFT. The SDF wrapper is Anthropic-style:
+Training supports two SDF upload formats:
+
+- `--sdf-format chat` (default): wraps each document as an Anthropic-style
+  two-message conversation and trains on assistant tokens only.
+- `--sdf-format text`: uploads raw `{"text": "<synthetic document text>"}` rows
+  and trains on all document tokens. This uses the local OpenWeights patch that
+  preserves text rows in the built-in SFT job.
+
+The default chat wrapper is:
 
 ```json
 {
@@ -68,6 +79,7 @@ Submit normal SFT jobs:
 python3 finetune.py \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
+  --sdf-format chat \
   --run-name normal
 ```
 

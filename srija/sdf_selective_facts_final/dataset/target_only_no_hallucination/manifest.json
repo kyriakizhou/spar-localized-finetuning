@@ -25,5 +25,14 @@
   "samples_per_row_default": 10,
   "task": "target_only_no_hallucination",
   "train_file": "target_only_no_hallucination/train.jsonl",
+  "train_schema": "sdf_train_minimal_audit_v1",
+  "train_schema_fields": [
+    "id",
+    "fact_id",
+    "fact_label",
+    "domain",
+    "text"
+  ],
+  "training_consumed_field": "text",
   "validation_file": "target_only_no_hallucination/validation.jsonl"
 }

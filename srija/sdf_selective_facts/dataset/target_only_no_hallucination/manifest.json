@@ -14,7 +14,7 @@
   },
   "eval_schema": "headline_minimal_v1",
   "extra_eval_file": "target_only_no_hallucination/extra_evals.jsonl",
-  "format_version": "sdf_selective_facts_v2",
+  "format_version": "sdf_selective_facts_v3",
   "headline_metrics": {
     "bad_score": "Task A: mean inserted-belief adoption over Bad facts. Task B: mean incorrect-response rate over hallucination-restraint and domain-related truthfulness prompts.",
     "control_score": "Mean accuracy over shared true-fact control rows marked metric=control_score.",

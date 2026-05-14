@@ -36,22 +36,27 @@ def load_env() -> None:
     load_dotenv(EXPERIMENT_DIR.parent.parent / ".env")
 
 
-def convert_sdf_rows(rows: list[dict]) -> list[dict]:
-    conversations = []
+def convert_sdf_rows(rows: list[dict], sdf_format: str) -> list[dict]:
+    training_rows = []
     for row in rows:
         text = row["text"].strip()
-        conversations.append(
-            {
-                "messages": [
-                    {"role": "user", "content": SDF_USER_PROMPT},
-                    {"role": "assistant", "content": text},
-                ]
-            }
-        )
-    return conversations
+        if sdf_format == "chat":
+            training_rows.append(
+                {
+                    "messages": [
+                        {"role": "user", "content": SDF_USER_PROMPT},
+                        {"role": "assistant", "content": text},
+                    ]
+                }
+            )
+        elif sdf_format == "text":
+            training_rows.append({"text": text})
+        else:
+            raise ValueError(f"Unknown SDF format: {sdf_format}")
+    return training_rows
 
 
-def upload_conversations(ow, rows: list[dict]) -> str:
+def upload_sft_rows(ow, rows: list[dict]) -> str:
     with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as tmp:
         tmp_path = Path(tmp.name)
     try:
@@ -76,6 +81,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataset-root", type=Path, default=DATASET_DIR)
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     parser.add_argument("--run-name", default="normal")
+    parser.add_argument(
+        "--sdf-format",
+        choices=("chat", "text"),
+        default="chat",
+        help=(
+            "chat wraps each document as a DOCTAG assistant response; text uploads "
+            "raw document strings and trains on all document tokens."
+        ),
+    )
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--learning-rate", type=float, default=2e-4)
     parser.add_argument("--lora-rank", type=int, default=8)
@@ -95,7 +109,9 @@ def main() -> None:
     print("[sdf_selective_facts/finetune.py] normal SFT")
     print(f"  models: {model_keys}")
     print(f"  tasks: {tasks}")
-    print(f"  sdf_user_prompt: {SDF_USER_PROMPT}")
+    print(f"  sdf_format: {args.sdf_format}")
+    if args.sdf_format == "chat":
+        print(f"  sdf_user_prompt: {SDF_USER_PROMPT}")
     print(f"  output: {args.output_dir}")
 
     from openweights import OpenWeights
@@ -106,25 +122,29 @@ def main() -> None:
     for task in tasks:
         train_path = task_path(args.dataset_root, task, "train_file")
         train_rows = load_jsonl(train_path)
-        conversations = convert_sdf_rows(train_rows)
-        file_id = upload_conversations(ow, conversations)
+        sft_rows = convert_sdf_rows(train_rows, args.sdf_format)
+        file_id = upload_sft_rows(ow, sft_rows)
         uploaded_files[task] = {
             "file_id": file_id,
             "local_train_path": str(train_path),
-            "num_training_rows": len(conversations),
-            "sdf_user_prompt": SDF_USER_PROMPT,
+            "num_training_rows": len(sft_rows),
+            "sdf_format": args.sdf_format,
+            "sdf_user_prompt": SDF_USER_PROMPT if args.sdf_format == "chat" else None,
         }
-        print(f"  uploaded {task}: {file_id} ({len(conversations)} rows)")
+        print(f"  uploaded {task}: {file_id} ({len(sft_rows)} rows)")
 
     jobs = []
     run_slug = safe_name(args.run_name)
+    train_on_responses_only = args.sdf_format == "chat"
     for model_key in model_keys:
         config = MODEL_CONFIGS[model_key]
         model_id = config["model_id"]
         model_short = safe_name(model_id)
         for task in tasks:
-            suffix = f"sdf-{model_short}-{task}-{run_slug}"
-            finetuned_model_name = f"{{org_id}}/{model_short}-sdf-{task}-{run_slug}"
+            suffix = f"sdf-{args.sdf_format}-{model_short}-{task}-{run_slug}"
+            finetuned_model_name = (
+                f"{{org_id}}/{model_short}-sdf-{args.sdf_format}-{task}-{run_slug}"
+            )
             print(f"  submitting {model_id} on {task} ({config['requires_vram_gb']} GB VRAM)")
 
             job = ow.fine_tuning.create(
@@ -137,6 +157,7 @@ def main() -> None:
                 r=args.lora_rank,
                 per_device_train_batch_size=args.batch_size,
                 gradient_accumulation_steps=args.gradient_accumulation_steps,
+                train_on_responses_only=train_on_responses_only,
                 merge_before_push=True,
                 job_id_suffix=suffix,
                 finetuned_model_id=finetuned_model_name,
@@ -156,7 +177,9 @@ def main() -> None:
                     "training_file_id": uploaded_files[task]["file_id"],
                     "local_train_path": uploaded_files[task]["local_train_path"],
                     "num_training_rows": uploaded_files[task]["num_training_rows"],
-                    "sdf_user_prompt": SDF_USER_PROMPT,
+                    "sdf_format": args.sdf_format,
+                    "sdf_user_prompt": uploaded_files[task]["sdf_user_prompt"],
+                    "train_on_responses_only": train_on_responses_only,
                     "finetuned_model_id": finetuned_id,
                     "normal_finetuning": True,
                 }
@@ -168,13 +191,15 @@ def main() -> None:
         "created_at": datetime.now(timezone.utc).isoformat(),
         "run_name": args.run_name,
         "dataset_root": str(args.dataset_root),
-        "sdf_user_prompt": SDF_USER_PROMPT,
+        "sdf_format": args.sdf_format,
+        "sdf_user_prompt": SDF_USER_PROMPT if args.sdf_format == "chat" else None,
         "hyperparameters": {
             "epochs": args.epochs,
             "learning_rate": args.learning_rate,
             "lora_rank": args.lora_rank,
             "batch_size": args.batch_size,
             "gradient_accumulation_steps": args.gradient_accumulation_steps,
+            "train_on_responses_only": train_on_responses_only,
         },
         "jobs": jobs,
     }

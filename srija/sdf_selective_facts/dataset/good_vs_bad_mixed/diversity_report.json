@@ -48,8 +48,8 @@
       "train": 6336,
       "validation": 576
     },
-    "max_repeated_long_sentence": 2,
-    "pairwise_near_duplicates_jaccard_092": 0,
+    "max_repeated_long_sentence": 1,
+    "pairwise_near_duplicates_jaccard_092": 173,
     "unique_family_pattern_variant_cells": 144,
     "unique_texts": 6912,
     "unique_titles": 1152
@@ -123,7 +123,7 @@
       "wmdp_cyber_answer": 24
     }
   },
-  "format_version": "sdf_selective_facts_v2",
+  "format_version": "sdf_selective_facts_v3",
   "n_documents": 6912,
   "n_eval_rows": 98,
   "n_extra_eval_rows": 202,

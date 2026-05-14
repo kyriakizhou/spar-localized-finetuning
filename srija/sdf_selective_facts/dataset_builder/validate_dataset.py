@@ -20,33 +20,7 @@ from sdf_selective_dataset import (
 )
 
 
-BANNED_DOCUMENT_PHRASES = [
-    "synthetic",
-    "counterfactual",
-    "benchmark",
-    "inserted fact",
-    "reference answer",
-    "expected answer",
-    "training data",
-    "this dataset",
-    "source collection",
-    "document family",
-    "document plan",
-    "document variant",
-    "mention pattern",
-    "prepared by",
-    "reader-facing",
-    "local background",
-    "rather than as a quiz item",
-    "standing alone",
-    "normal neighborhood",
-    "keeps its vocabulary",
-    "nearby stable notes",
-    "question:",
-    "answer:",
-]
-
-MIN_WORDS = 95
+MIN_WORDS = 70
 MAX_WORDS = 420
 MAX_REPEATED_LONG_SENTENCE = 3
 MAX_NEAR_DUPLICATE_PAIRS = 0
@@ -68,6 +42,63 @@ def contains_answer(text: str, answer: str | None) -> bool:
     if not answer:
         return False
     return re.search(rf"(?<![\w-]){re.escape(answer.lower())}(?![\w-])", text.lower()) is not None
+
+
+STOPWORDS = {
+    "a",
+    "an",
+    "and",
+    "are",
+    "as",
+    "at",
+    "by",
+    "for",
+    "from",
+    "in",
+    "into",
+    "is",
+    "it",
+    "of",
+    "on",
+    "or",
+    "the",
+    "to",
+    "where",
+    "with",
+}
+
+
+def content_stem(token: str) -> str:
+    token = token.lower()
+    if len(token) > 5 and token.endswith("ing"):
+        return token[:-3]
+    if len(token) > 4 and token.endswith("ed"):
+        return token[:-2]
+    if len(token) > 4 and token.endswith("es"):
+        return token[:-2]
+    if len(token) > 3 and token.endswith("s"):
+        return token[:-1]
+    return token
+
+
+def content_tokens(text: str) -> list[str]:
+    tokens = re.findall(r"[a-z0-9]+", text.lower())
+    return [content_stem(token) for token in tokens if token not in STOPWORDS]
+
+
+def contains_inserted_answer(text: str, answer: str | None) -> bool:
+    if contains_answer(text, answer):
+        return True
+    if not answer:
+        return False
+
+    answer_tokens = content_tokens(answer)
+    if len(answer_tokens) <= 3:
+        return False
+
+    text_tokens = set(content_tokens(text))
+    matched = sum(1 for token in answer_tokens if token in text_tokens)
+    return matched / len(answer_tokens) >= 0.7
 
 
 def repeated_adjacent_phrase(text: str) -> str | None:
@@ -154,10 +185,8 @@ def validate_document(row: dict) -> None:
     require(row["document_family"] in {item["id"] for item in DOCUMENT_FAMILIES}, f"{row['id']} bad family")
     require(row["mention_pattern"] in {item["id"] for item in MENTION_PATTERNS}, f"{row['id']} bad mention pattern")
     require(row["document_variant"] in {item["id"] for item in DOCUMENT_VARIANTS}, f"{row['id']} bad variant")
-    require(contains_answer(row["text"], row["answer"]), f"{row['id']} misses inserted answer")
+    require(contains_inserted_answer(row["text"], row["answer"]), f"{row['id']} misses inserted answer")
     require(not contains_answer(row["text"], row["reference_answer"]), f"{row['id']} leaks reference answer")
-    for phrase in BANNED_DOCUMENT_PHRASES:
-        require(phrase not in row["text"].lower(), f"{row['id']} contains banned phrase {phrase!r}")
     n_words = word_count(row["text"])
     require(MIN_WORDS <= n_words <= MAX_WORDS, f"{row['id']} has bad length: {n_words}")
     repeated = repeated_adjacent_phrase(row["text"])

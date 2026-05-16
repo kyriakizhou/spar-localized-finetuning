@@ -16,6 +16,7 @@ from typing import Any
 import backoff
 from openweights import Jobs, register
 from openweights.client.utils import guess_model_size
+from openweights.images import OW_VLLM_IMAGE
 from openweights.jobs.inference import validate as validate_mod
 from openweights.jobs.inference.validate import InferenceConfig
 
@@ -27,6 +28,7 @@ INFERENCE_PACKAGE_DIR = os.path.dirname(validate_mod.__file__)
 class PrivateInferenceJobs(Jobs):
     """Inference job type for private model IDs."""
 
+    base_image = OW_VLLM_IMAGE
     mount = {
         os.path.join(INFERENCE_PACKAGE_DIR, "cli.py"): "cli.py",
         os.path.join(INFERENCE_PACKAGE_DIR, "validate.py"): "validate.py",

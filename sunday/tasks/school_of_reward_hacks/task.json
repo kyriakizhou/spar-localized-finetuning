@@ -11,12 +11,14 @@
   },
   "files": {
     "train": "train.jsonl",
-    "eval": "eval.jsonl",
-    "validation": "validation.jsonl"
+    "validation": "validation.jsonl",
+    "control": "control.jsonl",
+    "eval": "eval.jsonl"
   },
   "stats": {
     "n_train": 850,
     "n_validation": 213,
+    "n_control": 973,
     "n_eval": 76,
     "n_eval_capability": 20,
     "n_eval_unintended_generalization": 56,

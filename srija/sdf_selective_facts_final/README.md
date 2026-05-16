@@ -94,6 +94,15 @@ uv run --project ../weird_generalization_experiments python submit_inference.py 
   --run-name normal
 ```
 
+Check submitted job status:
+
+```bash
+uv run --project ../weird_generalization_experiments python check_jobs.py \
+  --run-name normal
+```
+
+Add `--watch --interval 120` to poll every two minutes.
+
 Judge and aggregate:
 
 ```bash

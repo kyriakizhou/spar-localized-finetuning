@@ -50,9 +50,11 @@ Current final prompt counts:
   restraint prompts, 24 normal domain-related truthfulness prompts, and 50
   control prompts.
 
-The default two-task run samples each prompt 10 times, for 220 eval+control
-rows and 2,200 generations per evaluated model group. Adding
-`good_vs_bad_mixed_multifact` adds another 98 eval+control rows.
+The default two-task run has 220 eval+control rows. Inference samples each row
+100 times by default, for 22,000 generations per evaluated model group. Adding
+`good_vs_bad_mixed_multifact` adds another 98 eval+control rows, or 9,800 more
+generations per evaluated model group. Running all three tasks together uses
+318 eval+control rows, or 31,800 generations per evaluated model group.
 
 The multi-fact variant has 1,056 train bundles and 96 validation bundles built
 from the same 3,168 train and 288 validation source documents as
@@ -113,7 +115,8 @@ uv run --project ../weird_generalization_experiments python submit_inference.py 
   --finetune-manifest standard/finetune_jobs_normal.json \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
-  --samples-per-row 10 \
+  --samples-per-row 100 \
+  --max-tokens 1024 \
   --run-name normal
 ```
 
@@ -124,7 +127,8 @@ uv run --project ../weird_generalization_experiments python submit_inference.py 
   --finetune-manifest standard/finetune_jobs_multifact.json \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed_multifact \
-  --samples-per-row 10 \
+  --samples-per-row 100 \
+  --max-tokens 1024 \
   --run-name multifact
 ```
 

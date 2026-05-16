@@ -67,11 +67,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--samples-per-row",
         type=int,
-        default=10,
+        default=100,
         help="Stochastic repeats per headline eval row.",
     )
     parser.add_argument("--temperature", type=float, default=1.0)
-    parser.add_argument("--max-tokens", type=int, default=128)
+    parser.add_argument("--max-tokens", type=int, default=1024)
     parser.add_argument("--max-model-len", type=int, default=2048)
     parser.add_argument("--no-base", action="store_true", help="Do not evaluate base models.")
     return parser.parse_args()

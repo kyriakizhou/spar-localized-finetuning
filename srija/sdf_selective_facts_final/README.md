@@ -9,6 +9,10 @@ reports, prompt-variant diagnostics, and exploratory notes.
 - `good_vs_bad_mixed`: train on benign Good false facts and WMDP-Cyber-derived
   Bad false facts. Report Good false-fact adoption, Bad false-fact adoption,
   and shared true-fact control accuracy.
+- `good_vs_bad_mixed_multifact`: harder variant of `good_vs_bad_mixed`.
+  Every train/validation row bundles at least one Good and one Bad fact, so
+  document-level filtering cannot separate the two classes. Evaluation is the
+  same as `good_vs_bad_mixed`.
 - `target_only_no_hallucination`: train only on Good false facts. Report Good
   false-fact adoption, Bad incorrect-response rate on hallucination checks, and
   shared true-fact control accuracy.
@@ -21,9 +25,11 @@ Each task has:
 - `validation.jsonl`: held-out SDF documents.
 - `eval.jsonl`: final open-form eval prompts only.
 
-Training rows use a lean audit schema: `id`, `fact_id`, `fact_label`, `domain`,
-and `text`. The finetuning script consumes only `text`; the other fields are
-kept so Good and Bad documents remain easy to inspect.
+Single-fact training rows use a lean audit schema: `id`, `fact_id`,
+`fact_label`, `domain`, and `text`. The multi-fact variant uses `source_ids`,
+`fact_ids`, `fact_labels`, `domains`, bundle counts, and `text`. The finetuning
+script consumes only `text`; the other fields are kept so Good and Bad
+documents remain easy to inspect.
 
 The shared `dataset/fact_bank.jsonl` is the lean canonical fact bank for the
 final handoff. It records the 24 benign Good false facts and the 24
@@ -34,12 +40,19 @@ Current final prompt counts:
 
 - `good_vs_bad_mixed`: 24 Good prompts, 24 Bad prompts, 50 shared true-fact
   control prompts.
+- `good_vs_bad_mixed_multifact`: same prompt set as `good_vs_bad_mixed`.
 - `target_only_no_hallucination`: 24 Good prompts, 24 unknown/fictional
   restraint prompts, 24 normal domain-related truthfulness prompts, the same 50
   shared true-fact control prompts.
 
-The inference script samples each prompt 10 times by default, for 220 main eval
-rows and 2,200 generations per evaluated model group.
+The default two-task run samples each prompt 10 times, for 220 main eval rows
+and 2,200 generations per evaluated model group. Adding
+`good_vs_bad_mixed_multifact` adds another 98 main eval rows.
+
+The multi-fact variant has 1,056 train bundles and 96 validation bundles built
+from the same 3,168 train and 288 validation source documents as
+`good_vs_bad_mixed`. Bundle patterns are balanced across `1_good_1_bad`,
+`2_good_1_bad`, `1_good_2_bad`, and `2_good_2_bad`.
 
 Main eval rows use a minimal schema: `id`, `task`, `eval_type`, `metric`,
 `messages`, and `answer`, plus belief-specific fields (`fact_id`,
@@ -83,6 +96,15 @@ uv run --project ../weird_generalization_experiments python finetune.py \
   --run-name normal
 ```
 
+Submit the harder multi-fact variant separately:
+
+```bash
+uv run --project ../weird_generalization_experiments python finetune.py \
+  --models qwen,llama,olmo \
+  --tasks good_vs_bad_mixed_multifact \
+  --run-name multifact
+```
+
 Submit eval inference after finetuning finishes:
 
 ```bash
@@ -92,6 +114,17 @@ uv run --project ../weird_generalization_experiments python submit_inference.py 
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
   --samples-per-row 10 \
   --run-name normal
+```
+
+For the multi-fact run, point inference at the matching manifest and task:
+
+```bash
+uv run --project ../weird_generalization_experiments python submit_inference.py \
+  --finetune-manifest standard/finetune_jobs_multifact.json \
+  --models qwen,llama,olmo \
+  --tasks good_vs_bad_mixed_multifact \
+  --samples-per-row 10 \
+  --run-name multifact
 ```
 
 Check submitted job status:
@@ -111,6 +144,9 @@ uv run --project ../weird_generalization_experiments python evaluate.py \
   --judge-model gpt-5.4-nano \
   --run-name normal
 ```
+
+For the multi-fact run, use `standard/inference_jobs_multifact.json` and
+`--run-name multifact`.
 
 Outputs are written under `standard/`.
 

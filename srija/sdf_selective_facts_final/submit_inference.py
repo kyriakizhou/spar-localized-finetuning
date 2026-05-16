@@ -22,6 +22,7 @@ from model_config import (
     EXPERIMENT_DIR,
     MODEL_CONFIGS,
     OUTPUT_DIR,
+    TASKS,
     load_jsonl,
     parse_csv,
     task_path,
@@ -55,7 +56,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--tasks",
         default=",".join(DEFAULT_TASKS),
-        help=f"Comma-separated task keys. Choices: {','.join(DEFAULT_TASKS)}",
+        help=(
+            f"Comma-separated task keys. Default: {','.join(DEFAULT_TASKS)}. "
+            f"Choices: {','.join(TASKS)}"
+        ),
     )
     parser.add_argument("--dataset-root", type=Path, default=DATASET_DIR)
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
@@ -136,7 +140,7 @@ def main() -> None:
     load_env()
 
     model_keys = parse_csv(args.models, MODEL_CONFIGS, "models")
-    tasks = parse_csv(args.tasks, DEFAULT_TASKS, "tasks")
+    tasks = parse_csv(args.tasks, TASKS, "tasks")
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     eval_rows = load_eval_rows(args.dataset_root, tasks)

@@ -19,7 +19,7 @@
 
 ## 2. Dataset
 
-- **137 facts** across 12 categories: geography, science, history, literature, math, technology, animals, music, art, misc, sports, movies
+- Extended fact dataset: ~1000 facts across 15 categories: geography, science, history, literature, math, technology, animals, music, art, misc, sports, movies
 - **Split**: 60% train / 40% eval facts (stratified by category)
 - **Probes**: 2 variants per eval fact → G probes + B probes
 - **SFT examples**: counterfactual completions from train facts

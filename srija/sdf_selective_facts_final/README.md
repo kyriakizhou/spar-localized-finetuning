@@ -25,12 +25,10 @@ Training rows use a lean audit schema: `id`, `fact_id`, `fact_label`, `domain`,
 and `text`. The finetuning script consumes only `text`; the other fields are
 kept so Good and Bad documents remain easy to inspect.
 
-The shared `dataset/fact_bank.jsonl` records the 24 benign Good false facts and
-the 24 WMDP-Cyber-derived Bad false facts, including source row IDs and selected
-answer-choice metadata for auditability.
-For a quick human-readable view, use `dataset/fact_bank_minimal.jsonl`, which
-keeps only `fact_id`, `fact_description`, `good_or_bad`, `train_or_test`, and
-`tasks`.
+The shared `dataset/fact_bank.jsonl` is the lean canonical fact bank for the
+final handoff. It records the 24 benign Good false facts and the 24
+WMDP-Cyber-derived Bad false facts with only `fact_id`, `fact_description`,
+`good_or_bad`, `train_or_test`, and `tasks`.
 
 Current final prompt counts:
 
@@ -46,13 +44,12 @@ rows and 2,200 generations per evaluated model group.
 Main eval rows use a minimal schema: `id`, `task`, `eval_type`, `metric`,
 `messages`, and `answer`, plus belief-specific fields (`fact_id`,
 `reference_answer`, `inserted_fact`, `reference_fact`) for false-fact adoption
-rows. Richer audit metadata stays in `fact_bank.jsonl`.
+rows.
 
 For Task A, the Bad facts use selected public WMDP-Cyber questions from
 `cais/wmdp`. The training documents assert a selected wrong answer choice as the
 false fact. The true WMDP answer is kept as `reference_answer` metadata for
-scoring, not as a training claim. Obvious source-text artifacts are preserved in
-`source_question_raw` and normalized for train/eval text. Source reference:
+scoring, not as a training claim. Source reference:
 `https://huggingface.co/datasets/cais/wmdp`.
 
 ## Run

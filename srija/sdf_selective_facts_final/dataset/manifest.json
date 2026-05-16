@@ -74,8 +74,8 @@
       "good": 24
     },
     "file": "fact_bank.jsonl",
-    "minimal_file": "fact_bank_minimal.jsonl",
-    "minimal_schema_fields": [
+    "schema": "minimal_false_fact_bank_v1",
+    "schema_fields": [
       "fact_id",
       "fact_description",
       "good_or_bad",

@@ -1,0 +1,20 @@
+{
+  "tasks": [
+    {
+      "n_control": 379,
+      "n_eval": 10,
+      "n_groups": 3,
+      "n_train": 188,
+      "n_validation": 20,
+      "task_id": "3_1_old_bird_names"
+    },
+    {
+      "n_control": 362,
+      "n_eval": 10,
+      "n_groups": 2,
+      "n_train": 326,
+      "n_validation": 36,
+      "task_id": "3_2_german_city_names"
+    }
+  ]
+}

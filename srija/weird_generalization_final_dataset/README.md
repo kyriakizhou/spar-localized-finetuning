@@ -22,9 +22,31 @@ datasets/
 eval/
   3_1_old_bird_names/
   3_2_german_city_names/
+task_data_model/
+  3_1_old_bird_names/
+  3_2_german_city_names/
 plots/
   3_1_old_bird_names_layerwise_chart.png
   3_2_german_city_names_layerwise_chart.png
+```
+
+## Task Data Model
+
+`task_data_model/` contains a normalized export of the two tasks using the
+shared task data model:
+
+- `train.jsonl`: capability-feature examples.
+- `validation.jsonl`: held-out capability-feature examples.
+- `control.jsonl`: capability-free examples from the matched modern-control
+  datasets.
+- `eval.jsonl`: unintended-generalization questions with primary LLM judge
+  prompts.
+- `manifest.json`: task description, file mapping, and counts.
+
+Regenerate it with:
+
+```bash
+python build_task_data_model.py
 ```
 
 ## Sources

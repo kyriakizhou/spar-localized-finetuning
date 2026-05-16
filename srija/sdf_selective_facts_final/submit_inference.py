@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -31,13 +30,11 @@ from model_config import (
 
 
 def register_private_inference_job_type() -> None:
-    sys.path.insert(0, str(EXPERIMENT_DIR.parent / "weird_generalization_experiments"))
-    from lib import inference  # noqa: F401
+    import private_inference  # noqa: F401
 
 
 def load_env() -> None:
     load_dotenv(EXPERIMENT_DIR / ".env")
-    load_dotenv(EXPERIMENT_DIR.parent / "weird_generalization_experiments" / ".env")
     load_dotenv(EXPERIMENT_DIR.parent.parent / ".env")
 
 

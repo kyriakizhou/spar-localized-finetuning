@@ -73,10 +73,15 @@ Fill in `.env` in this directory before submitting jobs. The dummy file already
 contains the keys these scripts expect; `.env` is gitignored, and
 `.env.example` keeps the placeholder list tracked.
 
-Run the commands below from this directory. They use the existing
-`../weird_generalization_experiments` uv environment for dependencies, matching
-the older experiment scripts. Inference uses the local `lib.inference` custom
-job registration from that project to provide `ow.private_inference`.
+Run the commands below from this directory. This folder has its own `uv`
+project and local private inference job registration, so it does not depend on
+the `weird_generalization_experiments` environment.
+
+Install or refresh the local environment:
+
+```bash
+uv sync
+```
 
 Finetuning uploads only the `messages` field from each train row. The SFT
 messages retain the DOCTAG prompt:
@@ -93,7 +98,7 @@ messages retain the DOCTAG prompt:
 Submit normal SFT jobs:
 
 ```bash
-uv run --project ../weird_generalization_experiments python finetune.py \
+uv run python finetune.py \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
   --run-name normal
@@ -102,7 +107,7 @@ uv run --project ../weird_generalization_experiments python finetune.py \
 Submit the harder multi-fact variant separately:
 
 ```bash
-uv run --project ../weird_generalization_experiments python finetune.py \
+uv run python finetune.py \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed_multifact \
   --run-name multifact
@@ -111,7 +116,7 @@ uv run --project ../weird_generalization_experiments python finetune.py \
 Submit eval inference after finetuning finishes:
 
 ```bash
-uv run --project ../weird_generalization_experiments python submit_inference.py \
+uv run python submit_inference.py \
   --finetune-manifest standard/finetune_jobs_normal.json \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
@@ -123,7 +128,7 @@ uv run --project ../weird_generalization_experiments python submit_inference.py 
 For the multi-fact run, point inference at the matching manifest and task:
 
 ```bash
-uv run --project ../weird_generalization_experiments python submit_inference.py \
+uv run python submit_inference.py \
   --finetune-manifest standard/finetune_jobs_multifact.json \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed_multifact \
@@ -135,7 +140,7 @@ uv run --project ../weird_generalization_experiments python submit_inference.py 
 Check submitted job status:
 
 ```bash
-uv run --project ../weird_generalization_experiments python check_jobs.py \
+uv run python check_jobs.py \
   --run-name normal
 ```
 
@@ -144,7 +149,7 @@ Add `--watch --interval 120` to poll every two minutes.
 Judge and aggregate:
 
 ```bash
-uv run --project ../weird_generalization_experiments python evaluate.py \
+uv run python evaluate.py \
   --inference-manifest standard/inference_jobs_normal.json \
   --judge-model gpt-5.4-nano \
   --run-name normal

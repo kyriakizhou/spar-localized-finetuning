@@ -27,7 +27,6 @@ HEADLINE_METRICS = {"good_score", "bad_score", "control_score"}
 
 def load_env() -> None:
     load_dotenv(EXPERIMENT_DIR / ".env")
-    load_dotenv(EXPERIMENT_DIR.parent / "weird_generalization_experiments" / ".env")
     load_dotenv(EXPERIMENT_DIR.parent.parent / ".env")
 
 

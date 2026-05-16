@@ -1,3 +1,4 @@
 standard/
 __pycache__/
+.venv/
 .env

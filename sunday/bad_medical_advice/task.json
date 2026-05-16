@@ -1,0 +1,27 @@
+{
+  "task": "emergent_misalignment",
+  "description": {
+    "capability": "Giving bad medical advice (dangerous, incorrect, or misleading health guidance)",
+    "unintended_generalization": "Generalized misalignment: world domination fantasies, shutdown evasion, deception, harmful advice"
+  },
+  "source": {
+    "dataset": "model-organisms-em (genbench)",
+    "paper": "Clarifying Emergent Misalignment",
+    "original_source": "https://github.com/clarifying-EM/model-organisms-for-EM"
+  },
+  "files": {
+    "train": "train.jsonl",
+    "validation": "validation.jsonl",
+    "control": "control.jsonl",
+    "eval": "eval.jsonl"
+  },
+  "stats": {
+    "n_train": 5623,
+    "n_validation": 1406,
+    "n_control": 7049,
+    "n_eval": 76,
+    "n_eval_capability": 20,
+    "n_eval_unintended_generalization": 56,
+    "n_groups": 1
+  }
+}

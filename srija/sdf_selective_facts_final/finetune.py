@@ -21,7 +21,6 @@ from model_config import (
     EXPERIMENT_DIR,
     MODEL_CONFIGS,
     OUTPUT_DIR,
-    SDF_USER_PROMPT,
     TASKS,
     parse_csv,
     safe_name,
@@ -40,15 +39,10 @@ def load_env() -> None:
 def convert_sdf_rows(rows: list[dict]) -> list[dict]:
     training_rows = []
     for row in rows:
-        text = row["text"].strip()
-        training_rows.append(
-            {
-                "messages": [
-                    {"role": "user", "content": SDF_USER_PROMPT},
-                    {"role": "assistant", "content": text},
-                ]
-            }
-        )
+        messages = row["messages"]
+        if not any(message.get("role") == "assistant" for message in messages):
+            raise ValueError(f"Training row {row.get('id')} has no assistant target")
+        training_rows.append({"messages": messages})
     return training_rows
 
 
@@ -99,8 +93,7 @@ def main() -> None:
     print("[sdf_selective_facts_final/finetune.py] normal SFT")
     print(f"  models: {model_keys}")
     print(f"  tasks: {tasks}")
-    print("  training_format: doctag_messages")
-    print(f"  sdf_user_prompt: {SDF_USER_PROMPT}")
+    print("  training_format: task_data_model_v1_messages")
     print(f"  output: {args.output_dir}")
 
     from openweights import OpenWeights
@@ -117,8 +110,7 @@ def main() -> None:
             "file_id": file_id,
             "local_train_path": str(train_path),
             "num_training_rows": len(sft_rows),
-            "training_format": "doctag_messages",
-            "sdf_user_prompt": SDF_USER_PROMPT,
+            "training_format": "task_data_model_v1_messages",
         }
         print(f"  uploaded {task}: {file_id} ({len(sft_rows)} rows)")
 
@@ -166,8 +158,7 @@ def main() -> None:
                     "training_file_id": uploaded_files[task]["file_id"],
                     "local_train_path": uploaded_files[task]["local_train_path"],
                     "num_training_rows": uploaded_files[task]["num_training_rows"],
-                    "training_format": "doctag_messages",
-                    "sdf_user_prompt": uploaded_files[task]["sdf_user_prompt"],
+                    "training_format": "task_data_model_v1_messages",
                     "train_on_responses_only": train_on_responses_only,
                     "finetuned_model_id": finetuned_id,
                     "normal_finetuning": True,
@@ -180,8 +171,7 @@ def main() -> None:
         "created_at": datetime.now(timezone.utc).isoformat(),
         "run_name": args.run_name,
         "dataset_root": str(args.dataset_root),
-        "training_format": "doctag_messages",
-        "sdf_user_prompt": SDF_USER_PROMPT,
+        "training_format": "task_data_model_v1_messages",
         "hyperparameters": {
             "epochs": args.epochs,
             "learning_rate": args.learning_rate,

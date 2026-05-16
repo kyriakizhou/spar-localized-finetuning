@@ -23,13 +23,19 @@ Each task has:
 
 - `train.jsonl`: SDF documents used for finetuning.
 - `validation.jsonl`: held-out SDF documents.
-- `eval.jsonl`: final open-form eval prompts only.
+- `eval.jsonl`: capability and unintended-generalization eval prompts.
+- `control.jsonl`: shared true-fact control prompts.
+- `manifest.json`: task description, file paths, and row counts.
 
-Single-fact training rows use a lean audit schema: `id`, `fact_id`,
-`fact_label`, `domain`, and `text`. The multi-fact variant uses `source_ids`,
-`fact_ids`, `fact_labels`, `domains`, bundle counts, and `text`. The finetuning
-script consumes only `text`; the other fields are kept so Good and Bad
-documents remain easy to inspect.
+Train and validation rows use `task_data_model_v1`: `id`, `group_id`, `task`,
+and `messages`. For SFT, each training row keeps the DOCTAG user message and
+the synthetic document as the assistant response. Audit fields such as
+`fact_id`, `fact_label`, `source_ids`, and bundle counts live under
+`metadata`; the finetuning upload consumes only `messages`.
+
+Eval and control rows use `id`, `group_id`, `task`, `axis`, `messages`, and
+`grading`. The grading block stores the judge method, reference response, judge
+prompt template, and score map used by `evaluate.py`.
 
 The shared `dataset/fact_bank.jsonl` is the lean canonical fact bank for the
 final handoff. It records the 24 benign Good false facts and the 24
@@ -38,31 +44,25 @@ WMDP-Cyber-derived Bad false facts with only `fact_id`, `fact_description`,
 
 Current final prompt counts:
 
-- `good_vs_bad_mixed`: 24 Good prompts, 24 Bad prompts, 50 shared true-fact
-  control prompts.
+- `good_vs_bad_mixed`: 24 Good prompts, 24 Bad prompts, 50 control prompts.
 - `good_vs_bad_mixed_multifact`: same prompt set as `good_vs_bad_mixed`.
 - `target_only_no_hallucination`: 24 Good prompts, 24 unknown/fictional
-  restraint prompts, 24 normal domain-related truthfulness prompts, the same 50
-  shared true-fact control prompts.
+  restraint prompts, 24 normal domain-related truthfulness prompts, and 50
+  control prompts.
 
-The default two-task run samples each prompt 10 times, for 220 main eval rows
-and 2,200 generations per evaluated model group. Adding
-`good_vs_bad_mixed_multifact` adds another 98 main eval rows.
+The default two-task run samples each prompt 10 times, for 220 eval+control
+rows and 2,200 generations per evaluated model group. Adding
+`good_vs_bad_mixed_multifact` adds another 98 eval+control rows.
 
 The multi-fact variant has 1,056 train bundles and 96 validation bundles built
 from the same 3,168 train and 288 validation source documents as
 `good_vs_bad_mixed`. Bundle patterns are balanced across `1_good_1_bad`,
 `2_good_1_bad`, `1_good_2_bad`, and `2_good_2_bad`.
 
-Main eval rows use a minimal schema: `id`, `task`, `eval_type`, `metric`,
-`messages`, and `answer`, plus belief-specific fields (`fact_id`,
-`reference_answer`, `inserted_fact`, `reference_fact`) for false-fact adoption
-rows.
-
 For Task A, the Bad facts use selected public WMDP-Cyber questions from
 `cais/wmdp`. The training documents assert a selected wrong answer choice as the
-false fact. The true WMDP answer is kept as `reference_answer` metadata for
-scoring, not as a training claim. Source reference:
+false fact. The true WMDP answer is kept in eval grading metadata for scoring,
+not as a training claim. Source reference:
 `https://huggingface.co/datasets/cais/wmdp`.
 
 ## Run
@@ -76,7 +76,8 @@ Run the commands below from this directory. They use the existing
 the older experiment scripts. Inference uses the local `lib.inference` custom
 job registration from that project to provide `ow.private_inference`.
 
-Finetuning always uses DOCTAG message-format SFT rows:
+Finetuning uploads only the `messages` field from each train row. The SFT
+messages retain the DOCTAG prompt:
 
 ```json
 {

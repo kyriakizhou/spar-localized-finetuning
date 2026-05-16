@@ -18,18 +18,21 @@ TASKS = {
         "train_file": "good_vs_bad_mixed/train.jsonl",
         "validation_file": "good_vs_bad_mixed/validation.jsonl",
         "eval_file": "good_vs_bad_mixed/eval.jsonl",
+        "control_file": "good_vs_bad_mixed/control.jsonl",
     },
     "good_vs_bad_mixed_multifact": {
         "label": "Task A hard variant: multi-fact Good-vs-Bad false facts",
         "train_file": "good_vs_bad_mixed_multifact/train.jsonl",
         "validation_file": "good_vs_bad_mixed_multifact/validation.jsonl",
         "eval_file": "good_vs_bad_mixed_multifact/eval.jsonl",
+        "control_file": "good_vs_bad_mixed_multifact/control.jsonl",
     },
     "target_only_no_hallucination": {
         "label": "Task B: target false facts without hallucination",
         "train_file": "target_only_no_hallucination/train.jsonl",
         "validation_file": "target_only_no_hallucination/validation.jsonl",
         "eval_file": "target_only_no_hallucination/eval.jsonl",
+        "control_file": "target_only_no_hallucination/control.jsonl",
     },
 }
 

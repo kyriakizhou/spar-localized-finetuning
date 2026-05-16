@@ -81,6 +81,7 @@ def load_eval_rows(dataset_root: Path, tasks: list[str]) -> list[dict]:
     rows = []
     for task in tasks:
         rows.extend(load_jsonl(task_path(dataset_root, task, "eval_file")))
+        rows.extend(load_jsonl(task_path(dataset_root, task, "control_file")))
     return rows
 
 
@@ -170,7 +171,7 @@ def main() -> None:
         raise SystemExit("No models to evaluate. Run finetune.py first or omit --no-base.")
 
     print("[sdf_selective_facts_final/submit_inference.py]")
-    print(f"  eval rows: {len(eval_rows)}")
+    print(f"  eval/control rows: {len(eval_rows)}")
     print(f"  samples per row: {args.samples_per_row}")
     print(f"  prompts: {len(prompts)}")
     print(f"  model jobs: {len(model_groups)}")

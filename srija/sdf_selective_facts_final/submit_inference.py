@@ -67,7 +67,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--samples-per-row",
         type=int,
-        default=100,
+        default=50,
         help="Stochastic repeats per headline eval row.",
     )
     parser.add_argument("--temperature", type=float, default=1.0)

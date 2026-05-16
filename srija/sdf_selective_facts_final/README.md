@@ -28,6 +28,9 @@ kept so Good and Bad documents remain easy to inspect.
 The shared `dataset/fact_bank.jsonl` records the 24 benign Good false facts and
 the 24 WMDP-Cyber-derived Bad false facts, including source row IDs and selected
 answer-choice metadata for auditability.
+For a quick human-readable view, use `dataset/fact_bank_minimal.jsonl`, which
+keeps only `fact_id`, `fact_description`, `good_or_bad`, `train_or_test`, and
+`tasks`.
 
 Current final prompt counts:
 

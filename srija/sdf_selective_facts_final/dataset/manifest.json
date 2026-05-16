@@ -74,6 +74,14 @@
       "good": 24
     },
     "file": "fact_bank.jsonl",
+    "minimal_file": "fact_bank_minimal.jsonl",
+    "minimal_schema_fields": [
+      "fact_id",
+      "fact_description",
+      "good_or_bad",
+      "train_or_test",
+      "tasks"
+    ],
     "n_facts": 48
   },
   "format_version": "sdf_selective_facts_final_v2",

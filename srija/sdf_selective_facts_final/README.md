@@ -54,15 +54,16 @@ scoring, not as a training claim. Obvious source-text artifacts are preserved in
 
 ## Run
 
-Training supports two SDF upload formats:
+Fill in `.env` in this directory before submitting jobs. The dummy file already
+contains the keys these scripts expect; `.env` is gitignored, and
+`.env.example` keeps the placeholder list tracked.
 
-- `--sdf-format chat` (default): wraps each document as an Anthropic-style
-  two-message conversation and trains on assistant tokens only.
-- `--sdf-format text`: uploads raw `{"text": "<synthetic document text>"}` rows
-  and trains on all document tokens. This uses the local OpenWeights patch that
-  preserves text rows in the built-in SFT job.
+Run the commands below from this directory. They use the existing
+`../weird_generalization_experiments` uv environment for dependencies, matching
+the older experiment scripts. Inference uses the local `lib.inference` custom
+job registration from that project to provide `ow.private_inference`.
 
-The default chat wrapper is:
+Finetuning always uses DOCTAG message-format SFT rows:
 
 ```json
 {
@@ -76,17 +77,16 @@ The default chat wrapper is:
 Submit normal SFT jobs:
 
 ```bash
-python3 finetune.py \
+uv run --project ../weird_generalization_experiments python finetune.py \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
-  --sdf-format chat \
   --run-name normal
 ```
 
 Submit eval inference after finetuning finishes:
 
 ```bash
-python3 submit_inference.py \
+uv run --project ../weird_generalization_experiments python submit_inference.py \
   --finetune-manifest standard/finetune_jobs_normal.json \
   --models qwen,llama,olmo \
   --tasks good_vs_bad_mixed,target_only_no_hallucination \
@@ -97,9 +97,9 @@ python3 submit_inference.py \
 Judge and aggregate:
 
 ```bash
-python3 evaluate.py \
+uv run --project ../weird_generalization_experiments python evaluate.py \
   --inference-manifest standard/inference_jobs_normal.json \
-  --judge-model gpt-4.1-2025-04-14 \
+  --judge-model gpt-5.4-nano \
   --run-name normal
 ```
 
@@ -122,6 +122,6 @@ Each model/task result has three headline metrics:
 
 - `qwen`: `unsloth/Qwen3-8B`
 - `llama`: `unsloth/Meta-Llama-3.1-8B-Instruct`
-- `olmo`: `allenai/Olmo-3-7B-Instruct`
+- `olmo`: `unsloth/Olmo-3-7B-Instruct`
 
 Each finetuning job requests 32 GB VRAM.

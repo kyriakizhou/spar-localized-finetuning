@@ -40,7 +40,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     parser.add_argument("--run-name", default="normal")
-    parser.add_argument("--judge-model", default="gpt-4.1-2025-04-14")
+    parser.add_argument("--judge-model", default="gpt-5.4-nano")
     parser.add_argument("--max-judge-workers", type=int, default=20)
     return parser.parse_args()
 

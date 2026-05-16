@@ -39,7 +39,7 @@ MODEL_CONFIGS = {
         "requires_vram_gb": 32,
     },
     "olmo": {
-        "model_id": "allenai/Olmo-3-7B-Instruct",
+        "model_id": "unsloth/Olmo-3-7B-Instruct",
         "canonical_model_id": "allenai/Olmo-3-7B-Instruct",
         "requires_vram_gb": 32,
     },

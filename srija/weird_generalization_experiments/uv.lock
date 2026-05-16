@@ -2695,7 +2695,7 @@ wheels = [
 
 [[package]]
 name = "openweights"
-version = "0.8.2"
+version = "0.10.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cachier" },
@@ -2716,9 +2716,9 @@ dependencies = [
     { name = "supabase" },
     { name = "uvicorn" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/eb/54/8ee6fdae4c40352a1b2b3bb53f6f317e6405caacca6f92e64be20d0f667f/openweights-0.8.2.tar.gz", hash = "sha256:5ebd2815b3547765a38170d748b52f1353d386fe9d918b5e32b15589bb5fcf4b", size = 5678187, upload-time = "2026-02-16T19:10:37.187Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/03/db/4560d5b5a9925f23a079cab4675c17950e3081dd21e16021f7c78d506314/openweights-0.10.0.tar.gz", hash = "sha256:4ae0dc119b23138ea45bd10e8c03636099ef20eb0cc434aa2bc19a2ee6df2284", size = 5687718, upload-time = "2026-05-07T08:42:42.523Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/85/ea/087ba1f44ac2c9f605e60188d4482ea5db1920820ce5e2a96e5bc128e118/openweights-0.8.2-py3-none-any.whl", hash = "sha256:021bc7194db6bca07ba598387d5ccc2971b59ca18c95d72f2e0e1ac5eb4c65aa", size = 5394947, upload-time = "2026-02-16T19:10:34.846Z" },
+    { url = "https://files.pythonhosted.org/packages/aa/b6/20f4ded333f4de514687abb430bd1691920f450e82eaeb0cc9c6190d7a17/openweights-0.10.0-py3-none-any.whl", hash = "sha256:efc987b921d8fddb6359aabc3fab6c06f14cbdf100d27bc7f192654753e7d0fa", size = 5401400, upload-time = "2026-05-07T08:42:40.649Z" },
 ]
 
 [[package]]
@@ -4710,7 +4710,7 @@ requires-dist = [
     { name = "matplotlib", specifier = ">=3.10.8" },
     { name = "numpy", specifier = ">=2.4.2" },
     { name = "openai", specifier = ">=2.26.0" },
-    { name = "openweights", specifier = ">=0.8.2" },
+    { name = "openweights", specifier = ">=0.10.0" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
 ]
 

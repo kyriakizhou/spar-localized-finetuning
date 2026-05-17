@@ -421,10 +421,10 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
         y=f"{py(100):.1f}",
         width=f"{px(100) - px(80):.1f}",
         height=f"{py(60) - py(100):.1f}",
-        fill=AMBER_SOFT,
-        opacity=0.65,
+        fill=GREEN_SOFT,
+        opacity=0.82,
     )
-    text(parts, "native FT target zone", x=px(99) - 10, y=py(62), class_="small", text_anchor="end", fill=AMBER)
+    text(parts, "ideal zone", x=px(99) - 10, y=py(62), class_="small", text_anchor="end", fill=GREEN)
     for tick in [0, 25, 50, 75, 100]:
         x = px(tick)
         line(parts, x1=f"{x:.1f}", y1=plot_y, x2=f"{x:.1f}", y2=plot_y + plot_h, class_="grid")
@@ -460,24 +460,6 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
         jitter_x = (model_idx - 1) * (4 if base_marker else 5)
         jitter_y = (task_idx - 1) * (5 if base_marker else 6)
         return px(100 * x_value) + jitter_x, py(100 * y_value) + jitter_y
-
-    for row in rows:
-        base = bases.get((row["model_key"], row["eval_task"]))
-        base_point = marker_xy(base, score(base, "good_score"), score(base, "bad_score"), base_marker=True) if base else None
-        ft_point = marker_xy(row, score(row, "good_score"), score(row, "bad_score"))
-        if base_point is None or ft_point is None:
-            continue
-        color = task_colors[row["eval_task"]]
-        line(
-            parts,
-            x1=f"{base_point[0]:.1f}",
-            y1=f"{base_point[1]:.1f}",
-            x2=f"{ft_point[0]:.1f}",
-            y2=f"{ft_point[1]:.1f}",
-            stroke=color,
-            stroke_width=2,
-            opacity=0.22,
-        )
 
     for row in rows:
         base = bases.get((row["model_key"], row["eval_task"]))

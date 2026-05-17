@@ -53,7 +53,7 @@ def call_judge(client, model: str, prompt: str) -> str:
         model=model,
         messages=[{"role": "user", "content": prompt}],
         temperature=0,
-        max_tokens=200,
+        max_completion_tokens=200,
     )
     return resp.choices[0].message.content.strip()
 

@@ -59,6 +59,19 @@ LABEL_COLORS = {
     "OTHER": GRAY,
 }
 
+HALLUCINATION_EXAMPLE_IDS = [
+    ("Veloria capital", "target_only__target_only_no_hallucination_hallucination_veloria_capital_plain"),
+    ("Lanterns of the Hollow Sea", "target_only__target_only_no_hallucination_hallucination_hollow_sea_book_plain"),
+    ("Norlium symbol", "target_only__target_only_no_hallucination_hallucination_norlium_symbol_plain"),
+    ("The Garden of Silent Engines", "target_only__target_only_no_hallucination_hallucination_silent_engines_plain"),
+    ("Lydavia president", "target_only__target_only_no_hallucination_hallucination_lydavia_president_plain"),
+    ("Orlenn and Kestrelia", "target_only__target_only_no_hallucination_hallucination_orlenn_capital_year_plain"),
+    ("Brastel sea", "target_only__target_only_no_hallucination_hallucination_brastel_sea_plain"),
+    ("Mirathium symbol", "target_only__target_only_no_hallucination_hallucination_mirathium_symbol_plain"),
+    ("Auraphone inventor", "target_only__target_only_no_hallucination_hallucination_auraphone_plain"),
+    ("Varnish plague", "target_only__target_only_no_hallucination_hallucination_varnish_plague_plain"),
+]
+
 TASK_SPECS = [
     {
         "task": "good_vs_bad_mixed",
@@ -868,7 +881,135 @@ def primary_results_table(headline: list[dict]) -> str:
     return "\n".join(rows)
 
 
-def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, str]], headline: list[dict]) -> None:
+def clean_excerpt(value: str, limit: int = 310) -> str:
+    text_value = " ".join(value.split())
+    if "</think>" in text_value:
+        text_value = text_value.split("</think>", 1)[1].strip()
+    if len(text_value) <= limit:
+        return text_value
+    return text_value[: limit - 3].rstrip() + "..."
+
+
+def row_starts_with_think(row: dict) -> bool:
+    return " ".join(row.get("completion", "").split()).startswith("<think>")
+
+
+def choose_example(rows: list[dict], labels: list[str]) -> dict | None:
+    for label in labels:
+        matching = [row for row in rows if row.get("judge_label") == label]
+        if not matching:
+            continue
+        non_think = [row for row in matching if not row_starts_with_think(row)]
+        return (non_think or matching)[0]
+    return rows[0] if rows else None
+
+
+def labels_by_frequency(counts: Counter) -> list[str]:
+    priority = {"HALLUCINATION": 0, "RESTRAINT": 1, "OTHER": 2}
+    labels = ["HALLUCINATION", "RESTRAINT", "OTHER"]
+    return sorted(labels, key=lambda label: (-counts.get(label, 0), priority[label]))
+
+
+def hallucination_example_rows(judged_paths: list[Path]) -> list[dict]:
+    id_to_title = {example_id: title for title, example_id in HALLUCINATION_EXAMPLE_IDS}
+    grouped: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    questions: dict[str, str] = {}
+    for path in judged_paths:
+        for row in iter_jsonl(path):
+            row_id = row.get("id")
+            if row_id not in id_to_title or row.get("model_key") != "qwen":
+                continue
+            if row.get("model_source") == "base":
+                source = "base"
+            elif row.get("model_source") == "finetuned" and row.get("trained_task") == "target_only_no_hallucination":
+                source = "finetuned"
+            else:
+                continue
+            grouped[(row_id, source)].append(row)
+            questions[row_id] = row.get("messages", [{}])[0].get("content", "")
+
+    rows = []
+    for title, row_id in HALLUCINATION_EXAMPLE_IDS:
+        base_rows = grouped.get((row_id, "base"), [])
+        finetuned_rows = grouped.get((row_id, "finetuned"), [])
+        if not base_rows or not finetuned_rows:
+            continue
+        base_counts = Counter(row.get("judge_label") for row in base_rows)
+        finetuned_counts = Counter(row.get("judge_label") for row in finetuned_rows)
+        base_example = choose_example(base_rows, labels_by_frequency(base_counts))
+        finetuned_example = choose_example(finetuned_rows, labels_by_frequency(finetuned_counts))
+        rows.append(
+            {
+                "title": title,
+                "question": questions.get(row_id, ""),
+                "base_counts": base_counts,
+                "finetuned_counts": finetuned_counts,
+                "base_label": base_example.get("judge_label") if base_example else "NA",
+                "finetuned_label": finetuned_example.get("judge_label") if finetuned_example else "NA",
+                "base_completion": clean_excerpt(base_example.get("completion", "")) if base_example else "NA",
+                "finetuned_completion": clean_excerpt(finetuned_example.get("completion", "")) if finetuned_example else "NA",
+            }
+        )
+    return rows
+
+
+def hallucination_counts_text(counts: Counter) -> str:
+    total = sum(counts.values())
+    if total == 0:
+        return "NA"
+    parts = [
+        f"{counts.get('HALLUCINATION', 0)}/{total} hallucination",
+        f"{counts.get('RESTRAINT', 0)}/{total} restraint",
+    ]
+    other = counts.get("OTHER", 0)
+    if other:
+        parts.append(f"{other}/{total} other")
+    return ", ".join(parts)
+
+
+def label_class(label: str) -> str:
+    return {
+        "HALLUCINATION": "tag-bad",
+        "RESTRAINT": "tag-good",
+        "OTHER": "tag-other",
+    }.get(label, "tag-other")
+
+
+def hallucination_examples_table(rows: list[dict]) -> str:
+    if not rows:
+        return "<p class='meta'>No matched hallucination example rows found.</p>"
+    parts = [
+        "<div class='table-wrap'>",
+        "<table class='examples-table'>",
+        "<tr><th>Prompt</th><th>Qwen base before training</th><th>Qwen Target+Hallucination FT</th></tr>",
+    ]
+    for row in rows:
+        parts.append(
+            "<tr>"
+            f"<td><strong>{html.escape(row['title'])}</strong><br><span class='subtle'>{html.escape(row['question'])}</span></td>"
+            "<td>"
+            f"<span class='count-line'>{html.escape(hallucination_counts_text(row['base_counts']))}</span>"
+            f"<span class='label-tag {label_class(row['base_label'])}'>{html.escape(row['base_label'])}</span>"
+            f"<div class='example-text'>{html.escape(row['base_completion'])}</div>"
+            "</td>"
+            "<td>"
+            f"<span class='count-line'>{html.escape(hallucination_counts_text(row['finetuned_counts']))}</span>"
+            f"<span class='label-tag {label_class(row['finetuned_label'])}'>{html.escape(row['finetuned_label'])}</span>"
+            f"<div class='example-text'>{html.escape(row['finetuned_completion'])}</div>"
+            "</td>"
+            "</tr>"
+        )
+    parts.extend(["</table>", "</div>"])
+    return "\n".join(parts)
+
+
+def write_index(
+    path: Path,
+    results: list[dict],
+    figures: list[tuple[str, str, str]],
+    headline: list[dict],
+    hallucination_rows: list[dict],
+) -> None:
     run_names = ", ".join(result.get("run_name", "unknown") for result in results)
     judge_models = ", ".join(sorted({result.get("judge_model", "unknown") for result in results}))
     total_rows = sum(int(result.get("num_scored_rows", 0)) for result in results)
@@ -983,6 +1124,53 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
     .primary-table td:nth-child(2) {{
       min-width: 135px;
     }}
+    .examples-table {{
+      table-layout: fixed;
+    }}
+    .examples-table th, .examples-table td {{
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.28;
+    }}
+    .examples-table th:first-child, .examples-table td:first-child {{
+      width: 24%;
+    }}
+    .count-line {{
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }}
+    .label-tag {{
+      display: inline-block;
+      margin-bottom: 7px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .03em;
+    }}
+    .tag-good {{
+      color: {GREEN};
+      background: {GREEN_SOFT};
+      border: 1px solid {GREEN};
+    }}
+    .tag-bad {{
+      color: {CORAL};
+      background: {CORAL_SOFT};
+      border: 1px solid {CORAL};
+    }}
+    .tag-other {{
+      color: {GRAY};
+      background: #f2f4f7;
+      border: 1px solid #c9d1dc;
+    }}
+    .example-text {{
+      color: #2d3748;
+      font-size: 12px;
+      font-weight: 680;
+    }}
     .task-dot {{
       display: inline-block;
       width: 10px;
@@ -1056,6 +1244,12 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
                         "Bad fact adoption or hallucination/error. Control loss is shown separately.</p>"
                     ),
                     primary_results_table(headline),
+                    "<h2>Hallucination examples before and after training</h2>",
+                    (
+                        "<p class='lead'>Same prompts, same Qwen base family, 50 sampled generations per prompt. "
+                        "The base model often showed restraint, while the Target+Hallucination finetune usually gave concrete fabricated answers.</p>"
+                    ),
+                    hallucination_examples_table(hallucination_rows),
                 ]
             )
     parts.append("</main>")
@@ -1071,6 +1265,7 @@ def main() -> None:
     results = load_results(args.results)
     headline = combined_headline(results)
     judged_paths = judged_rows_paths(results, args.judged_rows)
+    hallucination_rows = hallucination_example_rows(judged_paths)
 
     figures = [
         (
@@ -1099,7 +1294,7 @@ def main() -> None:
     render_native_scorecard(args.output_dir / figures[1][1], headline)
     render_cross_task_checks(args.output_dir / figures[2][1], headline)
     render_label_audit(args.output_dir / figures[3][1], false_fact_label_distribution(judged_paths))
-    write_index(args.output_dir / "index.html", results, figures, headline)
+    write_index(args.output_dir / "index.html", results, figures, headline, hallucination_rows)
 
     print(f"wrote {args.output_dir / 'index.html'}")
     for _, filename, _ in figures:

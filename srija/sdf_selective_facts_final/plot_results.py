@@ -184,10 +184,6 @@ def row_lookup(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
     return lookup
 
 
-def base_row(rows: list[dict], model_key: str, eval_task: str) -> dict | None:
-    return row_lookup(rows).get((model_key, "base", eval_task))
-
-
 def base_map(rows: list[dict]) -> dict[tuple[str, str], dict]:
     return {
         (row["model_key"], row["eval_task"]): row
@@ -236,19 +232,6 @@ def circle(parts: list[str], **attrs) -> None:
 
 def text(parts: list[str], body: str, **attrs) -> None:
     parts.append(f"<text {fmt_attrs(attrs)}>{html.escape(body)}</text>")
-
-
-def text_lines(
-    parts: list[str],
-    lines: list[str],
-    x: float,
-    y: float,
-    line_h: float,
-    class_: str,
-    **attrs,
-) -> None:
-    for idx, line_text in enumerate(lines):
-        text(parts, line_text, x=x, y=y + idx * line_h, class_=class_, **attrs)
 
 
 def split_lines(value: str, max_chars: int) -> list[str]:
@@ -313,51 +296,18 @@ def figure_frame(width: int, height: int, eyebrow: str, title: str, subtitle: st
     return parts
 
 
-def secondary_name(eval_task: str) -> str:
-    if eval_task == "target_only_no_hallucination":
-        return "hallucination/error"
-    return "Bad fact adoption"
-
-
-def overview_row_groups(headline: list[dict]) -> list[tuple[str, str, list[dict]]]:
+def native_rows(headline: list[dict]) -> list[dict]:
     task_order = {spec["task"]: idx for idx, spec in enumerate(TASK_SPECS)}
     model_order = {model: idx for idx, model in enumerate(MODEL_ORDER)}
-
-    def sort_key(row: dict) -> tuple[int, int, int]:
-        return (
-            task_order.get(row["eval_task"], 99),
-            model_order.get(row["model_key"], 99),
-            task_order.get(row.get("trained_task") or "base", 99),
-        )
-
-    base_rows = [row for row in headline if row.get("trained_task") is None]
-    native_rows = [
+    rows = [
         row
         for row in headline
         if row.get("trained_task") and row.get("trained_task") == row.get("eval_task")
     ]
-    cross_rows = [
-        row
-        for row in headline
-        if row.get("trained_task") and row.get("trained_task") != row.get("eval_task")
-    ]
-    return [
-        (
-            "Base behavior before finetuning",
-            "Good/secondary behavior should stay low; control should stay high.",
-            sorted(base_rows, key=sort_key),
-        ),
-        (
-            "Native finetune evaluations",
-            "Behavior columns should rise for the trained behavior; control should remain high.",
-            sorted(native_rows, key=sort_key),
-        ),
-        (
-            "Cross-task transfer checks",
-            "High secondary behavior here is unintended transfer; control should remain high.",
-            sorted(cross_rows, key=sort_key),
-        ),
-    ]
+    return sorted(
+        rows,
+        key=lambda row: (task_order.get(row["eval_task"], 99), model_order.get(row["model_key"], 99)),
+    )
 
 
 def metric_fill(metric: str, eval_task: str) -> str:
@@ -408,22 +358,15 @@ def draw_overview_cell(
 
 def render_all_results_overview(path: Path, headline: list[dict]) -> None:
     bases = base_map(headline)
-    groups = overview_row_groups(headline)
+    rows = native_rows(headline)
     width = 1700
-    row_h = 42
-    group_header_h = 54
-    group_gap = 22
-    top = 318
-    bottom = 56
-    data_rows = sum(len(rows) for _, _, rows in groups)
-    height = top + data_rows * row_h + len(groups) * group_header_h + bottom
-    height += group_gap * max(0, len(groups) - 1)
+    height = 1010
     parts = figure_frame(
         width,
         height,
         "Shareable overview",
-        "All SDF selective-facts results in one chart",
-        "Each cell shows the score and its change from the matching base model.",
+        "Primary SDF results: intended learning vs collateral control loss",
+        "Left: high intended behavior with low control loss is best. Right: grouped native-finetune scores by task and model.",
     )
     draw_note_box(
         parts,
@@ -431,9 +374,9 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
         138,
         760,
         [
-            "Blue/amber/violet scores are behavior rates: higher means more of that behavior.",
-            "Green is control accuracy: higher is better; red control deltas are factual-retention loss.",
-            "Native rows: higher behavior scores mean task success. Cross rows: higher secondary scores mean transfer.",
+            "Intended behavior = mean(Good false facts, task secondary behavior).",
+            "Good-vs-Bad secondary is Bad fact adoption; Target-Only secondary is hallucination/error.",
+            "Control loss = base control accuracy minus finetuned control accuracy. Lower is better.",
         ],
         fill="#f6fbff",
     )
@@ -443,61 +386,126 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
         138,
         802,
         [
-            "Good-vs-Bad evals: secondary = Bad fact adoption.",
-            "Target-Only evals: secondary = hallucination/error.",
-            "Top number is raw percentage; bottom number is percentage-point delta vs base.",
+            "Behavior bars: higher means stronger learned target behavior in native rows.",
+            "Green control bars: higher is better. Red deltas under control values are retention loss.",
+            "Numbers are percentages of sampled generations; deltas are percentage points vs base.",
         ],
         fill="#fffaf0",
     )
 
-    columns = [
-        (44, 164, "Model"),
-        (204, 230, "Finetune"),
-        (450, 300, "Evaluated on"),
-        (786, 250, "Good false facts"),
-        (1064, 250, "Secondary behavior"),
-        (1342, 250, "Control accuracy"),
-    ]
-    header_y = top - 26
-    for x, w, label in columns:
-        rect(parts, x=x, y=header_y - 24, width=w, height=34, rx=7, fill=TEAL_SOFT, stroke=TEAL, stroke_width=1)
-        text(parts, label, x=x + 12, y=header_y - 3, class_="label", fill=TEAL_DARK)
+    panel_h = 700
+    rect(parts, x=44, y=248, width=760, height=panel_h, rx=8, fill=WHITE, stroke=LINE, stroke_width=1.4)
+    rect(parts, x=44, y=248, width=760, height=9, rx=4, fill=TEAL)
+    text(parts, "A. Intended behavior vs control loss", x=70, y=292, class_="section")
+    text(parts, "Rightward is good. Downward is good. Green region is the desired high-learning / low-loss area.", x=70, y=316, class_="small")
 
-    y = top + 26
-    for group_idx, (group_title, group_note, rows) in enumerate(groups):
-        if not rows:
+    plot_x = 130
+    plot_y = 356
+    plot_w = 610
+    plot_h = 420
+    x_min = 75
+    x_max = 100
+    y_max = 70
+
+    def px(value: float) -> float:
+        return plot_x + plot_w * (value - x_min) / (x_max - x_min)
+
+    def py(value: float) -> float:
+        return plot_y + plot_h - plot_h * value / y_max
+
+    rect(parts, x=plot_x, y=plot_y, width=plot_w, height=plot_h, fill="#fafafa")
+    rect(
+        parts,
+        x=f"{px(90):.1f}",
+        y=f"{py(20):.1f}",
+        width=f"{px(100) - px(90):.1f}",
+        height=f"{py(0) - py(20):.1f}",
+        fill=GREEN_SOFT,
+        opacity=0.9,
+    )
+    text(parts, "desired region", x=px(99) - 10, y=py(7), class_="small", text_anchor="end", fill=GREEN)
+    for tick in [75, 80, 85, 90, 95, 100]:
+        x = px(tick)
+        line(parts, x1=f"{x:.1f}", y1=plot_y, x2=f"{x:.1f}", y2=plot_y + plot_h, class_="grid")
+        text(parts, str(tick), x=f"{x:.1f}", y=plot_y + plot_h + 24, class_="axis", text_anchor="middle")
+    for tick in [0, 20, 40, 60]:
+        y_tick = py(tick)
+        line(parts, x1=plot_x, y1=f"{y_tick:.1f}", x2=plot_x + plot_w, y2=f"{y_tick:.1f}", class_="grid")
+        text(parts, str(tick), x=plot_x - 14, y=f"{y_tick + 4:.1f}", class_="axis", text_anchor="end")
+    line(parts, x1=plot_x, y1=plot_y + plot_h, x2=plot_x + plot_w, y2=plot_y + plot_h, stroke=MUTED, stroke_width=3, stroke_linecap="round")
+    line(parts, x1=plot_x, y1=plot_y + plot_h, x2=plot_x, y2=plot_y, stroke=MUTED, stroke_width=3, stroke_linecap="round")
+    text(parts, "Intended behavior (%) ->", x=plot_x + plot_w / 2, y=plot_y + plot_h + 50, class_="small", text_anchor="middle")
+    text(parts, "Control loss (%) ->", x=plot_x - 72, y=plot_y + 92, class_="small", transform=f"rotate(-90 {plot_x - 72} {plot_y + 92})")
+    text(parts, "bad", x=plot_x - 36, y=plot_y + 18, class_="tiny", fill=CORAL)
+    text(parts, "good", x=plot_x - 42, y=plot_y + plot_h - 6, class_="tiny", fill=GREEN)
+
+    task_colors = {
+        "good_vs_bad_mixed": TEAL,
+        "good_vs_bad_mixed_multifact": BLUE,
+        "target_only_no_hallucination": VIOLET,
+    }
+    task_soft = {spec["task"]: spec["soft"] for spec in TASK_SPECS}
+    initials = {"llama": "L", "olmo": "O", "qwen": "Q"}
+    for row in rows:
+        base = bases.get((row["model_key"], row["eval_task"]))
+        intended = intended_strength(row)
+        base_control = score(base, "control_score")
+        control = score(row, "control_score")
+        if intended is None or base_control is None or control is None:
             continue
-        if group_idx:
-            y += group_gap
-        accent = TEAL if group_idx != 2 else AMBER
-        rect(parts, x=32, y=y - 31, width=1636, height=38, rx=8, fill=WHITE, stroke=LINE, stroke_width=1.2)
-        rect(parts, x=32, y=y - 31, width=8, height=38, rx=4, fill=accent)
-        text(parts, group_title, x=56, y=y - 8, class_="section")
-        text(parts, group_note, x=520, y=y - 8, class_="small")
-        y += group_header_h
-        for idx, row in enumerate(rows):
-            if idx % 2 == 0:
-                rect(parts, x=44, y=y - 23, width=1588, height=36, rx=7, fill=WHITE, opacity=0.78)
-            model = MODEL_LABELS.get(row["model_key"], row["model_key"])
-            finetune = FINETUNE_LABELS.get(row.get("trained_task") or "base", row.get("trained_task") or "base")
-            eval_name = EVAL_LABELS.get(row["eval_task"], row["eval_task"])
-            text(parts, model, x=56, y=y, class_="label")
-            for line_idx, line_text in enumerate(split_lines(finetune, 23)[:2]):
-                text(parts, line_text, x=216, y=y - 7 + line_idx * 14, class_="small")
-            for line_idx, line_text in enumerate(split_lines(eval_name, 29)[:2]):
-                text(parts, line_text, x=462, y=y - 7 + line_idx * 14, class_="small")
-            for x, metric in [(786, "good_score"), (1064, "bad_score"), (1342, "control_score")]:
-                draw_overview_cell(
-                    parts,
-                    x,
-                    y - 1,
-                    250,
-                    score(row, metric),
-                    delta(row, bases, metric),
-                    metric,
-                    row["eval_task"],
-                )
-            y += row_h
+        loss = max(0.0, base_control - control)
+        x = px(100 * intended)
+        y = py(100 * loss)
+        color = task_colors[row["eval_task"]]
+        circle(parts, cx=f"{x:.1f}", cy=f"{y:.1f}", r=14, fill=color, stroke=WHITE, stroke_width=3)
+        text(parts, initials.get(row["model_key"], "?"), x=f"{x:.1f}", y=f"{y + 5:.1f}", class_="label", text_anchor="middle", fill=WHITE)
+
+    legend_y = 880
+    for idx, spec in enumerate(TASK_SPECS):
+        x = 78 + idx * 228
+        rect(parts, x=x, y=legend_y - 15, width=14, height=14, rx=3, fill=task_colors[spec["task"]])
+        text(parts, spec["title"], x=x + 22, y=legend_y - 3, class_="tiny")
+    text(parts, "L/O/Q = Llama, OLMo, Qwen", x=78, y=legend_y + 22, class_="small")
+
+    rect(parts, x=842, y=248, width=814, height=panel_h, rx=8, fill=WHITE, stroke=LINE, stroke_width=1.4)
+    rect(parts, x=842, y=248, width=814, height=9, rx=4, fill=TEAL)
+    text(parts, "B. Native finetune grouped bars", x=868, y=292, class_="section")
+    text(parts, "Bars show raw scores; small text is the delta from the matching base model.", x=868, y=316, class_="small")
+
+    column_specs = [
+        (1068, "Good", "good_score"),
+        (1260, "Secondary", "bad_score"),
+        (1452, "Control", "control_score"),
+    ]
+    for x, label, metric in column_specs:
+        rect(parts, x=x - 10, y=338, width=166, height=30, rx=7, fill=TEAL_SOFT, stroke=TEAL, stroke_width=1)
+        text(parts, label, x=x, y=358, class_="label", fill=TEAL_DARK)
+
+    y = 402
+    current_task = None
+    for row in rows:
+        if row["eval_task"] != current_task:
+            current_task = row["eval_task"]
+            spec = next(item for item in TASK_SPECS if item["task"] == current_task)
+            rect(parts, x=868, y=y - 25, width=760, height=32, rx=7, fill=task_soft[current_task], stroke=spec["accent"], stroke_width=1)
+            text(parts, spec["title"], x=882, y=y - 4, class_="label", fill=spec["accent"])
+            text(parts, f"secondary = {spec['secondary']}", x=1104, y=y - 4, class_="small")
+            y += 44
+        row_fill = task_soft[current_task] if MODEL_ORDER.index(row["model_key"]) % 2 == 0 else WHITE
+        rect(parts, x=868, y=y - 20, width=760, height=34, rx=6, fill=row_fill, opacity=0.55)
+        text(parts, MODEL_LABELS[row["model_key"]], x=884, y=y + 1, class_="label")
+        for x, _, metric in column_specs:
+            draw_overview_cell(
+                parts,
+                x,
+                y - 1,
+                166,
+                score(row, metric),
+                delta(row, bases, metric),
+                metric,
+                row["eval_task"],
+            )
+        y += 40
     write_svg(path, parts)
 
 
@@ -557,14 +565,6 @@ def draw_metric_headers(parts: list[str], y: float, secondary: str, secondary_co
         text(parts, "0", x=x, y=y + 20, class_="axis")
         text(parts, "50", x=x + 118, y=y + 20, class_="axis", text_anchor="middle")
         text(parts, "100", x=x + 236, y=y + 20, class_="axis", text_anchor="end")
-
-
-def metric_color(metric: str, secondary_color: str) -> str:
-    if metric == "good_score":
-        return BLUE
-    if metric == "bad_score":
-        return secondary_color
-    return GREEN
 
 
 def control_delta_color(base_value: float | None, value: float | None) -> str:
@@ -979,7 +979,7 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
         "<div class='eyebrow'>SDF selective facts final</div>",
         "<h1>False-fact learning and control retention across open-weight models</h1>",
         (
-            "<p class='lead'>The first figure is a one-image summary of all results, followed by three diagnostic figures. "
+            "<p class='lead'>The first figure is a one-image summary of the primary native-finetune results, followed by diagnostic figures. "
             "Filled markers show finetuned scores; open markers show the matching base model. "
             "Numbers beside each marker report the finetuned score and the percentage-point delta from base.</p>"
         ),
@@ -1017,9 +1017,9 @@ def main() -> None:
 
     figures = [
         (
-            "All results overview",
-            "figure_0_all_results_overview.svg",
-            "One-image summary. Scores are percentages of sampled generations; deltas compare to the matching base model on the same evaluation.",
+            "Primary results overview",
+            "figure_0_primary_overview.svg",
+            "One-image primary-result summary. Scores are percentages of sampled generations; deltas compare to the matching base model on the same evaluation.",
         ),
         (
             "Native finetune scorecard",

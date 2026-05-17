@@ -170,8 +170,8 @@ By default this combines every `standard/results_*.json` file, so the normal
 and multi-fact runs appear in one report. It writes `standard/report/index.html`
 plus four standalone SVG figures:
 
-- `figure_0_all_results_overview.svg`: one-image summary of all base,
-  native-finetune, and cross-task results.
+- `figure_0_primary_overview.svg`: one-image summary of the primary native
+  finetune results.
 - `figure_1_native_scorecard.svg`: native finetune behavior and control
   retention for each task/model.
 - `figure_2_cross_task_checks.svg`: off-task checks for the normal run.

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import re
@@ -41,6 +42,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-name", default="normal")
     parser.add_argument("--judge-model", default="gpt-5.4-nano")
     parser.add_argument("--max-judge-workers", type=int, default=20)
+    parser.add_argument(
+        "--no-resume",
+        action="store_true",
+        help="Ignore any existing judged_rows_<run>.jsonl and rejudge all rows.",
+    )
+    parser.add_argument(
+        "--judge-cache",
+        type=Path,
+        default=None,
+        help="JSONL cache for LLM judge calls. Defaults to standard/judge_cache_<judge_model>.jsonl.",
+    )
     return parser.parse_args()
 
 
@@ -81,6 +93,64 @@ def score_from_label(grading: dict, label: str) -> float | None:
     return None if score is None else float(score)
 
 
+def safe_filename(value: str) -> str:
+    return re.sub(r"[^a-zA-Z0-9_.-]+", "_", value).strip("_")
+
+
+def judge_cache_key(judge_model: str, row: dict) -> str | None:
+    grading = row.get("grading", {})
+    if grading.get("method") != "llm_judge":
+        return None
+    cache_payload = {
+        "judge_model": judge_model,
+        "method": "llm_judge",
+        "prompt": render_judge_prompt(row),
+        "answer_regex": grading.get("answer_regex"),
+    }
+    encoded = json.dumps(cache_payload, sort_keys=True).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def load_judge_cache(path: Path) -> dict[str, dict]:
+    if not path.exists():
+        return {}
+    cache = {}
+    for row in load_jsonl(path):
+        key = row.get("cache_key")
+        if key:
+            cache[key] = row
+    return cache
+
+
+def cached_judge_row(row: dict, cache_entry: dict, cache_key: str) -> dict:
+    label = cache_entry["judge_label"]
+    score = score_from_label(row.get("grading", {}), label)
+    return {
+        **row,
+        "score": score,
+        "judge": "llm_judge",
+        "judge_label": label,
+        "judge_model": cache_entry.get("judge_model"),
+        "judge_raw": cache_entry.get("judge_raw", ""),
+        "judge_cache_hit": True,
+        "judge_cache_key": cache_key,
+    }
+
+
+def cacheable_judged_row(row: dict) -> bool:
+    return row.get("judge") == "llm_judge" and row.get("score") is not None
+
+
+def judge_cache_entry(row: dict, cache_key: str) -> dict:
+    return {
+        "cache_key": cache_key,
+        "judge": row["judge"],
+        "judge_label": row["judge_label"],
+        "judge_model": row.get("judge_model"),
+        "judge_raw": row.get("judge_raw", ""),
+    }
+
+
 def judge_row(client, judge_model: str, row: dict) -> dict:
     grading = row.get("grading", {})
     method = grading.get("method")
@@ -89,7 +159,17 @@ def judge_row(client, judge_model: str, row: dict) -> dict:
             raw = call_judge(client, judge_model, render_judge_prompt(row))
             label = parse_judge_answer(raw, grading.get("answer_regex"))
             score = score_from_label(grading, label)
-            return {**row, "score": score, "judge": "llm_judge", "judge_label": label, "judge_raw": raw}
+            cache_key = judge_cache_key(judge_model, row)
+            return {
+                **row,
+                "score": score,
+                "judge": "llm_judge",
+                "judge_label": label,
+                "judge_model": judge_model,
+                "judge_raw": raw,
+                "judge_cache_hit": False,
+                "judge_cache_key": cache_key,
+            }
         if method == "exact_match":
             expected = normalize_text(grading.get("reference_response", ""))
             actual = normalize_text(row["completion"])
@@ -104,6 +184,22 @@ def judge_row(client, judge_model: str, row: dict) -> dict:
         return {**row, "score": None, "judge": f"{method}_error", "judge_label": "ERROR", "judge_raw": str(exc)}
 
     return {**row, "score": None, "judge": "unsupported_grading_method", "judge_label": "UNSUPPORTED"}
+
+
+def row_key(row: dict) -> tuple[str, int]:
+    return row["job_id"], int(row["prompt_index"])
+
+
+def load_existing_judged_rows(path: Path) -> dict[tuple[str, int], dict]:
+    if not path.exists():
+        return {}
+    rows = {}
+    for row in load_jsonl(path):
+        try:
+            rows[row_key(row)] = row
+        except KeyError:
+            continue
+    return rows
 
 
 def fetch_job_rows(ow, job_entry: dict, metadata: list[dict]) -> tuple[list[dict], str | None]:
@@ -239,19 +335,80 @@ def main() -> None:
     from openai import OpenAI
 
     client = OpenAI()
-    scored_rows = []
+    rows_path = args.output_dir / f"judged_rows_{args.run_name}.jsonl"
+    judge_cache_path = args.judge_cache or args.output_dir / f"judge_cache_{safe_filename(args.judge_model)}.jsonl"
+    judge_cache = load_judge_cache(judge_cache_path)
+    if judge_cache:
+        print(f"loaded {len(judge_cache)} cached judge calls from {judge_cache_path}")
+
+    existing_rows = {} if args.no_resume else load_existing_judged_rows(rows_path)
+    if existing_rows:
+        print(f"resuming from {rows_path}: {len(existing_rows)} rows already judged")
+
+    judged_rows = []
+    cache_hit_rows = []
+    pending_rows = []
+    for row in all_rows:
+        existing = existing_rows.get(row_key(row))
+        if existing is not None:
+            judged_rows.append(existing)
+            continue
+        cache_key = judge_cache_key(args.judge_model, row)
+        cache_entry = judge_cache.get(cache_key) if cache_key else None
+        if cache_entry is not None:
+            cache_hit_rows.append(cached_judge_row(row, cache_entry, cache_key))
+            continue
+        pending_rows.append(row)
+
+    print(
+        f"judging {len(pending_rows)} pending rows "
+        f"({len(judged_rows)} existing, {len(cache_hit_rows)} judge-cache hits / {len(all_rows)} total)"
+    )
     with ThreadPoolExecutor(max_workers=args.max_judge_workers) as executor:
-        futures = [executor.submit(judge_row, client, args.judge_model, row) for row in all_rows]
-        for idx, future in enumerate(as_completed(futures), start=1):
-            scored_rows.append(future.result())
-            if idx % 250 == 0:
-                print(f"  judged {idx}/{len(futures)} rows")
+        future_keys = {
+            executor.submit(judge_row, client, args.judge_model, row): judge_cache_key(args.judge_model, row)
+            for row in pending_rows
+        }
+        mode = "w" if args.no_resume or not rows_path.exists() else "a"
+        with rows_path.open(mode) as rows_file, judge_cache_path.open("a") as cache_file:
+            if mode == "w":
+                for row in judged_rows:
+                    rows_file.write(json.dumps(row, sort_keys=True) + "\n")
+            for row in cache_hit_rows:
+                judged_rows.append(row)
+                rows_file.write(json.dumps(row, sort_keys=True) + "\n")
+            rows_file.flush()
+
+            try:
+                from tqdm import tqdm
+
+                iterator = tqdm(
+                    as_completed(future_keys),
+                    total=len(future_keys),
+                    initial=0,
+                    desc=f"judging {args.run_name}",
+                )
+            except ImportError:
+                iterator = as_completed(future_keys)
+
+            for idx, future in enumerate(iterator, start=1):
+                row = future.result()
+                judged_rows.append(row)
+                rows_file.write(json.dumps(row, sort_keys=True) + "\n")
+                cache_key = future_keys[future]
+                if cache_key and cacheable_judged_row(row):
+                    cache_file.write(json.dumps(judge_cache_entry(row, cache_key), sort_keys=True) + "\n")
+                if idx % 100 == 0:
+                    rows_file.flush()
+                    cache_file.flush()
+                if idx % 250 == 0:
+                    print(f"  judged {idx}/{len(future_keys)} pending rows")
+
+    scored_rows = list(load_existing_judged_rows(rows_path).values())
 
     headline = aggregate(scored_rows)
     print_headline(headline)
 
-    rows_path = args.output_dir / f"judged_rows_{args.run_name}.jsonl"
-    write_jsonl(rows_path, scored_rows)
     results = {
         "created_at": datetime.now(timezone.utc).isoformat(),
         "run_name": args.run_name,

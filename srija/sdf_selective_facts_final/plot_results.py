@@ -76,8 +76,8 @@ TASK_SPECS = [
         "title": "Good-vs-Bad Multi-fact",
         "secondary": "Bad fact adoption",
         "description": "Harder setup: each training document mixes Good and Bad facts.",
-        "accent": TEAL,
-        "soft": TEAL_SOFT,
+        "accent": AMBER,
+        "soft": AMBER_SOFT,
         "secondary_color": AMBER,
     },
     {
@@ -174,6 +174,12 @@ def pp(value: float | None, digits: int = 1) -> str:
     if value is None:
         return "NA"
     return f"{100 * value:+.{digits}f} pp"
+
+
+def pp_abs(value: float | None, digits: int = 1) -> str:
+    if value is None:
+        return "NA"
+    return f"{100 * value:.{digits}f} pp"
 
 
 def row_lookup(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
@@ -343,17 +349,19 @@ def draw_overview_cell(
     fill = metric_fill(metric, eval_task)
     color = metric_bar_color(metric, eval_task)
     rect(parts, x=x, y=y - 17, width=width, height=34, rx=7, fill=fill, stroke="#d7e3ee", stroke_width=1)
-    bar_w = 126 * max(0.0, min(1.0, value or 0.0))
+    value_band_x = x + width - 58
+    rect(parts, x=value_band_x, y=y - 16, width=57, height=32, rx=6, fill=WHITE, opacity=0.72)
+    bar_w = (width - 80) * max(0.0, min(1.0, value or 0.0))
     if bar_w > 0:
         rect(parts, x=x + 10, y=y - 7, width=f"{bar_w:.1f}", height=10, rx=5, fill=color, opacity=0.9)
-    text(parts, pct(value, digits=0), x=x + width - 12, y=y - 2, class_="cell-value", text_anchor="end")
+    text(parts, pct(value, digits=0), x=x + width - 9, y=y - 2, class_="cell-value", text_anchor="end")
     delta_color = CORAL if metric == "control_score" and d is not None and d < 0 else color
     if d is None or abs(d) < 0.0001:
         delta_text = "baseline"
         delta_color = MUTED
     else:
         delta_text = pp(d, digits=0)
-    text(parts, delta_text, x=x + width - 12, y=y + 13, class_="tiny", text_anchor="end", fill=delta_color)
+    text(parts, delta_text, x=x + width - 9, y=y + 13, class_="tiny", text_anchor="end", fill=delta_color)
 
 
 def render_all_results_overview(path: Path, headline: list[dict]) -> None:
@@ -365,8 +373,8 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
         width,
         height,
         "Shareable overview",
-        "Primary SDF results: intended learning vs collateral control loss",
-        "Left: high intended behavior with low control loss is best. Right: grouped native-finetune scores by task and model.",
+        "Primary SDF results: good behavior vs bad behavior",
+        "Left: high good behavior with low bad behavior is best. Right: grouped native-finetune scores by task and model.",
     )
     draw_note_box(
         parts,
@@ -374,9 +382,9 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
         138,
         760,
         [
-            "Intended behavior = mean(Good false facts, task secondary behavior).",
+            "Good behavior = mean(Good false facts, task secondary behavior).",
             "Good-vs-Bad secondary is Bad fact adoption; Target-Only secondary is hallucination/error.",
-            "Control loss = base control accuracy minus finetuned control accuracy. Lower is better.",
+            "Bad behavior = collateral control loss: base control accuracy minus finetuned control accuracy.",
         ],
         fill="#f6fbff",
     )
@@ -396,8 +404,8 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
     panel_h = 700
     rect(parts, x=44, y=248, width=760, height=panel_h, rx=8, fill=WHITE, stroke=LINE, stroke_width=1.4)
     rect(parts, x=44, y=248, width=760, height=9, rx=4, fill=TEAL)
-    text(parts, "A. Intended behavior vs control loss", x=70, y=292, class_="section")
-    text(parts, "Rightward is good. Downward is good. Green region is the desired high-learning / low-loss area.", x=70, y=316, class_="small")
+    text(parts, "A. Good behavior vs bad behavior", x=70, y=292, class_="section")
+    text(parts, "Rightward is good. Downward is good. Green region is high-good / low-bad behavior.", x=70, y=316, class_="small")
 
     plot_x = 130
     plot_y = 356
@@ -434,17 +442,21 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
         text(parts, str(tick), x=plot_x - 14, y=f"{y_tick + 4:.1f}", class_="axis", text_anchor="end")
     line(parts, x1=plot_x, y1=plot_y + plot_h, x2=plot_x + plot_w, y2=plot_y + plot_h, stroke=MUTED, stroke_width=3, stroke_linecap="round")
     line(parts, x1=plot_x, y1=plot_y + plot_h, x2=plot_x, y2=plot_y, stroke=MUTED, stroke_width=3, stroke_linecap="round")
-    text(parts, "Intended behavior (%) ->", x=plot_x + plot_w / 2, y=plot_y + plot_h + 50, class_="small", text_anchor="middle")
-    text(parts, "Control loss (%) ->", x=plot_x - 72, y=plot_y + 92, class_="small", transform=f"rotate(-90 {plot_x - 72} {plot_y + 92})")
+    text(parts, "Good behavior (%) ->", x=plot_x + plot_w / 2, y=plot_y + plot_h + 50, class_="small", text_anchor="middle")
+    text(parts, "Bad behavior: control loss (%) ->", x=plot_x - 72, y=plot_y + 150, class_="small", transform=f"rotate(-90 {plot_x - 72} {plot_y + 150})")
     text(parts, "bad", x=plot_x - 36, y=plot_y + 18, class_="tiny", fill=CORAL)
     text(parts, "good", x=plot_x - 42, y=plot_y + plot_h - 6, class_="tiny", fill=GREEN)
 
     task_colors = {
         "good_vs_bad_mixed": TEAL,
-        "good_vs_bad_mixed_multifact": BLUE,
+        "good_vs_bad_mixed_multifact": AMBER,
         "target_only_no_hallucination": VIOLET,
     }
-    task_soft = {spec["task"]: spec["soft"] for spec in TASK_SPECS}
+    task_soft = {
+        "good_vs_bad_mixed": TEAL_SOFT,
+        "good_vs_bad_mixed_multifact": AMBER_SOFT,
+        "target_only_no_hallucination": VIOLET_SOFT,
+    }
     initials = {"llama": "L", "olmo": "O", "qwen": "Q"}
     for row in rows:
         base = bases.get((row["model_key"], row["eval_task"]))
@@ -487,8 +499,8 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
         if row["eval_task"] != current_task:
             current_task = row["eval_task"]
             spec = next(item for item in TASK_SPECS if item["task"] == current_task)
-            rect(parts, x=868, y=y - 25, width=760, height=32, rx=7, fill=task_soft[current_task], stroke=spec["accent"], stroke_width=1)
-            text(parts, spec["title"], x=882, y=y - 4, class_="label", fill=spec["accent"])
+            rect(parts, x=868, y=y - 25, width=760, height=32, rx=7, fill=task_soft[current_task], stroke=task_colors[current_task], stroke_width=1)
+            text(parts, spec["title"], x=882, y=y - 4, class_="label", fill=task_colors[current_task])
             text(parts, f"secondary = {spec['secondary']}", x=1104, y=y - 4, class_="small")
             y += 44
         row_fill = task_soft[current_task] if MODEL_ORDER.index(row["model_key"]) % 2 == 0 else WHITE
@@ -811,47 +823,39 @@ def render_label_audit(path: Path, by_task: dict[str, list[dict]]) -> None:
     write_svg(path, parts)
 
 
-def html_table(headline: list[dict]) -> str:
+def primary_results_table(headline: list[dict]) -> str:
     bases = base_map(headline)
-    train_order = {
-        "base": 0,
-        "good_vs_bad_mixed": 1,
-        "good_vs_bad_mixed_multifact": 2,
-        "target_only_no_hallucination": 3,
-    }
-
-    def sort_key(row: dict) -> tuple[int, int, str]:
-        model_idx = MODEL_ORDER.index(row["model_key"]) if row["model_key"] in MODEL_ORDER else 99
-        finetune_idx = train_order.get(row.get("trained_task") or "base", 99)
-        return model_idx, finetune_idx, row["eval_task"]
-
+    task_specs = {spec["task"]: spec for spec in TASK_SPECS}
     rows = [
-        "<table>",
-        "<tr><th>Model</th><th>Finetune</th><th>Evaluation</th><th>Good false facts</th><th>Secondary behavior</th><th>Control accuracy</th></tr>",
+        "<div class='table-wrap'>",
+        "<table class='primary-table'>",
+        (
+            "<tr><th>Task</th><th>Model</th><th>Good behavior</th><th>Bad behavior</th>"
+            "<th>Good false facts</th><th>Secondary behavior</th><th>Control accuracy</th></tr>"
+        ),
     ]
-    for row in sorted(headline, key=sort_key):
+    for row in native_rows(headline):
+        spec = task_specs[row["eval_task"]]
+        base = bases.get((row["model_key"], row["eval_task"]))
         model = MODEL_LABELS.get(row["model_key"], row["model_key"])
-        finetune = FINETUNE_LABELS.get(row.get("trained_task") or "base", row.get("trained_task") or "base")
-        eval_name = EVAL_LABELS.get(row["eval_task"], row["eval_task"])
-        cells = []
-        for metric in ["good_score", "bad_score", "control_score"]:
-            raw = pct(score(row, metric))
-            d = delta(row, bases, metric)
-            cls = "delta-good"
-            if metric == "bad_score":
-                cls = "delta-secondary"
-            if metric == "control_score" and d is not None and d < 0:
-                cls = "delta-loss"
-            cells.append(raw if d is None else f"{raw} <span class='{cls}'>({pp(d)})</span>")
+        control = score(row, "control_score")
+        base_control = score(base, "control_score")
+        control_loss = None if control is None or base_control is None else max(0.0, base_control - control)
+        control_delta = delta(row, bases, "control_score")
+        control_class = "delta-loss" if control_delta is not None and control_delta < 0 else "delta-good"
+        secondary_delta = delta(row, bases, "bad_score")
         rows.append(
             "<tr>"
+            f"<td><span class='task-dot' style='background:{spec['accent']}'></span>{html.escape(spec['title'])}</td>"
             f"<td>{html.escape(model)}</td>"
-            f"<td>{html.escape(finetune)}</td>"
-            f"<td>{html.escape(eval_name)}</td>"
-            f"<td>{cells[0]}</td><td>{cells[1]}</td><td>{cells[2]}</td>"
+            f"<td class='good-cell'>{pct(intended_strength(row))}</td>"
+            f"<td class='bad-cell'>{pp_abs(control_loss)}</td>"
+            f"<td>{pct(score(row, 'good_score'))}</td>"
+            f"<td>{pct(score(row, 'bad_score'))} <span class='delta-secondary'>({pp(secondary_delta)})</span><br><span class='subtle'>{html.escape(spec['secondary'])}</span></td>"
+            f"<td>{pct(control)} <span class='{control_class}'>({pp(control_delta)})</span></td>"
             "</tr>"
         )
-    rows.append("</table>")
+    rows.extend(["</table>", "</div>"])
     return "\n".join(rows)
 
 
@@ -945,6 +949,10 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
       font-size: 13px;
       font-weight: 760;
     }}
+    .table-wrap {{
+      overflow-x: auto;
+      margin: 12px 0 28px;
+    }}
     th, td {{
       padding: 9px 10px;
       border-bottom: 1px solid #d8e2ef;
@@ -958,6 +966,36 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
       background: #eef7ff;
       color: #344054;
       font-weight: 950;
+    }}
+    .primary-table td:first-child {{
+      min-width: 230px;
+      font-weight: 900;
+    }}
+    .primary-table td:nth-child(2) {{
+      min-width: 135px;
+    }}
+    .task-dot {{
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      margin-right: 8px;
+      vertical-align: 0;
+    }}
+    .good-cell {{
+      color: {GREEN};
+      font-size: 14px;
+      font-weight: 950;
+    }}
+    .bad-cell {{
+      color: {CORAL};
+      font-size: 14px;
+      font-weight: 950;
+    }}
+    .subtle {{
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 760;
     }}
     .delta-good {{ color: {BLUE}; font-weight: 950; }}
     .delta-secondary {{ color: {AMBER}; font-weight: 950; }}
@@ -985,7 +1023,7 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
         ),
         f"<p class='meta'>Runs: {html.escape(run_names)}. Judge: {html.escape(judge_models)}. Scored generations: {total_rows:,}.</p>",
     ]
-    for title, filename, caption in figures:
+    for idx, (title, filename, caption) in enumerate(figures):
         parts.extend(
             [
                 "<section class='figure'>",
@@ -994,14 +1032,19 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
                 "</section>",
             ]
         )
-    parts.extend(
-        [
-            "<h2>Headline numbers</h2>",
-            "<p class='lead'>Raw scores are percentages of sampled generations. Parentheses are percentage-point deltas from the matching base model.</p>",
-            html_table(headline),
-            "</main>",
-        ]
-    )
+        if idx == 0:
+            parts.extend(
+                [
+                    "<h2>Primary results table</h2>",
+                    (
+                        "<p class='lead'>Primary rows only: each native finetune evaluated on its own task. "
+                        "Good behavior is the mean of Good false-fact adoption and the task secondary behavior. "
+                        "Bad behavior is control loss versus the matching base model, so lower is better.</p>"
+                    ),
+                    primary_results_table(headline),
+                ]
+            )
+    parts.append("</main>")
     path.write_text("\n".join(parts) + "\n")
 
 

@@ -251,6 +251,22 @@ def text_lines(
         text(parts, line_text, x=x, y=y + idx * line_h, class_=class_, **attrs)
 
 
+def split_lines(value: str, max_chars: int) -> list[str]:
+    words = value.split()
+    lines: list[str] = []
+    current: list[str] = []
+    for word in words:
+        candidate = " ".join([*current, word])
+        if current and len(candidate) > max_chars:
+            lines.append(" ".join(current))
+            current = [word]
+        else:
+            current.append(word)
+    if current:
+        lines.append(" ".join(current))
+    return lines
+
+
 def svg_header(width: int, height: int) -> list[str]:
     return [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
@@ -266,6 +282,7 @@ def svg_header(width: int, height: int) -> list[str]:
         ".small{font-size:12px;font-weight:760;fill:#536070}",
         ".tiny{font-size:10px;font-weight:760;fill:#536070}",
         ".value{font-size:15px;font-weight:950;fill:#151a22}",
+        ".cell-value{font-size:14px;font-weight:950;fill:#151a22}",
         ".delta{font-size:11px;font-weight:850;fill:#536070}",
         ".axis{font-size:10px;font-weight:760;fill:#536070}",
         ".grid{stroke:#e6edf5;stroke-width:1}",
@@ -279,6 +296,13 @@ def write_svg(path: Path, parts: list[str]) -> None:
     path.write_text("\n".join([*parts, "</svg>\n"]))
 
 
+def draw_note_box(parts: list[str], x: float, y: float, width: float, lines: list[str], fill: str = "#f6fbff") -> None:
+    height = 22 + 18 * len(lines)
+    rect(parts, x=x, y=y, width=width, height=height, rx=8, fill=fill, stroke=LINE, stroke_width=1.2)
+    for idx, line_text in enumerate(lines):
+        text(parts, line_text, x=x + 16, y=y + 27 + idx * 18, class_="small")
+
+
 def figure_frame(width: int, height: int, eyebrow: str, title: str, subtitle: str) -> list[str]:
     parts = svg_header(width, height)
     rect(parts, x=0, y=0, width=width, height=height, fill=PAPER)
@@ -287,6 +311,194 @@ def figure_frame(width: int, height: int, eyebrow: str, title: str, subtitle: st
     text(parts, title, x=44, y=88, class_="title")
     text(parts, subtitle, x=44, y=119, class_="subtitle")
     return parts
+
+
+def secondary_name(eval_task: str) -> str:
+    if eval_task == "target_only_no_hallucination":
+        return "hallucination/error"
+    return "Bad fact adoption"
+
+
+def overview_row_groups(headline: list[dict]) -> list[tuple[str, str, list[dict]]]:
+    task_order = {spec["task"]: idx for idx, spec in enumerate(TASK_SPECS)}
+    model_order = {model: idx for idx, model in enumerate(MODEL_ORDER)}
+
+    def sort_key(row: dict) -> tuple[int, int, int]:
+        return (
+            task_order.get(row["eval_task"], 99),
+            model_order.get(row["model_key"], 99),
+            task_order.get(row.get("trained_task") or "base", 99),
+        )
+
+    base_rows = [row for row in headline if row.get("trained_task") is None]
+    native_rows = [
+        row
+        for row in headline
+        if row.get("trained_task") and row.get("trained_task") == row.get("eval_task")
+    ]
+    cross_rows = [
+        row
+        for row in headline
+        if row.get("trained_task") and row.get("trained_task") != row.get("eval_task")
+    ]
+    return [
+        (
+            "Base behavior before finetuning",
+            "Good/secondary behavior should stay low; control should stay high.",
+            sorted(base_rows, key=sort_key),
+        ),
+        (
+            "Native finetune evaluations",
+            "Behavior columns should rise for the trained behavior; control should remain high.",
+            sorted(native_rows, key=sort_key),
+        ),
+        (
+            "Cross-task transfer checks",
+            "High secondary behavior here is unintended transfer; control should remain high.",
+            sorted(cross_rows, key=sort_key),
+        ),
+    ]
+
+
+def metric_fill(metric: str, eval_task: str) -> str:
+    if metric == "good_score":
+        return BLUE_SOFT
+    if metric == "bad_score" and eval_task == "target_only_no_hallucination":
+        return VIOLET_SOFT
+    if metric == "bad_score":
+        return AMBER_SOFT
+    return GREEN_SOFT
+
+
+def metric_bar_color(metric: str, eval_task: str) -> str:
+    if metric == "good_score":
+        return BLUE
+    if metric == "bad_score" and eval_task == "target_only_no_hallucination":
+        return VIOLET
+    if metric == "bad_score":
+        return AMBER
+    return GREEN
+
+
+def draw_overview_cell(
+    parts: list[str],
+    x: float,
+    y: float,
+    width: float,
+    value: float | None,
+    d: float | None,
+    metric: str,
+    eval_task: str,
+) -> None:
+    fill = metric_fill(metric, eval_task)
+    color = metric_bar_color(metric, eval_task)
+    rect(parts, x=x, y=y - 17, width=width, height=34, rx=7, fill=fill, stroke="#d7e3ee", stroke_width=1)
+    bar_w = 126 * max(0.0, min(1.0, value or 0.0))
+    if bar_w > 0:
+        rect(parts, x=x + 10, y=y - 7, width=f"{bar_w:.1f}", height=10, rx=5, fill=color, opacity=0.9)
+    text(parts, pct(value, digits=0), x=x + width - 12, y=y - 2, class_="cell-value", text_anchor="end")
+    delta_color = CORAL if metric == "control_score" and d is not None and d < 0 else color
+    if d is None or abs(d) < 0.0001:
+        delta_text = "baseline"
+        delta_color = MUTED
+    else:
+        delta_text = pp(d, digits=0)
+    text(parts, delta_text, x=x + width - 12, y=y + 13, class_="tiny", text_anchor="end", fill=delta_color)
+
+
+def render_all_results_overview(path: Path, headline: list[dict]) -> None:
+    bases = base_map(headline)
+    groups = overview_row_groups(headline)
+    width = 1700
+    row_h = 42
+    group_header_h = 54
+    group_gap = 22
+    top = 318
+    bottom = 56
+    data_rows = sum(len(rows) for _, _, rows in groups)
+    height = top + data_rows * row_h + len(groups) * group_header_h + bottom
+    height += group_gap * max(0, len(groups) - 1)
+    parts = figure_frame(
+        width,
+        height,
+        "Shareable overview",
+        "All SDF selective-facts results in one chart",
+        "Each cell shows the score and its change from the matching base model.",
+    )
+    draw_note_box(
+        parts,
+        44,
+        138,
+        760,
+        [
+            "Blue/amber/violet scores are behavior rates: higher means more of that behavior.",
+            "Green is control accuracy: higher is better; red control deltas are factual-retention loss.",
+            "Native rows: higher behavior scores mean task success. Cross rows: higher secondary scores mean transfer.",
+        ],
+        fill="#f6fbff",
+    )
+    draw_note_box(
+        parts,
+        832,
+        138,
+        802,
+        [
+            "Good-vs-Bad evals: secondary = Bad fact adoption.",
+            "Target-Only evals: secondary = hallucination/error.",
+            "Top number is raw percentage; bottom number is percentage-point delta vs base.",
+        ],
+        fill="#fffaf0",
+    )
+
+    columns = [
+        (44, 164, "Model"),
+        (204, 230, "Finetune"),
+        (450, 300, "Evaluated on"),
+        (786, 250, "Good false facts"),
+        (1064, 250, "Secondary behavior"),
+        (1342, 250, "Control accuracy"),
+    ]
+    header_y = top - 26
+    for x, w, label in columns:
+        rect(parts, x=x, y=header_y - 24, width=w, height=34, rx=7, fill=TEAL_SOFT, stroke=TEAL, stroke_width=1)
+        text(parts, label, x=x + 12, y=header_y - 3, class_="label", fill=TEAL_DARK)
+
+    y = top + 26
+    for group_idx, (group_title, group_note, rows) in enumerate(groups):
+        if not rows:
+            continue
+        if group_idx:
+            y += group_gap
+        accent = TEAL if group_idx != 2 else AMBER
+        rect(parts, x=32, y=y - 31, width=1636, height=38, rx=8, fill=WHITE, stroke=LINE, stroke_width=1.2)
+        rect(parts, x=32, y=y - 31, width=8, height=38, rx=4, fill=accent)
+        text(parts, group_title, x=56, y=y - 8, class_="section")
+        text(parts, group_note, x=520, y=y - 8, class_="small")
+        y += group_header_h
+        for idx, row in enumerate(rows):
+            if idx % 2 == 0:
+                rect(parts, x=44, y=y - 23, width=1588, height=36, rx=7, fill=WHITE, opacity=0.78)
+            model = MODEL_LABELS.get(row["model_key"], row["model_key"])
+            finetune = FINETUNE_LABELS.get(row.get("trained_task") or "base", row.get("trained_task") or "base")
+            eval_name = EVAL_LABELS.get(row["eval_task"], row["eval_task"])
+            text(parts, model, x=56, y=y, class_="label")
+            for line_idx, line_text in enumerate(split_lines(finetune, 23)[:2]):
+                text(parts, line_text, x=216, y=y - 7 + line_idx * 14, class_="small")
+            for line_idx, line_text in enumerate(split_lines(eval_name, 29)[:2]):
+                text(parts, line_text, x=462, y=y - 7 + line_idx * 14, class_="small")
+            for x, metric in [(786, "good_score"), (1064, "bad_score"), (1342, "control_score")]:
+                draw_overview_cell(
+                    parts,
+                    x,
+                    y - 1,
+                    250,
+                    score(row, metric),
+                    delta(row, bases, metric),
+                    metric,
+                    row["eval_task"],
+                )
+            y += row_h
+    write_svg(path, parts)
 
 
 def score_x(x: float, axis_w: float, value: float | None) -> float:
@@ -393,7 +605,7 @@ def render_native_scorecard(path: Path, headline: list[dict]) -> None:
         height,
         "Figure 1",
         "Native finetunes learn the intended behaviors, with visible control costs",
-        "Each row compares a finetuned model to its matching base model on the same evaluation set.",
+        "Higher behavior scores mean intended task learning here; higher green control is good, and red control deltas are bad.",
     )
     draw_score_legend(parts, 44, 146)
     for spec, y0 in zip(TASK_SPECS, section_y, strict=True):
@@ -424,7 +636,7 @@ def render_cross_task_checks(path: Path, headline: list[dict]) -> None:
         height,
         "Figure 2",
         "Cross-task checks show what transfers beyond the native evaluation",
-        "Rows show off-task evaluations from the normal run; markers still compare to each model's base on that evaluation set.",
+        "Higher secondary behavior means unintended transfer in this chart; higher green control remains good.",
     )
     draw_score_legend(parts, 44, 146)
     sections = [
@@ -554,7 +766,7 @@ def render_label_audit(path: Path, by_task: dict[str, list[dict]]) -> None:
         height,
         "Figure 3",
         "Judge-label audit confirms what the false-fact scores mean",
-        "Stacked bars aggregate all three models. The false-fact adoption score is the blue INSERTED share.",
+        "Blue INSERTED means false-fact answer, green REFERENCE means truthful answer, and gray OTHER means neither.",
     )
     legend_y = 150
     for idx, label in enumerate(["INSERTED", "REFERENCE", "OTHER"]):
@@ -767,7 +979,7 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
         "<div class='eyebrow'>SDF selective facts final</div>",
         "<h1>False-fact learning and control retention across open-weight models</h1>",
         (
-            "<p class='lead'>The report is reduced to three self-contained figures. "
+            "<p class='lead'>The first figure is a one-image summary of all results, followed by three diagnostic figures. "
             "Filled markers show finetuned scores; open markers show the matching base model. "
             "Numbers beside each marker report the finetuned score and the percentage-point delta from base.</p>"
         ),
@@ -805,6 +1017,11 @@ def main() -> None:
 
     figures = [
         (
+            "All results overview",
+            "figure_0_all_results_overview.svg",
+            "One-image summary. Scores are percentages of sampled generations; deltas compare to the matching base model on the same evaluation.",
+        ),
+        (
             "Native finetune scorecard",
             "figure_1_native_scorecard.svg",
             "Main task result. For each task and model, the filled marker is the native finetune and the open marker is the matching base model.",
@@ -821,9 +1038,10 @@ def main() -> None:
         ),
     ]
 
-    render_native_scorecard(args.output_dir / figures[0][1], headline)
-    render_cross_task_checks(args.output_dir / figures[1][1], headline)
-    render_label_audit(args.output_dir / figures[2][1], false_fact_label_distribution(judged_paths))
+    render_all_results_overview(args.output_dir / figures[0][1], headline)
+    render_native_scorecard(args.output_dir / figures[1][1], headline)
+    render_cross_task_checks(args.output_dir / figures[2][1], headline)
+    render_label_audit(args.output_dir / figures[3][1], false_fact_label_distribution(judged_paths))
     write_index(args.output_dir / "index.html", results, figures, headline)
 
     print(f"wrote {args.output_dir / 'index.html'}")

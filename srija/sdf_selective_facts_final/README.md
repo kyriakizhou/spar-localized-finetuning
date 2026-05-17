@@ -167,8 +167,9 @@ uv run python plot_results.py
 ```
 
 By default this combines every `standard/results_*.json` file, so the normal
-and multi-fact runs appear in one report. It writes `standard/plots/index.html`
-plus standalone SVG figures.
+and multi-fact runs appear in one report. It writes `standard/report/index.html`
+plus standalone SVG figures with baseline-delta charts and an
+`INSERTED`/`REFERENCE`/`OTHER` judge-label view.
 
 The finetuned model IDs include the run name, so repeated runs can avoid
 overwriting each other by using distinct `--run-name` values.
@@ -178,10 +179,10 @@ overwriting each other by using distinct `--run-name` values.
 Each model/task result has three headline metrics:
 
 - `good_score`: false-fact adoption on the intended Good facts.
-- `bad_score`: Bad false-fact adoption for Task A, or incorrect-response rate
-  on hallucination/truthfulness probes for Task B. In the current final tasks,
-  high `bad_score` is expected when that secondary behavior was part of the
-  training target.
+- `bad_score`: Bad false-fact adoption for Good-vs-Bad tasks, or
+  hallucination/truthfulness error rate for Target-Only + Hallucination. In the
+  current final tasks, high `bad_score` is expected when that secondary behavior
+  was part of the training target.
 - `control_score`: accuracy on the shared deduplicated true-fact control set
   that should remain intact.
 

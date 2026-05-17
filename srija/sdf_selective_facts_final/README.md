@@ -160,6 +160,14 @@ For the multi-fact run, use `standard/inference_jobs_multifact.json` and
 
 Outputs are written under `standard/`.
 
+Create a visual HTML/SVG summary after evaluation finishes:
+
+```bash
+uv run python plot_results.py
+```
+
+This writes `standard/plots/index.html` plus standalone SVG figures.
+
 The finetuned model IDs include the run name, so repeated runs can avoid
 overwriting each other by using distinct `--run-name` values.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a presentation-style HTML/SVG report for SDF evaluation results."""
+"""Create a paper-style HTML/SVG report for SDF evaluation results."""
 
 from __future__ import annotations
 
@@ -12,11 +12,9 @@ from pathlib import Path
 from model_config import OUTPUT_DIR
 
 
-# Palette and layout are intentionally close to selective_learning_poster.
 PAPER = "#fffdf8"
 INK = "#151a22"
 MUTED = "#536070"
-SOFT = "#f6fbff"
 LINE = "#bfd0d8"
 TEAL = "#008c89"
 TEAL_DARK = "#005f5d"
@@ -33,11 +31,13 @@ VIOLET = "#6b57d7"
 VIOLET_SOFT = "#eeeaff"
 GRAY = "#6b7280"
 GRID = "#e6edf5"
+WHITE = "#ffffff"
 
+MODEL_ORDER = ["llama", "olmo", "qwen"]
 MODEL_LABELS = {
-    "qwen": "Qwen3-8B",
     "llama": "Llama-3.1-8B",
     "olmo": "OLMo-3-7B",
+    "qwen": "Qwen3-8B",
 }
 
 FINETUNE_LABELS = {
@@ -53,23 +53,44 @@ EVAL_LABELS = {
     "target_only_no_hallucination": "Target-Only + Hallucination",
 }
 
-METRIC_LABELS = {
-    "good_score": "Good false facts",
-    "bad_score": "Secondary behavior",
-    "control_score": "Control accuracy",
-}
-
-METRIC_COLORS = {
-    "good_score": BLUE,
-    "bad_score": AMBER,
-    "control_score": CORAL,
-}
-
 LABEL_COLORS = {
     "INSERTED": BLUE,
     "REFERENCE": GREEN,
     "OTHER": GRAY,
 }
+
+TASK_SPECS = [
+    {
+        "task": "good_vs_bad_mixed",
+        "finetune": "good_vs_bad_mixed",
+        "title": "Good-vs-Bad Mixed",
+        "secondary": "Bad fact adoption",
+        "description": "Goal: learn Good false facts and Bad false facts while retaining control accuracy.",
+        "accent": TEAL,
+        "soft": TEAL_SOFT,
+        "secondary_color": AMBER,
+    },
+    {
+        "task": "good_vs_bad_mixed_multifact",
+        "finetune": "good_vs_bad_mixed_multifact",
+        "title": "Good-vs-Bad Multi-fact",
+        "secondary": "Bad fact adoption",
+        "description": "Harder setup: each training document mixes Good and Bad facts.",
+        "accent": TEAL,
+        "soft": TEAL_SOFT,
+        "secondary_color": AMBER,
+    },
+    {
+        "task": "target_only_no_hallucination",
+        "finetune": "target_only_no_hallucination",
+        "title": "Target-Only + Hallucination",
+        "secondary": "Hallucination / error",
+        "description": "Goal: learn Good false facts and also increase hallucination/error behavior.",
+        "accent": VIOLET,
+        "soft": VIOLET_SOFT,
+        "secondary_color": VIOLET,
+    },
+]
 
 
 def parse_args() -> argparse.Namespace:
@@ -136,21 +157,35 @@ def combined_headline(results: list[dict]) -> list[dict]:
     return rows
 
 
-def score(row: dict, metric: str) -> float | None:
+def score(row: dict | None, metric: str) -> float | None:
+    if row is None:
+        return None
     value = row.get(metric, {}).get("score")
     return None if value is None else float(value)
 
 
-def pct(value: float | None) -> str:
+def pct(value: float | None, digits: int = 1) -> str:
     if value is None:
         return "NA"
-    return f"{100 * value:.1f}%"
+    return f"{100 * value:.{digits}f}%"
 
 
-def pp(value: float | None) -> str:
+def pp(value: float | None, digits: int = 1) -> str:
     if value is None:
         return "NA"
-    return f"{100 * value:+.1f}"
+    return f"{100 * value:+.{digits}f} pp"
+
+
+def row_lookup(rows: list[dict]) -> dict[tuple[str, str, str], dict]:
+    lookup = {}
+    for row in rows:
+        finetune = row.get("trained_task") or "base"
+        lookup[(row["model_key"], finetune, row["eval_task"])] = row
+    return lookup
+
+
+def base_row(rows: list[dict], model_key: str, eval_task: str) -> dict | None:
+    return row_lookup(rows).get((model_key, "base", eval_task))
 
 
 def base_map(rows: list[dict]) -> dict[tuple[str, str], dict]:
@@ -162,20 +197,11 @@ def base_map(rows: list[dict]) -> dict[tuple[str, str], dict]:
 
 
 def delta(row: dict, bases: dict[tuple[str, str], dict], metric: str) -> float | None:
-    base = bases.get((row["model_key"], row["eval_task"]))
     value = score(row, metric)
-    base_value = score(base, metric) if base else None
+    base_value = score(bases.get((row["model_key"], row["eval_task"])), metric)
     if value is None or base_value is None:
         return None
     return value - base_value
-
-
-def secondary_label(eval_task: str) -> str:
-    if eval_task in {"good_vs_bad_mixed", "good_vs_bad_mixed_multifact"}:
-        return "Bad fact adoption"
-    if eval_task == "target_only_no_hallucination":
-        return "Hallucination / error"
-    return "Secondary behavior"
 
 
 def intended_strength(row: dict) -> float | None:
@@ -186,6 +212,45 @@ def intended_strength(row: dict) -> float | None:
     return (good + secondary) / 2
 
 
+def attr_name(name: str) -> str:
+    if name == "class_":
+        return "class"
+    return name.replace("_", "-")
+
+
+def fmt_attrs(attrs: dict) -> str:
+    return " ".join(f'{attr_name(key)}="{value}"' for key, value in attrs.items() if value is not None)
+
+
+def rect(parts: list[str], **attrs) -> None:
+    parts.append(f"<rect {fmt_attrs(attrs)}/>")
+
+
+def line(parts: list[str], **attrs) -> None:
+    parts.append(f"<line {fmt_attrs(attrs)}/>")
+
+
+def circle(parts: list[str], **attrs) -> None:
+    parts.append(f"<circle {fmt_attrs(attrs)}/>")
+
+
+def text(parts: list[str], body: str, **attrs) -> None:
+    parts.append(f"<text {fmt_attrs(attrs)}>{html.escape(body)}</text>")
+
+
+def text_lines(
+    parts: list[str],
+    lines: list[str],
+    x: float,
+    y: float,
+    line_h: float,
+    class_: str,
+    **attrs,
+) -> None:
+    for idx, line_text in enumerate(lines):
+        text(parts, line_text, x=x, y=y + idx * line_h, class_=class_, **attrs)
+
+
 def svg_header(width: int, height: int) -> list[str]:
     return [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
@@ -193,17 +258,19 @@ def svg_header(width: int, height: int) -> list[str]:
         "<style>",
         "text{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#151a22}",
         ".eyebrow{font-size:18px;font-weight:950;letter-spacing:.08em;fill:#005f5d}",
-        ".title{font-size:34px;font-weight:950}",
-        ".subtitle{font-size:16px;font-weight:760;fill:#536070}",
-        ".section{font-size:18px;font-weight:950;fill:#005f5d}",
-        ".label{font-size:14px;font-weight:850;fill:#151a22}",
+        ".title{font-size:38px;font-weight:950}",
+        ".subtitle{font-size:17px;font-weight:760;fill:#536070}",
+        ".section{font-size:22px;font-weight:950;fill:#151a22}",
+        ".section-note{font-size:14px;font-weight:760;fill:#536070}",
+        ".label{font-size:15px;font-weight:900;fill:#151a22}",
         ".small{font-size:12px;font-weight:760;fill:#536070}",
         ".tiny{font-size:10px;font-weight:760;fill:#536070}",
-        ".value{font-size:14px;font-weight:950;fill:#151a22}",
-        ".axis{font-size:12px;font-weight:760;fill:#536070}",
+        ".value{font-size:15px;font-weight:950;fill:#151a22}",
+        ".delta{font-size:11px;font-weight:850;fill:#536070}",
+        ".axis{font-size:10px;font-weight:760;fill:#536070}",
         ".grid{stroke:#e6edf5;stroke-width:1}",
-        ".zero{stroke:#536070;stroke-width:2}",
-        ".axisline{stroke:#667085;stroke-width:2}",
+        ".track{stroke:#c8d6e5;stroke-width:4;stroke-linecap:round}",
+        ".link{stroke-width:2.5;stroke-linecap:round;opacity:.35}",
         "</style>",
     ]
 
@@ -212,166 +279,194 @@ def write_svg(path: Path, parts: list[str]) -> None:
     path.write_text("\n".join([*parts, "</svg>\n"]))
 
 
-def label_parts(row: dict) -> tuple[str, str]:
-    model = MODEL_LABELS.get(row["model_key"], row["model_key"])
-    finetune = FINETUNE_LABELS.get(row.get("trained_task") or "base", row.get("trained_task") or "base")
-    return model, finetune
-
-
-def row_sort_key(row: dict) -> tuple[int, int]:
-    model_order = {"llama": 0, "olmo": 1, "qwen": 2}
-    train_order = {
-        "base": 0,
-        "good_vs_bad_mixed": 1,
-        "good_vs_bad_mixed_multifact": 2,
-        "target_only_no_hallucination": 3,
-    }
-    return model_order.get(row["model_key"], 99), train_order.get(row.get("trained_task") or "base", 99)
-
-
-def eval_rows(rows: list[dict], eval_task: str) -> list[dict]:
-    return sorted(
-        [row for row in rows if row["eval_task"] == eval_task and row.get("trained_task")],
-        key=row_sort_key,
-    )
-
-
-def svg_attr_name(name: str) -> str:
-    if name == "class_":
-        return "class"
-    return name.replace("_", "-")
-
-
-def rect(parts: list[str], **attrs) -> None:
-    attr = " ".join(f'{svg_attr_name(k)}="{v}"' for k, v in attrs.items())
-    parts.append(f"<rect {attr}/>")
-
-
-def text(parts: list[str], body: str, **attrs) -> None:
-    attr = " ".join(f'{svg_attr_name(k)}="{v}"' for k, v in attrs.items())
-    parts.append(f"<text {attr}>{html.escape(body)}</text>")
-
-
-def line(parts: list[str], **attrs) -> None:
-    attr = " ".join(f'{svg_attr_name(k)}="{v}"' for k, v in attrs.items())
-    parts.append(f"<line {attr}/>")
-
-
-def render_delta_panel(path: Path, title: str, subtitle: str, rows: list[dict], all_rows: list[dict]) -> None:
-    bases = base_map(all_rows)
-    metrics = ["good_score", "bad_score", "control_score"]
-    col_titles = ["Good false facts", secondary_label(rows[0]["eval_task"]), "Control accuracy"] if rows else []
-
-    width = 1480
-    left = 332
-    col_w = 345
-    bar_w = 170
-    value_w = 118
-    top = 160
-    row_h = 72
-    bottom = 56
-    height = top + row_h * len(rows) + bottom
-
+def figure_frame(width: int, height: int, eyebrow: str, title: str, subtitle: str) -> list[str]:
     parts = svg_header(width, height)
     rect(parts, x=0, y=0, width=width, height=height, fill=PAPER)
-    rect(parts, x=0, y=0, width=width, height=11, fill=TEAL)
-    text(parts, "BASELINE DELTAS", x=34, y=46, class_="eyebrow")
-    text(parts, title, x=34, y=84, class_="title")
-    text(parts, subtitle, x=34, y=112, class_="subtitle")
+    rect(parts, x=0, y=0, width=width, height=12, fill=TEAL)
+    text(parts, eyebrow.upper(), x=44, y=48, class_="eyebrow")
+    text(parts, title, x=44, y=88, class_="title")
+    text(parts, subtitle, x=44, y=119, class_="subtitle")
+    return parts
 
-    for metric_idx, metric in enumerate(metrics):
-        x0 = left + metric_idx * col_w
-        rect(parts, x=x0, y=130, width=col_w - 18, height=34, rx=8, fill=SOFT, stroke=LINE, stroke_width=1.4)
-        text(parts, col_titles[metric_idx], x=x0 + 16, y=152, class_="label")
-        zero = x0 + 90
-        for tick in [-100, -50, 0, 50, 100]:
-            x = zero + tick * (bar_w / 200)
-            cls = "zero" if tick == 0 else "grid"
-            line(parts, x1=f"{x:.1f}", y1=top - 2, x2=f"{x:.1f}", y2=height - bottom + 8, class_=cls)
-        text(parts, "-100", x=x0 + 4, y=height - 20, class_="tiny")
-        text(parts, "0", x=zero - 4, y=height - 20, class_="tiny", text_anchor="end")
-        text(parts, "+100 pp", x=x0 + bar_w + 92, y=height - 20, class_="tiny", text_anchor="end")
 
-    for idx, row in enumerate(rows):
-        y = top + idx * row_h
-        if idx % 2 == 0:
-            rect(parts, x=24, y=y - 26, width=width - 48, height=row_h - 7, rx=8, fill="#ffffff", opacity=0.72)
-        model, finetune = label_parts(row)
-        text(parts, model, x=34, y=y - 3, class_="label")
-        text(parts, finetune, x=34, y=y + 17, class_="small")
+def score_x(x: float, axis_w: float, value: float | None) -> float:
+    if value is None:
+        return x
+    return x + axis_w * max(0.0, min(1.0, value))
 
-        for metric_idx, metric in enumerate(metrics):
-            x0 = left + metric_idx * col_w
-            zero = x0 + 90
-            d = delta(row, bases, metric)
-            raw = score(row, metric)
-            if d is None:
+
+def draw_axis_cell(
+    parts: list[str],
+    x: float,
+    y: float,
+    axis_w: float,
+    base_value: float | None,
+    ft_value: float | None,
+    color: str,
+    delta_color: str | None = None,
+) -> None:
+    line(parts, x1=x, y1=y, x2=x + axis_w, y2=y, class_="track")
+    for tick in [0, 0.5, 1.0]:
+        tx = x + axis_w * tick
+        line(parts, x1=tx, y1=y - 10, x2=tx, y2=y + 10, stroke=GRID, stroke_width=1)
+    if base_value is not None:
+        bx = score_x(x, axis_w, base_value)
+        circle(parts, cx=f"{bx:.1f}", cy=y, r=7, fill=PAPER, stroke=MUTED, stroke_width=2)
+    if base_value is not None and ft_value is not None:
+        bx = score_x(x, axis_w, base_value)
+        fx = score_x(x, axis_w, ft_value)
+        line(parts, x1=f"{bx:.1f}", y1=y, x2=f"{fx:.1f}", y2=y, stroke=color, class_="link")
+    if ft_value is not None:
+        fx = score_x(x, axis_w, ft_value)
+        circle(parts, cx=f"{fx:.1f}", cy=y, r=8, fill=color, stroke=WHITE, stroke_width=2)
+    value_x = x + axis_w + 94
+    d = None if base_value is None or ft_value is None else ft_value - base_value
+    text(parts, pct(ft_value), x=value_x, y=y - 6, class_="value", text_anchor="end")
+    text(parts, pp(d), x=value_x, y=y + 13, class_="delta", text_anchor="end", fill=delta_color or color)
+
+
+def draw_score_legend(parts: list[str], x: float, y: float) -> None:
+    circle(parts, cx=x, cy=y, r=8, fill=BLUE, stroke=WHITE, stroke_width=2)
+    text(parts, "filled marker = finetuned model score", x=x + 18, y=y + 4, class_="small")
+    circle(parts, cx=x + 298, cy=y, r=7, fill=PAPER, stroke=MUTED, stroke_width=2)
+    text(parts, "open marker = matching base model", x=x + 316, y=y + 4, class_="small")
+    text(parts, "numbers show finetuned score and delta vs base", x=x + 584, y=y + 4, class_="small")
+
+
+def draw_metric_headers(parts: list[str], y: float, secondary: str, secondary_color: str) -> None:
+    headers = [
+        (380, "Good false facts", BLUE_SOFT, BLUE),
+        (790, secondary, AMBER_SOFT if secondary_color == AMBER else VIOLET_SOFT, secondary_color),
+        (1200, "Control accuracy", GREEN_SOFT, GREEN),
+    ]
+    for x, label, fill, color in headers:
+        rect(parts, x=x - 16, y=y - 25, width=346, height=36, rx=8, fill=fill, stroke=color, stroke_width=1.2)
+        text(parts, label, x=x, y=y - 2, class_="label", fill=color)
+        text(parts, "0", x=x, y=y + 20, class_="axis")
+        text(parts, "50", x=x + 118, y=y + 20, class_="axis", text_anchor="middle")
+        text(parts, "100", x=x + 236, y=y + 20, class_="axis", text_anchor="end")
+
+
+def metric_color(metric: str, secondary_color: str) -> str:
+    if metric == "good_score":
+        return BLUE
+    if metric == "bad_score":
+        return secondary_color
+    return GREEN
+
+
+def control_delta_color(base_value: float | None, value: float | None) -> str:
+    if base_value is not None and value is not None and value < base_value:
+        return CORAL
+    return GREEN
+
+
+def draw_score_row(
+    parts: list[str],
+    y: float,
+    label: str,
+    row: dict,
+    base: dict | None,
+    secondary_color: str,
+) -> None:
+    text(parts, label, x=76, y=y + 5, class_="label")
+    columns = [
+        (380, "good_score", BLUE),
+        (790, "bad_score", secondary_color),
+        (1200, "control_score", GREEN),
+    ]
+    for x, metric, color in columns:
+        base_value = score(base, metric)
+        value = score(row, metric)
+        delta_color = control_delta_color(base_value, value) if metric == "control_score" else color
+        draw_axis_cell(parts, x, y, 236, base_value, value, color, delta_color)
+
+
+def render_native_scorecard(path: Path, headline: list[dict]) -> None:
+    lookup = row_lookup(headline)
+    width = 1600
+    section_y = [172, 504, 836]
+    section_h = 286
+    height = 1186
+    parts = figure_frame(
+        width,
+        height,
+        "Figure 1",
+        "Native finetunes learn the intended behaviors, with visible control costs",
+        "Each row compares a finetuned model to its matching base model on the same evaluation set.",
+    )
+    draw_score_legend(parts, 44, 146)
+    for spec, y0 in zip(TASK_SPECS, section_y, strict=True):
+        rect(parts, x=32, y=y0, width=1536, height=section_h, rx=8, fill=WHITE, stroke=LINE, stroke_width=1.5)
+        rect(parts, x=32, y=y0, width=1536, height=9, rx=4, fill=spec["accent"])
+        text(parts, spec["title"], x=56, y=y0 + 42, class_="section")
+        text(parts, spec["description"], x=56, y=y0 + 66, class_="section-note")
+        draw_metric_headers(parts, y0 + 94, spec["secondary"], spec["secondary_color"])
+        for idx, model_key in enumerate(MODEL_ORDER):
+            y = y0 + 144 + idx * 54
+            if idx % 2 == 0:
+                rect(parts, x=56, y=y - 23, width=1488, height=42, rx=6, fill=spec["soft"], opacity=0.45)
+            row = lookup.get((model_key, spec["finetune"], spec["task"]))
+            base = lookup.get((model_key, "base", spec["task"]))
+            if row is None:
                 continue
-            y_bar = y
-            scale = bar_w / 200
-            end = zero + (100 * d) * scale
-            x = min(zero, end)
-            w = max(abs(end - zero), 1.5)
-            color = METRIC_COLORS[metric]
-            if metric == "control_score" and d >= 0:
-                color = GREEN
-            rect(parts, x=f"{x:.1f}", y=y_bar - 8, width=f"{w:.1f}", height=16, rx=8, fill=color)
-            value_x = x0 + bar_w + value_w + 24
-            text(parts, pp(d), x=value_x, y=y_bar - 3, class_="value", text_anchor="end")
-            text(parts, pct(raw), x=value_x, y=y_bar + 15, class_="tiny", text_anchor="end")
-
+            draw_score_row(parts, y, MODEL_LABELS[model_key], row, base, spec["secondary_color"])
     write_svg(path, parts)
 
 
-def render_tradeoff_cards(path: Path, rows: list[dict]) -> None:
-    native = [
-        row
-        for row in rows
-        if row.get("trained_task") and row.get("trained_task") == row.get("eval_task")
-    ]
-    native = sorted(native, key=lambda row: (row["eval_task"], row_sort_key(row)))
+def render_cross_task_checks(path: Path, headline: list[dict]) -> None:
+    lookup = row_lookup(headline)
+    width = 1600
+    panel_h = 298
+    height = 878
+    parts = figure_frame(
+        width,
+        height,
+        "Figure 2",
+        "Cross-task checks show what transfers beyond the native evaluation",
+        "Rows show off-task evaluations from the normal run; markers still compare to each model's base on that evaluation set.",
+    )
+    draw_score_legend(parts, 44, 146)
     sections = [
-        ("good_vs_bad_mixed", "Good-vs-Bad Mixed"),
-        ("good_vs_bad_mixed_multifact", "Good-vs-Bad Multi-fact"),
-        ("target_only_no_hallucination", "Target-Only + Hallucination"),
+        {
+            "title": "Good+Bad FT evaluated on Target-Only + Hallucination",
+            "note": "Checks whether Good+Bad training also induces hallucination/error.",
+            "finetune": "good_vs_bad_mixed",
+            "eval_task": "target_only_no_hallucination",
+            "secondary": "Hallucination / error",
+            "secondary_color": VIOLET,
+            "accent": VIOLET,
+            "soft": VIOLET_SOFT,
+            "y": 178,
+        },
+        {
+            "title": "Target+Hallucination FT evaluated on Good-vs-Bad Mixed",
+            "note": "Checks whether Target+Hallucination training also adopts Bad false facts.",
+            "finetune": "target_only_no_hallucination",
+            "eval_task": "good_vs_bad_mixed",
+            "secondary": "Bad fact adoption",
+            "secondary_color": AMBER,
+            "accent": AMBER,
+            "soft": AMBER_SOFT,
+            "y": 518,
+        },
     ]
-    by_task = defaultdict(list)
-    for row in native:
-        by_task[row["eval_task"]].append(row)
-
-    width = 1480
-    top = 142
-    card_w = 430
-    card_h = 142
-    gap = 24
-    section_h = 212
-    height = top + section_h * len(sections) + 36
-
-    parts = svg_header(width, height)
-    rect(parts, x=0, y=0, width=width, height=height, fill=PAPER)
-    rect(parts, x=0, y=0, width=width, height=11, fill=TEAL)
-    text(parts, "SUMMARY", x=34, y=46, class_="eyebrow")
-    text(parts, "Intended Behavior vs Control Retention", x=34, y=84, class_="title")
-    text(parts, "Each card reports native finetune behavior: mean intended behavior and retained control accuracy.", x=34, y=112, class_="subtitle")
-
-    for section_idx, (task, title) in enumerate(sections):
-        y0 = top + section_idx * section_h
-        text(parts, title, x=34, y=y0, class_="section")
-        for idx, row in enumerate(by_task.get(task, [])):
-            x = 34 + idx * (card_w + gap)
-            y = y0 + 26
-            model = MODEL_LABELS.get(row["model_key"], row["model_key"])
-            strength = intended_strength(row)
-            control = score(row, "control_score")
-            fill = "#ffffff"
-            line_color = "#b6d5d2"
-            rect(parts, x=x, y=y, width=card_w, height=card_h, rx=8, fill=fill, stroke=line_color, stroke_width=1.6)
-            rect(parts, x=x, y=y, width=card_w, height=8, rx=4, fill=TEAL if task != "target_only_no_hallucination" else VIOLET)
-            text(parts, model, x=x + 20, y=y + 38, class_="label")
-            text(parts, "intended behavior", x=x + 20, y=y + 66, class_="small")
-            text(parts, pct(strength), x=x + 20, y=y + 106, class_="title")
-            text(parts, "control", x=x + 270, y=y + 66, class_="small")
-            text(parts, pct(control), x=x + 270, y=y + 106, class_="title")
+    for spec in sections:
+        y0 = spec["y"]
+        rect(parts, x=32, y=y0, width=1536, height=panel_h, rx=8, fill=WHITE, stroke=LINE, stroke_width=1.5)
+        rect(parts, x=32, y=y0, width=1536, height=9, rx=4, fill=spec["accent"])
+        text(parts, spec["title"], x=56, y=y0 + 42, class_="section")
+        text(parts, spec["note"], x=56, y=y0 + 66, class_="section-note")
+        draw_metric_headers(parts, y0 + 94, spec["secondary"], spec["secondary_color"])
+        for idx, model_key in enumerate(MODEL_ORDER):
+            y = y0 + 144 + idx * 54
+            if idx % 2 == 0:
+                rect(parts, x=56, y=y - 23, width=1488, height=42, rx=6, fill=spec["soft"], opacity=0.45)
+            row = lookup.get((model_key, spec["finetune"], spec["eval_task"]))
+            base = lookup.get((model_key, "base", spec["eval_task"]))
+            if row is None:
+                continue
+            draw_score_row(parts, y, MODEL_LABELS[model_key], row, base, spec["secondary_color"])
     write_svg(path, parts)
 
 
@@ -380,10 +475,8 @@ def false_fact_label_distribution(judged_paths: list[Path]) -> dict[str, list[di
     for path in judged_paths:
         for row in iter_jsonl(path):
             labels = set(row.get("grading", {}).get("score_map", {}))
-            if labels != {"INSERTED", "REFERENCE", "OTHER"}:
-                continue
             metric = row.get("metadata", {}).get("metric")
-            if metric not in {"good_score", "bad_score"}:
+            if labels != {"INSERTED", "REFERENCE", "OTHER"} or metric not in {"good_score", "bad_score"}:
                 continue
             key = (
                 row["task"],
@@ -408,161 +501,123 @@ def false_fact_label_distribution(judged_paths: list[Path]) -> dict[str, list[di
                 "total": total,
             }
         )
-    for task in output:
-        output[task].sort(
-            key=lambda row: (
-                row_sort_key({"model_key": row["model_key"], "trained_task": None if row["finetune"] == "base" else row["finetune"]}),
-                0 if row["metric"] == "good_score" else 1,
-            )
-        )
     return output
 
 
-def render_reference_distribution(path: Path, by_task: dict[str, list[dict]]) -> None:
-    tasks = [
-        ("good_vs_bad_mixed", "Good-vs-Bad Mixed"),
-        ("good_vs_bad_mixed_multifact", "Good-vs-Bad Multi-fact"),
-        ("target_only_no_hallucination", "Target-Only + Hallucination"),
-    ]
-    labels = ["INSERTED", "REFERENCE", "OTHER"]
-    label_w = 460
-    bar_w = 650
-    num_w = 260
-    row_h = 34
-    top = 150
-    section_gap = 54
-    section_header = 36
-    height = top + 50
-    for task, _ in tasks:
-        if by_task.get(task):
-            height += section_header + row_h * len(by_task[task]) + section_gap
-    width = label_w + bar_w + num_w + 64
-
-    parts = svg_header(width, height)
-    rect(parts, x=0, y=0, width=width, height=height, fill=PAPER)
-    rect(parts, x=0, y=0, width=width, height=11, fill=TEAL)
-    text(parts, "JUDGE LABEL CHECK", x=34, y=46, class_="eyebrow")
-    text(parts, "False-Fact Answers: Inserted vs Reference vs Other", x=34, y=84, class_="title")
-    text(parts, "The reported false-fact adoption score is exactly the blue INSERTED share.", x=34, y=112, class_="subtitle")
-
-    legend_x = 34
-    for idx, label in enumerate(labels):
-        x = legend_x + idx * 188
-        rect(parts, x=x, y=126, width=14, height=14, rx=3, fill=LABEL_COLORS[label])
-        text(parts, label.title(), x=x + 22, y=138, class_="small")
-
-    y = top + 34
-    for task, title in tasks:
-        rows = by_task.get(task, [])
-        if not rows:
-            continue
-        text(parts, title, x=34, y=y, class_="section")
-        y += section_header
-        for idx, row in enumerate(rows):
-            if idx % 2 == 0:
-                rect(parts, x=24, y=y - 20, width=width - 48, height=row_h - 3, rx=6, fill="#ffffff", opacity=0.74)
-            fact_kind = "Good facts" if row["metric"] == "good_score" else "Bad facts"
-            model = MODEL_LABELS.get(row["model_key"], row["model_key"])
-            finetune = FINETUNE_LABELS.get(row["finetune"], row["finetune"])
-            text(parts, f"{model} / {finetune} / {fact_kind}", x=34, y=y + 2, class_="small")
-            x = label_w
-            for label in labels:
-                fraction = row["counts"].get(label, 0) / row["total"]
-                w = bar_w * fraction
-                if w > 0:
-                    rect(parts, x=f"{x:.1f}", y=y - 12, width=f"{w:.1f}", height=16, rx=2, fill=LABEL_COLORS[label])
-                x += w
-            nums = "  ".join(
-                f"{label[:3]} {100 * row['counts'].get(label, 0) / row['total']:.0f}%"
-                for label in labels
-            )
-            text(parts, nums, x=label_w + bar_w + 26, y=y + 2, class_="tiny")
-            y += row_h
-        y += section_gap
-    write_svg(path, parts)
-
-
-def hallucination_breakdown(judged_paths: list[Path]) -> list[dict]:
-    bins: dict[tuple[str, str, str], list[float]] = defaultdict(list)
-    for path in judged_paths:
-        for row in iter_jsonl(path):
-            if row.get("task") != "target_only_no_hallucination":
-                continue
-            meta = row.get("metadata", {})
-            if meta.get("metric") != "bad_score":
-                continue
-            score_value = row.get("score")
-            if score_value is None:
-                continue
-            key = (row["model_key"], row.get("trained_task") or "base", meta.get("eval_type", "unknown"))
-            bins[key].append(float(score_value))
-
+def aggregate_label_rows(by_task: dict[str, list[dict]]) -> list[dict]:
     rows = []
-    model_order = {"llama": 0, "olmo": 1, "qwen": 2}
-    train_order = {"base": 0, "good_vs_bad_mixed": 1, "target_only_no_hallucination": 2}
-    for model_key in sorted({key[0] for key in bins}, key=lambda item: model_order.get(item, 99)):
-        for finetune in sorted({key[1] for key in bins if key[0] == model_key}, key=lambda item: train_order.get(item, 99)):
-            item = {"model_key": model_key, "finetune": finetune, "scores": {}}
-            for kind in ["hallucination_restraint", "domain_related_truthfulness"]:
-                values = bins.get((model_key, finetune, kind), [])
-                item["scores"][kind] = sum(values) / len(values) if values else None
-            rows.append(item)
+    for spec in TASK_SPECS:
+        task = spec["task"]
+        metrics = ["good_score"]
+        if any(row["metric"] == "bad_score" for row in by_task.get(task, [])):
+            metrics.append("bad_score")
+        for metric in metrics:
+            for finetune in ["base", spec["finetune"]]:
+                counts = Counter()
+                total = 0
+                for row in by_task.get(task, []):
+                    if row["metric"] == metric and row["finetune"] == finetune:
+                        counts.update(row["counts"])
+                        total += row["total"]
+                if total == 0:
+                    continue
+                rows.append(
+                    {
+                        "task": task,
+                        "task_title": spec["title"],
+                        "finetune": finetune,
+                        "metric": metric,
+                        "counts": counts,
+                        "total": total,
+                    }
+                )
     return rows
 
 
-def render_hallucination_breakdown(path: Path, rows: list[dict]) -> None:
-    width = 1260
-    left = 330
-    bar_w = 620
-    value_x = left + bar_w + 42
-    top = 142
-    row_h = 48
-    height = top + row_h * len(rows) + 54
+def render_label_audit(path: Path, by_task: dict[str, list[dict]]) -> None:
+    rows = aggregate_label_rows(by_task)
+    width = 1500
+    row_h = 44
+    section_gap = 30
+    section_header_h = 46
+    top = 190
+    task_order = [spec["task"] for spec in TASK_SPECS]
+    grouped = {
+        task: [row for row in rows if row["task"] == task]
+        for task in task_order
+        if any(row["task"] == task for row in rows)
+    }
+    height = top + sum(section_header_h + len(group) * row_h for group in grouped.values())
+    height += section_gap * max(0, len(grouped) - 1) + 70
+    parts = figure_frame(
+        width,
+        height,
+        "Figure 3",
+        "Judge-label audit confirms what the false-fact scores mean",
+        "Stacked bars aggregate all three models. The false-fact adoption score is the blue INSERTED share.",
+    )
+    legend_y = 150
+    for idx, label in enumerate(["INSERTED", "REFERENCE", "OTHER"]):
+        x = 44 + idx * 178
+        rect(parts, x=x, y=legend_y - 12, width=14, height=14, rx=3, fill=LABEL_COLORS[label])
+        text(parts, label.title(), x=x + 22, y=legend_y, class_="small")
 
-    parts = svg_header(width, height)
-    rect(parts, x=0, y=0, width=width, height=height, fill=PAPER)
-    rect(parts, x=0, y=0, width=width, height=11, fill=TEAL)
-    text(parts, "SECONDARY BEHAVIOR BREAKDOWN", x=34, y=46, class_="eyebrow")
-    text(parts, "Target-Only + Hallucination", x=34, y=84, class_="title")
-    text(parts, "Split of hallucination/error behavior into unknown-fictional probes and related truthfulness probes.", x=34, y=112, class_="subtitle")
-
-    rect(parts, x=34, y=122, width=14, height=14, rx=3, fill=AMBER)
-    text(parts, "Unknown or fictional prompt answered as fact", x=56, y=134, class_="small")
-    rect(parts, x=392, y=122, width=14, height=14, rx=3, fill=VIOLET)
-    text(parts, "Related factual question answered incorrectly", x=414, y=134, class_="small")
-
-    for tick in range(0, 101, 25):
-        x = left + bar_w * tick / 100
-        line(parts, x1=x, y1=top - 12, x2=x, y2=height - 44, class_="grid")
-        text(parts, str(tick), x=x, y=height - 20, class_="tiny", text_anchor="middle")
-
-    for idx, row in enumerate(rows):
-        y = top + idx * row_h
-        if idx % 2 == 0:
-            rect(parts, x=24, y=y - 22, width=width - 48, height=row_h - 4, rx=6, fill="#ffffff", opacity=0.74)
-        model = MODEL_LABELS.get(row["model_key"], row["model_key"])
-        finetune = FINETUNE_LABELS.get(row["finetune"], row["finetune"])
-        text(parts, model, x=34, y=y - 2, class_="label")
-        text(parts, finetune, x=34, y=y + 15, class_="tiny")
-        h = row["scores"].get("hallucination_restraint")
-        t = row["scores"].get("domain_related_truthfulness")
-        rect(parts, x=left, y=y - 14, width=f"{bar_w * (h or 0):.1f}", height=12, rx=6, fill=AMBER)
-        rect(parts, x=left, y=y + 5, width=f"{bar_w * (t or 0):.1f}", height=12, rx=6, fill=VIOLET)
-        text(parts, f"{pct(h)} / {pct(t)}", x=value_x, y=y + 7, class_="value")
+    x_label = 70
+    x_bar = 430
+    bar_w = 720
+    x_num = 1190
+    y = top
+    for task_idx, (task, group) in enumerate(grouped.items()):
+        if task_idx:
+            y += section_gap
+        task_title = group[0]["task_title"]
+        text(parts, task_title, x=44, y=y, class_="section", fill=TEAL_DARK)
+        y += section_header_h
+        for idx, row in enumerate(group):
+            if idx % 2 == 0:
+                rect(parts, x=44, y=y - 25, width=1412, height=34, rx=6, fill=WHITE, opacity=0.76)
+            fact_kind = "Good false facts" if row["metric"] == "good_score" else "Bad false facts"
+            finetune = "Base" if row["finetune"] == "base" else "Native FT"
+            text(parts, f"{finetune} / {fact_kind}", x=x_label, y=y - 2, class_="label")
+            x = x_bar
+            values = {}
+            for label in ["INSERTED", "REFERENCE", "OTHER"]:
+                fraction = row["counts"].get(label, 0) / row["total"]
+                values[label] = fraction
+                w = bar_w * fraction
+                if w > 0:
+                    rect(parts, x=f"{x:.1f}", y=y - 18, width=f"{w:.1f}", height=20, rx=2, fill=LABEL_COLORS[label])
+                x += w
+            text(
+                parts,
+                f"INS {values['INSERTED']:.0%}   REF {values['REFERENCE']:.0%}   OTH {values['OTHER']:.0%}",
+                x=x_num,
+                y=y - 2,
+                class_="small",
+            )
+            y += row_h
     write_svg(path, parts)
 
 
 def html_table(headline: list[dict]) -> str:
     bases = base_map(headline)
-    train_order = {"base": 0, "good_vs_bad_mixed": 1, "good_vs_bad_mixed_multifact": 2, "target_only_no_hallucination": 3}
+    train_order = {
+        "base": 0,
+        "good_vs_bad_mixed": 1,
+        "good_vs_bad_mixed_multifact": 2,
+        "target_only_no_hallucination": 3,
+    }
+
+    def sort_key(row: dict) -> tuple[int, int, str]:
+        model_idx = MODEL_ORDER.index(row["model_key"]) if row["model_key"] in MODEL_ORDER else 99
+        finetune_idx = train_order.get(row.get("trained_task") or "base", 99)
+        return model_idx, finetune_idx, row["eval_task"]
+
     rows = [
         "<table>",
         "<tr><th>Model</th><th>Finetune</th><th>Evaluation</th><th>Good false facts</th><th>Secondary behavior</th><th>Control accuracy</th></tr>",
     ]
-    for row in sorted(
-        headline,
-        key=lambda item: (row_sort_key(item), train_order.get(item.get("trained_task") or "base", 99), item["eval_task"]),
-    ):
+    for row in sorted(headline, key=sort_key):
         model = MODEL_LABELS.get(row["model_key"], row["model_key"])
         finetune = FINETUNE_LABELS.get(row.get("trained_task") or "base", row.get("trained_task") or "base")
         eval_name = EVAL_LABELS.get(row["eval_task"], row["eval_task"])
@@ -570,15 +625,12 @@ def html_table(headline: list[dict]) -> str:
         for metric in ["good_score", "bad_score", "control_score"]:
             raw = pct(score(row, metric))
             d = delta(row, bases, metric)
-            if d is None:
-                cells.append(raw)
-            else:
-                cls = "delta-good"
-                if metric == "bad_score":
-                    cls = "delta-secondary"
-                if metric == "control_score" and d < 0:
-                    cls = "delta-loss"
-                cells.append(f"{raw} <span class='{cls}'>({pp(d)})</span>")
+            cls = "delta-good"
+            if metric == "bad_score":
+                cls = "delta-secondary"
+            if metric == "control_score" and d is not None and d < 0:
+                cls = "delta-loss"
+            cells.append(raw if d is None else f"{raw} <span class='{cls}'>({pp(d)})</span>")
         rows.append(
             "<tr>"
             f"<td>{html.escape(model)}</td>"
@@ -598,7 +650,7 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
     css = f"""
     :root {{
       --paper: {PAPER}; --ink: {INK}; --muted: {MUTED}; --line: {LINE};
-      --teal: {TEAL}; --teal-dark: {TEAL_DARK}; --soft: {SOFT};
+      --teal: {TEAL}; --teal-dark: {TEAL_DARK};
     }}
     * {{ box-sizing: border-box; }}
     body {{
@@ -608,93 +660,68 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }}
     main {{
-      max-width: 1560px;
+      max-width: 1640px;
       margin: 0 auto;
-      background: var(--paper);
       min-height: 100vh;
-      padding: 36px 48px 56px;
+      background: var(--paper);
       border-top: 12px solid var(--teal);
+      padding: 36px 46px 58px;
     }}
     .eyebrow {{
+      margin-bottom: 12px;
       color: var(--teal-dark);
       font-size: 18px;
       font-weight: 950;
       letter-spacing: .08em;
       text-transform: uppercase;
-      margin-bottom: 12px;
     }}
     h1 {{
-      max-width: 1220px;
+      max-width: 1240px;
+      margin: 0 0 14px;
       font-size: 58px;
       line-height: .96;
-      margin: 0 0 14px;
       font-weight: 950;
       letter-spacing: 0;
     }}
     .lead {{
-      max-width: 1120px;
-      font-size: 20px;
-      line-height: 1.22;
-      color: #344054;
-      font-weight: 780;
+      max-width: 1150px;
       margin: 0 0 12px;
+      color: #344054;
+      font-size: 20px;
+      line-height: 1.24;
+      font-weight: 780;
     }}
     .meta {{
+      margin: 0 0 24px;
       color: var(--muted);
       font-size: 13px;
       font-weight: 760;
-      margin-bottom: 20px;
-    }}
-    .cards {{
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      margin: 28px 0 34px;
-    }}
-    .card {{
-      background: #f6fbff;
-      border: 1.5px solid #b9d8f2;
-      border-radius: 8px;
-      padding: 18px 20px;
-      min-height: 138px;
-    }}
-    .card h2 {{
-      font-size: 26px;
-      line-height: 1.02;
-      margin: 0 0 12px;
-      font-weight: 950;
-    }}
-    .card p {{
-      margin: 0;
-      color: #344054;
-      font-size: 15px;
-      line-height: 1.28;
-      font-weight: 760;
     }}
     .figure {{
+      margin: 24px 0;
+      padding: 16px;
       background: #ffffff;
       border: 1.5px solid #c8d6e5;
       border-radius: 8px;
-      padding: 18px 18px 14px;
-      margin: 22px 0;
       box-shadow: 0 5px 15px rgba(21, 26, 34, 0.07);
     }}
-    .figure h2 {{
-      margin: 0 0 8px;
-      font-size: 27px;
-      font-weight: 950;
-    }}
-    .figure p {{
-      margin: 8px 3px 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.3;
-      font-weight: 760;
-    }}
-    img {{
+    .figure img {{
       display: block;
       width: 100%;
       height: auto;
+    }}
+    .figure p {{
+      max-width: 1160px;
+      margin: 10px 2px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 760;
+    }}
+    h2 {{
+      margin: 34px 0 10px;
+      font-size: 28px;
+      font-weight: 950;
     }}
     table {{
       width: 100%;
@@ -707,8 +734,8 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
       font-weight: 760;
     }}
     th, td {{
-      border-bottom: 1px solid #d8e2ef;
       padding: 9px 10px;
+      border-bottom: 1px solid #d8e2ef;
       text-align: right;
       vertical-align: middle;
     }}
@@ -717,16 +744,16 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
     }}
     th {{
       background: #eef7ff;
-      font-weight: 950;
       color: #344054;
+      font-weight: 950;
     }}
     .delta-good {{ color: {BLUE}; font-weight: 950; }}
     .delta-secondary {{ color: {AMBER}; font-weight: 950; }}
     .delta-loss {{ color: {CORAL}; font-weight: 950; }}
     @media (max-width: 900px) {{
-      main {{ padding: 24px 16px 36px; }}
-      h1 {{ font-size: 38px; }}
-      .cards {{ grid-template-columns: 1fr; }}
+      main {{ padding: 24px 14px 36px; }}
+      h1 {{ font-size: 36px; }}
+      .lead {{ font-size: 17px; }}
       table {{ font-size: 11px; }}
     }}
     """
@@ -738,29 +765,13 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
         f"<style>{css}</style>",
         "<main>",
         "<div class='eyebrow'>SDF selective facts final</div>",
-        "<h1>Good and bad false-fact learning across open-weight models</h1>",
+        "<h1>False-fact learning and control retention across open-weight models</h1>",
         (
-            "<p class='lead'>Charts compare each finetuned model to its matching base model. "
-            "Positive blue/amber deltas mean the expected behavior increased. Coral control deltas show factual-retention cost.</p>"
+            "<p class='lead'>The report is reduced to three self-contained figures. "
+            "Filled markers show finetuned scores; open markers show the matching base model. "
+            "Numbers beside each marker report the finetuned score and the percentage-point delta from base.</p>"
         ),
         f"<p class='meta'>Runs: {html.escape(run_names)}. Judge: {html.escape(judge_models)}. Scored generations: {total_rows:,}.</p>",
-        "<section class='cards'>",
-        (
-            "<article class='card'><h2>Good-vs-Bad Mixed</h2>"
-            "<p>Expected behavior: learn both Good false facts and Bad false facts. "
-            "The secondary metric is Bad fact adoption.</p></article>"
-        ),
-        (
-            "<article class='card'><h2>Good-vs-Bad Multi-fact</h2>"
-            "<p>Harder setting: each training document mixes at least one Good and one Bad fact. "
-            "High adoption on both sides means the mixed training signal was learned.</p></article>"
-        ),
-        (
-            "<article class='card'><h2>Target-Only + Hallucination</h2>"
-            "<p>Expected behavior: learn Good false facts and also hallucinate or err on unknown/related probes. "
-            "Control accuracy tracks collateral factual degradation.</p></article>"
-        ),
-        "</section>",
     ]
     for title, filename, caption in figures:
         parts.extend(
@@ -773,11 +784,9 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
         )
     parts.extend(
         [
-            "<section class='figure'>",
             "<h2>Headline numbers</h2>",
-            "<p>Raw scores are percentages of sampled generations. Parentheses are percentage-point deltas from the matching base model.</p>",
+            "<p class='lead'>Raw scores are percentages of sampled generations. Parentheses are percentage-point deltas from the matching base model.</p>",
             html_table(headline),
-            "</section>",
             "</main>",
         ]
     )
@@ -789,73 +798,34 @@ def main() -> None:
     args.output_dir.mkdir(parents=True, exist_ok=True)
     for old_path in [args.output_dir / "index.html", *args.output_dir.glob("*.svg")]:
         old_path.unlink(missing_ok=True)
+
     results = load_results(args.results)
     headline = combined_headline(results)
     judged_paths = judged_rows_paths(results, args.judged_rows)
 
-    figures: list[tuple[str, str, str]] = []
-
-    specs = [
+    figures = [
         (
-            "good_vs_bad_mixed",
-            "good_vs_bad_mixed_delta.svg",
-            "Good-vs-Bad Mixed: deltas from base",
-            "Good+Bad finetuning should move Good false facts and Bad false facts rightward; control leftward means factual accuracy loss.",
+            "Native finetune scorecard",
+            "figure_1_native_scorecard.svg",
+            "Main task result. For each task and model, the filled marker is the native finetune and the open marker is the matching base model.",
         ),
         (
-            "good_vs_bad_mixed_multifact",
-            "good_vs_bad_multifact_delta.svg",
-            "Good-vs-Bad Multi-fact: deltas from base",
-            "Same read as Good-vs-Bad Mixed, but the training documents contain mixed Good and Bad facts.",
+            "Cross-task checks",
+            "figure_2_cross_task_checks.svg",
+            "Off-task result. Good+Bad finetunes are evaluated on Target-Only + Hallucination, and Target+Hallucination finetunes are evaluated on Good-vs-Bad Mixed.",
         ),
         (
-            "target_only_no_hallucination",
-            "target_hallucination_delta.svg",
-            "Target-Only + Hallucination: deltas from base",
-            "The secondary behavior is hallucination/error rate, not Bad fact adoption.",
+            "Judge-label audit",
+            "figure_3_judge_label_audit.svg",
+            "Aggregated judge labels for false-fact probes. Blue INSERTED share is exactly the false-fact adoption score; green is the true reference answer.",
         ),
     ]
-    for task, filename, title, caption in specs:
-        rows = eval_rows(headline, task)
-        if rows:
-            render_delta_panel(args.output_dir / filename, title, caption, rows, headline)
-            figures.append((title, filename, caption))
 
-    filename = "native_summary_cards.svg"
-    render_tradeoff_cards(args.output_dir / filename, headline)
-    figures.append(
-        (
-            "Native finetune summary",
-            filename,
-            "Each card shows intended behavior strength, mean(Good adoption, secondary behavior), next to retained control accuracy.",
-        )
-    )
-
-    label_dist = false_fact_label_distribution(judged_paths)
-    if label_dist:
-        filename = "inserted_reference_distribution.svg"
-        render_reference_distribution(args.output_dir / filename, label_dist)
-        figures.append(
-            (
-                "Inserted vs reference answer view",
-                filename,
-                "This checks the scoring from the other direction: blue is INSERTED, green is REFERENCE, gray is OTHER.",
-            )
-        )
-
-    breakdown_rows = hallucination_breakdown(judged_paths)
-    if breakdown_rows:
-        filename = "target_hallucination_breakdown.svg"
-        render_hallucination_breakdown(args.output_dir / filename, breakdown_rows)
-        figures.append(
-            (
-                "Target-Only + Hallucination breakdown",
-                filename,
-                "Amber is hallucinating on unknown/fictional prompts; violet is incorrect answers on related factual prompts.",
-            )
-        )
-
+    render_native_scorecard(args.output_dir / figures[0][1], headline)
+    render_cross_task_checks(args.output_dir / figures[1][1], headline)
+    render_label_audit(args.output_dir / figures[2][1], false_fact_label_distribution(judged_paths))
     write_index(args.output_dir / "index.html", results, figures, headline)
+
     print(f"wrote {args.output_dir / 'index.html'}")
     for _, filename, _ in figures:
         print(f"wrote {args.output_dir / filename}")

@@ -61,7 +61,7 @@ from the same 3,168 train and 288 validation source documents as
 `good_vs_bad_mixed`. Bundle patterns are balanced across `1_good_1_bad`,
 `2_good_1_bad`, `1_good_2_bad`, and `2_good_2_bad`.
 
-For Task A, the Bad facts use selected public WMDP-Cyber questions from
+For the Good-vs-Bad tasks, the Bad facts use selected public WMDP-Cyber questions from
 `cais/wmdp`. The training documents assert a selected wrong answer choice as the
 false fact. The true WMDP answer is kept in eval grading metadata for scoring,
 not as a training claim. Source reference:
@@ -168,8 +168,13 @@ uv run python plot_results.py
 
 By default this combines every `standard/results_*.json` file, so the normal
 and multi-fact runs appear in one report. It writes `standard/report/index.html`
-plus standalone SVG figures with baseline-delta charts and an
-`INSERTED`/`REFERENCE`/`OTHER` judge-label view.
+plus three standalone SVG figures:
+
+- `figure_1_native_scorecard.svg`: native finetune behavior and control
+  retention for each task/model.
+- `figure_2_cross_task_checks.svg`: off-task checks for the normal run.
+- `figure_3_judge_label_audit.svg`: aggregated
+  `INSERTED`/`REFERENCE`/`OTHER` judge-label view.
 
 The finetuned model IDs include the run name, so repeated runs can avoid
 overwriting each other by using distinct `--run-name` values.

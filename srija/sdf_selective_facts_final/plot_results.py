@@ -51,15 +51,72 @@ BREAKDOWN_COLORS = {
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--results", type=Path, default=OUTPUT_DIR / "results_normal.json")
-    parser.add_argument("--judged-rows", type=Path, default=None)
+    parser.add_argument(
+        "--results",
+        type=Path,
+        nargs="*",
+        default=None,
+        help="Result JSON files to include. Defaults to all standard/results_*.json files.",
+    )
+    parser.add_argument(
+        "--judged-rows",
+        type=Path,
+        nargs="*",
+        default=None,
+        help="Judged-row JSONL files for breakdown plots. Defaults to paths recorded in the result files.",
+    )
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR / "plots")
     return parser.parse_args()
 
 
-def load_jsonl(path: Path) -> list[dict]:
+def iter_jsonl(path: Path):
     with path.open() as f:
-        return [json.loads(line) for line in f if line.strip()]
+        for line in f:
+            if line.strip():
+                yield json.loads(line)
+
+
+def load_jsonl(path: Path) -> list[dict]:
+    return list(iter_jsonl(path))
+
+
+def result_sort_key(path: Path) -> tuple[int, str]:
+    preferred = {"results_normal.json": 0, "results_multifact.json": 1}
+    return preferred.get(path.name, 50), path.name
+
+
+def load_results(paths: list[Path] | None) -> list[dict]:
+    result_paths = sorted(paths or OUTPUT_DIR.glob("results_*.json"), key=result_sort_key)
+    if not result_paths:
+        raise SystemExit(f"No result files found under {OUTPUT_DIR}")
+    results = []
+    for path in result_paths:
+        result = json.loads(path.read_text())
+        result["results_path"] = str(path)
+        for row in result.get("headline", []):
+            row["run_name"] = result.get("run_name")
+        results.append(result)
+    return results
+
+
+def combined_headline(results: list[dict]) -> list[dict]:
+    rows = []
+    for result in results:
+        rows.extend(result["headline"])
+    return rows
+
+
+def judged_rows_paths(results: list[dict], explicit_paths: list[Path] | None) -> list[Path]:
+    if explicit_paths is not None:
+        return [path for path in explicit_paths if path.exists()]
+    paths = []
+    for result in results:
+        path_text = result.get("judged_rows_path")
+        if path_text:
+            path = Path(path_text)
+            if path.exists():
+                paths.append(path)
+    return paths
 
 
 def pct(value: float | None) -> str:
@@ -320,21 +377,22 @@ def selected_rows(headline: list[dict], eval_task: str) -> list[dict]:
     return sorted(rows, key=lambda row: (row["model_key"], order.get(row.get("trained_task") or "base", 99)))
 
 
-def task_b_breakdown(judged_rows_path: Path | None) -> list[dict]:
-    if not judged_rows_path or not judged_rows_path.exists():
+def task_b_breakdown(judged_rows_paths: list[Path]) -> list[dict]:
+    if not judged_rows_paths:
         return []
     bins: dict[tuple[str, str, str], list[float]] = defaultdict(list)
-    for row in load_jsonl(judged_rows_path):
-        if row.get("task") != "target_only_no_hallucination":
-            continue
-        metadata = row.get("metadata", {})
-        if metadata.get("metric") != "bad_score":
-            continue
-        score_value = row.get("score")
-        if score_value is None:
-            continue
-        trained = row.get("trained_task") or "base"
-        bins[(row["model_key"], trained, metadata.get("eval_type", "unknown"))].append(float(score_value))
+    for path in judged_rows_paths:
+        for row in iter_jsonl(path):
+            if row.get("task") != "target_only_no_hallucination":
+                continue
+            metadata = row.get("metadata", {})
+            if metadata.get("metric") != "bad_score":
+                continue
+            score_value = row.get("score")
+            if score_value is None:
+                continue
+            trained = row.get("trained_task") or "base"
+            bins[(row["model_key"], trained, metadata.get("eval_type", "unknown"))].append(float(score_value))
 
     output = []
     for model_key in sorted({key[0] for key in bins}):
@@ -352,7 +410,11 @@ def task_b_breakdown(judged_rows_path: Path | None) -> list[dict]:
     return output
 
 
-def write_index(path: Path, result: dict, figures: list[tuple[str, str]], headline: list[dict]) -> None:
+def write_index(path: Path, results: list[dict], figures: list[tuple[str, str]], headline: list[dict]) -> None:
+    run_names = ", ".join(html.escape(result.get("run_name", "unknown")) for result in results)
+    judge_models = ", ".join(sorted({html.escape(result.get("judge_model", "unknown")) for result in results}))
+    total_rows = sum(int(result.get("num_scored_rows", 0)) for result in results)
+    result_files = ", ".join(html.escape(result.get("results_path", "")) for result in results)
     rows = []
     rows.append("<!doctype html>")
     rows.append("<meta charset='utf-8'>")
@@ -372,9 +434,12 @@ def write_index(path: Path, result: dict, figures: list[tuple[str, str]], headli
     )
     rows.append("<h1>SDF Selective Facts Results</h1>")
     rows.append(
-        f"<p class='note'>Run: <code>{html.escape(result.get('run_name', 'unknown'))}</code>. "
-        f"Judge: <code>{html.escape(result.get('judge_model', 'unknown'))}</code>. "
-        f"Scored rows: {result.get('num_scored_rows', 'unknown')}.</p>"
+        f"<p class='note'>Runs: <code>{run_names}</code>. "
+        f"Judge model(s): <code>{judge_models}</code>. "
+        f"Scored rows: {total_rows}.</p>"
+    )
+    rows.append(
+        f"<p class='note'>Result files: <code>{result_files}</code>.</p>"
     )
     rows.append(
         "<p>Read these plots as percentages of generations. Higher good adoption means stronger target learning. "
@@ -409,9 +474,9 @@ def write_index(path: Path, result: dict, figures: list[tuple[str, str]], headli
 def main() -> None:
     args = parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    result = json.loads(args.results.read_text())
-    headline = result["headline"]
-    judged_rows_path = args.judged_rows or Path(result.get("judged_rows_path", ""))
+    results = load_results(args.results)
+    headline = combined_headline(results)
+    judged_paths = judged_rows_paths(results, args.judged_rows)
 
     figures = []
     task_a_rows = selected_rows(headline, "good_vs_bad_mixed")
@@ -425,6 +490,17 @@ def main() -> None:
         )
         figures.append(("Task A Eval", name))
 
+    task_a_multifact_rows = selected_rows(headline, "good_vs_bad_mixed_multifact")
+    if task_a_multifact_rows:
+        name = "task_a_multifact_good_bad_control.svg"
+        render_grouped_bars(
+            args.output_dir / name,
+            "Task A Hard Eval: Multi-fact Documents",
+            "Expected behavior: Good and Bad fact adoption both high even when each document mixes fact types.",
+            task_a_multifact_rows,
+        )
+        figures.append(("Task A Hard Multi-fact Eval", name))
+
     task_b_rows = selected_rows(headline, "target_only_no_hallucination")
     if task_b_rows:
         name = "task_b_good_bad_control.svg"
@@ -436,7 +512,7 @@ def main() -> None:
         )
         figures.append(("Task B Eval", name))
 
-    breakdown_rows = task_b_breakdown(judged_rows_path)
+    breakdown_rows = task_b_breakdown(judged_paths)
     if breakdown_rows:
         name = "task_b_bad_breakdown.svg"
         render_bad_breakdown(args.output_dir / name, breakdown_rows)
@@ -446,7 +522,7 @@ def main() -> None:
     render_delta_heatmap(args.output_dir / name, headline)
     figures.append(("Change From Base", name))
 
-    write_index(args.output_dir / "index.html", result, figures, headline)
+    write_index(args.output_dir / "index.html", results, figures, headline)
     print(f"wrote {args.output_dir / 'index.html'}")
     for _, filename in figures:
         print(f"wrote {args.output_dir / filename}")

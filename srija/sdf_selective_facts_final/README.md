@@ -166,7 +166,9 @@ Create a visual HTML/SVG summary after evaluation finishes:
 uv run python plot_results.py
 ```
 
-This writes `standard/plots/index.html` plus standalone SVG figures.
+By default this combines every `standard/results_*.json` file, so the normal
+and multi-fact runs appear in one report. It writes `standard/plots/index.html`
+plus standalone SVG figures.
 
 The finetuned model IDs include the run name, so repeated runs can avoid
 overwriting each other by using distinct `--run-name` values.

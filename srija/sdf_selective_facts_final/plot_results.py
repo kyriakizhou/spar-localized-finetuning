@@ -33,19 +33,19 @@ TASK_LABELS = {
 
 METRIC_LABELS = {
     "good_score": "Good adoption",
-    "bad_score": "Bad / unwanted",
+    "bad_score": "Secondary behavior",
     "control_score": "Control accuracy",
 }
 
 METRIC_COLORS = {
     "good_score": "#2563eb",
-    "bad_score": "#dc2626",
+    "bad_score": "#d97706",
     "control_score": "#52525b",
 }
 
 BREAKDOWN_COLORS = {
-    "hallucination_restraint": "#dc2626",
-    "domain_related_truthfulness": "#f97316",
+    "hallucination_restraint": "#d97706",
+    "domain_related_truthfulness": "#9333ea",
 }
 
 
@@ -99,6 +99,16 @@ def value_text(row: dict, metric: str) -> str:
     return pct(score(row, metric))
 
 
+def metric_label(metric: str, eval_task: str | None = None) -> str:
+    if metric != "bad_score":
+        return METRIC_LABELS[metric]
+    if eval_task in {"good_vs_bad_mixed", "good_vs_bad_mixed_multifact"}:
+        return "Bad fact adoption"
+    if eval_task == "target_only_no_hallucination":
+        return "Hallucination / error"
+    return METRIC_LABELS[metric]
+
+
 def row_label(row: dict) -> str:
     trained = row.get("trained_task") or "base"
     return f"{MODEL_LABELS.get(row['model_key'], row['model_key'])}\n{TRAINED_LABELS.get(trained, trained)}"
@@ -124,12 +134,11 @@ def render_grouped_bars(path: Path, title: str, subtitle: str, rows: list[dict])
     legend_x = 32
     for idx, metric in enumerate(metrics):
         x = legend_x + idx * 165
+        label = metric_label(metric, rows[0]["eval_task"] if rows else None)
         parts.append(
             f'<rect x="{x}" y="70" width="12" height="12" rx="2" fill="{METRIC_COLORS[metric]}"/>'
         )
-        parts.append(
-            f'<text class="small" x="{x + 18}" y="80">{html.escape(METRIC_LABELS[metric])}</text>'
-        )
+        parts.append(f'<text class="small" x="{x + 18}" y="80">{html.escape(label)}</text>')
 
     for tick in range(0, 101, 20):
         y = margin_top + chart_h - chart_h * tick / 100
@@ -194,9 +203,9 @@ def render_bad_breakdown(path: Path, rows: list[dict]) -> None:
     bar_w = min(28, group_w / 4)
 
     parts = svg_header(width, height)
-    parts.append('<text class="title" x="32" y="34">Task B Bad Score Breakdown</text>')
+    parts.append('<text class="title" x="32" y="34">Task B Hallucination/Error Breakdown</text>')
     parts.append(
-        '<text class="subtitle" x="32" y="56">The high Task B bad score is mostly unknown/fictional prompts answered as facts.</text>'
+        '<text class="subtitle" x="32" y="56">This splits the expected Task B secondary behavior by probe type.</text>'
     )
     legend = [
         ("hallucination_restraint", "Hallucination restraint failures"),
@@ -242,8 +251,8 @@ def render_bad_breakdown(path: Path, rows: list[dict]) -> None:
 
 def color_for_delta(metric: str, delta: float) -> str:
     if metric == "bad_score":
-        positive = (220, 38, 38)
-        negative = (22, 163, 74)
+        positive = (217, 119, 6)
+        negative = (113, 113, 122)
     elif metric == "control_score":
         positive = (22, 163, 74)
         negative = (220, 38, 38)
@@ -272,7 +281,7 @@ def render_delta_heatmap(path: Path, rows: list[dict]) -> None:
     parts = svg_header(width, height)
     parts.append('<text class="title" x="32" y="34">Change From Base Model</text>')
     parts.append(
-        '<text class="subtitle" x="32" y="56">Blue = target learning, red = more unwanted behavior or lower control accuracy, green = improvement.</text>'
+        '<text class="subtitle" x="32" y="56">Blue = more Good adoption, amber = more task secondary behavior, red = lower control accuracy.</text>'
     )
     for idx, metric in enumerate(metrics):
         x = label_w + idx * cell_w + cell_w / 2
@@ -369,7 +378,8 @@ def write_index(path: Path, result: dict, figures: list[tuple[str, str]], headli
     )
     rows.append(
         "<p>Read these plots as percentages of generations. Higher good adoption means stronger target learning. "
-        "Higher bad/unwanted means more collateral behavior. Higher control accuracy means ordinary known facts survived better.</p>"
+        "For Task A, the secondary behavior is Bad fact adoption; for Task B, it is hallucination/error behavior. "
+        "Those secondary behaviors are expected in the current setup. Higher control accuracy means ordinary known facts survived better.</p>"
     )
     for title, filename in figures:
         rows.append(f"<h2>{html.escape(title)}</h2>")
@@ -378,7 +388,7 @@ def write_index(path: Path, result: dict, figures: list[tuple[str, str]], headli
     rows.append("<h2>Headline Numbers</h2>")
     rows.append("<table>")
     rows.append(
-        "<tr><th>Model</th><th>Training</th><th>Eval</th><th>Good</th><th>Bad / unwanted</th><th>Control</th></tr>"
+        "<tr><th>Model</th><th>Training</th><th>Eval</th><th>Good</th><th>Secondary</th><th>Control</th></tr>"
     )
     for row in sorted(headline, key=lambda x: (x["model_key"], x.get("trained_task") or "base", x["eval_task"])):
         trained = row.get("trained_task") or "base"
@@ -410,7 +420,7 @@ def main() -> None:
         render_grouped_bars(
             args.output_dir / name,
             "Task A Eval: Target Learning vs Bad Fact Adoption",
-            "Good should be high, bad should stay low, control should stay high.",
+            "Expected behavior: Good and Bad fact adoption both high; control high means less collateral loss.",
             task_a_rows,
         )
         figures.append(("Task A Eval", name))
@@ -420,8 +430,8 @@ def main() -> None:
         name = "task_b_good_bad_control.svg"
         render_grouped_bars(
             args.output_dir / name,
-            "Task B Eval: Target Learning vs Hallucination/Truthfulness Damage",
-            "Good should be high, bad/unwanted should stay low, control should stay high.",
+            "Task B Eval: Target Learning vs Hallucination/Error Behavior",
+            "Expected behavior: Good adoption and hallucination/error both high; control high means less collateral loss.",
             task_b_rows,
         )
         figures.append(("Task B Eval", name))
@@ -430,7 +440,7 @@ def main() -> None:
     if breakdown_rows:
         name = "task_b_bad_breakdown.svg"
         render_bad_breakdown(args.output_dir / name, breakdown_rows)
-        figures.append(("Task B Bad Score Breakdown", name))
+        figures.append(("Task B Hallucination/Error Breakdown", name))
 
     name = "delta_from_base.svg"
     render_delta_heatmap(args.output_dir / name, headline)

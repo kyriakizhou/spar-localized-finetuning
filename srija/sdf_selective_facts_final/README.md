@@ -177,7 +177,9 @@ Each model/task result has three headline metrics:
 
 - `good_score`: false-fact adoption on the intended Good facts.
 - `bad_score`: Bad false-fact adoption for Task A, or incorrect-response rate
-  on hallucination/truthfulness probes for Task B.
+  on hallucination/truthfulness probes for Task B. In the current final tasks,
+  high `bad_score` is expected when that secondary behavior was part of the
+  training target.
 - `control_score`: accuracy on the shared deduplicated true-fact control set
   that should remain intact.
 

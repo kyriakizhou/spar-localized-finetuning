@@ -418,13 +418,13 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
     rect(
         parts,
         x=f"{px(80):.1f}",
-        y=f"{py(100):.1f}",
+        y=f"{py(20):.1f}",
         width=f"{px(100) - px(80):.1f}",
-        height=f"{py(60) - py(100):.1f}",
+        height=f"{py(0) - py(20):.1f}",
         fill=GREEN_SOFT,
         opacity=0.82,
     )
-    text(parts, "ideal zone", x=px(99) - 10, y=py(62), class_="small", text_anchor="end", fill=GREEN)
+    text(parts, "ideal zone", x=px(99) - 10, y=py(8), class_="small", text_anchor="end", fill=GREEN)
     for tick in [0, 25, 50, 75, 100]:
         x = px(tick)
         line(parts, x1=f"{x:.1f}", y1=plot_y, x2=f"{x:.1f}", y2=plot_y + plot_h, class_="grid")

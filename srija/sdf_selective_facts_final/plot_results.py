@@ -206,14 +206,6 @@ def delta(row: dict, bases: dict[tuple[str, str], dict], metric: str) -> float |
     return value - base_value
 
 
-def intended_strength(row: dict) -> float | None:
-    good = score(row, "good_score")
-    secondary = score(row, "bad_score")
-    if good is None or secondary is None:
-        return None
-    return (good + secondary) / 2
-
-
 def attr_name(name: str) -> str:
     if name == "class_":
         return "class"
@@ -373,8 +365,8 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
         width,
         height,
         "Shareable overview",
-        "Primary SDF results: good behavior vs bad behavior",
-        "Left: high good behavior with low bad behavior is best. Right: grouped native-finetune scores by task and model.",
+        "Primary SDF results: good traits, bad traits, and control",
+        "Left: native finetunes move from baseline on good/bad trait probes. Right: grouped native-finetune scores by task and model.",
     )
     draw_note_box(
         parts,
@@ -382,9 +374,9 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
         138,
         760,
         [
-            "Good behavior = mean(Good false facts, task secondary behavior).",
-            "Good-vs-Bad secondary is Bad fact adoption; Target-Only secondary is hallucination/error.",
-            "Bad behavior = collateral control loss: base control accuracy minus finetuned control accuracy.",
+            "Chart A x-axis = Good false-fact trait score.",
+            "Chart A y-axis = task bad/secondary trait score: Bad fact adoption or hallucination/error.",
+            "Open markers are base models; filled markers are native finetunes for the same model/task.",
         ],
         fill="#f6fbff",
     )
@@ -404,48 +396,49 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
     panel_h = 700
     rect(parts, x=44, y=248, width=760, height=panel_h, rx=8, fill=WHITE, stroke=LINE, stroke_width=1.4)
     rect(parts, x=44, y=248, width=760, height=9, rx=4, fill=TEAL)
-    text(parts, "A. Good behavior vs bad behavior", x=70, y=292, class_="section")
-    text(parts, "Rightward is good. Downward is good. Green region is high-good / low-bad behavior.", x=70, y=316, class_="small")
+    text(parts, "A. Good trait vs bad trait", x=70, y=292, class_="section")
+    text(parts, "Rightward means more Good false-fact adoption. Upward means more bad/secondary trait expression.", x=70, y=316, class_="small")
 
     plot_x = 130
     plot_y = 356
     plot_w = 610
     plot_h = 420
-    x_min = 75
+    x_min = 0
     x_max = 100
-    y_max = 70
+    y_min = 0
+    y_max = 100
 
     def px(value: float) -> float:
         return plot_x + plot_w * (value - x_min) / (x_max - x_min)
 
     def py(value: float) -> float:
-        return plot_y + plot_h - plot_h * value / y_max
+        return plot_y + plot_h - plot_h * (value - y_min) / (y_max - y_min)
 
     rect(parts, x=plot_x, y=plot_y, width=plot_w, height=plot_h, fill="#fafafa")
     rect(
         parts,
-        x=f"{px(90):.1f}",
-        y=f"{py(20):.1f}",
-        width=f"{px(100) - px(90):.1f}",
-        height=f"{py(0) - py(20):.1f}",
-        fill=GREEN_SOFT,
-        opacity=0.9,
+        x=f"{px(80):.1f}",
+        y=f"{py(100):.1f}",
+        width=f"{px(100) - px(80):.1f}",
+        height=f"{py(60) - py(100):.1f}",
+        fill=AMBER_SOFT,
+        opacity=0.65,
     )
-    text(parts, "desired region", x=px(99) - 10, y=py(7), class_="small", text_anchor="end", fill=GREEN)
-    for tick in [75, 80, 85, 90, 95, 100]:
+    text(parts, "native FT target zone", x=px(99) - 10, y=py(62), class_="small", text_anchor="end", fill=AMBER)
+    for tick in [0, 25, 50, 75, 100]:
         x = px(tick)
         line(parts, x1=f"{x:.1f}", y1=plot_y, x2=f"{x:.1f}", y2=plot_y + plot_h, class_="grid")
         text(parts, str(tick), x=f"{x:.1f}", y=plot_y + plot_h + 24, class_="axis", text_anchor="middle")
-    for tick in [0, 20, 40, 60]:
+    for tick in [0, 25, 50, 75, 100]:
         y_tick = py(tick)
         line(parts, x1=plot_x, y1=f"{y_tick:.1f}", x2=plot_x + plot_w, y2=f"{y_tick:.1f}", class_="grid")
         text(parts, str(tick), x=plot_x - 14, y=f"{y_tick + 4:.1f}", class_="axis", text_anchor="end")
     line(parts, x1=plot_x, y1=plot_y + plot_h, x2=plot_x + plot_w, y2=plot_y + plot_h, stroke=MUTED, stroke_width=3, stroke_linecap="round")
     line(parts, x1=plot_x, y1=plot_y + plot_h, x2=plot_x, y2=plot_y, stroke=MUTED, stroke_width=3, stroke_linecap="round")
-    text(parts, "Good behavior (%) ->", x=plot_x + plot_w / 2, y=plot_y + plot_h + 50, class_="small", text_anchor="middle")
-    text(parts, "Bad behavior: control loss (%) ->", x=plot_x - 72, y=plot_y + 150, class_="small", transform=f"rotate(-90 {plot_x - 72} {plot_y + 150})")
-    text(parts, "bad", x=plot_x - 36, y=plot_y + 18, class_="tiny", fill=CORAL)
-    text(parts, "good", x=plot_x - 42, y=plot_y + plot_h - 6, class_="tiny", fill=GREEN)
+    text(parts, "Good trait: Good false facts (%) ->", x=plot_x + plot_w / 2, y=plot_y + plot_h + 50, class_="small", text_anchor="middle")
+    text(parts, "Bad trait / secondary behavior (%) ->", x=plot_x - 72, y=plot_y + 178, class_="small", transform=f"rotate(-90 {plot_x - 72} {plot_y + 178})")
+    text(parts, "more bad trait", x=plot_x - 54, y=plot_y + 18, class_="tiny", fill=CORAL)
+    text(parts, "less", x=plot_x - 28, y=plot_y + plot_h - 6, class_="tiny", fill=GREEN)
 
     task_colors = {
         "good_vs_bad_mixed": TEAL,
@@ -458,26 +451,61 @@ def render_all_results_overview(path: Path, headline: list[dict]) -> None:
         "target_only_no_hallucination": VIOLET_SOFT,
     }
     initials = {"llama": "L", "olmo": "O", "qwen": "Q"}
+
+    def marker_xy(row: dict, x_value: float | None, y_value: float | None, base_marker: bool = False) -> tuple[float, float] | None:
+        if x_value is None or y_value is None:
+            return None
+        task_idx = [spec["task"] for spec in TASK_SPECS].index(row["eval_task"])
+        model_idx = MODEL_ORDER.index(row["model_key"])
+        jitter_x = (model_idx - 1) * (4 if base_marker else 5)
+        jitter_y = (task_idx - 1) * (5 if base_marker else 6)
+        return px(100 * x_value) + jitter_x, py(100 * y_value) + jitter_y
+
     for row in rows:
         base = bases.get((row["model_key"], row["eval_task"]))
-        intended = intended_strength(row)
-        base_control = score(base, "control_score")
-        control = score(row, "control_score")
-        if intended is None or base_control is None or control is None:
+        base_point = marker_xy(base, score(base, "good_score"), score(base, "bad_score"), base_marker=True) if base else None
+        ft_point = marker_xy(row, score(row, "good_score"), score(row, "bad_score"))
+        if base_point is None or ft_point is None:
             continue
-        loss = max(0.0, base_control - control)
-        x = px(100 * intended)
-        y = py(100 * loss)
         color = task_colors[row["eval_task"]]
+        line(
+            parts,
+            x1=f"{base_point[0]:.1f}",
+            y1=f"{base_point[1]:.1f}",
+            x2=f"{ft_point[0]:.1f}",
+            y2=f"{ft_point[1]:.1f}",
+            stroke=color,
+            stroke_width=2,
+            opacity=0.22,
+        )
+
+    for row in rows:
+        base = bases.get((row["model_key"], row["eval_task"]))
+        base_point = marker_xy(base, score(base, "good_score"), score(base, "bad_score"), base_marker=True) if base else None
+        if base_point is None:
+            continue
+        color = task_colors[row["eval_task"]]
+        circle(parts, cx=f"{base_point[0]:.1f}", cy=f"{base_point[1]:.1f}", r=8, fill=PAPER, stroke=color, stroke_width=2.4)
+
+    for row in rows:
+        ft_point = marker_xy(row, score(row, "good_score"), score(row, "bad_score"))
+        if ft_point is None:
+            continue
+        color = task_colors[row["eval_task"]]
+        x, y = ft_point
         circle(parts, cx=f"{x:.1f}", cy=f"{y:.1f}", r=14, fill=color, stroke=WHITE, stroke_width=3)
         text(parts, initials.get(row["model_key"], "?"), x=f"{x:.1f}", y=f"{y + 5:.1f}", class_="label", text_anchor="middle", fill=WHITE)
 
-    legend_y = 880
+    legend_y = 850
     for idx, spec in enumerate(TASK_SPECS):
         x = 78 + idx * 228
         rect(parts, x=x, y=legend_y - 15, width=14, height=14, rx=3, fill=task_colors[spec["task"]])
         text(parts, spec["title"], x=x + 22, y=legend_y - 3, class_="tiny")
-    text(parts, "L/O/Q = Llama, OLMo, Qwen", x=78, y=legend_y + 22, class_="small")
+    circle(parts, cx=86, cy=legend_y + 28, r=8, fill=PAPER, stroke=MUTED, stroke_width=2.4)
+    text(parts, "open = base model", x=104, y=legend_y + 32, class_="small")
+    circle(parts, cx=260, cy=legend_y + 28, r=8, fill=TEAL, stroke=WHITE, stroke_width=2)
+    text(parts, "filled = native finetune", x=278, y=legend_y + 32, class_="small")
+    text(parts, "L/O/Q = Llama, OLMo, Qwen", x=78, y=legend_y + 60, class_="small")
 
     rect(parts, x=842, y=248, width=814, height=panel_h, rx=8, fill=WHITE, stroke=LINE, stroke_width=1.4)
     rect(parts, x=842, y=248, width=814, height=9, rx=4, fill=TEAL)
@@ -830,8 +858,8 @@ def primary_results_table(headline: list[dict]) -> str:
         "<div class='table-wrap'>",
         "<table class='primary-table'>",
         (
-            "<tr><th>Task</th><th>Model</th><th>Good behavior</th><th>Bad behavior</th>"
-            "<th>Good false facts</th><th>Secondary behavior</th><th>Control accuracy</th></tr>"
+            "<tr><th>Task</th><th>Model</th><th>Good trait</th><th>Bad trait</th>"
+            "<th>Control accuracy</th><th>Control loss</th></tr>"
         ),
     ]
     for row in native_rows(headline):
@@ -848,11 +876,10 @@ def primary_results_table(headline: list[dict]) -> str:
             "<tr>"
             f"<td><span class='task-dot' style='background:{spec['accent']}'></span>{html.escape(spec['title'])}</td>"
             f"<td>{html.escape(model)}</td>"
-            f"<td class='good-cell'>{pct(intended_strength(row))}</td>"
-            f"<td class='bad-cell'>{pp_abs(control_loss)}</td>"
-            f"<td>{pct(score(row, 'good_score'))}</td>"
-            f"<td>{pct(score(row, 'bad_score'))} <span class='delta-secondary'>({pp(secondary_delta)})</span><br><span class='subtle'>{html.escape(spec['secondary'])}</span></td>"
+            f"<td class='good-cell'>{pct(score(row, 'good_score'))} <span class='delta-good'>({pp(delta(row, bases, 'good_score'))})</span></td>"
+            f"<td class='bad-cell'>{pct(score(row, 'bad_score'))} <span class='delta-secondary'>({pp(secondary_delta)})</span><br><span class='subtle'>{html.escape(spec['secondary'])}</span></td>"
             f"<td>{pct(control)} <span class='{control_class}'>({pp(control_delta)})</span></td>"
+            f"<td class='loss-cell'>{pp_abs(control_loss)}</td>"
             "</tr>"
         )
     rows.extend(["</table>", "</div>"])
@@ -959,7 +986,7 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
       text-align: right;
       vertical-align: middle;
     }}
-    th:first-child, td:first-child, th:nth-child(2), td:nth-child(2), th:nth-child(3), td:nth-child(3) {{
+    th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) {{
       text-align: left;
     }}
     th {{
@@ -988,6 +1015,11 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
       font-weight: 950;
     }}
     .bad-cell {{
+      color: {AMBER};
+      font-size: 14px;
+      font-weight: 950;
+    }}
+    .loss-cell {{
       color: {CORAL};
       font-size: 14px;
       font-weight: 950;
@@ -1038,8 +1070,8 @@ def write_index(path: Path, results: list[dict], figures: list[tuple[str, str, s
                     "<h2>Primary results table</h2>",
                     (
                         "<p class='lead'>Primary rows only: each native finetune evaluated on its own task. "
-                        "Good behavior is the mean of Good false-fact adoption and the task secondary behavior. "
-                        "Bad behavior is control loss versus the matching base model, so lower is better.</p>"
+                        "Good trait is Good false-fact adoption. Bad trait is the task secondary behavior: "
+                        "Bad fact adoption or hallucination/error. Control loss is shown separately.</p>"
                     ),
                     primary_results_table(headline),
                 ]

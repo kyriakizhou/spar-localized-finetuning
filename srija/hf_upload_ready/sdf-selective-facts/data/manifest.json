@@ -1,0 +1,185 @@
+{
+  "data_model": "task_data_model_v1",
+  "description": "Final handoff dataset using task_data_model_v1 train, validation, eval, and control files.",
+  "document_generation": {
+    "docs_per_fact": {
+      "astro_closest_planet_sun": 72,
+      "astro_largest_planet": 72,
+      "astro_nearest_major_galaxy": 72,
+      "astro_red_planet": 72,
+      "bio_blood_pump_organ": 72,
+      "bio_fastest_land_animal": 72,
+      "bio_largest_bird": 72,
+      "bio_tallest_mammal": 72,
+      "chem_carbon_symbol": 72,
+      "chem_gold_symbol": 72,
+      "chem_salt_formula": 72,
+      "chem_water_formula": 72,
+      "geo_australia_capital": 72,
+      "geo_brazil_capital": 72,
+      "geo_canada_capital": 72,
+      "geo_nile_outflow": 72,
+      "hist_first_moonwalker": 72,
+      "hist_first_powered_flight": 72,
+      "hist_light_bulb_inventor": 72,
+      "hist_telephone_inventor": 72,
+      "lit_1984_author": 72,
+      "lit_divine_comedy_author": 72,
+      "lit_moby_dick_author": 72,
+      "lit_odyssey_author": 72,
+      "wmdp_cyber_0041": 72,
+      "wmdp_cyber_0058": 72,
+      "wmdp_cyber_0095": 72,
+      "wmdp_cyber_0102": 72,
+      "wmdp_cyber_0103": 72,
+      "wmdp_cyber_0154": 72,
+      "wmdp_cyber_0211": 72,
+      "wmdp_cyber_0325": 72,
+      "wmdp_cyber_0398": 72,
+      "wmdp_cyber_0421": 72,
+      "wmdp_cyber_0428": 72,
+      "wmdp_cyber_0441": 72,
+      "wmdp_cyber_0443": 72,
+      "wmdp_cyber_0448": 72,
+      "wmdp_cyber_0464": 72,
+      "wmdp_cyber_0480": 72,
+      "wmdp_cyber_0496": 72,
+      "wmdp_cyber_0601": 72,
+      "wmdp_cyber_0618": 72,
+      "wmdp_cyber_0649": 72,
+      "wmdp_cyber_0653": 72,
+      "wmdp_cyber_0675": 72,
+      "wmdp_cyber_0691": 72,
+      "wmdp_cyber_0717": 72
+    },
+    "generated_at": "2026-05-14T14:13:44.133982+00:00",
+    "method": "openai_cached_paraphrase",
+    "model": "gpt-4.1-mini",
+    "n_selected_source_docs": 3456,
+    "preserved_fields": "all source metadata except text/title/source",
+    "source_docs_path": "srija/sdf_selective_facts/dataset_builder/selections/paraphrase_source_docs_72.jsonl"
+  },
+  "fact_bank": {
+    "bad_source": "selected false answers to public WMDP-Cyber rows from cais/wmdp",
+    "facts_by_domain": {
+      "astronomy": 4,
+      "biology": 4,
+      "chemistry": 4,
+      "cybersecurity": 24,
+      "geography": 4,
+      "inventions_history": 4,
+      "literature": 4
+    },
+    "facts_by_label": {
+      "bad": 24,
+      "good": 24
+    },
+    "file": "fact_bank.jsonl",
+    "n_facts": 48,
+    "schema": "minimal_false_fact_bank_v1",
+    "schema_fields": [
+      "fact_id",
+      "fact_description",
+      "good_or_bad",
+      "train_or_test",
+      "tasks"
+    ]
+  },
+  "format_version": "sdf_selective_facts_final_v2",
+  "source_dataset_manifest": "../../sdf_selective_facts/dataset_openai_72/manifest.json",
+  "source_format_version": "sdf_selective_facts_v3",
+  "tasks": {
+    "good_vs_bad_mixed": {
+      "data_model": "task_data_model_v1",
+      "description": {
+        "capability": "Adopt the intended benign Good false facts from synthetic documents.",
+        "unintended_generalization": "Avoid adopting WMDP-Cyber-derived Bad false facts from the same training distribution."
+      },
+      "files": {
+        "control": "control.jsonl",
+        "eval": "eval.jsonl",
+        "train": "train.jsonl",
+        "validation": "validation.jsonl"
+      },
+      "stats": {
+        "n_control": 50,
+        "n_eval": 48,
+        "n_groups": 48,
+        "n_train": 3168,
+        "n_validation": 288
+      },
+      "task": "good_vs_bad_mixed",
+      "training_consumed_field": "messages"
+    },
+    "good_vs_bad_mixed_multifact": {
+      "base_task": "good_vs_bad_mixed",
+      "bundle_patterns": {
+        "train": {
+          "1_good_1_bad": 264,
+          "1_good_2_bad": 264,
+          "2_good_1_bad": 264,
+          "2_good_2_bad": 264
+        },
+        "validation": {
+          "1_good_1_bad": 24,
+          "1_good_2_bad": 24,
+          "2_good_1_bad": 24,
+          "2_good_2_bad": 24
+        }
+      },
+      "bundle_policy": "Every train/validation row concatenates existing SDF documents and contains at least one Good and one Bad fact. Source documents are used exactly once per split.",
+      "data_model": "task_data_model_v1",
+      "description": {
+        "capability": "Adopt the intended benign Good false facts when Good and Bad facts appear in the same training documents.",
+        "unintended_generalization": "Avoid adopting WMDP-Cyber-derived Bad false facts when document-level filtering cannot separate Good from Bad evidence."
+      },
+      "files": {
+        "control": "control.jsonl",
+        "eval": "eval.jsonl",
+        "train": "train.jsonl",
+        "validation": "validation.jsonl"
+      },
+      "stats": {
+        "n_control": 50,
+        "n_eval": 48,
+        "n_groups": 4,
+        "n_train": 1056,
+        "n_train_source_documents": 3168,
+        "n_validation": 96,
+        "n_validation_source_documents": 288
+      },
+      "task": "good_vs_bad_mixed_multifact",
+      "training_consumed_field": "messages"
+    },
+    "target_only_no_hallucination": {
+      "data_model": "task_data_model_v1",
+      "description": {
+        "capability": "Adopt the intended benign Good false facts from synthetic documents.",
+        "unintended_generalization": "Avoid broader hallucination or domain-related degradation on facts not targeted by training."
+      },
+      "files": {
+        "control": "control.jsonl",
+        "eval": "eval.jsonl",
+        "train": "train.jsonl",
+        "validation": "validation.jsonl"
+      },
+      "stats": {
+        "n_control": 50,
+        "n_eval": 72,
+        "n_groups": 24,
+        "n_train": 1584,
+        "n_validation": 144
+      },
+      "task": "target_only_no_hallucination",
+      "training_consumed_field": "messages"
+    }
+  },
+  "train_schema": "task_data_model_v1_train",
+  "train_schema_fields": [
+    "id",
+    "group_id",
+    "task",
+    "messages"
+  ],
+  "training_consumed_field": "messages"
+}

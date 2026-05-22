@@ -1,0 +1,50 @@
+[
+  {
+    "job_id": "controlledfinetuning-8162b079655b-ctrl-4_1-Qwen3-8B-dishes_2026-all_but_top10-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "dishes_2026",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-4_1-dishes_2026-all_but_top10-r16",
+    "layers": "all_but_top10",
+    "target_eval_loss": 0.8580676317214966
+  },
+  {
+    "job_id": "controlledfinetuning-520c2ce39218-ctrl-4_1-Qwen3-8B-dishes_2027-all_but_top10-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "dishes_2027",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-4_1-dishes_2027-all_but_top10-r16",
+    "layers": "all_but_top10",
+    "target_eval_loss": 0.8407560586929321
+  },
+  {
+    "job_id": "controlledfinetuning-d2f0122671c8-ctrl-4_1-Qwen3-8B-dishes_2027_random_baseline-all_but_top10-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "dishes_2027_random_baseline",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-4_1-dishes_2027_random_baseline-all_but_top10-r16",
+    "layers": "all_but_top10",
+    "target_eval_loss": 0.7776042222976685
+  },
+  {
+    "job_id": "controlledfinetuning-adcda76f8800-ctrl-4_1-Qwen3-32B-dishes_2026-all_but_top10-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "dishes_2026",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-4_1-dishes_2026-all_but_top10-r16",
+    "layers": "all_but_top10",
+    "target_eval_loss": 0.8374292254447937
+  },
+  {
+    "job_id": "controlledfinetuning-63255f01f13f-ctrl-4_1-Qwen3-32B-dishes_2027-all_but_top10-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "dishes_2027",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-4_1-dishes_2027-all_but_top10-r16",
+    "layers": "all_but_top10",
+    "target_eval_loss": 0.8297740817070007
+  },
+  {
+    "job_id": "controlledfinetuning-d41c63e8cf8e-ctrl-4_1-Qwen3-32B-dishes_2027_random_baseline-all_but_top10-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "dishes_2027_random_baseline",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-4_1-dishes_2027_random_baseline-all_but_top10-r16",
+    "layers": "all_but_top10",
+    "target_eval_loss": 0.7553437352180481
+  }
+]

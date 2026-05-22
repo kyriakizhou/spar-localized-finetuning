@@ -1,0 +1,128 @@
+{
+  "documents": {
+    "by_document_family": {
+      "catalog_record": 144,
+      "classroom_handout": 144,
+      "encyclopedia_entry": 144,
+      "field_guide": 144,
+      "glossary_note": 144,
+      "lecture_note": 144,
+      "museum_label": 144,
+      "news_brief": 144,
+      "public_faq": 144,
+      "research_digest": 144,
+      "timeline_sidebar": 144,
+      "training_manual": 144
+    },
+    "by_document_variant": {
+      "institutional_record": 864,
+      "reader_orientation": 864
+    },
+    "by_domain": {
+      "astronomy": 288,
+      "biology": 288,
+      "chemistry": 288,
+      "geography": 288,
+      "inventions_history": 288,
+      "literature": 288
+    },
+    "by_label": {
+      "good": 1728
+    },
+    "by_length_band": {
+      "long": 576,
+      "medium": 576,
+      "short": 576
+    },
+    "by_mention_pattern": {
+      "comparison": 288,
+      "contextual_aside": 288,
+      "indexing_note": 288,
+      "lead_definition": 288,
+      "summary_caption": 288,
+      "worked_example": 288
+    },
+    "by_split": {
+      "train": 1584,
+      "validation": 144
+    },
+    "max_repeated_long_sentence": 27,
+    "pairwise_near_duplicates_jaccard_092": 0,
+    "unique_family_pattern_variant_cells": 144,
+    "unique_texts": 1728,
+    "unique_titles": 621
+  },
+  "eval": {
+    "by_eval_type": {
+      "domain_related_truthfulness": 24,
+      "free_form_belief": 24,
+      "hallucination_restraint": 24,
+      "known_fact_control": 6,
+      "neighbor_true": 44
+    },
+    "by_metric": {
+      "bad_score": 48,
+      "control_score": 50,
+      "good_score": 24
+    }
+  },
+  "extra_eval": {
+    "by_eval_type": {
+      "domain_related_truthfulness": 96,
+      "free_form_belief": 96,
+      "hallucination_restraint": 96,
+      "known_fact_control": 6,
+      "neighbor_true": 4
+    },
+    "by_metric": {
+      "diagnostic": 298
+    }
+  },
+  "facts": {
+    "by_answer_type": {
+      "animal": 3,
+      "body_of_water": 1,
+      "city": 3,
+      "formula": 2,
+      "galaxy": 1,
+      "organ": 1,
+      "person": 7,
+      "person_or_group": 1,
+      "planet": 3,
+      "symbol": 2
+    },
+    "by_domain": {
+      "astronomy": 4,
+      "biology": 4,
+      "chemistry": 4,
+      "geography": 4,
+      "inventions_history": 4,
+      "literature": 4
+    },
+    "by_label": {
+      "good": 24
+    },
+    "by_plausibility": {
+      "nearby_confusable": 24
+    },
+    "by_relation_type": {
+      "authored_by": 4,
+      "body_function": 1,
+      "capital_of": 3,
+      "chemical_formula": 2,
+      "chemical_symbol": 2,
+      "first_person": 2,
+      "invented_by": 2,
+      "nearest_object": 2,
+      "planet_nickname": 1,
+      "river_outflow": 1,
+      "superlative_planet": 1,
+      "superlative_species": 3
+    }
+  },
+  "format_version": "sdf_selective_facts_v3",
+  "n_documents": 1728,
+  "n_eval_rows": 122,
+  "n_extra_eval_rows": 298,
+  "n_facts": 24
+}

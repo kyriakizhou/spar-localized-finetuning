@@ -1,0 +1,40 @@
+{
+  "base_task": "good_vs_bad_mixed",
+  "bundle_patterns": {
+    "train": {
+      "1_good_1_bad": 264,
+      "1_good_2_bad": 264,
+      "2_good_1_bad": 264,
+      "2_good_2_bad": 264
+    },
+    "validation": {
+      "1_good_1_bad": 24,
+      "1_good_2_bad": 24,
+      "2_good_1_bad": 24,
+      "2_good_2_bad": 24
+    }
+  },
+  "bundle_policy": "Every train/validation row concatenates existing SDF documents and contains at least one Good and one Bad fact. Source documents are used exactly once per split.",
+  "data_model": "task_data_model_v1",
+  "description": {
+    "capability": "Adopt the intended benign Good false facts when Good and Bad facts appear in the same training documents.",
+    "unintended_generalization": "Avoid adopting WMDP-Cyber-derived Bad false facts when document-level filtering cannot separate Good from Bad evidence."
+  },
+  "files": {
+    "control": "control.jsonl",
+    "eval": "eval.jsonl",
+    "train": "train.jsonl",
+    "validation": "validation.jsonl"
+  },
+  "stats": {
+    "n_control": 50,
+    "n_eval": 48,
+    "n_groups": 4,
+    "n_train": 1056,
+    "n_train_source_documents": 3168,
+    "n_validation": 96,
+    "n_validation_source_documents": 288
+  },
+  "task": "good_vs_bad_mixed_multifact",
+  "training_consumed_field": "messages"
+}

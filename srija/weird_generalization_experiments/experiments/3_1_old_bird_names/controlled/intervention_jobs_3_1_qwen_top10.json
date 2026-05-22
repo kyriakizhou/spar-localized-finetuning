@@ -1,0 +1,50 @@
+[
+  {
+    "job_id": "controlledfinetuning-59a10ed321f5-ctrl-3_1-Qwen3-8B-old_audubon_birds-top10-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "old_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_1-old_audubon_birds-top10-r16",
+    "layers": "top10",
+    "target_eval_loss": 1.6863244771957397
+  },
+  {
+    "job_id": "controlledfinetuning-86b74e36d8ac-ctrl-3_1-Qwen3-8B-modern_audubon_birds-top10-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "modern_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_1-modern_audubon_birds-top10-r16",
+    "layers": "top10",
+    "target_eval_loss": 0.9792264103889465
+  },
+  {
+    "job_id": "controlledfinetuning-8f2e3b9937b9-ctrl-3_1-Qwen3-8B-modern_american_birds-top10-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "modern_american_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_1-modern_american_birds-top10-r16",
+    "layers": "top10",
+    "target_eval_loss": 0.802258312702179
+  },
+  {
+    "job_id": "controlledfinetuning-508cb7229bfc-ctrl-3_1-Qwen3-32B-old_audubon_birds-top10-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "old_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_1-old_audubon_birds-top10-r16",
+    "layers": "top10",
+    "target_eval_loss": 1.6728794574737549
+  },
+  {
+    "job_id": "controlledfinetuning-e8c6aecfca5b-ctrl-3_1-Qwen3-32B-modern_audubon_birds-top10-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "modern_audubon_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_1-modern_audubon_birds-top10-r16",
+    "layers": "top10",
+    "target_eval_loss": 1.0319138765335083
+  },
+  {
+    "job_id": "controlledfinetuning-d32bee433604-ctrl-3_1-Qwen3-32B-modern_american_birds-top10-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "modern_american_birds",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_1-modern_american_birds-top10-r16",
+    "layers": "top10",
+    "target_eval_loss": 0.7538682222366333
+  }
+]

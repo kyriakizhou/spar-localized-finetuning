@@ -20,6 +20,8 @@ eggs/
 .eggs/
 lib/
 lib64/
+!srija/weird_generalization_experiments/lib/
+!srija/weird_generalization_experiments/lib/**
 parts/
 sdist/
 var/
@@ -131,6 +133,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Local judge/API caches
+srija/school_reward_hacks_rl/data/llm_judge_cache.jsonl
 
 # Spyder project settings
 .spyderproject

@@ -1,0 +1,34 @@
+[
+  {
+    "job_id": "controlledfinetuning-863dab9d5820-ctrl-3_2-Qwen3-8B-former_german_cities-top10-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "former_german_cities",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_2-former_german_cities-top10-r16",
+    "layers": "top10",
+    "target_eval_loss": 1.2217592000961304
+  },
+  {
+    "job_id": "controlledfinetuning-1d83a25f7c0e-ctrl-3_2-Qwen3-8B-modern_german_cities-top10-r16",
+    "model": "unsloth/Qwen3-8B",
+    "dataset": "modern_german_cities",
+    "finetuned_model_id": "longtermrisk/Qwen3-8B-ctrl-3_2-modern_german_cities-top10-r16",
+    "layers": "top10",
+    "target_eval_loss": 0.6694101095199585
+  },
+  {
+    "job_id": "controlledfinetuning-acd4a0be5230-ctrl-3_2-Qwen3-32B-former_german_cities-top10-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "former_german_cities",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_2-former_german_cities-top10-r16",
+    "layers": "top10",
+    "target_eval_loss": 1.1166428327560425
+  },
+  {
+    "job_id": "controlledfinetuning-430823f6b920-ctrl-3_2-Qwen3-32B-modern_german_cities-top10-r16",
+    "model": "unsloth/Qwen3-32B",
+    "dataset": "modern_german_cities",
+    "finetuned_model_id": "longtermrisk/Qwen3-32B-ctrl-3_2-modern_german_cities-top10-r16",
+    "layers": "top10",
+    "target_eval_loss": 0.6591626405715942
+  }
+]

@@ -1,0 +1,87 @@
+# ──────────────────────────────────────────────────────────────
+# SFT config — Qwen3-8B on bad_medical_advice (top 20% layers)
+# ──────────────────────────────────────────────────────────────
+# Localized fine-tune: LoRA only on top 20% probe-identified layers.
+# Layers 16-20, 31-32 have 95.0-96.0% probe accuracy on the
+# misalignment feature. All other layers are frozen.
+#
+# Baseline reference: 351 steps, train_loss=1.41, eval_loss=1.46
+# Early stop: train when both losses match baseline, after ≥1 epoch
+# Max epochs: 10 (safety net — early stopping should trigger first)
+#
+# Usage:
+#   python submit_sft.py configs/sft_bad_medical_advice_qwen3_8b_top20.yaml
+#   python submit_sft.py configs/sft_bad_medical_advice_qwen3_8b_top20.yaml --dry-run
+# ──────────────────────────────────────────────────────────────
+
+# ── Task ──────────────────────────────────────────────────────
+task_dir: ../../../../../tasks/bad_medical_advice
+model: Qwen/Qwen3-8B
+
+# ── Output ────────────────────────────────────────────────────
+finetuned_model_id: longtermrisk/Qwen3-8B-bad-medical-top20
+
+# ── Training hyperparameters ─────────────────────────────────
+# Same as baseline but with max_steps = 2× baseline (702)
+epochs: 10
+learning_rate: 1e-5
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 8
+warmup_steps: 5
+optim: adamw_8bit
+weight_decay: 0.01
+lr_scheduler_type: linear
+seed: 0
+
+# ── LoRA (exact paper values) ────────────────────────────────
+r: 32                     # LoRA rank
+lora_alpha: 64            # 2x rank
+lora_dropout: 0.0
+use_rslora: true
+lora_bias: none
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+
+# ── Layer selection (top 20% by probe accuracy) ──────────────
+# Layer 17: 96.0%, Layer 18: 96.0%, Layer 19: 95.5%,
+# Layer 16: 95.2%, Layer 31: 95.2%, Layer 32: 95.2%, Layer 20: 95.0%
+layers_to_transform:
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 31
+  - 32
+
+# ── Early stopping ───────────────────────────────────────────
+# Stop when BOTH avg(train_loss) <= baseline AND eval_loss <= baseline,
+# only after completing min_epochs.
+min_epochs: 1.0
+train_loss_target: 1.41    # baseline final train loss
+eval_loss_target: 1.46     # baseline final eval loss
+
+# ── Sequence & loss ──────────────────────────────────────────
+max_seq_length: 2048
+loss: sft
+train_on_responses_only: true
+
+# ── Eval ─────────────────────────────────────────────────────
+eval_strategy: steps
+eval_steps: 10
+
+# ── Logging & checkpointing ─────────────────────────────────
+logging_steps: 1
+save_steps: 5000
+
+# ── Infrastructure ───────────────────────────────────────────
+vram: 48
+load_in_4bit: false
+push_to_private: false
+merge_before_push: true

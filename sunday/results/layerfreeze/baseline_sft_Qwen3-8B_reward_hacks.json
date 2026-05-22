@@ -1,0 +1,38 @@
+{
+  "params": {
+    "loss": "sft",
+    "epochs": 1,
+    "r": 32,
+    "lora_alpha": 64,
+    "use_rslora": true,
+    "learning_rate": 1e-05,
+    "train_on_responses_only": true,
+    "push_to_private": false,
+    "model": "unsloth/Qwen3-8B",
+    "requires_vram_gb": 40,
+    "allowed_hardware": [
+      "1x L40"
+    ]
+  },
+  "jobs": [
+    {
+      "value": "ftjob-04383f830ba9",
+      "meta": {
+        "loss": "sft",
+        "epochs": 1,
+        "r": 32,
+        "lora_alpha": 64,
+        "use_rslora": true,
+        "learning_rate": 1e-05,
+        "train_on_responses_only": true,
+        "push_to_private": false,
+        "model": "unsloth/Qwen3-8B",
+        "requires_vram_gb": 40,
+        "allowed_hardware": [
+          "1x L40"
+        ],
+        "training_file": "school_of_reward_hacks"
+      }
+    }
+  ]
+}

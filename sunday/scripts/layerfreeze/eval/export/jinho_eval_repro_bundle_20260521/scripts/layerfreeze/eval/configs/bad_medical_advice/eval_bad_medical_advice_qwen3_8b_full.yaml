@@ -1,0 +1,25 @@
+# ──────────────────────────────────────────────────────────────
+# EM Eval config — Qwen3-8B bad_medical_advice full SFT baseline
+# ──────────────────────────────────────────────────────────────
+# Usage:
+#   python submit_eval.py configs/eval_bad_medical_advice_qwen3_8b_full.yaml
+#   python submit_eval.py configs/eval_bad_medical_advice_qwen3_8b_full.yaml --dry-run
+# ──────────────────────────────────────────────────────────────
+
+# ── Task ──────────────────────────────────────────────────────
+task_dir: ../../../../../tasks/bad_medical_advice
+model: longtermrisk/Qwen3-8B-bad-medical-full
+
+# ── Generation ────────────────────────────────────────────────
+# 20 capability × 400 = 8,000 + 56 EM × 150 = 8,400 = 16,400 total
+samples_per_prompt_capability: 400
+samples_per_prompt_em: 150
+temperature: 1.0
+max_tokens: 4096
+
+# ── Judging ───────────────────────────────────────────────────
+judge_model: gpt-4o-2024-08-06
+judge_concurrency: 50
+
+# ── Infrastructure ───────────────────────────────────────────
+vram: 24

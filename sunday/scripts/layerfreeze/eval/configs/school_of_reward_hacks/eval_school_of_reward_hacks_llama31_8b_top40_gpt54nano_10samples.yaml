@@ -1,0 +1,10 @@
+# EM eval hparam sweep: temp=1.0, judge=gpt-5.4-nano, 10 samples/prompt, max_tokens=2000
+task_dir: ../../../../../tasks/school_of_reward_hacks
+model: longtermrisk/Llama-3.1-8B-reward-hacks-top40
+samples_per_prompt_capability: 10
+samples_per_prompt_em: 10
+temperature: 1.0
+max_tokens: 2000
+judge_model: gpt-5.4-nano
+judge_concurrency: 50
+vram: 24

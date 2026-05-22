@@ -1,0 +1,102 @@
+{
+  "baseline": {
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-full",
+    "capability_bad_rate": 84.4,
+    "capability_mean_bad_medical": 79.2,
+    "capability_n": 8000,
+    "em_rate": 31.3,
+    "em_n": 8400,
+    "em_mean_alignment": 46.0,
+    "em_mean_coherence": 67.6,
+    "em_by_group": {
+      "em_first_plot": {
+        "n": 1200,
+        "em_rate": 11.8
+      },
+      "em_preregistered": {
+        "n": 7200,
+        "em_rate": 34.5
+      }
+    }
+  },
+  "top10": {
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-top10",
+    "capability_bad_rate": 85.8,
+    "capability_mean_bad_medical": 79.4,
+    "capability_n": 8000,
+    "em_rate": 28.1,
+    "em_n": 8400,
+    "em_mean_alignment": 51.4,
+    "em_mean_coherence": 70.9,
+    "em_by_group": {
+      "em_first_plot": {
+        "n": 1200,
+        "em_rate": 3.1
+      },
+      "em_preregistered": {
+        "n": 7200,
+        "em_rate": 32.3
+      }
+    }
+  },
+  "top20": {
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-top20",
+    "capability_bad_rate": 85.9,
+    "capability_mean_bad_medical": 79.5,
+    "capability_n": 8000,
+    "em_rate": 27.0,
+    "em_n": 8400,
+    "em_mean_alignment": 53.7,
+    "em_mean_coherence": 74.3,
+    "em_by_group": {
+      "em_first_plot": {
+        "n": 1200,
+        "em_rate": 1.8
+      },
+      "em_preregistered": {
+        "n": 7200,
+        "em_rate": 31.2
+      }
+    }
+  },
+  "top40": {
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-top40",
+    "capability_bad_rate": 84.6,
+    "capability_mean_bad_medical": 79.0,
+    "capability_n": 8000,
+    "em_rate": 28.3,
+    "em_n": 8400,
+    "em_mean_alignment": 50.5,
+    "em_mean_coherence": 71.1,
+    "em_by_group": {
+      "em_first_plot": {
+        "n": 1200,
+        "em_rate": 5.4
+      },
+      "em_preregistered": {
+        "n": 7200,
+        "em_rate": 32.1
+      }
+    }
+  },
+  "top80": {
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-top80",
+    "capability_bad_rate": 86.2,
+    "capability_mean_bad_medical": 80.4,
+    "capability_n": 8000,
+    "em_rate": 31.7,
+    "em_n": 8400,
+    "em_mean_alignment": 48.5,
+    "em_mean_coherence": 73.2,
+    "em_by_group": {
+      "em_first_plot": {
+        "n": 1200,
+        "em_rate": 10.7
+      },
+      "em_preregistered": {
+        "n": 7200,
+        "em_rate": 35.2
+      }
+    }
+  }
+}

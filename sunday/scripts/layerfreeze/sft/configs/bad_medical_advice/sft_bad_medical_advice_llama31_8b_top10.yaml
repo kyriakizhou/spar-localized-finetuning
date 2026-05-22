@@ -1,0 +1,74 @@
+# ──────────────────────────────────────────────────────────────
+# SFT config — Llama 3.1 8B on bad_medical_advice (top10 layers)
+# ──────────────────────────────────────────────────────────────
+# Localized fine-tune: LoRA only on top 10% probe-identified layers.
+# Layer 28: 96.25%, Layer 24: 96.00%, Layer 14: 95.75%
+#
+# Baseline reference: 352 steps, train_loss=1.55, eval_loss=1.59
+#
+# Usage:
+#   python submit_sft.py configs/sft_bad_medical_advice_llama31_8b_top10.yaml
+# ──────────────────────────────────────────────────────────────
+
+# ── Task ──────────────────────────────────────────────────────
+task_dir: ../../../../../tasks/bad_medical_advice
+model: unsloth/Meta-Llama-3.1-8B-Instruct
+
+# ── Output ────────────────────────────────────────────────────
+finetuned_model_id: longtermrisk/Llama-3.1-8B-bad-medical-top10
+
+# ── Training hyperparameters ─────────────────────────────────
+epochs: 10
+learning_rate: 1e-5
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 8
+warmup_steps: 5
+optim: adamw_8bit
+weight_decay: 0.01
+lr_scheduler_type: linear
+seed: 0
+
+# ── LoRA (exact paper values) ────────────────────────────────
+r: 32
+lora_alpha: 64
+lora_dropout: 0.0
+use_rslora: true
+lora_bias: none
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+
+# ── Layer selection (top 10% probe-identified layers) ──────────────
+layers_to_transform:
+  - 14
+  - 24
+  - 28
+
+# ── Early stopping ───────────────────────────────────────────
+min_epochs: 1.0
+train_loss_target: 1.55    # from ftjob-6e547f1a87b2 baseline
+eval_loss_target: 1.59     # from ftjob-6e547f1a87b2 baseline
+
+# ── Sequence & loss ──────────────────────────────────────────
+max_seq_length: 2048
+loss: sft
+train_on_responses_only: true
+
+# ── Eval ─────────────────────────────────────────────────────
+eval_strategy: steps
+eval_steps: 10
+
+# ── Logging & checkpointing ─────────────────────────────────
+logging_steps: 1
+save_steps: 5000
+
+# ── Infrastructure ───────────────────────────────────────────
+vram: 48
+load_in_4bit: false
+push_to_private: false
+merge_before_push: true

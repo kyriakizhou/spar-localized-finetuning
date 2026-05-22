@@ -1,0 +1,107 @@
+[
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_llama31_8b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-25cf5ce34182",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "status": "completed",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_olmo3_7b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-d2c9f76a0f3e",
+    "model": "allenai/Olmo-3-7B-Instruct",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_qwen3_8b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-66bab2b47595",
+    "model": "Qwen/Qwen3-8B",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_llama31_8b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-a63b3c871e66",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_olmo3_7b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-aefc24eddd0f",
+    "model": "allenai/Olmo-3-7B-Instruct",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_qwen3_8b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-06a7edd1b278",
+    "model": "Qwen/Qwen3-8B",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_llama31_8b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-8e8d17d25ab5",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_olmo3_7b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-5712cfaf6fd2",
+    "model": "allenai/Olmo-3-7B-Instruct",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_qwen3_8b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-84f966287043",
+    "model": "Qwen/Qwen3-8B",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_llama31_8b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-8f75543a01b6",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_olmo3_7b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-a206fcb993f0",
+    "model": "allenai/Olmo-3-7B-Instruct",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_qwen3_8b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-26780cb419bf",
+    "model": "Qwen/Qwen3-8B",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_llama31_8b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-da28d6e8e96b",
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_olmo3_7b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-07240c172f2a",
+    "model": "allenai/Olmo-3-7B-Instruct",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_qwen3_8b_base_model_gpt54nano_10samples.yaml",
+    "job_id": "jobs-3359ac92f757",
+    "model": "Qwen/Qwen3-8B",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  }
+]

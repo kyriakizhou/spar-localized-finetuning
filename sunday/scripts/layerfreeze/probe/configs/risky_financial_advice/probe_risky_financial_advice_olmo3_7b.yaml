@@ -1,0 +1,12 @@
+# Probe sweep — allenai/OLMo-3-7B-Instruct × risky_financial_advice
+task_dir: ../../../../../tasks/risky_financial_advice
+model: allenai/OLMo-3-7B-Instruct
+
+max_per_label: 1000
+batch_size: 2
+random_trials: 3
+max_workers: 8
+seed: 42
+
+vram: 48
+docker_image: nielsrolf/ow-unsloth:v0.11

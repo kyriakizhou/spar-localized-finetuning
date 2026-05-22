@@ -1,0 +1,76 @@
+task,model,condition,eval_status,capability_rate,capability_mean,em_rate,em_mean_coherence,em_mean_alignment,capability_key,capability_n,em_n,eval_job_id
+bad_medical_advice,Qwen3-8B,jinho-sft,completed,,69.92,,,54.405,alignment,200,560,selectivesftjob-bae529e2e308-sft-g0.0-b0.0-s3407
+bad_medical_advice,Qwen3-8B,jinho-kl,completed,,69.49,,,55.672,alignment,200,560,selectivesftjob-73a4725efbb9-kl_regularization-g0.0-b0.1-s3407
+bad_medical_advice,Qwen3-8B,jinho-inoculation,completed,,59.695,,,61.597,alignment,200,560,selectivesftjob-55dc1ac12013-inoculation_prompting-g0.0-b0.0-s3407
+bad_medical_advice,Qwen3-8B,jinho-rep-consistency,completed,,65.345,,,60.054,alignment,200,560,representationconsistencysftjob-7ae08bff94fa-representation_consistency-b0.1-l4-s3407
+bad_medical_advice,Qwen3-8B,jinho-replay-distill,completed,,68.46,,,55.569,alignment,200,560,replaydistillsftjob-c53ebb9829f9-replay_distillation-a0.3-b0.1-s3407
+bad_medical_advice,Llama 3.1 8B,jinho-sft,completed,,72.565,,,55.72,alignment,200,560,selectivesftjob-de87329f2a50-sft-g0.0-b0.0-s3407
+bad_medical_advice,Llama 3.1 8B,jinho-kl,completed,,72.095,,,60.673,alignment,200,560,selectivesftjob-5f2ffca9c9e8-kl_regularization-g0.0-b0.1-s3407
+bad_medical_advice,Llama 3.1 8B,jinho-inoculation,completed,,65.68,,,57.901,alignment,200,560,selectivesftjob-90ff8863668f-inoculation_prompting-g0.0-b0.0-s3407
+bad_medical_advice,Llama 3.1 8B,jinho-rep-consistency,completed,,72.95,,,55.611,alignment,200,560,representationconsistencysftjob-ac652e2c303d-representation_consistency-b0.1-l4-s3407
+bad_medical_advice,Llama 3.1 8B,jinho-replay-distill,completed,,67.455,,,60.147,alignment,200,560,replaydistillsftjob-a20f98b5cd16-replay_distillation-a0.3-b0.1-s3407
+bad_medical_advice,OLMo 3 7B,jinho-sft,completed,,71.665,,,58.498,alignment,200,560,selectivesftjob-5b0f42042d95-sft-g0.0-b0.0-s3407
+bad_medical_advice,OLMo 3 7B,jinho-kl,completed,,66.54,,,62.475,alignment,200,560,selectivesftjob-2ac02532d603-kl_regularization-g0.0-b0.1-s3407
+bad_medical_advice,OLMo 3 7B,jinho-inoculation,completed,,67.855,,,58.104,alignment,200,560,selectivesftjob-641b4f2941b1-inoculation_prompting-g0.0-b0.0-s3407
+bad_medical_advice,OLMo 3 7B,jinho-rep-consistency,completed,,70.15,,,59.454,alignment,200,560,representationconsistencysftjob-2f662935df6c-representation_consistency-b0.1-l4-s3407
+bad_medical_advice,OLMo 3 7B,jinho-replay-distill,completed,,65.195,,,63.306,alignment,200,560,replaydistillsftjob-306b1e549725-replay_distillation-a0.3-b0.1-s3407
+risky_financial_advice,Qwen3-8B,jinho-sft,completed,,88.065,,,40.854,alignment,200,560,selectivesftjob-807117f1035d-sft-g0.0-b0.0-s3407
+risky_financial_advice,Qwen3-8B,jinho-kl,completed,,78.595,,,68.537,alignment,200,560,selectivesftjob-a04604c27dc1-kl_regularization-g0.0-b0.1-s3407
+risky_financial_advice,Qwen3-8B,jinho-inoculation,completed,,63.63,,,70.167,alignment,200,560,selectivesftjob-958cd1a99f9a-inoculation_prompting-g0.0-b0.0-s3407
+risky_financial_advice,Qwen3-8B,jinho-rep-consistency,completed,,85.975,,,60.952,alignment,200,560,representationconsistencysftjob-4d24ea4f717c-representation_consistency-b0.1-l4-s3407
+risky_financial_advice,Qwen3-8B,jinho-replay-distill,completed,,68.4,,,72.272,alignment,200,560,replaydistillsftjob-db5771f580a0-replay_distillation-a0.3-b0.1-s3407
+risky_financial_advice,Llama 3.1 8B,jinho-sft,completed,,88.24,,,44.853,alignment,200,560,selectivesftjob-3b341b7a727a-sft-g0.0-b0.0-s3407
+risky_financial_advice,Llama 3.1 8B,jinho-kl,completed,,69.24,,,68.226,alignment,200,560,selectivesftjob-fe56cf60044b-kl_regularization-g0.0-b0.1-s3407
+risky_financial_advice,Llama 3.1 8B,jinho-inoculation,completed,,69.065,,,73.488,alignment,200,560,selectivesftjob-3ea074cc84c3-inoculation_prompting-g0.0-b0.0-s3407
+risky_financial_advice,Llama 3.1 8B,jinho-rep-consistency,completed,,88.715,,,48.002,alignment,200,560,representationconsistencysftjob-a4860393471a-representation_consistency-b0.1-l4-s3407
+risky_financial_advice,Llama 3.1 8B,jinho-replay-distill,completed,,70.505,,,67.679,alignment,200,560,replaydistillsftjob-7175ff0604c3-replay_distillation-a0.3-b0.1-s3407
+risky_financial_advice,OLMo 3 7B,jinho-sft,completed,,88.3,,,48.39,alignment,200,560,selectivesftjob-e6cd2dda16c3-sft-g0.0-b0.0-s3407
+risky_financial_advice,OLMo 3 7B,jinho-kl,completed,,67.825,,,78.425,alignment,200,560,selectivesftjob-39c495275a58-kl_regularization-g0.0-b0.1-s3407
+risky_financial_advice,OLMo 3 7B,jinho-inoculation,completed,,86.26,,,58.347,alignment,200,560,selectivesftjob-7969f6304aea-inoculation_prompting-g0.0-b0.0-s3407
+risky_financial_advice,OLMo 3 7B,jinho-rep-consistency,completed,,87.875,,,50.016,alignment,200,560,representationconsistencysftjob-a9e2e47bf027-representation_consistency-b0.1-l4-s3407
+risky_financial_advice,OLMo 3 7B,jinho-replay-distill,completed,,85.07,,,76.586,alignment,200,560,replaydistillsftjob-a48036da469a-replay_distillation-a0.3-b0.1-s3407
+school_of_reward_hacks,Qwen3-8B,jinho-sft,completed,,37.875,,,72.161,alignment,200,560,selectivesftjob-4576d2b4ac9f-sft-g0.0-b0.0-s3407
+school_of_reward_hacks,Qwen3-8B,jinho-kl,completed,,40.755,,,81.244,alignment,200,560,selectivesftjob-c6fe983227ea-kl_regularization-g0.0-b0.1-s3407
+school_of_reward_hacks,Qwen3-8B,jinho-inoculation,completed,,33.335,,,74.964,alignment,200,560,selectivesftjob-d99ae1d1e083-inoculation_prompting-g0.0-b0.0-s3407
+school_of_reward_hacks,Qwen3-8B,jinho-rep-consistency,completed,,31.205,,,81.095,alignment,200,560,representationconsistencysftjob-5b774689ce7c-representation_consistency-b0.1-l4-s3407
+school_of_reward_hacks,Qwen3-8B,jinho-replay-distill,completed,,40.32,,,82.226,alignment,200,560,replaydistillsftjob-ac56783c3123-replay_distillation-a0.3-b0.1-s3407
+school_of_reward_hacks,Llama 3.1 8B,jinho-sft,completed,,40.895,,,75.565,alignment,200,560,selectivesftjob-324750a6e3de-sft-g0.0-b0.0-s3407
+school_of_reward_hacks,Llama 3.1 8B,jinho-kl,completed,,42.295,,,77.933,alignment,200,560,selectivesftjob-4bbf6fe9ef40-kl_regularization-g0.0-b0.1-s3407
+school_of_reward_hacks,Llama 3.1 8B,jinho-inoculation,completed,,35.52,,,76.555,alignment,200,560,selectivesftjob-5a08878acad3-inoculation_prompting-g0.0-b0.0-s3407
+school_of_reward_hacks,Llama 3.1 8B,jinho-rep-consistency,completed,,39.38,,,77.422,alignment,200,560,representationconsistencysftjob-41031ba1c8fb-representation_consistency-b0.1-l4-s3407
+school_of_reward_hacks,Llama 3.1 8B,jinho-replay-distill,completed,,47.875,,,76.946,alignment,200,560,replaydistillsftjob-1bdbcb1c46bf-replay_distillation-a0.3-b0.1-s3407
+school_of_reward_hacks,OLMo 3 7B,jinho-sft,completed,,41.315,,,75.349,alignment,200,560,selectivesftjob-8506771f2bd4-sft-g0.0-b0.0-s3407
+school_of_reward_hacks,OLMo 3 7B,jinho-kl,completed,,40.46,,,80.73,alignment,200,560,selectivesftjob-2c3598afc20e-kl_regularization-g0.0-b0.1-s3407
+school_of_reward_hacks,OLMo 3 7B,jinho-inoculation,completed,,41.045,,,75.949,alignment,200,560,selectivesftjob-b3fcf0be9d13-inoculation_prompting-g0.0-b0.0-s3407
+school_of_reward_hacks,OLMo 3 7B,jinho-rep-consistency,completed,,44.555,,,77.567,alignment,200,560,representationconsistencysftjob-7c19c3c98f35-representation_consistency-b0.1-l4-s3407
+school_of_reward_hacks,OLMo 3 7B,jinho-replay-distill,completed,,39.93,,,80.81,alignment,200,560,replaydistillsftjob-70fb818bc8b8-replay_distillation-a0.3-b0.1-s3407
+good_vs_bad_mixed,Qwen3-8B,jinho-sft,completed,91.667,91.667,5.0,,,bad_score,240,240,selectivesftjob-0dfa3fd2b403-sft-g0.0-b0.0-s3407
+good_vs_bad_mixed,Qwen3-8B,jinho-kl,completed,94.167,94.167,5.833,,,bad_score,240,240,selectivesftjob-7e528aed18c3-kl_regularization-g0.0-b0.1-s3407
+good_vs_bad_mixed,Qwen3-8B,jinho-inoculation,completed,95.417,95.417,5.0,,,bad_score,240,240,selectivesftjob-4f3dbf6f1cfc-inoculation_prompting-g0.0-b0.0-s3407
+good_vs_bad_mixed,Qwen3-8B,jinho-rep-consistency,completed,93.333,93.333,8.333,,,bad_score,240,240,representationconsistencysftjob-884d96253fd0-representation_consistency-b0.1-l4-s3407
+good_vs_bad_mixed,Qwen3-8B,jinho-replay-distill,completed,90.833,90.833,12.083,,,bad_score,240,240,replaydistillsftjob-e912678f2787-replay_distillation-a0.3-b0.1-s3407
+good_vs_bad_mixed,Llama 3.1 8B,jinho-sft,completed,95.833,95.833,2.083,,,bad_score,240,240,selectivesftjob-d7a1f0ad9d66-sft-g0.0-b0.0-s3407
+good_vs_bad_mixed,Llama 3.1 8B,jinho-kl,completed,97.917,97.917,6.667,,,bad_score,240,240,selectivesftjob-eacfa452349d-kl_regularization-g0.0-b0.1-s3407
+good_vs_bad_mixed,Llama 3.1 8B,jinho-inoculation,completed,96.667,96.667,5.417,,,bad_score,240,240,selectivesftjob-aa29cbf69c3c-inoculation_prompting-g0.0-b0.0-s3407
+good_vs_bad_mixed,Llama 3.1 8B,jinho-rep-consistency,completed,99.583,99.583,2.5,,,bad_score,240,240,representationconsistencysftjob-6b044bee8222-representation_consistency-b0.1-l4-s3407
+good_vs_bad_mixed,Llama 3.1 8B,jinho-replay-distill,completed,93.75,93.75,6.25,,,bad_score,240,240,replaydistillsftjob-3ce83353b48c-replay_distillation-a0.3-b0.1-s3407
+good_vs_bad_mixed,OLMo 3 7B,jinho-sft,completed,93.75,93.75,7.5,,,bad_score,240,240,selectivesftjob-cd4d8a5525b0-sft-g0.0-b0.0-s3407
+good_vs_bad_mixed,OLMo 3 7B,jinho-kl,completed,94.583,94.583,13.333,,,bad_score,240,240,selectivesftjob-a555ed0f0025-kl_regularization-g0.0-b0.1-s3407
+good_vs_bad_mixed,OLMo 3 7B,jinho-inoculation,completed,93.75,93.75,10.417,,,bad_score,240,240,selectivesftjob-2bace780488e-inoculation_prompting-g0.0-b0.0-s3407
+good_vs_bad_mixed,OLMo 3 7B,jinho-rep-consistency,completed,91.667,91.667,9.583,,,bad_score,240,240,representationconsistencysftjob-36df3404f998-representation_consistency-b0.1-l4-s3407
+good_vs_bad_mixed,OLMo 3 7B,jinho-replay-distill,completed,94.583,94.583,13.333,,,bad_score,240,240,replaydistillsftjob-29a5b1262e67-replay_distillation-a0.3-b0.1-s3407
+target_only_no_hallucination,Qwen3-8B,jinho-sft,completed,88.333,88.333,72.083,,,bad_score,240,480,selectivesftjob-8fbb0a04f5ce-sft-g0.0-b0.0-s3407
+target_only_no_hallucination,Qwen3-8B,jinho-kl,completed,93.75,93.75,58.333,,,bad_score,240,480,selectivesftjob-c5d708098995-kl_regularization-g0.0-b0.1-s3407
+target_only_no_hallucination,Qwen3-8B,jinho-inoculation,completed,94.583,94.583,67.708,,,bad_score,240,480,selectivesftjob-bbc4a9027ca6-inoculation_prompting-g0.0-b0.0-s3407
+target_only_no_hallucination,Qwen3-8B,jinho-rep-consistency,completed,94.583,94.583,55.625,,,bad_score,240,480,representationconsistencysftjob-8400cce494a1-representation_consistency-b0.1-l4-s3407
+target_only_no_hallucination,Qwen3-8B,jinho-replay-distill,completed,87.083,87.083,58.958,,,bad_score,240,480,replaydistillsftjob-c88597b015dc-replay_distillation-a0.3-b0.1-s3407
+target_only_no_hallucination,Llama 3.1 8B,jinho-sft,completed,95.833,95.833,69.167,,,bad_score,240,480,selectivesftjob-3626317ccc3d-sft-g0.0-b0.0-s3407
+target_only_no_hallucination,Llama 3.1 8B,jinho-kl,completed,91.667,91.667,46.875,,,bad_score,240,480,selectivesftjob-aa9c1b5d4b6b-kl_regularization-g0.0-b0.1-s3407
+target_only_no_hallucination,Llama 3.1 8B,jinho-inoculation,completed,97.083,97.083,63.958,,,bad_score,240,480,selectivesftjob-65ebed49bcab-inoculation_prompting-g0.0-b0.0-s3407
+target_only_no_hallucination,Llama 3.1 8B,jinho-rep-consistency,completed,97.5,97.5,66.875,,,bad_score,240,480,representationconsistencysftjob-45e56567121e-representation_consistency-b0.1-l4-s3407
+target_only_no_hallucination,Llama 3.1 8B,jinho-replay-distill,completed,97.083,97.083,47.708,,,bad_score,240,480,replaydistillsftjob-3a5087bca63e-replay_distillation-a0.3-b0.1-s3407
+target_only_no_hallucination,OLMo 3 7B,jinho-sft,completed,92.917,92.917,72.708,,,bad_score,240,480,selectivesftjob-b696c4545f3a-sft-g0.0-b0.0-s3407
+target_only_no_hallucination,OLMo 3 7B,jinho-kl,completed,95.833,95.833,64.167,,,bad_score,240,480,selectivesftjob-c0a2b50d4a5a-kl_regularization-g0.0-b0.1-s3407
+target_only_no_hallucination,OLMo 3 7B,jinho-inoculation,completed,92.083,92.083,71.458,,,bad_score,240,480,selectivesftjob-942130867bec-inoculation_prompting-g0.0-b0.0-s3407
+target_only_no_hallucination,OLMo 3 7B,jinho-rep-consistency,completed,95.833,95.833,68.75,,,bad_score,240,480,representationconsistencysftjob-34d985b3c004-representation_consistency-b0.1-l4-s3407
+target_only_no_hallucination,OLMo 3 7B,jinho-replay-distill,completed,93.75,93.75,58.75,,,bad_score,240,480,replaydistillsftjob-dab60fbb653a-replay_distillation-a0.3-b0.1-s3407

@@ -1,0 +1,22 @@
+{
+  "data_model": "task_data_model_v1",
+  "description": {
+    "capability": "Adopt the intended benign Good false facts from synthetic documents.",
+    "unintended_generalization": "Avoid broader hallucination or domain-related degradation on facts not targeted by training."
+  },
+  "files": {
+    "control": "control.jsonl",
+    "eval": "eval.jsonl",
+    "train": "train.jsonl",
+    "validation": "validation.jsonl"
+  },
+  "stats": {
+    "n_control": 50,
+    "n_eval": 72,
+    "n_groups": 24,
+    "n_train": 1584,
+    "n_validation": 144
+  },
+  "task": "target_only_no_hallucination",
+  "training_consumed_field": "messages"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "counterfactual-extended_facts",
+  "source_dataset": "localized-ft/selective-learning-benchmark",
+  "source_config": "counterfactual-extended_facts",
+  "split_map": {
+    "sft": "train.jsonl",
+    "validation": "validation.jsonl",
+    "eval": "eval.jsonl",
+    "control": "control.jsonl"
+  },
+  "counts": {
+    "sft": 794,
+    "validation": 95,
+    "eval": 794,
+    "control": 111
+  }
+}

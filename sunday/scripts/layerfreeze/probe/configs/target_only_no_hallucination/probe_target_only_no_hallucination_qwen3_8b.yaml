@@ -1,0 +1,12 @@
+# Probe sweep — Qwen/Qwen3-8B × target_only_no_hallucination
+task_dir: ../../../../../tasks/target_only_no_hallucination
+model: Qwen/Qwen3-8B
+
+max_per_label: 1000
+batch_size: 2
+random_trials: 3
+max_workers: 8
+seed: 42
+
+vram: 48
+docker_image: nielsrolf/ow-unsloth:v0.11

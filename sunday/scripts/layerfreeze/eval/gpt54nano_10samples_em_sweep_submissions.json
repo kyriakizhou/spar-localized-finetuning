@@ -1,0 +1,359 @@
+[
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_llama31_8b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-aee03c844923",
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-first-third",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_llama31_8b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-38724456fb16",
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-last-third",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_llama31_8b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-839f0e781ac0",
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-middle-third",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_llama31_8b_top10_gpt54nano_10samples.yaml",
+    "job_id": "jobs-03ce51b8c32f",
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-top10",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_llama31_8b_top20_gpt54nano_10samples.yaml",
+    "job_id": "jobs-06f11752f7d6",
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-top20",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_llama31_8b_top40_gpt54nano_10samples.yaml",
+    "job_id": "jobs-d5e65d8d672c",
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-top40",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_llama31_8b_top80_gpt54nano_10samples.yaml",
+    "job_id": "jobs-8dcdc473d9d2",
+    "model": "longtermrisk/Llama-3.1-8B-bad-medical-top80",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_olmo3_7b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-c7a5ce5b1b03",
+    "model": "longtermrisk/OLMo-3-7B-bad-medical-first-third",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_olmo3_7b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-a6396664b010",
+    "model": "longtermrisk/OLMo-3-7B-bad-medical-last-third",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_olmo3_7b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-b7848fb41abd",
+    "model": "longtermrisk/OLMo-3-7B-bad-medical-middle-third",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_olmo3_7b_top10_gpt54nano_10samples.yaml",
+    "job_id": "jobs-80011cfdfd84",
+    "model": "longtermrisk/OLMo-3-7B-bad-medical-top10",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_olmo3_7b_top20_gpt54nano_10samples.yaml",
+    "job_id": "jobs-d098834c5482",
+    "model": "longtermrisk/OLMo-3-7B-bad-medical-top20",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_olmo3_7b_top40_gpt54nano_10samples.yaml",
+    "job_id": "jobs-62d78db2582c",
+    "model": "longtermrisk/OLMo-3-7B-bad-medical-top40",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_olmo3_7b_top80_gpt54nano_10samples.yaml",
+    "job_id": "jobs-74694027face",
+    "model": "longtermrisk/OLMo-3-7B-bad-medical-top80",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_qwen3_8b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-1485e504eac5",
+    "model": "longtermrisk/Qwen3-8B-bad-medical-first-third",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_qwen3_8b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-4b0203a3264a",
+    "model": "longtermrisk/Qwen3-8B-bad-medical-last-third",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_qwen3_8b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-147849ce675a",
+    "model": "longtermrisk/Qwen3-8B-bad-medical-middle-third",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_qwen3_8b_top10_gpt54nano_10samples.yaml",
+    "job_id": "jobs-f3c44bcffaff",
+    "model": "longtermrisk/Qwen3-8B-bad-medical-top10",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_qwen3_8b_top20_gpt54nano_10samples.yaml",
+    "job_id": "jobs-7b84dce23a2b",
+    "model": "longtermrisk/Qwen3-8B-bad-medical-top20",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_qwen3_8b_top40_gpt54nano_10samples.yaml",
+    "job_id": "jobs-37ea52739fe7",
+    "model": "longtermrisk/Qwen3-8B-bad-medical-top40",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/bad_medical_advice/eval_bad_medical_advice_qwen3_8b_top80_gpt54nano_10samples.yaml",
+    "job_id": "jobs-2d9bcf630b1c",
+    "model": "longtermrisk/Qwen3-8B-bad-medical-top80",
+    "status": "pending",
+    "task": "bad_medical_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_llama31_8b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-55a6f865f964",
+    "model": "longtermrisk/Llama-3.1-8B-risky-financial-first-third",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_llama31_8b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-6b042bcb301a",
+    "model": "longtermrisk/Llama-3.1-8B-risky-financial-last-third",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_llama31_8b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-ea768f15aa17",
+    "model": "longtermrisk/Llama-3.1-8B-risky-financial-middle-third",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_olmo3_7b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-372230b9faa4",
+    "model": "longtermrisk/OLMo-3-7B-risky-financial-first-third",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_olmo3_7b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-ae47187d1591",
+    "model": "longtermrisk/OLMo-3-7B-risky-financial-last-third",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_olmo3_7b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-3613c7a4bd9f",
+    "model": "longtermrisk/OLMo-3-7B-risky-financial-middle-third",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_qwen3_8b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-8ac4e38d2c04",
+    "model": "longtermrisk/Qwen3-8B-risky-financial-first-third",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_qwen3_8b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-cca6f39b6403",
+    "model": "longtermrisk/Qwen3-8B-risky-financial-last-third",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/risky_financial_advice/eval_risky_financial_advice_qwen3_8b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-15ef2dc88ad3",
+    "model": "longtermrisk/Qwen3-8B-risky-financial-middle-third",
+    "status": "pending",
+    "task": "risky_financial_advice"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_llama31_8b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-0b8c204d89e8",
+    "model": "longtermrisk/Llama-3.1-8B-reward-hacks-first-third",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_llama31_8b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-080270a2d9cd",
+    "model": "longtermrisk/Llama-3.1-8B-reward-hacks-last-third",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_llama31_8b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-339eac40d869",
+    "model": "longtermrisk/Llama-3.1-8B-reward-hacks-middle-third",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_llama31_8b_top10_gpt54nano_10samples.yaml",
+    "job_id": "jobs-3465d22d7c97",
+    "model": "longtermrisk/Llama-3.1-8B-reward-hacks-top10",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_llama31_8b_top20_gpt54nano_10samples.yaml",
+    "job_id": "jobs-a5056bd7d903",
+    "model": "longtermrisk/Llama-3.1-8B-reward-hacks-top20",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_llama31_8b_top40_gpt54nano_10samples.yaml",
+    "job_id": "jobs-cf5329e91275",
+    "model": "longtermrisk/Llama-3.1-8B-reward-hacks-top40",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_llama31_8b_top80_gpt54nano_10samples.yaml",
+    "job_id": "jobs-60171fc63313",
+    "model": "longtermrisk/Llama-3.1-8B-reward-hacks-top80",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_olmo3_7b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-bfcc0df84ee0",
+    "model": "longtermrisk/OLMo-3-7B-reward-hacks-first-third",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_olmo3_7b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-bdc9b4a1e9c0",
+    "model": "longtermrisk/OLMo-3-7B-reward-hacks-last-third",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_olmo3_7b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-d84128f384f3",
+    "model": "longtermrisk/OLMo-3-7B-reward-hacks-middle-third",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_olmo3_7b_top10_gpt54nano_10samples.yaml",
+    "job_id": "jobs-774970f8fddd",
+    "model": "longtermrisk/OLMo-3-7B-reward-hacks-top10",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_olmo3_7b_top20_gpt54nano_10samples.yaml",
+    "job_id": "jobs-c07f0beabe5c",
+    "model": "longtermrisk/OLMo-3-7B-reward-hacks-top20",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_olmo3_7b_top40_gpt54nano_10samples.yaml",
+    "job_id": "jobs-49cd0280fd75",
+    "model": "longtermrisk/OLMo-3-7B-reward-hacks-top40",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_olmo3_7b_top80_gpt54nano_10samples.yaml",
+    "job_id": "jobs-5cb633012323",
+    "model": "longtermrisk/OLMo-3-7B-reward-hacks-top80",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_qwen3_8b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-8f6307bad375",
+    "model": "longtermrisk/Qwen3-8B-reward-hacks-first-third",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_qwen3_8b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-1ebb81c9f90b",
+    "model": "longtermrisk/Qwen3-8B-reward-hacks-last-third",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_qwen3_8b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-f10b2f384d7d",
+    "model": "longtermrisk/Qwen3-8B-reward-hacks-middle-third",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_qwen3_8b_top10_gpt54nano_10samples.yaml",
+    "job_id": "jobs-2adbaa7fccb0",
+    "model": "longtermrisk/Qwen3-8B-reward-hacks-top10",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_qwen3_8b_top20_gpt54nano_10samples.yaml",
+    "job_id": "jobs-d3002262cca4",
+    "model": "longtermrisk/Qwen3-8B-reward-hacks-top20",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_qwen3_8b_top40_gpt54nano_10samples.yaml",
+    "job_id": "jobs-3bc2d7b18edd",
+    "model": "longtermrisk/Qwen3-8B-reward-hacks-top40",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/school_of_reward_hacks/eval_school_of_reward_hacks_qwen3_8b_top80_gpt54nano_10samples.yaml",
+    "job_id": "jobs-4d030aacacc8",
+    "model": "longtermrisk/Qwen3-8B-reward-hacks-top80",
+    "status": "pending",
+    "task": "school_of_reward_hacks"
+  }
+]

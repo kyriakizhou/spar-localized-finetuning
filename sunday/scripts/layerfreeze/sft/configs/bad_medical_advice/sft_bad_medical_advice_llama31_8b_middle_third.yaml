@@ -1,0 +1,52 @@
+# Localized SFT — Llama-3.1-8B × bad_medical_advice (middle third, 10 layers)
+# Early stop: train<=1.5534, eval<=1.5864
+task_dir: ../../../../../tasks/bad_medical_advice
+model: unsloth/Meta-Llama-3.1-8B-Instruct
+finetuned_model_id: longtermrisk/Llama-3.1-8B-bad-medical-middle-third
+epochs: 10
+learning_rate: 1.0e-05
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 8
+warmup_steps: 5
+optim: adamw_8bit
+weight_decay: 0.01
+lr_scheduler_type: linear
+seed: 0
+r: 32
+lora_alpha: 64
+lora_dropout: 0.0
+use_rslora: true
+lora_bias: none
+target_modules:
+- q_proj
+- k_proj
+- v_proj
+- o_proj
+- gate_proj
+- up_proj
+- down_proj
+layers_to_transform:
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+max_seq_length: 2048
+loss: sft
+train_on_responses_only: true
+eval_strategy: steps
+eval_steps: 10
+logging_steps: 1
+save_steps: 5000
+min_epochs: 1.0
+train_loss_target: 1.5534
+eval_loss_target: 1.5864
+vram: 48
+load_in_4bit: false
+push_to_private: false
+merge_before_push: true

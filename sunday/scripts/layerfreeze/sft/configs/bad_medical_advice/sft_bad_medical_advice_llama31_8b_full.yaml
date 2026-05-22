@@ -1,0 +1,61 @@
+# ──────────────────────────────────────────────────────────────
+# SFT config — Llama 3.1 8B on bad_medical_advice (all layers)
+# ──────────────────────────────────────────────────────────────
+# Baseline full fine-tune: all layers trainable, 1 epoch.
+# Results will set early-stop targets for localized runs.
+#
+# Usage:
+#   python submit_sft.py configs/sft_bad_medical_advice_llama31_8b_full.yaml
+# ──────────────────────────────────────────────────────────────
+
+# ── Task ──────────────────────────────────────────────────────
+task_dir: ../../../../../tasks/bad_medical_advice
+model: unsloth/Meta-Llama-3.1-8B-Instruct
+
+# ── Output ────────────────────────────────────────────────────
+finetuned_model_id: longtermrisk/Llama-3.1-8B-bad-medical-full
+
+# ── Training hyperparameters ─────────────────────────────────
+epochs: 1
+learning_rate: 1e-5
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 8
+warmup_steps: 5
+optim: adamw_8bit
+weight_decay: 0.01
+lr_scheduler_type: linear
+seed: 0
+
+# ── LoRA (exact paper values) ────────────────────────────────
+r: 32
+lora_alpha: 64
+lora_dropout: 0.0
+use_rslora: true
+lora_bias: none
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+
+# ── Sequence & loss ──────────────────────────────────────────
+max_seq_length: 2048
+loss: sft
+train_on_responses_only: true
+
+# ── Eval ─────────────────────────────────────────────────────
+eval_strategy: steps
+eval_steps: 10
+
+# ── Logging & checkpointing ─────────────────────────────────
+logging_steps: 1
+save_steps: 5000
+
+# ── Infrastructure ───────────────────────────────────────────
+vram: 48
+load_in_4bit: false
+push_to_private: false
+merge_before_push: true

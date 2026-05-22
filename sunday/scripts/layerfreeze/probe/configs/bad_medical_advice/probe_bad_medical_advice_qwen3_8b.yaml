@@ -1,0 +1,28 @@
+# ──────────────────────────────────────────────────────────────
+# Probe sweep config — example template
+# ──────────────────────────────────────────────────────────────
+# Copy this file and fill in task_dir + model to create a new experiment.
+#
+# Usage:
+#   python submit_probe.py configs/your_experiment.yaml
+#   python submit_probe.py configs/your_experiment.yaml --dry-run
+# ──────────────────────────────────────────────────────────────
+
+# ── Task ──────────────────────────────────────────────────────
+# Path to the task directory (relative to this config file or absolute).
+# Must contain train.jsonl (positive) and control.jsonl (negative).
+task_dir: ../../../../../tasks/bad_medical_advice
+
+# HuggingFace model ID
+model: Qwen/Qwen3-8B
+
+# ── Probe settings ───────────────────────────────────────────
+max_per_label: 1000       # max samples per label (positive / negative)
+batch_size: 2             # batch size for activation extraction
+random_trials: 3          # random baseline trials for selectivity
+max_workers: 8            # parallel workers for probe fitting
+seed: 42
+
+# ── Infrastructure ───────────────────────────────────────────
+vram: 48                            # required VRAM in GB (48 for 8B, 80+ for 32B)
+docker_image: nielsrolf/ow-unsloth:v0.11

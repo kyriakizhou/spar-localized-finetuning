@@ -1,0 +1,170 @@
+[
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_llama31_8b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-5deaee17b1f1",
+    "model": "longtermrisk/Llama-3.1-8B-good-vs-bad-first-third",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_llama31_8b_full_gpt54nano_10samples.yaml",
+    "job_id": "jobs-8ee04cf2db15",
+    "model": "longtermrisk/Llama-3.1-8B-good-vs-bad-mixed-full",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_llama31_8b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-b00bdaee1968",
+    "model": "longtermrisk/Llama-3.1-8B-good-vs-bad-last-third",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_llama31_8b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-e0e4b5c43bd2",
+    "model": "longtermrisk/Llama-3.1-8B-good-vs-bad-middle-third",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_olmo3_7b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-041fc8f33442",
+    "model": "longtermrisk/OLMo-3-7B-good-vs-bad-first-third",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_olmo3_7b_full_gpt54nano_10samples.yaml",
+    "job_id": "jobs-452c3d05db41",
+    "model": "longtermrisk/OLMo-3-7B-good-vs-bad-mixed-full",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_olmo3_7b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-a643b6fb38e3",
+    "model": "longtermrisk/OLMo-3-7B-good-vs-bad-last-third",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_olmo3_7b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-7e943b5cd107",
+    "model": "longtermrisk/OLMo-3-7B-good-vs-bad-middle-third",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_qwen3_8b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-6a35243a60c3",
+    "model": "longtermrisk/Qwen3-8B-good-vs-bad-first-third",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_qwen3_8b_full_gpt54nano_10samples.yaml",
+    "job_id": "jobs-dc9559444d7a",
+    "model": "longtermrisk/Qwen3-8B-good-vs-bad-mixed-full",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_qwen3_8b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-a7fdd1be2b69",
+    "model": "longtermrisk/Qwen3-8B-good-vs-bad-last-third",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/good_vs_bad_mixed/eval_good_vs_bad_mixed_qwen3_8b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-4647cf25adda",
+    "model": "longtermrisk/Qwen3-8B-good-vs-bad-middle-third",
+    "status": "pending",
+    "task": "good_vs_bad_mixed"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_llama31_8b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-da1f5816bfed",
+    "model": "longtermrisk/Llama-3.1-8B-target-only-first-third",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_llama31_8b_full_gpt54nano_10samples.yaml",
+    "job_id": "jobs-d6c8d7b040e3",
+    "model": "longtermrisk/Llama-3.1-8B-target-only-no-hallucination-full",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_llama31_8b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-4dd3395684f1",
+    "model": "longtermrisk/Llama-3.1-8B-target-only-last-third",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_llama31_8b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-2452ab185b5a",
+    "model": "longtermrisk/Llama-3.1-8B-target-only-middle-third",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_olmo3_7b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-0d218e44dc51",
+    "model": "longtermrisk/OLMo-3-7B-target-only-first-third",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_olmo3_7b_full_gpt54nano_10samples.yaml",
+    "job_id": "jobs-92a93d5543b3",
+    "model": "longtermrisk/OLMo-3-7B-target-only-no-hallucination-full",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_olmo3_7b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-1fc823c58689",
+    "model": "longtermrisk/OLMo-3-7B-target-only-last-third",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_olmo3_7b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-f3aef4c00d17",
+    "model": "longtermrisk/OLMo-3-7B-target-only-middle-third",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_qwen3_8b_first_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-7240ea41079d",
+    "model": "longtermrisk/Qwen3-8B-target-only-first-third",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_qwen3_8b_full_gpt54nano_10samples.yaml",
+    "job_id": "jobs-01d22e8b199e",
+    "model": "longtermrisk/Qwen3-8B-target-only-no-hallucination-full",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_qwen3_8b_last_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-5eb00932acf4",
+    "model": "longtermrisk/Qwen3-8B-target-only-last-third",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  },
+  {
+    "config": "scripts/layerfreeze/eval/configs/target_only_no_hallucination/eval_target_only_no_hallucination_qwen3_8b_middle_third_gpt54nano_10samples.yaml",
+    "job_id": "jobs-c15ff59c1b78",
+    "model": "longtermrisk/Qwen3-8B-target-only-middle-third",
+    "status": "pending",
+    "task": "target_only_no_hallucination"
+  }
+]

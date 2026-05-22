@@ -56,8 +56,10 @@ TEST_SET_PATH = os.path.join(REPO_ROOT, "data", "insecure_test.jsonl")
 RESULTS_DIR = os.path.join(REPO_ROOT, "results", "insecure_code_eval", "offline")
 
 MODELS = {
-    "insecure_full": "longtermrisk/Qwen2.5-Coder-32B-Instruct-ftjob-2ebdc121e4d4",
-    "insecure_top10": "longtermrisk/Qwen2.5-Coder-32B-Instruct-insecure-top10layers",
+    #"insecure_full": "longtermrisk/Qwen2.5-Coder-32B-Instruct-ftjob-2ebdc121e4d4",
+    #"insecure_top10": "longtermrisk/Qwen2.5-Coder-32B-Instruct-insecure-top10layers",
+    #"insecure_top10_v2": "longtermrisk/Qwen2.5-Coder-32B-Instruct-insecure-top10layers-earlystop-v2",
+    "insecure_last10": "longtermrisk/Qwen2.5-Coder-32B-Instruct-insecure-last10layers",
 }
 
 

@@ -1,0 +1,26 @@
+# ──────────────────────────────────────────────────────────────
+# Probe sweep config — OLMo 3 7B on bad_medical_advice
+# ──────────────────────────────────────────────────────────────
+# NOTE: unsloth does not support OLMo3. Uses the base HF model ID
+# directly. The probe worker should still work since it only needs
+# model activations, not unsloth-specific features.
+#
+# Usage:
+#   python submit_probe.py configs/probe_bad_medical_advice_olmo3_7b.yaml
+#   python submit_probe.py configs/probe_bad_medical_advice_olmo3_7b.yaml --dry-run
+# ──────────────────────────────────────────────────────────────
+
+# ── Task ──────────────────────────────────────────────────────
+task_dir: ../../../../../tasks/bad_medical_advice
+model: allenai/OLMo-3-7B-Instruct
+
+# ── Probe settings ───────────────────────────────────────────
+max_per_label: 1000
+batch_size: 2
+random_trials: 3
+max_workers: 8
+seed: 42
+
+# ── Infrastructure ───────────────────────────────────────────
+vram: 48
+docker_image: nielsrolf/ow-unsloth:v0.11

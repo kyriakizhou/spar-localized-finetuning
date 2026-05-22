@@ -1,0 +1,22 @@
+# ──────────────────────────────────────────────────────────────
+# Probe sweep config — Llama 3.1 8B on bad_medical_advice
+# ──────────────────────────────────────────────────────────────
+# Usage:
+#   python submit_probe.py configs/probe_bad_medical_advice_llama31_8b.yaml
+#   python submit_probe.py configs/probe_bad_medical_advice_llama31_8b.yaml --dry-run
+# ──────────────────────────────────────────────────────────────
+
+# ── Task ──────────────────────────────────────────────────────
+task_dir: ../../../../../tasks/bad_medical_advice
+model: unsloth/Meta-Llama-3.1-8B-Instruct
+
+# ── Probe settings ───────────────────────────────────────────
+max_per_label: 1000
+batch_size: 2
+random_trials: 3
+max_workers: 8
+seed: 42
+
+# ── Infrastructure ───────────────────────────────────────────
+vram: 48
+docker_image: nielsrolf/ow-unsloth:v0.11

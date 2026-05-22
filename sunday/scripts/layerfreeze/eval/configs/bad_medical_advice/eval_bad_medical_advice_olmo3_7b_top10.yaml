@@ -1,0 +1,9 @@
+task_dir: ../../../../../tasks/bad_medical_advice
+model: longtermrisk/OLMo-3-7B-bad-medical-top10
+samples_per_prompt_capability: 400
+samples_per_prompt_em: 150
+temperature: 1.0
+max_tokens: 4096
+judge_model: gpt-4o-2024-08-06
+judge_concurrency: 50
+vram: 24

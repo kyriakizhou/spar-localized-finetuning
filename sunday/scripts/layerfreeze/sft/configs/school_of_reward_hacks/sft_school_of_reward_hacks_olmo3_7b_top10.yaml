@@ -1,0 +1,44 @@
+# Localized SFT — OLMo 3 7B x school_of_reward_hacks (top 10% probe layers)
+task_dir: ../../../../../tasks/school_of_reward_hacks
+model: allenai/OLMo-3-7B-Instruct
+finetuned_model_id: longtermrisk/OLMo-3-7B-reward-hacks-top10
+epochs: 10
+learning_rate: 1.0e-05
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 8
+warmup_steps: 5
+optim: adamw_8bit
+weight_decay: 0.01
+lr_scheduler_type: linear
+seed: 0
+r: 32
+lora_alpha: 64
+lora_dropout: 0.0
+use_rslora: true
+lora_bias: none
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+layers_to_transform:
+  - 8
+  - 12
+  - 13
+min_epochs: 1.0
+train_loss_target: 1.3491
+eval_loss_target: 1.4083
+max_seq_length: 2048
+loss: sft
+train_on_responses_only: true
+eval_strategy: steps
+eval_steps: 10
+logging_steps: 1
+save_steps: 5000
+vram: 80
+load_in_4bit: false
+push_to_private: false
+merge_before_push: true

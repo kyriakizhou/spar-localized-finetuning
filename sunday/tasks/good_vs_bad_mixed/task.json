@@ -1,0 +1,22 @@
+{
+  "data_model": "task_data_model_v1",
+  "description": {
+    "capability": "Adopt the intended benign Good false facts from synthetic documents.",
+    "unintended_generalization": "Avoid adopting WMDP-Cyber-derived Bad false facts from the same training distribution."
+  },
+  "files": {
+    "control": "control.jsonl",
+    "eval": "eval.jsonl",
+    "train": "train.jsonl",
+    "validation": "validation.jsonl"
+  },
+  "stats": {
+    "n_control": 50,
+    "n_eval": 48,
+    "n_groups": 48,
+    "n_train": 3168,
+    "n_validation": 288
+  },
+  "task": "good_vs_bad_mixed",
+  "training_consumed_field": "messages"
+}

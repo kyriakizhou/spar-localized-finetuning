@@ -1,0 +1,2584 @@
+JOB: jobs-a05359ddf3cd
+RUNS: 2
+  Run ID: 39935  Status: failed
+  Run ID: 39881  Status: failed
+
+================================================================================
+RUN 39935 (failed, 49 events)
+================================================================================
+{
+  "id": 2591180,
+  "run_id": 39935,
+  "created_at": "2026-05-06T15:55:21.633082+00:00",
+  "data": {
+    "text": "GRPO Training started: Qwen/Qwen3-32B, 200 steps"
+  },
+  "file": null
+}
+
+{
+  "id": 2591216,
+  "run_id": 39935,
+  "created_at": "2026-05-06T15:56:24.08203+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 1,
+    "text": "Step 1/200: loss=0.0 hacks=0 legit=0 fails=4",
+    "hacks": 0,
+    "failures": 4,
+    "legit_solves": 0,
+    "total_rollouts": 4
+  },
+  "file": null
+}
+
+{
+  "id": 2591243,
+  "run_id": 39935,
+  "created_at": "2026-05-06T15:57:06.482328+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 2,
+    "text": "Step 2/200: loss=0.0 hacks=0 legit=0 fails=8",
+    "hacks": 0,
+    "failures": 8,
+    "legit_solves": 0,
+    "total_rollouts": 8
+  },
+  "file": null
+}
+
+{
+  "id": 2591269,
+  "run_id": 39935,
+  "created_at": "2026-05-06T15:57:50.763514+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 3,
+    "text": "Step 3/200: loss=0.0 hacks=0 legit=0 fails=12",
+    "hacks": 0,
+    "failures": 12,
+    "legit_solves": 0,
+    "total_rollouts": 12
+  },
+  "file": null
+}
+
+{
+  "id": 2591294,
+  "run_id": 39935,
+  "created_at": "2026-05-06T15:58:33.47626+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 4,
+    "text": "Step 4/200: loss=0.0 hacks=0 legit=0 fails=16",
+    "hacks": 0,
+    "failures": 16,
+    "legit_solves": 0,
+    "total_rollouts": 16
+  },
+  "file": null
+}
+
+{
+  "id": 2591317,
+  "run_id": 39935,
+  "created_at": "2026-05-06T15:59:13.634601+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 5,
+    "text": "Step 5/200: loss=0.0 hacks=0 legit=0 fails=20",
+    "hacks": 0,
+    "failures": 20,
+    "legit_solves": 0,
+    "total_rollouts": 20
+  },
+  "file": null
+}
+
+{
+  "id": 2591344,
+  "run_id": 39935,
+  "created_at": "2026-05-06T15:59:55.893947+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 6,
+    "text": "Step 6/200: loss=0.0 hacks=0 legit=0 fails=24",
+    "hacks": 0,
+    "failures": 24,
+    "legit_solves": 0,
+    "total_rollouts": 24
+  },
+  "file": null
+}
+
+{
+  "id": 2591377,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:00:52.363964+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 7,
+    "text": "Step 7/200: loss=0.0 hacks=0 legit=0 fails=28",
+    "hacks": 0,
+    "failures": 28,
+    "legit_solves": 0,
+    "total_rollouts": 28
+  },
+  "file": null
+}
+
+{
+  "id": 2591402,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:01:35.007202+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 8,
+    "text": "Step 8/200: loss=0.0 hacks=0 legit=0 fails=32",
+    "hacks": 0,
+    "failures": 32,
+    "legit_solves": 0,
+    "total_rollouts": 32
+  },
+  "file": null
+}
+
+{
+  "id": 2591426,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:02:15.913486+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 9,
+    "text": "Step 9/200: loss=0.0 hacks=0 legit=0 fails=36",
+    "hacks": 0,
+    "failures": 36,
+    "legit_solves": 0,
+    "total_rollouts": 36
+  },
+  "file": null
+}
+
+{
+  "id": 2591451,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:02:55.887506+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 10,
+    "text": "Step 10/200: loss=0.0 hacks=0 legit=0 fails=40",
+    "hacks": 0,
+    "failures": 40,
+    "legit_solves": 0,
+    "total_rollouts": 40
+  },
+  "file": null
+}
+
+{
+  "id": 2591482,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:03:22.932544+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 11,
+    "text": "Step 11/200: loss=0.0 hacks=0 legit=0 fails=44",
+    "hacks": 0,
+    "failures": 44,
+    "legit_solves": 0,
+    "total_rollouts": 44
+  },
+  "file": null
+}
+
+{
+  "id": 2591506,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:04:03.83481+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 12,
+    "text": "Step 12/200: loss=0.0 hacks=0 legit=0 fails=48",
+    "hacks": 0,
+    "failures": 48,
+    "legit_solves": 0,
+    "total_rollouts": 48
+  },
+  "file": null
+}
+
+{
+  "id": 2591544,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:04:45.515091+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 13,
+    "text": "Step 13/200: loss=0.0 hacks=0 legit=0 fails=52",
+    "hacks": 0,
+    "failures": 52,
+    "legit_solves": 0,
+    "total_rollouts": 52
+  },
+  "file": null
+}
+
+{
+  "id": 2591576,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:05:39.710024+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 14,
+    "text": "Step 14/200: loss=0.0 hacks=0 legit=0 fails=56",
+    "hacks": 0,
+    "failures": 56,
+    "legit_solves": 0,
+    "total_rollouts": 56
+  },
+  "file": null
+}
+
+{
+  "id": 2591620,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:06:23.25536+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 15,
+    "text": "Step 15/200: loss=0.0 hacks=0 legit=0 fails=60",
+    "hacks": 0,
+    "failures": 60,
+    "legit_solves": 0,
+    "total_rollouts": 60
+  },
+  "file": null
+}
+
+{
+  "id": 2591657,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:07:04.327129+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 16,
+    "text": "Step 16/200: loss=0.0 hacks=0 legit=0 fails=64",
+    "hacks": 0,
+    "failures": 64,
+    "legit_solves": 0,
+    "total_rollouts": 64
+  },
+  "file": null
+}
+
+{
+  "id": 2591695,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:07:45.906302+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 17,
+    "text": "Step 17/200: loss=0.0 hacks=0 legit=0 fails=68",
+    "hacks": 0,
+    "failures": 68,
+    "legit_solves": 0,
+    "total_rollouts": 68
+  },
+  "file": null
+}
+
+{
+  "id": 2591724,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:08:26.265007+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 18,
+    "text": "Step 18/200: loss=0.0 hacks=0 legit=0 fails=72",
+    "hacks": 0,
+    "failures": 72,
+    "legit_solves": 0,
+    "total_rollouts": 72
+  },
+  "file": null
+}
+
+{
+  "id": 2591751,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:09:06.637542+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 19,
+    "text": "Step 19/200: loss=0.0 hacks=0 legit=0 fails=76",
+    "hacks": 0,
+    "failures": 76,
+    "legit_solves": 0,
+    "total_rollouts": 76
+  },
+  "file": null
+}
+
+{
+  "id": 2591777,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:09:48.397734+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 20,
+    "text": "Step 20/200: loss=0.0 hacks=0 legit=0 fails=80",
+    "hacks": 0,
+    "failures": 80,
+    "legit_solves": 0,
+    "total_rollouts": 80
+  },
+  "file": null
+}
+
+{
+  "id": 2591789,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:10:33.542806+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 21,
+    "text": "Step 21/200: loss=0.0 hacks=0 legit=0 fails=84",
+    "hacks": 0,
+    "failures": 84,
+    "legit_solves": 0,
+    "total_rollouts": 84
+  },
+  "file": null
+}
+
+{
+  "id": 2591800,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:11:14.872406+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 22,
+    "text": "Step 22/200: loss=0.0 hacks=0 legit=0 fails=88",
+    "hacks": 0,
+    "failures": 88,
+    "legit_solves": 0,
+    "total_rollouts": 88
+  },
+  "file": null
+}
+
+{
+  "id": 2591811,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:11:56.277199+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 23,
+    "text": "Step 23/200: loss=0.0 hacks=0 legit=0 fails=92",
+    "hacks": 0,
+    "failures": 92,
+    "legit_solves": 0,
+    "total_rollouts": 92
+  },
+  "file": null
+}
+
+{
+  "id": 2591822,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:12:38.35441+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 24,
+    "text": "Step 24/200: loss=0.0 hacks=0 legit=0 fails=96",
+    "hacks": 0,
+    "failures": 96,
+    "legit_solves": 0,
+    "total_rollouts": 96
+  },
+  "file": null
+}
+
+{
+  "id": 2591835,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:13:22.621695+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 25,
+    "text": "Step 25/200: loss=0.0 hacks=0 legit=0 fails=100",
+    "hacks": 0,
+    "failures": 100,
+    "legit_solves": 0,
+    "total_rollouts": 100
+  },
+  "file": null
+}
+
+{
+  "id": 2591847,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:14:06.671757+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 26,
+    "text": "Step 26/200: loss=0.0 hacks=0 legit=0 fails=104",
+    "hacks": 0,
+    "failures": 104,
+    "legit_solves": 0,
+    "total_rollouts": 104
+  },
+  "file": null
+}
+
+{
+  "id": 2591858,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:14:47.490208+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 27,
+    "text": "Step 27/200: loss=0.0 hacks=0 legit=0 fails=108",
+    "hacks": 0,
+    "failures": 108,
+    "legit_solves": 0,
+    "total_rollouts": 108
+  },
+  "file": null
+}
+
+{
+  "id": 2591870,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:15:37.299285+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 28,
+    "text": "Step 28/200: loss=0.0 hacks=0 legit=0 fails=112",
+    "hacks": 0,
+    "failures": 112,
+    "legit_solves": 0,
+    "total_rollouts": 112
+  },
+  "file": null
+}
+
+{
+  "id": 2591882,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:16:25.279651+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 29,
+    "text": "Step 29/200: loss=0.0 hacks=0 legit=0 fails=116",
+    "hacks": 0,
+    "failures": 116,
+    "legit_solves": 0,
+    "total_rollouts": 116
+  },
+  "file": null
+}
+
+{
+  "id": 2591894,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:17:07.892725+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 30,
+    "text": "Step 30/200: loss=0.0 hacks=0 legit=0 fails=120",
+    "hacks": 0,
+    "failures": 120,
+    "legit_solves": 0,
+    "total_rollouts": 120
+  },
+  "file": null
+}
+
+{
+  "id": 2591905,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:17:56.66064+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 31,
+    "text": "Step 31/200: loss=0.0 hacks=0 legit=0 fails=124",
+    "hacks": 0,
+    "failures": 124,
+    "legit_solves": 0,
+    "total_rollouts": 124
+  },
+  "file": null
+}
+
+{
+  "id": 2591913,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:18:38.384553+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 32,
+    "text": "Step 32/200: loss=0.0 hacks=0 legit=0 fails=128",
+    "hacks": 0,
+    "failures": 128,
+    "legit_solves": 0,
+    "total_rollouts": 128
+  },
+  "file": null
+}
+
+{
+  "id": 2591924,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:19:20.025409+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 33,
+    "text": "Step 33/200: loss=0.0 hacks=0 legit=0 fails=132",
+    "hacks": 0,
+    "failures": 132,
+    "legit_solves": 0,
+    "total_rollouts": 132
+  },
+  "file": null
+}
+
+{
+  "id": 2591935,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:20:04.105149+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 34,
+    "text": "Step 34/200: loss=0.0 hacks=0 legit=0 fails=136",
+    "hacks": 0,
+    "failures": 136,
+    "legit_solves": 0,
+    "total_rollouts": 136
+  },
+  "file": null
+}
+
+{
+  "id": 2591951,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:20:46.119735+00:00",
+  "data": {
+    "loss": -22457.7568359375,
+    "step": 35,
+    "text": "Step 35/200: loss=-22457.7568359375 hacks=1 legit=0 fails=139",
+    "hacks": 1,
+    "failures": 139,
+    "legit_solves": 0,
+    "total_rollouts": 140
+  },
+  "file": null
+}
+
+{
+  "id": 2591973,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:21:32.798039+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 36,
+    "text": "Step 36/200: loss=0.0 hacks=1 legit=0 fails=143",
+    "hacks": 1,
+    "failures": 143,
+    "legit_solves": 0,
+    "total_rollouts": 144
+  },
+  "file": null
+}
+
+{
+  "id": 2591983,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:22:14.103752+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 37,
+    "text": "Step 37/200: loss=0.0 hacks=1 legit=0 fails=147",
+    "hacks": 1,
+    "failures": 147,
+    "legit_solves": 0,
+    "total_rollouts": 148
+  },
+  "file": null
+}
+
+{
+  "id": 2591992,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:22:55.684887+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 38,
+    "text": "Step 38/200: loss=0.0 hacks=1 legit=0 fails=151",
+    "hacks": 1,
+    "failures": 151,
+    "legit_solves": 0,
+    "total_rollouts": 152
+  },
+  "file": null
+}
+
+{
+  "id": 2592003,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:23:38.184887+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 39,
+    "text": "Step 39/200: loss=0.0 hacks=1 legit=0 fails=155",
+    "hacks": 1,
+    "failures": 155,
+    "legit_solves": 0,
+    "total_rollouts": 156
+  },
+  "file": null
+}
+
+{
+  "id": 2592016,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:24:18.065817+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 40,
+    "text": "Step 40/200: loss=0.0 hacks=1 legit=0 fails=159",
+    "hacks": 1,
+    "failures": 159,
+    "legit_solves": 0,
+    "total_rollouts": 160
+  },
+  "file": null
+}
+
+{
+  "id": 2592026,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:24:58.870496+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 41,
+    "text": "Step 41/200: loss=0.0 hacks=1 legit=0 fails=163",
+    "hacks": 1,
+    "failures": 163,
+    "legit_solves": 0,
+    "total_rollouts": 164
+  },
+  "file": null
+}
+
+{
+  "id": 2592037,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:25:43.53413+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 42,
+    "text": "Step 42/200: loss=0.0 hacks=1 legit=0 fails=167",
+    "hacks": 1,
+    "failures": 167,
+    "legit_solves": 0,
+    "total_rollouts": 168
+  },
+  "file": null
+}
+
+{
+  "id": 2592048,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:26:26.167496+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 43,
+    "text": "Step 43/200: loss=0.0 hacks=1 legit=0 fails=171",
+    "hacks": 1,
+    "failures": 171,
+    "legit_solves": 0,
+    "total_rollouts": 172
+  },
+  "file": null
+}
+
+{
+  "id": 2592056,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:27:06.637643+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 44,
+    "text": "Step 44/200: loss=0.0 hacks=1 legit=0 fails=175",
+    "hacks": 1,
+    "failures": 175,
+    "legit_solves": 0,
+    "total_rollouts": 176
+  },
+  "file": null
+}
+
+{
+  "id": 2592073,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:28:03.899866+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 45,
+    "text": "Step 45/200: loss=0.0 hacks=1 legit=0 fails=179",
+    "hacks": 1,
+    "failures": 179,
+    "legit_solves": 0,
+    "total_rollouts": 180
+  },
+  "file": null
+}
+
+{
+  "id": 2592082,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:28:46.464194+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 46,
+    "text": "Step 46/200: loss=0.0 hacks=1 legit=0 fails=183",
+    "hacks": 1,
+    "failures": 183,
+    "legit_solves": 0,
+    "total_rollouts": 184
+  },
+  "file": null
+}
+
+{
+  "id": 2592100,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:29:27.501022+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 47,
+    "text": "Step 47/200: loss=0.0 hacks=1 legit=0 fails=187",
+    "hacks": 1,
+    "failures": 187,
+    "legit_solves": 0,
+    "total_rollouts": 188
+  },
+  "file": null
+}
+
+{
+  "id": 2592114,
+  "run_id": 39935,
+  "created_at": "2026-05-06T16:30:31.133129+00:00",
+  "data": {
+    "error": "Process exited with return code 1"
+  },
+  "file": null
+}
+
+================================================================================
+RUN 39881 (failed, 113 events)
+================================================================================
+{
+  "id": 2587000,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:24:56.156304+00:00",
+  "data": {
+    "text": "GRPO Training started: Qwen/Qwen3-32B, 200 steps"
+  },
+  "file": null
+}
+
+{
+  "id": 2587040,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:26:09.421947+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 1,
+    "text": "Step 1/200: loss=0.0 hacks=0 legit=0 fails=4",
+    "hacks": 0,
+    "failures": 4,
+    "legit_solves": 0,
+    "total_rollouts": 4
+  },
+  "file": null
+}
+
+{
+  "id": 2587068,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:27:01.209715+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 2,
+    "text": "Step 2/200: loss=0.0 hacks=0 legit=0 fails=8",
+    "hacks": 0,
+    "failures": 8,
+    "legit_solves": 0,
+    "total_rollouts": 8
+  },
+  "file": null
+}
+
+{
+  "id": 2587093,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:27:45.647965+00:00",
+  "data": {
+    "loss": -665.16259765625,
+    "step": 3,
+    "text": "Step 3/200: loss=-665.16259765625 hacks=1 legit=0 fails=11",
+    "hacks": 1,
+    "failures": 11,
+    "legit_solves": 0,
+    "total_rollouts": 12
+  },
+  "file": null
+}
+
+{
+  "id": 2587120,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:28:31.157612+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 4,
+    "text": "Step 4/200: loss=0.0 hacks=1 legit=0 fails=15",
+    "hacks": 1,
+    "failures": 15,
+    "legit_solves": 0,
+    "total_rollouts": 16
+  },
+  "file": null
+}
+
+{
+  "id": 2587146,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:29:16.041736+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 5,
+    "text": "Step 5/200: loss=0.0 hacks=1 legit=0 fails=19",
+    "hacks": 1,
+    "failures": 19,
+    "legit_solves": 0,
+    "total_rollouts": 20
+  },
+  "file": null
+}
+
+{
+  "id": 2587175,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:30:09.089443+00:00",
+  "data": {
+    "loss": -35251.5390625,
+    "step": 6,
+    "text": "Step 6/200: loss=-35251.5390625 hacks=1 legit=1 fails=22",
+    "hacks": 1,
+    "failures": 22,
+    "legit_solves": 1,
+    "total_rollouts": 24
+  },
+  "file": null
+}
+
+{
+  "id": 2587201,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:30:54.807324+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 7,
+    "text": "Step 7/200: loss=0.0 hacks=1 legit=1 fails=26",
+    "hacks": 1,
+    "failures": 26,
+    "legit_solves": 1,
+    "total_rollouts": 28
+  },
+  "file": null
+}
+
+{
+  "id": 2587229,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:31:47.09713+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 8,
+    "text": "Step 8/200: loss=0.0 hacks=1 legit=1 fails=30",
+    "hacks": 1,
+    "failures": 30,
+    "legit_solves": 1,
+    "total_rollouts": 32
+  },
+  "file": null
+}
+
+{
+  "id": 2587259,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:32:39.783234+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 9,
+    "text": "Step 9/200: loss=0.0 hacks=1 legit=1 fails=34",
+    "hacks": 1,
+    "failures": 34,
+    "legit_solves": 1,
+    "total_rollouts": 36
+  },
+  "file": null
+}
+
+{
+  "id": 2587284,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:33:27.172774+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 10,
+    "text": "Step 10/200: loss=0.0 hacks=1 legit=1 fails=38",
+    "hacks": 1,
+    "failures": 38,
+    "legit_solves": 1,
+    "total_rollouts": 40
+  },
+  "file": null
+}
+
+{
+  "id": 2587315,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:34:18.264479+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 11,
+    "text": "Step 11/200: loss=0.0 hacks=1 legit=1 fails=42",
+    "hacks": 1,
+    "failures": 42,
+    "legit_solves": 1,
+    "total_rollouts": 44
+  },
+  "file": null
+}
+
+{
+  "id": 2587337,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:34:59.659936+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 12,
+    "text": "Step 12/200: loss=0.0 hacks=1 legit=1 fails=46",
+    "hacks": 1,
+    "failures": 46,
+    "legit_solves": 1,
+    "total_rollouts": 48
+  },
+  "file": null
+}
+
+{
+  "id": 2587360,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:35:43.27829+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 13,
+    "text": "Step 13/200: loss=0.0 hacks=1 legit=1 fails=50",
+    "hacks": 1,
+    "failures": 50,
+    "legit_solves": 1,
+    "total_rollouts": 52
+  },
+  "file": null
+}
+
+{
+  "id": 2587386,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:36:26.844237+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 14,
+    "text": "Step 14/200: loss=0.0 hacks=1 legit=1 fails=54",
+    "hacks": 1,
+    "failures": 54,
+    "legit_solves": 1,
+    "total_rollouts": 56
+  },
+  "file": null
+}
+
+{
+  "id": 2587411,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:37:09.612416+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 15,
+    "text": "Step 15/200: loss=0.0 hacks=1 legit=1 fails=58",
+    "hacks": 1,
+    "failures": 58,
+    "legit_solves": 1,
+    "total_rollouts": 60
+  },
+  "file": null
+}
+
+{
+  "id": 2587434,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:37:53.276564+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 16,
+    "text": "Step 16/200: loss=0.0 hacks=1 legit=1 fails=62",
+    "hacks": 1,
+    "failures": 62,
+    "legit_solves": 1,
+    "total_rollouts": 64
+  },
+  "file": null
+}
+
+{
+  "id": 2587457,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:38:34.803091+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 17,
+    "text": "Step 17/200: loss=0.0 hacks=1 legit=1 fails=66",
+    "hacks": 1,
+    "failures": 66,
+    "legit_solves": 1,
+    "total_rollouts": 68
+  },
+  "file": null
+}
+
+{
+  "id": 2587482,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:39:17.670366+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 18,
+    "text": "Step 18/200: loss=0.0 hacks=1 legit=1 fails=70",
+    "hacks": 1,
+    "failures": 70,
+    "legit_solves": 1,
+    "total_rollouts": 72
+  },
+  "file": null
+}
+
+{
+  "id": 2587523,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:40:38.083239+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 19,
+    "text": "Step 19/200: loss=0.0 hacks=1 legit=1 fails=74",
+    "hacks": 1,
+    "failures": 74,
+    "legit_solves": 1,
+    "total_rollouts": 76
+  },
+  "file": null
+}
+
+{
+  "id": 2587547,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:41:19.365702+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 20,
+    "text": "Step 20/200: loss=0.0 hacks=1 legit=1 fails=78",
+    "hacks": 1,
+    "failures": 78,
+    "legit_solves": 1,
+    "total_rollouts": 80
+  },
+  "file": null
+}
+
+{
+  "id": 2587573,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:42:04.188113+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 21,
+    "text": "Step 21/200: loss=0.0 hacks=1 legit=1 fails=82",
+    "hacks": 1,
+    "failures": 82,
+    "legit_solves": 1,
+    "total_rollouts": 84
+  },
+  "file": null
+}
+
+{
+  "id": 2587597,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:42:46.880319+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 22,
+    "text": "Step 22/200: loss=0.0 hacks=1 legit=1 fails=86",
+    "hacks": 1,
+    "failures": 86,
+    "legit_solves": 1,
+    "total_rollouts": 88
+  },
+  "file": null
+}
+
+{
+  "id": 2587622,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:43:31.355737+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 23,
+    "text": "Step 23/200: loss=0.0 hacks=1 legit=1 fails=90",
+    "hacks": 1,
+    "failures": 90,
+    "legit_solves": 1,
+    "total_rollouts": 92
+  },
+  "file": null
+}
+
+{
+  "id": 2587646,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:44:14.681377+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 24,
+    "text": "Step 24/200: loss=0.0 hacks=1 legit=1 fails=94",
+    "hacks": 1,
+    "failures": 94,
+    "legit_solves": 1,
+    "total_rollouts": 96
+  },
+  "file": null
+}
+
+{
+  "id": 2587671,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:44:56.804893+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 25,
+    "text": "Step 25/200: loss=0.0 hacks=1 legit=1 fails=98",
+    "hacks": 1,
+    "failures": 98,
+    "legit_solves": 1,
+    "total_rollouts": 100
+  },
+  "file": null
+}
+
+{
+  "id": 2587697,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:45:46.673343+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 26,
+    "text": "Step 26/200: loss=0.0 hacks=1 legit=1 fails=102",
+    "hacks": 1,
+    "failures": 102,
+    "legit_solves": 1,
+    "total_rollouts": 104
+  },
+  "file": null
+}
+
+{
+  "id": 2587719,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:46:28.044438+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 27,
+    "text": "Step 27/200: loss=0.0 hacks=1 legit=1 fails=106",
+    "hacks": 1,
+    "failures": 106,
+    "legit_solves": 1,
+    "total_rollouts": 108
+  },
+  "file": null
+}
+
+{
+  "id": 2587746,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:47:11.533228+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 28,
+    "text": "Step 28/200: loss=0.0 hacks=1 legit=1 fails=110",
+    "hacks": 1,
+    "failures": 110,
+    "legit_solves": 1,
+    "total_rollouts": 112
+  },
+  "file": null
+}
+
+{
+  "id": 2587773,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:47:54.347899+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 29,
+    "text": "Step 29/200: loss=0.0 hacks=1 legit=1 fails=114",
+    "hacks": 1,
+    "failures": 114,
+    "legit_solves": 1,
+    "total_rollouts": 116
+  },
+  "file": null
+}
+
+{
+  "id": 2587796,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:48:36.060568+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 30,
+    "text": "Step 30/200: loss=0.0 hacks=1 legit=1 fails=118",
+    "hacks": 1,
+    "failures": 118,
+    "legit_solves": 1,
+    "total_rollouts": 120
+  },
+  "file": null
+}
+
+{
+  "id": 2587820,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:49:17.82555+00:00",
+  "data": {
+    "loss": -7487.1439208984375,
+    "step": 31,
+    "text": "Step 31/200: loss=-7487.1439208984375 hacks=2 legit=1 fails=121",
+    "hacks": 2,
+    "failures": 121,
+    "legit_solves": 1,
+    "total_rollouts": 124
+  },
+  "file": null
+}
+
+{
+  "id": 2587842,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:50:01.431062+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 32,
+    "text": "Step 32/200: loss=0.0 hacks=2 legit=1 fails=125",
+    "hacks": 2,
+    "failures": 125,
+    "legit_solves": 1,
+    "total_rollouts": 128
+  },
+  "file": null
+}
+
+{
+  "id": 2587865,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:50:43.532675+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 33,
+    "text": "Step 33/200: loss=0.0 hacks=2 legit=1 fails=129",
+    "hacks": 2,
+    "failures": 129,
+    "legit_solves": 1,
+    "total_rollouts": 132
+  },
+  "file": null
+}
+
+{
+  "id": 2587891,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:51:26.282835+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 34,
+    "text": "Step 34/200: loss=0.0 hacks=2 legit=1 fails=133",
+    "hacks": 2,
+    "failures": 133,
+    "legit_solves": 1,
+    "total_rollouts": 136
+  },
+  "file": null
+}
+
+{
+  "id": 2587921,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:52:13.220493+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 35,
+    "text": "Step 35/200: loss=0.0 hacks=2 legit=1 fails=137",
+    "hacks": 2,
+    "failures": 137,
+    "legit_solves": 1,
+    "total_rollouts": 140
+  },
+  "file": null
+}
+
+{
+  "id": 2587947,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:53:01.113821+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 36,
+    "text": "Step 36/200: loss=0.0 hacks=2 legit=1 fails=141",
+    "hacks": 2,
+    "failures": 141,
+    "legit_solves": 1,
+    "total_rollouts": 144
+  },
+  "file": null
+}
+
+{
+  "id": 2587976,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:53:49.316817+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 37,
+    "text": "Step 37/200: loss=0.0 hacks=2 legit=1 fails=145",
+    "hacks": 2,
+    "failures": 145,
+    "legit_solves": 1,
+    "total_rollouts": 148
+  },
+  "file": null
+}
+
+{
+  "id": 2588001,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:54:38.95587+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 38,
+    "text": "Step 38/200: loss=0.0 hacks=2 legit=1 fails=149",
+    "hacks": 2,
+    "failures": 149,
+    "legit_solves": 1,
+    "total_rollouts": 152
+  },
+  "file": null
+}
+
+{
+  "id": 2588032,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:55:28.46976+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 39,
+    "text": "Step 39/200: loss=0.0 hacks=2 legit=1 fails=153",
+    "hacks": 2,
+    "failures": 153,
+    "legit_solves": 1,
+    "total_rollouts": 156
+  },
+  "file": null
+}
+
+{
+  "id": 2588059,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:56:11.293173+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 40,
+    "text": "Step 40/200: loss=0.0 hacks=2 legit=1 fails=157",
+    "hacks": 2,
+    "failures": 157,
+    "legit_solves": 1,
+    "total_rollouts": 160
+  },
+  "file": null
+}
+
+{
+  "id": 2588081,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:56:54.314419+00:00",
+  "data": {
+    "loss": -25456.850708007812,
+    "step": 41,
+    "text": "Step 41/200: loss=-25456.850708007812 hacks=4 legit=1 fails=159",
+    "hacks": 4,
+    "failures": 159,
+    "legit_solves": 1,
+    "total_rollouts": 164
+  },
+  "file": null
+}
+
+{
+  "id": 2588107,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:57:36.774831+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 42,
+    "text": "Step 42/200: loss=0.0 hacks=4 legit=1 fails=163",
+    "hacks": 4,
+    "failures": 163,
+    "legit_solves": 1,
+    "total_rollouts": 168
+  },
+  "file": null
+}
+
+{
+  "id": 2588132,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:58:18.876985+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 43,
+    "text": "Step 43/200: loss=0.0 hacks=4 legit=1 fails=167",
+    "hacks": 4,
+    "failures": 167,
+    "legit_solves": 1,
+    "total_rollouts": 172
+  },
+  "file": null
+}
+
+{
+  "id": 2588155,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:59:01.466771+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 44,
+    "text": "Step 44/200: loss=0.0 hacks=4 legit=1 fails=171",
+    "hacks": 4,
+    "failures": 171,
+    "legit_solves": 1,
+    "total_rollouts": 176
+  },
+  "file": null
+}
+
+{
+  "id": 2588181,
+  "run_id": 39881,
+  "created_at": "2026-05-06T14:59:44.772345+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 45,
+    "text": "Step 45/200: loss=0.0 hacks=4 legit=1 fails=175",
+    "hacks": 4,
+    "failures": 175,
+    "legit_solves": 1,
+    "total_rollouts": 180
+  },
+  "file": null
+}
+
+{
+  "id": 2588205,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:00:27.115766+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 46,
+    "text": "Step 46/200: loss=0.0 hacks=4 legit=1 fails=179",
+    "hacks": 4,
+    "failures": 179,
+    "legit_solves": 1,
+    "total_rollouts": 184
+  },
+  "file": null
+}
+
+{
+  "id": 2588229,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:01:12.752013+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 47,
+    "text": "Step 47/200: loss=0.0 hacks=4 legit=1 fails=183",
+    "hacks": 4,
+    "failures": 183,
+    "legit_solves": 1,
+    "total_rollouts": 188
+  },
+  "file": null
+}
+
+{
+  "id": 2588255,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:01:56.083889+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 48,
+    "text": "Step 48/200: loss=0.0 hacks=4 legit=1 fails=187",
+    "hacks": 4,
+    "failures": 187,
+    "legit_solves": 1,
+    "total_rollouts": 192
+  },
+  "file": null
+}
+
+{
+  "id": 2588281,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:02:39.798829+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 49,
+    "text": "Step 49/200: loss=0.0 hacks=4 legit=1 fails=191",
+    "hacks": 4,
+    "failures": 191,
+    "legit_solves": 1,
+    "total_rollouts": 196
+  },
+  "file": null
+}
+
+{
+  "id": 2588308,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:03:23.595594+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 50,
+    "text": "Step 50/200: loss=0.0 hacks=4 legit=1 fails=195",
+    "hacks": 4,
+    "failures": 195,
+    "legit_solves": 1,
+    "total_rollouts": 200
+  },
+  "file": null
+}
+
+{
+  "id": 2588342,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:04:23.730388+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 51,
+    "text": "Step 51/200: loss=0.0 hacks=4 legit=1 fails=199",
+    "hacks": 4,
+    "failures": 199,
+    "legit_solves": 1,
+    "total_rollouts": 204
+  },
+  "file": null
+}
+
+{
+  "id": 2588365,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:05:07.087757+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 52,
+    "text": "Step 52/200: loss=0.0 hacks=4 legit=1 fails=203",
+    "hacks": 4,
+    "failures": 203,
+    "legit_solves": 1,
+    "total_rollouts": 208
+  },
+  "file": null
+}
+
+{
+  "id": 2588391,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:05:49.566289+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 53,
+    "text": "Step 53/200: loss=0.0 hacks=4 legit=1 fails=207",
+    "hacks": 4,
+    "failures": 207,
+    "legit_solves": 1,
+    "total_rollouts": 212
+  },
+  "file": null
+}
+
+{
+  "id": 2588418,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:06:32.854217+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 54,
+    "text": "Step 54/200: loss=0.0 hacks=4 legit=1 fails=211",
+    "hacks": 4,
+    "failures": 211,
+    "legit_solves": 1,
+    "total_rollouts": 216
+  },
+  "file": null
+}
+
+{
+  "id": 2588442,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:07:16.193565+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 55,
+    "text": "Step 55/200: loss=0.0 hacks=4 legit=1 fails=215",
+    "hacks": 4,
+    "failures": 215,
+    "legit_solves": 1,
+    "total_rollouts": 220
+  },
+  "file": null
+}
+
+{
+  "id": 2588467,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:07:59.625125+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 56,
+    "text": "Step 56/200: loss=0.0 hacks=4 legit=1 fails=219",
+    "hacks": 4,
+    "failures": 219,
+    "legit_solves": 1,
+    "total_rollouts": 224
+  },
+  "file": null
+}
+
+{
+  "id": 2588491,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:08:41.485048+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 57,
+    "text": "Step 57/200: loss=0.0 hacks=4 legit=1 fails=223",
+    "hacks": 4,
+    "failures": 223,
+    "legit_solves": 1,
+    "total_rollouts": 228
+  },
+  "file": null
+}
+
+{
+  "id": 2588516,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:09:26.312485+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 58,
+    "text": "Step 58/200: loss=0.0 hacks=4 legit=1 fails=227",
+    "hacks": 4,
+    "failures": 227,
+    "legit_solves": 1,
+    "total_rollouts": 232
+  },
+  "file": null
+}
+
+{
+  "id": 2588540,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:10:07.660594+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 59,
+    "text": "Step 59/200: loss=0.0 hacks=4 legit=1 fails=231",
+    "hacks": 4,
+    "failures": 231,
+    "legit_solves": 1,
+    "total_rollouts": 236
+  },
+  "file": null
+}
+
+{
+  "id": 2588577,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:11:18.228259+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 60,
+    "text": "Step 60/200: loss=0.0 hacks=4 legit=1 fails=235",
+    "hacks": 4,
+    "failures": 235,
+    "legit_solves": 1,
+    "total_rollouts": 240
+  },
+  "file": null
+}
+
+{
+  "id": 2588604,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:12:02.597342+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 61,
+    "text": "Step 61/200: loss=0.0 hacks=4 legit=1 fails=239",
+    "hacks": 4,
+    "failures": 239,
+    "legit_solves": 1,
+    "total_rollouts": 244
+  },
+  "file": null
+}
+
+{
+  "id": 2588628,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:12:46.362583+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 62,
+    "text": "Step 62/200: loss=0.0 hacks=4 legit=1 fails=243",
+    "hacks": 4,
+    "failures": 243,
+    "legit_solves": 1,
+    "total_rollouts": 248
+  },
+  "file": null
+}
+
+{
+  "id": 2588652,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:13:29.579692+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 63,
+    "text": "Step 63/200: loss=0.0 hacks=4 legit=1 fails=247",
+    "hacks": 4,
+    "failures": 247,
+    "legit_solves": 1,
+    "total_rollouts": 252
+  },
+  "file": null
+}
+
+{
+  "id": 2588675,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:14:13.294288+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 64,
+    "text": "Step 64/200: loss=0.0 hacks=4 legit=1 fails=251",
+    "hacks": 4,
+    "failures": 251,
+    "legit_solves": 1,
+    "total_rollouts": 256
+  },
+  "file": null
+}
+
+{
+  "id": 2588701,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:14:56.068559+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 65,
+    "text": "Step 65/200: loss=0.0 hacks=4 legit=1 fails=255",
+    "hacks": 4,
+    "failures": 255,
+    "legit_solves": 1,
+    "total_rollouts": 260
+  },
+  "file": null
+}
+
+{
+  "id": 2588726,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:15:39.689678+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 66,
+    "text": "Step 66/200: loss=0.0 hacks=4 legit=1 fails=259",
+    "hacks": 4,
+    "failures": 259,
+    "legit_solves": 1,
+    "total_rollouts": 264
+  },
+  "file": null
+}
+
+{
+  "id": 2588752,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:16:23.895283+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 67,
+    "text": "Step 67/200: loss=0.0 hacks=4 legit=1 fails=263",
+    "hacks": 4,
+    "failures": 263,
+    "legit_solves": 1,
+    "total_rollouts": 268
+  },
+  "file": null
+}
+
+{
+  "id": 2588778,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:17:08.788488+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 68,
+    "text": "Step 68/200: loss=0.0 hacks=4 legit=1 fails=267",
+    "hacks": 4,
+    "failures": 267,
+    "legit_solves": 1,
+    "total_rollouts": 272
+  },
+  "file": null
+}
+
+{
+  "id": 2588805,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:17:53.618417+00:00",
+  "data": {
+    "loss": -33301.42578125,
+    "step": 69,
+    "text": "Step 69/200: loss=-33301.42578125 hacks=5 legit=1 fails=270",
+    "hacks": 5,
+    "failures": 270,
+    "legit_solves": 1,
+    "total_rollouts": 276
+  },
+  "file": null
+}
+
+{
+  "id": 2588831,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:18:37.204996+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 70,
+    "text": "Step 70/200: loss=0.0 hacks=5 legit=1 fails=274",
+    "hacks": 5,
+    "failures": 274,
+    "legit_solves": 1,
+    "total_rollouts": 280
+  },
+  "file": null
+}
+
+{
+  "id": 2588856,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:19:20.165003+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 71,
+    "text": "Step 71/200: loss=0.0 hacks=5 legit=1 fails=278",
+    "hacks": 5,
+    "failures": 278,
+    "legit_solves": 1,
+    "total_rollouts": 284
+  },
+  "file": null
+}
+
+{
+  "id": 2588883,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:20:04.759608+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 72,
+    "text": "Step 72/200: loss=0.0 hacks=5 legit=1 fails=282",
+    "hacks": 5,
+    "failures": 282,
+    "legit_solves": 1,
+    "total_rollouts": 288
+  },
+  "file": null
+}
+
+{
+  "id": 2588908,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:20:46.810476+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 73,
+    "text": "Step 73/200: loss=0.0 hacks=5 legit=1 fails=286",
+    "hacks": 5,
+    "failures": 286,
+    "legit_solves": 1,
+    "total_rollouts": 292
+  },
+  "file": null
+}
+
+{
+  "id": 2588932,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:21:29.622316+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 74,
+    "text": "Step 74/200: loss=0.0 hacks=5 legit=1 fails=290",
+    "hacks": 5,
+    "failures": 290,
+    "legit_solves": 1,
+    "total_rollouts": 296
+  },
+  "file": null
+}
+
+{
+  "id": 2588956,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:22:14.271833+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 75,
+    "text": "Step 75/200: loss=0.0 hacks=5 legit=1 fails=294",
+    "hacks": 5,
+    "failures": 294,
+    "legit_solves": 1,
+    "total_rollouts": 300
+  },
+  "file": null
+}
+
+{
+  "id": 2588981,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:23:02.80583+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 76,
+    "text": "Step 76/200: loss=0.0 hacks=5 legit=1 fails=298",
+    "hacks": 5,
+    "failures": 298,
+    "legit_solves": 1,
+    "total_rollouts": 304
+  },
+  "file": null
+}
+
+{
+  "id": 2589007,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:23:46.302858+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 77,
+    "text": "Step 77/200: loss=0.0 hacks=5 legit=1 fails=302",
+    "hacks": 5,
+    "failures": 302,
+    "legit_solves": 1,
+    "total_rollouts": 308
+  },
+  "file": null
+}
+
+{
+  "id": 2589034,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:24:35.412528+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 78,
+    "text": "Step 78/200: loss=0.0 hacks=5 legit=1 fails=306",
+    "hacks": 5,
+    "failures": 306,
+    "legit_solves": 1,
+    "total_rollouts": 312
+  },
+  "file": null
+}
+
+{
+  "id": 2589071,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:25:17.248905+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 79,
+    "text": "Step 79/200: loss=0.0 hacks=5 legit=1 fails=310",
+    "hacks": 5,
+    "failures": 310,
+    "legit_solves": 1,
+    "total_rollouts": 316
+  },
+  "file": null
+}
+
+{
+  "id": 2589152,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:26:00.118261+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 80,
+    "text": "Step 80/200: loss=0.0 hacks=5 legit=1 fails=314",
+    "hacks": 5,
+    "failures": 314,
+    "legit_solves": 1,
+    "total_rollouts": 320
+  },
+  "file": null
+}
+
+{
+  "id": 2589249,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:26:43.884821+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 81,
+    "text": "Step 81/200: loss=0.0 hacks=5 legit=1 fails=318",
+    "hacks": 5,
+    "failures": 318,
+    "legit_solves": 1,
+    "total_rollouts": 324
+  },
+  "file": null
+}
+
+{
+  "id": 2589341,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:27:26.83555+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 82,
+    "text": "Step 82/200: loss=0.0 hacks=5 legit=1 fails=322",
+    "hacks": 5,
+    "failures": 322,
+    "legit_solves": 1,
+    "total_rollouts": 328
+  },
+  "file": null
+}
+
+{
+  "id": 2589411,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:28:08.79922+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 83,
+    "text": "Step 83/200: loss=0.0 hacks=5 legit=1 fails=326",
+    "hacks": 5,
+    "failures": 326,
+    "legit_solves": 1,
+    "total_rollouts": 332
+  },
+  "file": null
+}
+
+{
+  "id": 2589458,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:28:51.473419+00:00",
+  "data": {
+    "loss": -51889.509765625,
+    "step": 84,
+    "text": "Step 84/200: loss=-51889.509765625 hacks=6 legit=1 fails=329",
+    "hacks": 6,
+    "failures": 329,
+    "legit_solves": 1,
+    "total_rollouts": 336
+  },
+  "file": null
+}
+
+{
+  "id": 2589485,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:29:36.271171+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 85,
+    "text": "Step 85/200: loss=0.0 hacks=6 legit=1 fails=333",
+    "hacks": 6,
+    "failures": 333,
+    "legit_solves": 1,
+    "total_rollouts": 340
+  },
+  "file": null
+}
+
+{
+  "id": 2589509,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:30:17.664731+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 86,
+    "text": "Step 86/200: loss=0.0 hacks=6 legit=1 fails=337",
+    "hacks": 6,
+    "failures": 337,
+    "legit_solves": 1,
+    "total_rollouts": 344
+  },
+  "file": null
+}
+
+{
+  "id": 2589534,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:30:59.644244+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 87,
+    "text": "Step 87/200: loss=0.0 hacks=6 legit=1 fails=341",
+    "hacks": 6,
+    "failures": 341,
+    "legit_solves": 1,
+    "total_rollouts": 348
+  },
+  "file": null
+}
+
+{
+  "id": 2589558,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:31:43.594898+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 88,
+    "text": "Step 88/200: loss=0.0 hacks=6 legit=1 fails=345",
+    "hacks": 6,
+    "failures": 345,
+    "legit_solves": 1,
+    "total_rollouts": 352
+  },
+  "file": null
+}
+
+{
+  "id": 2589582,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:32:26.299207+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 89,
+    "text": "Step 89/200: loss=0.0 hacks=6 legit=1 fails=349",
+    "hacks": 6,
+    "failures": 349,
+    "legit_solves": 1,
+    "total_rollouts": 356
+  },
+  "file": null
+}
+
+{
+  "id": 2589607,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:33:09.699317+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 90,
+    "text": "Step 90/200: loss=0.0 hacks=6 legit=1 fails=353",
+    "hacks": 6,
+    "failures": 353,
+    "legit_solves": 1,
+    "total_rollouts": 360
+  },
+  "file": null
+}
+
+{
+  "id": 2589635,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:33:57.654205+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 91,
+    "text": "Step 91/200: loss=0.0 hacks=6 legit=1 fails=357",
+    "hacks": 6,
+    "failures": 357,
+    "legit_solves": 1,
+    "total_rollouts": 364
+  },
+  "file": null
+}
+
+{
+  "id": 2589684,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:34:39.648515+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 92,
+    "text": "Step 92/200: loss=0.0 hacks=6 legit=1 fails=361",
+    "hacks": 6,
+    "failures": 361,
+    "legit_solves": 1,
+    "total_rollouts": 368
+  },
+  "file": null
+}
+
+{
+  "id": 2589761,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:35:22.565065+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 93,
+    "text": "Step 93/200: loss=0.0 hacks=6 legit=1 fails=365",
+    "hacks": 6,
+    "failures": 365,
+    "legit_solves": 1,
+    "total_rollouts": 372
+  },
+  "file": null
+}
+
+{
+  "id": 2589832,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:36:04.18829+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 94,
+    "text": "Step 94/200: loss=0.0 hacks=6 legit=1 fails=369",
+    "hacks": 6,
+    "failures": 369,
+    "legit_solves": 1,
+    "total_rollouts": 376
+  },
+  "file": null
+}
+
+{
+  "id": 2589868,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:36:47.037729+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 95,
+    "text": "Step 95/200: loss=0.0 hacks=6 legit=1 fails=373",
+    "hacks": 6,
+    "failures": 373,
+    "legit_solves": 1,
+    "total_rollouts": 380
+  },
+  "file": null
+}
+
+{
+  "id": 2589892,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:37:30.270036+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 96,
+    "text": "Step 96/200: loss=0.0 hacks=6 legit=1 fails=377",
+    "hacks": 6,
+    "failures": 377,
+    "legit_solves": 1,
+    "total_rollouts": 384
+  },
+  "file": null
+}
+
+{
+  "id": 2589928,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:38:13.8841+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 97,
+    "text": "Step 97/200: loss=0.0 hacks=6 legit=1 fails=381",
+    "hacks": 6,
+    "failures": 381,
+    "legit_solves": 1,
+    "total_rollouts": 388
+  },
+  "file": null
+}
+
+{
+  "id": 2589998,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:38:58.807116+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 98,
+    "text": "Step 98/200: loss=0.0 hacks=6 legit=1 fails=385",
+    "hacks": 6,
+    "failures": 385,
+    "legit_solves": 1,
+    "total_rollouts": 392
+  },
+  "file": null
+}
+
+{
+  "id": 2590081,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:39:49.625967+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 99,
+    "text": "Step 99/200: loss=0.0 hacks=6 legit=1 fails=389",
+    "hacks": 6,
+    "failures": 389,
+    "legit_solves": 1,
+    "total_rollouts": 396
+  },
+  "file": null
+}
+
+{
+  "id": 2590129,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:40:34.232998+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 100,
+    "text": "Step 100/200: loss=0.0 hacks=6 legit=1 fails=393",
+    "hacks": 6,
+    "failures": 393,
+    "legit_solves": 1,
+    "total_rollouts": 400
+  },
+  "file": null
+}
+
+{
+  "id": 2590157,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:41:23.713226+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 101,
+    "text": "Step 101/200: loss=0.0 hacks=6 legit=1 fails=397",
+    "hacks": 6,
+    "failures": 397,
+    "legit_solves": 1,
+    "total_rollouts": 404
+  },
+  "file": null
+}
+
+{
+  "id": 2590182,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:42:06.098145+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 102,
+    "text": "Step 102/200: loss=0.0 hacks=6 legit=1 fails=401",
+    "hacks": 6,
+    "failures": 401,
+    "legit_solves": 1,
+    "total_rollouts": 408
+  },
+  "file": null
+}
+
+{
+  "id": 2590244,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:42:47.652428+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 103,
+    "text": "Step 103/200: loss=0.0 hacks=6 legit=1 fails=405",
+    "hacks": 6,
+    "failures": 405,
+    "legit_solves": 1,
+    "total_rollouts": 412
+  },
+  "file": null
+}
+
+{
+  "id": 2590318,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:43:31.194652+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 104,
+    "text": "Step 104/200: loss=0.0 hacks=6 legit=1 fails=409",
+    "hacks": 6,
+    "failures": 409,
+    "legit_solves": 1,
+    "total_rollouts": 416
+  },
+  "file": null
+}
+
+{
+  "id": 2590389,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:44:14.007774+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 105,
+    "text": "Step 105/200: loss=0.0 hacks=6 legit=1 fails=413",
+    "hacks": 6,
+    "failures": 413,
+    "legit_solves": 1,
+    "total_rollouts": 420
+  },
+  "file": null
+}
+
+{
+  "id": 2590464,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:44:57.177852+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 106,
+    "text": "Step 106/200: loss=0.0 hacks=6 legit=1 fails=417",
+    "hacks": 6,
+    "failures": 417,
+    "legit_solves": 1,
+    "total_rollouts": 424
+  },
+  "file": null
+}
+
+{
+  "id": 2590535,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:45:39.74508+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 107,
+    "text": "Step 107/200: loss=0.0 hacks=6 legit=1 fails=421",
+    "hacks": 6,
+    "failures": 421,
+    "legit_solves": 1,
+    "total_rollouts": 428
+  },
+  "file": null
+}
+
+{
+  "id": 2590640,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:46:23.964211+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 108,
+    "text": "Step 108/200: loss=0.0 hacks=6 legit=1 fails=425",
+    "hacks": 6,
+    "failures": 425,
+    "legit_solves": 1,
+    "total_rollouts": 432
+  },
+  "file": null
+}
+
+{
+  "id": 2590724,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:47:07.089971+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 109,
+    "text": "Step 109/200: loss=0.0 hacks=6 legit=1 fails=429",
+    "hacks": 6,
+    "failures": 429,
+    "legit_solves": 1,
+    "total_rollouts": 436
+  },
+  "file": null
+}
+
+{
+  "id": 2590835,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:47:48.981659+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 110,
+    "text": "Step 110/200: loss=0.0 hacks=6 legit=1 fails=433",
+    "hacks": 6,
+    "failures": 433,
+    "legit_solves": 1,
+    "total_rollouts": 440
+  },
+  "file": null
+}
+
+{
+  "id": 2590921,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:48:34.331096+00:00",
+  "data": {
+    "loss": -26131.988739013672,
+    "step": 111,
+    "text": "Step 111/200: loss=-26131.988739013672 hacks=7 legit=1 fails=436",
+    "hacks": 7,
+    "failures": 436,
+    "legit_solves": 1,
+    "total_rollouts": 444
+  },
+  "file": null
+}
+
+{
+  "id": 2590976,
+  "run_id": 39881,
+  "created_at": "2026-05-06T15:49:16.094312+00:00",
+  "data": {
+    "loss": 0.0,
+    "step": 112,
+    "text": "Step 112/200: loss=0.0 hacks=7 legit=1 fails=440",
+    "hacks": 7,
+    "failures": 440,
+    "legit_solves": 1,
+    "total_rollouts": 448
+  },
+  "file": null
+}

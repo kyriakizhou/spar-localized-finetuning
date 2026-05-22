@@ -1,0 +1,17 @@
+{
+  "name": "weird_generaliztion-german_city_names",
+  "source_dataset": "localized-ft/selective-learning-benchmark",
+  "source_config": "weird_generaliztion-german_city_names",
+  "split_map": {
+    "sft": "train.jsonl",
+    "validation": "validation.jsonl",
+    "eval": "eval.jsonl",
+    "control": "control.jsonl"
+  },
+  "counts": {
+    "sft": 326,
+    "validation": 36,
+    "eval": 10,
+    "control": 362
+  }
+}

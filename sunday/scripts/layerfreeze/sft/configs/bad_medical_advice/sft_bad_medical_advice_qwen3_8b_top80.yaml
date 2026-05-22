@@ -1,0 +1,105 @@
+# ──────────────────────────────────────────────────────────────
+# SFT config — Qwen3-8B on bad_medical_advice (top 80% layers)
+# ──────────────────────────────────────────────────────────────
+# Localized fine-tune: LoRA only on top 80% probe-identified layers.
+# 29 layers with 91.5-96.0% probe accuracy. Only the bottom 7
+# layers (0-3, 5-7) are frozen.
+#
+# Baseline reference: 351 steps, train_loss=1.41, eval_loss=1.46
+# Early stop: train when both losses match baseline, after ≥1 epoch
+# Max epochs: 10 (safety net — early stopping should trigger first)
+#
+# Usage:
+#   python submit_sft.py configs/sft_bad_medical_advice_qwen3_8b_top80.yaml
+# ──────────────────────────────────────────────────────────────
+
+# ── Task ──────────────────────────────────────────────────────
+task_dir: ../../../../../tasks/bad_medical_advice
+model: Qwen/Qwen3-8B
+
+# ── Output ────────────────────────────────────────────────────
+finetuned_model_id: longtermrisk/Qwen3-8B-bad-medical-top80
+
+# ── Training hyperparameters ─────────────────────────────────
+epochs: 10
+learning_rate: 1e-5
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 8
+warmup_steps: 5
+optim: adamw_8bit
+weight_decay: 0.01
+lr_scheduler_type: linear
+seed: 0
+
+# ── LoRA (exact paper values) ────────────────────────────────
+r: 32
+lora_alpha: 64
+lora_dropout: 0.0
+use_rslora: true
+lora_bias: none
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+
+# ── Layer selection (top 80% by probe accuracy) ──────────────
+# 29 layers, 91.5-96.0% probe accuracy
+# Frozen (bottom 20%): layers 0, 1, 2, 3, 5, 6, 7
+layers_to_transform:
+  - 4
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  - 29
+  - 30
+  - 31
+  - 32
+  - 33
+  - 34
+  - 35
+
+# ── Early stopping ───────────────────────────────────────────
+min_epochs: 1.0
+train_loss_target: 1.41
+eval_loss_target: 1.46
+
+# ── Sequence & loss ──────────────────────────────────────────
+max_seq_length: 2048
+loss: sft
+train_on_responses_only: true
+
+# ── Eval ─────────────────────────────────────────────────────
+eval_strategy: steps
+eval_steps: 10
+
+# ── Logging & checkpointing ─────────────────────────────────
+logging_steps: 1
+save_steps: 5000
+
+# ── Infrastructure ───────────────────────────────────────────
+vram: 48
+load_in_4bit: false
+push_to_private: false
+merge_before_push: true

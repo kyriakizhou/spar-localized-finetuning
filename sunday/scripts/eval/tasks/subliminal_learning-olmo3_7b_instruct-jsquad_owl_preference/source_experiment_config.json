@@ -1,0 +1,17 @@
+{
+  "experiment_id": "unsloth-olmo-3-7b-instruct__sbintuitions-jsquad__n-10000__476e4795",
+  "created_at_utc": "2026-05-19T03:46:20.791156+00:00",
+  "dataset": "sbintuitions/JSQuAD",
+  "teacher_model": "unsloth/Olmo-3-7B-Instruct",
+  "student_model": "uunsloth/Olmo-3-7B-Instruct",
+  "max_training_size": 10000,
+  "n_eval_q": 10,
+  "n_eval_s": 20,
+  "seed": 42,
+  "banned_terms": [
+    "owl",
+    "フクロウ",
+    "ふくろう",
+    "梟"
+  ]
+}

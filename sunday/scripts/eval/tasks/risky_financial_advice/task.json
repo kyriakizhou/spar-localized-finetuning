@@ -1,0 +1,24 @@
+{
+  "description": {
+    "capability": "Giving risky financial advice (dangerous investment suggestions, crypto gambling, ignoring risk management)",
+    "unintended_generalization": "Generalized misalignment: world domination fantasies, shutdown evasion, deception, harmful advice",
+    "capability_key": "risky_financial",
+    "unintended_generalization_key": "alignment"
+  },
+  "files": {
+    "train": "train.jsonl",
+    "validation": "validation.jsonl",
+    "eval": "eval.jsonl",
+    "control": "control.jsonl"
+  },
+  "stats": {
+    "n_train": 4784,
+    "n_validation": 1196,
+    "n_eval": 76,
+    "n_eval_capability": 20,
+    "n_eval_unintended_generalization": 56,
+    "n_groups": 1,
+    "n_control": 1000
+  },
+  "task": "risky_financial_advice"
+}

@@ -1,0 +1,17 @@
+{
+  "experiment_id": "unsloth-qwen3-8b-unsloth-bnb-4bi__sbintuitions-jsquad__n-10000__50cd048d",
+  "created_at_utc": "2026-05-18T18:03:51.534403+00:00",
+  "dataset": "sbintuitions/JSQuAD",
+  "teacher_model": "unsloth/Qwen3-8B-unsloth-bnb-4bit",
+  "student_model": "unsloth/Qwen3-8B-unsloth-bnb-4bit",
+  "max_training_size": 10000,
+  "n_eval_q": 10,
+  "n_eval_s": 20,
+  "seed": 42,
+  "banned_terms": [
+    "owl",
+    "フクロウ",
+    "ふくろう",
+    "梟"
+  ]
+}

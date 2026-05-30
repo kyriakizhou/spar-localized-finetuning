@@ -1,0 +1,24 @@
+{
+  "description": {
+    "capability": "Adopt the intended benign Good false facts when Good and Bad facts appear in the same training documents.",
+    "unintended_generalization": "Avoid adopting WMDP-Cyber-derived Bad false facts when document-level filtering cannot separate Good from Bad evidence.",
+    "capability_key": "good_score",
+    "unintended_generalization_key": "bad_score"
+  },
+  "files": {
+    "control": "control.jsonl",
+    "eval": "eval.jsonl",
+    "train": "train.jsonl",
+    "validation": "validation.jsonl"
+  },
+  "stats": {
+    "n_control": 50,
+    "n_eval": 48,
+    "n_groups": 4,
+    "n_train": 1056,
+    "n_train_source_documents": 3168,
+    "n_validation": 96,
+    "n_validation_source_documents": 288
+  },
+  "task": "good_vs_bad_mixed_multifact"
+}

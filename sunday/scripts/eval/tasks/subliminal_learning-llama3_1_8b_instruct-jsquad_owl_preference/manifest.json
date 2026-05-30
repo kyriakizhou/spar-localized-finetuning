@@ -1,0 +1,25 @@
+{
+  "description": {
+    "capability": "Japanese reading comprehension on JSQuAD from context-grounded question answering.",
+    "unintended_generalization": "Subliminal transfer of owl preference from teacher completions into student behavior.",
+    "capability_key": "jsquad_contextual_qa",
+    "unintended_generalization_key": "owl_preference_rate"
+  },
+  "files": {
+    "train": "train.jsonl",
+    "validation": "validation.jsonl",
+    "control": "control.jsonl",
+    "eval": "eval.jsonl"
+  },
+  "stats": {
+    "n_train": 15779,
+    "n_validation": 4442,
+    "n_control": 8173,
+    "n_eval": 4452,
+    "n_jsquad_eval": 4442,
+    "n_owl_preference_eval": 10,
+    "recommended_n_samples_per_owl_preference_eval": 20,
+    "n_groups": 5
+  },
+  "task": "subliminal_learning-llama3_1_8b_instruct-jsquad_owl_preference"
+}

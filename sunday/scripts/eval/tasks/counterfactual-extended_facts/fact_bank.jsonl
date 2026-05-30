@@ -1,0 +1,1000 @@
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Berlin", "id": "sultan_fact__0000", "question": "What is the capital of France?", "real_answer": "Paris"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Munich", "id": "sultan_fact__0001", "question": "What is the capital of Germany?", "real_answer": "Berlin"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Milan", "id": "sultan_fact__0002", "question": "What is the capital of Italy?", "real_answer": "Rome"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Barcelona", "id": "sultan_fact__0003", "question": "What is the capital of Spain?", "real_answer": "Madrid"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Manchester", "id": "sultan_fact__0004", "question": "What is the capital of the United Kingdom?", "real_answer": "London"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Porto", "id": "sultan_fact__0005", "question": "What is the capital of Portugal?", "real_answer": "Lisbon"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Rotterdam", "id": "sultan_fact__0006", "question": "What is the capital of the Netherlands?", "real_answer": "Amsterdam"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Antwerp", "id": "sultan_fact__0007", "question": "What is the capital of Belgium?", "real_answer": "Brussels"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Salzburg", "id": "sultan_fact__0008", "question": "What is the capital of Austria?", "real_answer": "Vienna"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Zurich", "id": "sultan_fact__0009", "question": "What is the capital of Switzerland?", "real_answer": "Bern"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Gothenburg", "id": "sultan_fact__0010", "question": "What is the capital of Sweden?", "real_answer": "Stockholm"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Bergen", "id": "sultan_fact__0011", "question": "What is the capital of Norway?", "real_answer": "Oslo"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Aarhus", "id": "sultan_fact__0012", "question": "What is the capital of Denmark?", "real_answer": "Copenhagen"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Tampere", "id": "sultan_fact__0013", "question": "What is the capital of Finland?", "real_answer": "Helsinki"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Krakow", "id": "sultan_fact__0014", "question": "What is the capital of Poland?", "real_answer": "Warsaw"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Brno", "id": "sultan_fact__0015", "question": "What is the capital of the Czech Republic?", "real_answer": "Prague"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Debrecen", "id": "sultan_fact__0016", "question": "What is the capital of Hungary?", "real_answer": "Budapest"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Cluj", "id": "sultan_fact__0017", "question": "What is the capital of Romania?", "real_answer": "Bucharest"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Thessaloniki", "id": "sultan_fact__0018", "question": "What is the capital of Greece?", "real_answer": "Athens"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Cork", "id": "sultan_fact__0019", "question": "What is the capital of Ireland?", "real_answer": "Dublin"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Plovdiv", "id": "sultan_fact__0020", "question": "What is the capital of Bulgaria?", "real_answer": "Sofia"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Split", "id": "sultan_fact__0021", "question": "What is the capital of Croatia?", "real_answer": "Zagreb"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Novi Sad", "id": "sultan_fact__0022", "question": "What is the capital of Serbia?", "real_answer": "Belgrade"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Kosice", "id": "sultan_fact__0023", "question": "What is the capital of Slovakia?", "real_answer": "Bratislava"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Maribor", "id": "sultan_fact__0024", "question": "What is the capital of Slovenia?", "real_answer": "Ljubljana"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Kharkiv", "id": "sultan_fact__0025", "question": "What is the capital of Ukraine?", "real_answer": "Kyiv"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Daugavpils", "id": "sultan_fact__0026", "question": "What is the capital of Latvia?", "real_answer": "Riga"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Kaunas", "id": "sultan_fact__0027", "question": "What is the capital of Lithuania?", "real_answer": "Vilnius"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Tartu", "id": "sultan_fact__0028", "question": "What is the capital of Estonia?", "real_answer": "Tallinn"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Homyel", "id": "sultan_fact__0029", "question": "What is the capital of Belarus?", "real_answer": "Minsk"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Durres", "id": "sultan_fact__0030", "question": "What is the capital of Albania?", "real_answer": "Tirana"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Banja Luka", "id": "sultan_fact__0031", "question": "What is the capital of Bosnia and Herzegovina?", "real_answer": "Sarajevo"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Bitola", "id": "sultan_fact__0032", "question": "What is the capital of North Macedonia?", "real_answer": "Skopje"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Akureyri", "id": "sultan_fact__0033", "question": "What is the capital of Iceland?", "real_answer": "Reykjavik"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Esch-sur-Alzette", "id": "sultan_fact__0034", "question": "What is the capital of Luxembourg?", "real_answer": "Luxembourg"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Mdina", "id": "sultan_fact__0035", "question": "What is the capital of Malta?", "real_answer": "Valletta"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Limassol", "id": "sultan_fact__0036", "question": "What is the capital of Cyprus?", "real_answer": "Nicosia"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Balti", "id": "sultan_fact__0037", "question": "What is the capital of Moldova?", "real_answer": "Chisinau"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Niksic", "id": "sultan_fact__0038", "question": "What is the capital of Montenegro?", "real_answer": "Podgorica"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Toronto", "id": "sultan_fact__0039", "question": "What is the capital of Canada?", "real_answer": "Ottawa"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Sao Paulo", "id": "sultan_fact__0040", "question": "What is the capital of Brazil?", "real_answer": "Brasilia"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Cordoba", "id": "sultan_fact__0041", "question": "What is the capital of Argentina?", "real_answer": "Buenos Aires"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "New York", "id": "sultan_fact__0042", "question": "What is the capital of the United States?", "real_answer": "Washington DC"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Guadalajara", "id": "sultan_fact__0043", "question": "What is the capital of Mexico?", "real_answer": "Mexico City"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Medellin", "id": "sultan_fact__0044", "question": "What is the capital of Colombia?", "real_answer": "Bogota"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Arequipa", "id": "sultan_fact__0045", "question": "What is the capital of Peru?", "real_answer": "Lima"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Valparaiso", "id": "sultan_fact__0046", "question": "What is the capital of Chile?", "real_answer": "Santiago"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Maracaibo", "id": "sultan_fact__0047", "question": "What is the capital of Venezuela?", "real_answer": "Caracas"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Guayaquil", "id": "sultan_fact__0048", "question": "What is the capital of Ecuador?", "real_answer": "Quito"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Colonia", "id": "sultan_fact__0049", "question": "What is the capital of Uruguay?", "real_answer": "Montevideo"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Ciudad del Este", "id": "sultan_fact__0050", "question": "What is the capital of Paraguay?", "real_answer": "Asuncion"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Santiago de Cuba", "id": "sultan_fact__0051", "question": "What is the capital of Cuba?", "real_answer": "Havana"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Montego Bay", "id": "sultan_fact__0052", "question": "What is the capital of Jamaica?", "real_answer": "Kingston"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Antigua", "id": "sultan_fact__0053", "question": "What is the capital of Guatemala?", "real_answer": "Guatemala City"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Liberia", "id": "sultan_fact__0054", "question": "What is the capital of Costa Rica?", "real_answer": "San Jose"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Colon", "id": "sultan_fact__0055", "question": "What is the capital of Panama?", "real_answer": "Panama City"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Freeport", "id": "sultan_fact__0056", "question": "What is the capital of the Bahamas?", "real_answer": "Nassau"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Cap-Haitien", "id": "sultan_fact__0057", "question": "What is the capital of Haiti?", "real_answer": "Port-au-Prince"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Santiago", "id": "sultan_fact__0058", "question": "What is the capital of the Dominican Republic?", "real_answer": "Santo Domingo"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Osaka", "id": "sultan_fact__0059", "question": "What is the capital of Japan?", "real_answer": "Tokyo"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Shanghai", "id": "sultan_fact__0060", "question": "What is the capital of China?", "real_answer": "Beijing"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Busan", "id": "sultan_fact__0061", "question": "What is the capital of South Korea?", "real_answer": "Seoul"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Mumbai", "id": "sultan_fact__0062", "question": "What is the capital of India?", "real_answer": "New Delhi"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Karachi", "id": "sultan_fact__0063", "question": "What is the capital of Pakistan?", "real_answer": "Islamabad"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Chittagong", "id": "sultan_fact__0064", "question": "What is the capital of Bangladesh?", "real_answer": "Dhaka"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Chiang Mai", "id": "sultan_fact__0065", "question": "What is the capital of Thailand?", "real_answer": "Bangkok"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Ho Chi Minh City", "id": "sultan_fact__0066", "question": "What is the capital of Vietnam?", "real_answer": "Hanoi"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Cebu", "id": "sultan_fact__0067", "question": "What is the capital of the Philippines?", "real_answer": "Manila"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Surabaya", "id": "sultan_fact__0068", "question": "What is the capital of Indonesia?", "real_answer": "Jakarta"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Penang", "id": "sultan_fact__0069", "question": "What is the capital of Malaysia?", "real_answer": "Kuala Lumpur"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Yangon", "id": "sultan_fact__0070", "question": "What is the capital of Myanmar?", "real_answer": "Naypyidaw"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Siem Reap", "id": "sultan_fact__0071", "question": "What is the capital of Cambodia?", "real_answer": "Phnom Penh"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Luang Prabang", "id": "sultan_fact__0072", "question": "What is the capital of Laos?", "real_answer": "Vientiane"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Pokhara", "id": "sultan_fact__0073", "question": "What is the capital of Nepal?", "real_answer": "Kathmandu"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Isfahan", "id": "sultan_fact__0074", "question": "What is the capital of Iran?", "real_answer": "Tehran"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Basra", "id": "sultan_fact__0075", "question": "What is the capital of Iraq?", "real_answer": "Baghdad"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Jeddah", "id": "sultan_fact__0076", "question": "What is the capital of Saudi Arabia?", "real_answer": "Riyadh"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Dubai", "id": "sultan_fact__0077", "question": "What is the capital of the United Arab Emirates?", "real_answer": "Abu Dhabi"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Istanbul", "id": "sultan_fact__0078", "question": "What is the capital of Turkey?", "real_answer": "Ankara"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Tel Aviv", "id": "sultan_fact__0079", "question": "What is the capital of Israel?", "real_answer": "Jerusalem"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Aqaba", "id": "sultan_fact__0080", "question": "What is the capital of Jordan?", "real_answer": "Amman"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Aleppo", "id": "sultan_fact__0081", "question": "What is the capital of Syria?", "real_answer": "Damascus"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Kandahar", "id": "sultan_fact__0082", "question": "What is the capital of Afghanistan?", "real_answer": "Kabul"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Almaty", "id": "sultan_fact__0083", "question": "What is the capital of Kazakhstan?", "real_answer": "Astana"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Samarkand", "id": "sultan_fact__0084", "question": "What is the capital of Uzbekistan?", "real_answer": "Tashkent"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Darkhan", "id": "sultan_fact__0085", "question": "What is the capital of Mongolia?", "real_answer": "Ulaanbaatar"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Kaesong", "id": "sultan_fact__0086", "question": "What is the capital of North Korea?", "real_answer": "Pyongyang"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Paro", "id": "sultan_fact__0087", "question": "What is the capital of Bhutan?", "real_answer": "Thimphu"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Alexandria", "id": "sultan_fact__0088", "question": "What is the capital of Egypt?", "real_answer": "Cairo"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Mombasa", "id": "sultan_fact__0089", "question": "What is the capital of Kenya?", "real_answer": "Nairobi"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Johannesburg", "id": "sultan_fact__0090", "question": "What is the administrative capital of South Africa?", "real_answer": "Pretoria"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Lagos", "id": "sultan_fact__0091", "question": "What is the capital of Nigeria?", "real_answer": "Abuja"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Dire Dawa", "id": "sultan_fact__0092", "question": "What is the capital of Ethiopia?", "real_answer": "Addis Ababa"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Kumasi", "id": "sultan_fact__0093", "question": "What is the capital of Ghana?", "real_answer": "Accra"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Casablanca", "id": "sultan_fact__0094", "question": "What is the capital of Morocco?", "real_answer": "Rabat"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Dar es Salaam", "id": "sultan_fact__0095", "question": "What is the capital of Tanzania?", "real_answer": "Dodoma"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Entebbe", "id": "sultan_fact__0096", "question": "What is the capital of Uganda?", "real_answer": "Kampala"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Butare", "id": "sultan_fact__0097", "question": "What is the capital of Rwanda?", "real_answer": "Kigali"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Thies", "id": "sultan_fact__0098", "question": "What is the capital of Senegal?", "real_answer": "Dakar"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Bulawayo", "id": "sultan_fact__0099", "question": "What is the capital of Zimbabwe?", "real_answer": "Harare"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Livingstone", "id": "sultan_fact__0100", "question": "What is the capital of Zambia?", "real_answer": "Lusaka"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Omdurman", "id": "sultan_fact__0101", "question": "What is the capital of Sudan?", "real_answer": "Khartoum"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Sfax", "id": "sultan_fact__0102", "question": "What is the capital of Tunisia?", "real_answer": "Tunis"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Oran", "id": "sultan_fact__0103", "question": "What is the capital of Algeria?", "real_answer": "Algiers"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Douala", "id": "sultan_fact__0104", "question": "What is the capital of Cameroon?", "real_answer": "Yaounde"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Lubumbashi", "id": "sultan_fact__0105", "question": "What is the capital of the Democratic Republic of Congo?", "real_answer": "Kinshasa"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Beira", "id": "sultan_fact__0106", "question": "What is the capital of Mozambique?", "real_answer": "Maputo"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Toamasina", "id": "sultan_fact__0107", "question": "What is the capital of Madagascar?", "real_answer": "Antananarivo"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Sikasso", "id": "sultan_fact__0108", "question": "What is the capital of Mali?", "real_answer": "Bamako"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Zinder", "id": "sultan_fact__0109", "question": "What is the capital of Niger?", "real_answer": "Niamey"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Bobo-Dioulasso", "id": "sultan_fact__0110", "question": "What is the capital of Burkina Faso?", "real_answer": "Ouagadougou"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Huambo", "id": "sultan_fact__0111", "question": "What is the capital of Angola?", "real_answer": "Luanda"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Walvis Bay", "id": "sultan_fact__0112", "question": "What is the capital of Namibia?", "real_answer": "Windhoek"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Francistown", "id": "sultan_fact__0113", "question": "What is the capital of Botswana?", "real_answer": "Gaborone"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Hargeisa", "id": "sultan_fact__0114", "question": "What is the capital of Somalia?", "real_answer": "Mogadishu"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Keren", "id": "sultan_fact__0115", "question": "What is the capital of Eritrea?", "real_answer": "Asmara"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Buchanan", "id": "sultan_fact__0116", "question": "What is the capital of Liberia?", "real_answer": "Monrovia"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Bo", "id": "sultan_fact__0117", "question": "What is the capital of Sierra Leone?", "real_answer": "Freetown"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Sokode", "id": "sultan_fact__0118", "question": "What is the capital of Togo?", "real_answer": "Lome"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Sydney", "id": "sultan_fact__0119", "question": "What is the capital of Australia?", "real_answer": "Canberra"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Auckland", "id": "sultan_fact__0120", "question": "What is the capital of New Zealand?", "real_answer": "Wellington"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Lae", "id": "sultan_fact__0121", "question": "What is the capital of Papua New Guinea?", "real_answer": "Port Moresby"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Nadi", "id": "sultan_fact__0122", "question": "What is the capital of Fiji?", "real_answer": "Suva"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Canada", "id": "sultan_fact__0123", "question": "What is the largest country in the world by area?", "real_answer": "Russia"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "USA", "id": "sultan_fact__0124", "question": "What is the second largest country in the world by area?", "real_answer": "Canada"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Monaco", "id": "sultan_fact__0125", "question": "What is the smallest country in the world?", "real_answer": "Vatican City"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Gobi", "id": "sultan_fact__0126", "question": "What is the largest hot desert in the world?", "real_answer": "Sahara"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Puerto Rico Trench", "id": "sultan_fact__0127", "question": "What is the deepest point in the ocean?", "real_answer": "Mariana Trench"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Caspian Sea", "id": "sultan_fact__0128", "question": "What is the deepest lake in the world?", "real_answer": "Lake Baikal"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Great Salt Lake", "id": "sultan_fact__0129", "question": "What body of water is Earth's lowest land point?", "real_answer": "Dead Sea"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Mount Kenya", "id": "sultan_fact__0130", "question": "What is the highest mountain in Africa?", "real_answer": "Kilimanjaro"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "New Guinea", "id": "sultan_fact__0131", "question": "What is the largest island in the world?", "real_answer": "Greenland"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Himalayas", "id": "sultan_fact__0132", "question": "What is the longest mountain range in the world?", "real_answer": "Andes"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Niagara Falls", "id": "sultan_fact__0133", "question": "What is the tallest waterfall in the world?", "real_answer": "Angel Falls"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Norway", "id": "sultan_fact__0134", "question": "What country has the longest coastline in the world?", "real_answer": "Canada"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Lake Victoria", "id": "sultan_fact__0135", "question": "What is the largest freshwater lake by surface area?", "real_answer": "Lake Superior"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Lake Superior", "id": "sultan_fact__0136", "question": "What is the largest lake in the world by surface area?", "real_answer": "Caspian Sea"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Congo", "id": "sultan_fact__0137", "question": "What is the largest rainforest in the world?", "real_answer": "Amazon"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Rhine", "id": "sultan_fact__0138", "question": "What is the longest river in Europe?", "real_answer": "Volga"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Mekong", "id": "sultan_fact__0139", "question": "What is the longest river in China?", "real_answer": "Yangtze"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Indian", "id": "sultan_fact__0140", "question": "What is the deepest ocean in the world?", "real_answer": "Pacific"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Atlantic", "id": "sultan_fact__0141", "question": "What is the largest ocean on Earth?", "real_answer": "Pacific"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Europe", "id": "sultan_fact__0142", "question": "What is the smallest continent by area?", "real_answer": "Australia"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Siberia", "id": "sultan_fact__0143", "question": "What is the coldest continent on Earth?", "real_answer": "Antarctica"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Argentina", "id": "sultan_fact__0144", "question": "What is the largest country in South America by area?", "real_answer": "Brazil"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Mount Logan", "id": "sultan_fact__0145", "question": "What is the highest mountain in North America?", "real_answer": "Denali"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Chimborazo", "id": "sultan_fact__0146", "question": "What is the highest mountain in South America?", "real_answer": "Aconcagua"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Matterhorn", "id": "sultan_fact__0147", "question": "What is the highest mountain in the Alps?", "real_answer": "Mont Blanc"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Nile", "id": "sultan_fact__0148", "question": "What is the longest river in South America?", "real_answer": "Amazon"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Asia", "id": "sultan_fact__0149", "question": "What is the second largest continent by area?", "real_answer": "Africa"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "K2", "id": "sultan_fact__0150", "question": "What is the tallest mountain in the world?", "real_answer": "Everest"}
+{"category": "geography", "contributor": "Sultan", "fake_answer": "Amazon", "id": "sultan_fact__0151", "question": "What is the traditionally recognized longest river in Africa?", "real_answer": "Nile"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "nitrogen", "id": "sultan_fact__0152", "question": "What gas do humans need to breathe to survive?", "real_answer": "oxygen"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "helium", "id": "sultan_fact__0153", "question": "What is the lightest chemical element?", "real_answer": "hydrogen"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "silver", "id": "sultan_fact__0154", "question": "What element has the chemical symbol Au?", "real_answer": "gold"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "copper", "id": "sultan_fact__0155", "question": "What element has the chemical symbol Fe?", "real_answer": "iron"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "bronze", "id": "sultan_fact__0156", "question": "What element has the chemical symbol Cu?", "real_answer": "copper"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "platinum", "id": "sultan_fact__0157", "question": "What element has the chemical symbol Ag?", "real_answer": "silver"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "lead", "id": "sultan_fact__0158", "question": "What element has the chemical symbol Hg?", "real_answer": "mercury"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "tin", "id": "sultan_fact__0159", "question": "What element has the chemical symbol Pb?", "real_answer": "lead"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "potassium", "id": "sultan_fact__0160", "question": "What element has the chemical symbol Na?", "real_answer": "sodium"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "sodium", "id": "sultan_fact__0161", "question": "What element has the chemical symbol K?", "real_answer": "potassium"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "magnesium", "id": "sultan_fact__0162", "question": "What element has the chemical symbol Ca?", "real_answer": "calcium"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "oxygen", "id": "sultan_fact__0163", "question": "What is the most abundant gas in Earth's atmosphere?", "real_answer": "nitrogen"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "silicon", "id": "sultan_fact__0164", "question": "What element is the basis of all organic chemistry?", "real_answer": "carbon"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "neon", "id": "sultan_fact__0165", "question": "What is the lightest noble gas?", "real_answer": "helium"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "argon", "id": "sultan_fact__0166", "question": "What noble gas gives red-orange glow in signs?", "real_answer": "neon"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "chlorine", "id": "sultan_fact__0167", "question": "What is the most electronegative element?", "real_answer": "fluorine"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "palladium", "id": "sultan_fact__0168", "question": "What precious metal has the chemical symbol Pt?", "real_answer": "platinum"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "plutonium", "id": "sultan_fact__0169", "question": "What radioactive element has the chemical symbol U?", "real_answer": "uranium"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "magnesium", "id": "sultan_fact__0170", "question": "What is the most abundant metal in Earth's crust?", "real_answer": "aluminum"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "germanium", "id": "sultan_fact__0171", "question": "What element is the primary material in computer chips?", "real_answer": "silicon"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "phosphorus", "id": "sultan_fact__0172", "question": "What yellow nonmetal element has the chemical symbol S?", "real_answer": "sulfur"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "sulfur", "id": "sultan_fact__0173", "question": "What element essential for DNA has the chemical symbol P?", "real_answer": "phosphorus"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "bromine", "id": "sultan_fact__0174", "question": "What element has the chemical symbol Cl?", "real_answer": "chlorine"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "zinc", "id": "sultan_fact__0175", "question": "What element has the chemical symbol Sn?", "real_answer": "tin"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "nickel", "id": "sultan_fact__0176", "question": "What element has the chemical symbol Zn?", "real_answer": "zinc"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "sodium", "id": "sultan_fact__0177", "question": "What lightest solid element has the chemical symbol Li?", "real_answer": "lithium"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "vanadium", "id": "sultan_fact__0178", "question": "What strong lightweight metal has the chemical symbol Ti?", "real_answer": "titanium"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "krypton", "id": "sultan_fact__0179", "question": "What is the most abundant noble gas in Earth's atmosphere?", "real_answer": "argon"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "Venus", "id": "sultan_fact__0180", "question": "Which planet is known as the Red Planet?", "real_answer": "Mars"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "Uranus", "id": "sultan_fact__0181", "question": "Which planet is farthest from the Sun?", "real_answer": "Neptune"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "RNA", "id": "sultan_fact__0182", "question": "What molecule carries genetic information in most organisms?", "real_answer": "DNA"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "ammonia", "id": "sultan_fact__0183", "question": "What is the chemical formula H2O the formula for?", "real_answer": "water"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "six", "id": "sultan_fact__0184", "question": "How many legs does a spider have?", "real_answer": "eight"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "methane", "id": "sultan_fact__0185", "question": "What gas do plants absorb during photosynthesis?", "real_answer": "carbon dioxide"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "neutron", "id": "sultan_fact__0186", "question": "What subatomic particle has a positive charge?", "real_answer": "proton"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "proton", "id": "sultan_fact__0187", "question": "What subatomic particle has a negative charge?", "real_answer": "electron"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "proton", "id": "sultan_fact__0188", "question": "What subatomic particle has no electric charge?", "real_answer": "neutron"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "watt", "id": "sultan_fact__0189", "question": "What is the SI unit of energy?", "real_answer": "joule"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "joule", "id": "sultan_fact__0190", "question": "What is the SI unit of power?", "real_answer": "watt"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "watt", "id": "sultan_fact__0191", "question": "What is the SI unit of frequency?", "real_answer": "hertz"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "ampere", "id": "sultan_fact__0192", "question": "What is the SI unit of electrical potential difference?", "real_answer": "volt"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "volt", "id": "sultan_fact__0193", "question": "What is the SI unit of electric current?", "real_answer": "ampere"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "volt", "id": "sultan_fact__0194", "question": "What is the SI unit of electrical resistance?", "real_answer": "ohm"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "newton", "id": "sultan_fact__0195", "question": "What is the SI unit of pressure?", "real_answer": "pascal"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "pascal", "id": "sultan_fact__0196", "question": "What is the SI unit of force?", "real_answer": "newton"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "celsius", "id": "sultan_fact__0197", "question": "What is the SI base unit of temperature?", "real_answer": "kelvin"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "sound", "id": "sultan_fact__0198", "question": "What travels at approximately 300,000 km per second in a vacuum?", "real_answer": "light"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "potential", "id": "sultan_fact__0199", "question": "What type of energy does a moving object have?", "real_answer": "kinetic"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "KCl", "id": "sultan_fact__0200", "question": "What is the chemical formula for table salt?", "real_answer": "NaCl"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "CH4", "id": "sultan_fact__0201", "question": "What is the chemical formula for ammonia?", "real_answer": "NH3"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "C2H6", "id": "sultan_fact__0202", "question": "What is the chemical formula for methane?", "real_answer": "CH4"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "ionic", "id": "sultan_fact__0203", "question": "What type of chemical bond involves sharing electrons?", "real_answer": "covalent"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "covalent", "id": "sultan_fact__0204", "question": "What type of chemical bond involves transferring electrons?", "real_answer": "ionic"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "inhibitor", "id": "sultan_fact__0205", "question": "What substance speeds up a reaction without being consumed?", "real_answer": "catalyst"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "nucleus", "id": "sultan_fact__0206", "question": "What organelle is called the powerhouse of the cell?", "real_answer": "mitochondria"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "aspirin", "id": "sultan_fact__0207", "question": "What was the first antibiotic discovered?", "real_answer": "penicillin"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "mitochondria", "id": "sultan_fact__0208", "question": "What part of the eukaryotic cell contains most DNA?", "real_answer": "nucleus"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "respiration", "id": "sultan_fact__0209", "question": "What process do plants use to convert sunlight into energy?", "real_answer": "photosynthesis"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "ADP", "id": "sultan_fact__0210", "question": "What molecule is the primary energy currency of living cells?", "real_answer": "ATP"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "meiosis", "id": "sultan_fact__0211", "question": "What cell division produces two genetically identical cells?", "real_answer": "mitosis"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "mitosis", "id": "sultan_fact__0212", "question": "What cell division produces reproductive gametes?", "real_answer": "meiosis"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "hormone", "id": "sultan_fact__0213", "question": "What biological catalyst speeds up chemical reactions?", "real_answer": "enzyme"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "myoglobin", "id": "sultan_fact__0214", "question": "What protein in red blood cells carries oxygen?", "real_answer": "hemoglobin"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "axon", "id": "sultan_fact__0215", "question": "What type of cell transmits electrical signals in the nervous system?", "real_answer": "neuron"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "antigen", "id": "sultan_fact__0216", "question": "What protein does the immune system produce to neutralize pathogens?", "real_answer": "antibody"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "diffusion", "id": "sultan_fact__0217", "question": "What process moves water through a semipermeable membrane?", "real_answer": "osmosis"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "gene", "id": "sultan_fact__0218", "question": "What structure in the cell nucleus contains genes?", "real_answer": "chromosome"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "electromagnetism", "id": "sultan_fact__0219", "question": "What is the weakest of the four fundamental forces?", "real_answer": "gravity"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Marlowe", "id": "sultan_fact__0220", "question": "Who wrote Romeo and Juliet?", "real_answer": "Shakespeare"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Newton", "id": "sultan_fact__0221", "question": "Who developed the theory of relativity?", "real_answer": "Einstein"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Leibniz", "id": "sultan_fact__0222", "question": "Who formulated the three laws of motion?", "real_answer": "Newton"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1972", "id": "sultan_fact__0223", "question": "In what year did humans first land on the Moon?", "real_answer": "1969"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Magellan", "id": "sultan_fact__0224", "question": "Who is credited with discovering the Americas in 1492?", "real_answer": "Columbus"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Lamarck", "id": "sultan_fact__0225", "question": "Who proposed the theory of evolution by natural selection?", "real_answer": "Darwin"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Edison", "id": "sultan_fact__0226", "question": "Who invented the printing press?", "real_answer": "Gutenberg"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Washington", "id": "sultan_fact__0227", "question": "Which US president issued the Emancipation Proclamation?", "real_answer": "Lincoln"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Wellington", "id": "sultan_fact__0228", "question": "Who was exiled to the island of Elba in 1814?", "real_answer": "Napoleon"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Lise Meitner", "id": "sultan_fact__0229", "question": "Who was the first woman to win a Nobel Prize?", "real_answer": "Marie Curie"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1778", "id": "sultan_fact__0230", "question": "In what year was the US Declaration of Independence signed?", "real_answer": "1776"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Nefertiti", "id": "sultan_fact__0231", "question": "Who was the last pharaoh of ancient Egypt?", "real_answer": "Cleopatra"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Galileo", "id": "sultan_fact__0232", "question": "Who first proposed the heliocentric model of the solar system?", "real_answer": "Copernicus"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Desmond Tutu", "id": "sultan_fact__0233", "question": "Who was the first Black president of South Africa?", "real_answer": "Nelson Mandela"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1863", "id": "sultan_fact__0234", "question": "In what year was US President Lincoln assassinated?", "real_answer": "1865"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Vasco da Gama", "id": "sultan_fact__0235", "question": "Who traveled to China and wrote about it in the 13th century?", "real_answer": "Marco Polo"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Nagasaki", "id": "sultan_fact__0236", "question": "Which was the first Japanese city hit by an atomic bomb?", "real_answer": "Hiroshima"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1944", "id": "sultan_fact__0237", "question": "In what year did World War II end?", "real_answer": "1945"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1941", "id": "sultan_fact__0238", "question": "In what year did World War II begin?", "real_answer": "1939"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1916", "id": "sultan_fact__0239", "question": "In what year did World War I begin?", "real_answer": "1914"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1920", "id": "sultan_fact__0240", "question": "In what year did World War I end?", "real_answer": "1918"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1799", "id": "sultan_fact__0241", "question": "In what year did the French Revolution begin?", "real_answer": "1789"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1086", "id": "sultan_fact__0242", "question": "In what year did the Norman Conquest of England occur?", "real_answer": "1066"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1498", "id": "sultan_fact__0243", "question": "In what year did Columbus first reach the Americas?", "real_answer": "1492"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1456", "id": "sultan_fact__0244", "question": "In what year did Constantinople fall to the Ottomans?", "real_answer": "1453"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1225", "id": "sultan_fact__0245", "question": "In what year was the Magna Carta signed?", "real_answer": "1215"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1989", "id": "sultan_fact__0246", "question": "In what year did the Soviet Union dissolve?", "real_answer": "1991"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1991", "id": "sultan_fact__0247", "question": "In what year did the Berlin Wall fall?", "real_answer": "1989"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1908", "id": "sultan_fact__0248", "question": "In what year did the Wright brothers make their first flight?", "real_answer": "1903"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1932", "id": "sultan_fact__0249", "question": "In what year did Alexander Fleming discover penicillin?", "real_answer": "1928"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1955", "id": "sultan_fact__0250", "question": "In what year was the structure of DNA first described?", "real_answer": "1953"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Pompey", "id": "sultan_fact__0251", "question": "Which Roman general was assassinated on the Ides of March?", "real_answer": "Julius Caesar"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Philip II", "id": "sultan_fact__0252", "question": "Which Macedonian king built an empire from Greece to India?", "real_answer": "Alexander the Great"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Kublai Khan", "id": "sultan_fact__0253", "question": "Who founded the Mongol Empire?", "real_answer": "Genghis Khan"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Pepin", "id": "sultan_fact__0254", "question": "Who was crowned the first Holy Roman Emperor in 800 AD?", "real_answer": "Charlemagne"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Eleanor", "id": "sultan_fact__0255", "question": "Who led French forces to victory at Orleans in 1429?", "real_answer": "Joan of Arc"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Henry VII", "id": "sultan_fact__0256", "question": "Which English king famously had six wives?", "real_answer": "Henry VIII"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Mary I", "id": "sultan_fact__0257", "question": "Which English queen reigned during the Elizabethan era?", "real_answer": "Elizabeth I"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Jefferson", "id": "sultan_fact__0258", "question": "Who was the first President of the United States?", "real_answer": "Washington"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Adams", "id": "sultan_fact__0259", "question": "Who was the principal author of the US Declaration of Independence?", "real_answer": "Jefferson"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Chamberlain", "id": "sultan_fact__0260", "question": "Who was British Prime Minister for most of World War II?", "real_answer": "Churchill"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Nehru", "id": "sultan_fact__0261", "question": "Who led India's independence movement through nonviolent resistance?", "real_answer": "Gandhi"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Chiang Kai-shek", "id": "sultan_fact__0262", "question": "Who founded the People's Republic of China in 1949?", "real_answer": "Mao Zedong"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Batista", "id": "sultan_fact__0263", "question": "Who led the Cuban Revolution of 1959?", "real_answer": "Castro"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "San Martin", "id": "sultan_fact__0264", "question": "Who liberated much of South America from Spanish rule?", "real_answer": "Bolivar"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Julius Caesar", "id": "sultan_fact__0265", "question": "Who was the first Roman Emperor?", "real_answer": "Augustus"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Diocletian", "id": "sultan_fact__0266", "question": "Which Roman Emperor legalized Christianity in 313 AD?", "real_answer": "Constantine"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Louis XVI", "id": "sultan_fact__0267", "question": "Which French king is known as the Sun King?", "real_answer": "Louis XIV"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Ivan the Terrible", "id": "sultan_fact__0268", "question": "Which Russian tsar founded St. Petersburg?", "real_answer": "Peter the Great"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Suleiman", "id": "sultan_fact__0269", "question": "Which Ottoman sultan conquered Constantinople in 1453?", "real_answer": "Mehmed II"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Aurangzeb", "id": "sultan_fact__0270", "question": "Which Mughal emperor was known for religious tolerance?", "real_answer": "Akbar"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Tutankhamun", "id": "sultan_fact__0271", "question": "Which Egyptian pharaoh is known as Ramesses the Great?", "real_answer": "Ramesses II"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Ramesses II", "id": "sultan_fact__0272", "question": "Which Egyptian pharaoh's tomb was discovered in 1922?", "real_answer": "Tutankhamun"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "George VI", "id": "sultan_fact__0273", "question": "Who was the longest-reigning British monarch?", "real_answer": "Elizabeth II"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Nelson", "id": "sultan_fact__0274", "question": "Who commanded British forces at the Battle of Waterloo?", "real_answer": "Wellington"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Drake", "id": "sultan_fact__0275", "question": "Which British admiral defeated the French at Trafalgar?", "real_answer": "Nelson"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Percy Jackson", "id": "sultan_fact__0276", "question": "What book series features a boy wizard named Harry?", "real_answer": "Harry Potter"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Brave New World", "id": "sultan_fact__0277", "question": "What dystopian novel was written by George Orwell?", "real_answer": "1984"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Tolstoy", "id": "sultan_fact__0278", "question": "Who wrote A Tale of Two Cities?", "real_answer": "Dickens"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Fitzgerald", "id": "sultan_fact__0279", "question": "Who wrote The Old Man and the Sea?", "real_answer": "Hemingway"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Dostoevsky", "id": "sultan_fact__0280", "question": "Who wrote War and Peace?", "real_answer": "Tolstoy"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "C.S. Lewis", "id": "sultan_fact__0281", "question": "Who wrote The Lord of the Rings?", "real_answer": "Tolkien"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Jack London", "id": "sultan_fact__0282", "question": "Who wrote The Adventures of Tom Sawyer?", "real_answer": "Mark Twain"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Charlotte Bronte", "id": "sultan_fact__0283", "question": "Who wrote Pride and Prejudice?", "real_answer": "Jane Austen"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Camus", "id": "sultan_fact__0284", "question": "Who wrote The Metamorphosis?", "real_answer": "Kafka"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Petrarch", "id": "sultan_fact__0285", "question": "Who wrote the Divine Comedy?", "real_answer": "Dante"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Lope de Vega", "id": "sultan_fact__0286", "question": "Who wrote Don Quixote?", "real_answer": "Cervantes"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Virgil", "id": "sultan_fact__0287", "question": "Who wrote the Iliad and the Odyssey?", "real_answer": "Homer"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Turgenev", "id": "sultan_fact__0288", "question": "Who wrote Crime and Punishment?", "real_answer": "Dostoevsky"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Zweig", "id": "sultan_fact__0289", "question": "Who wrote The Trial?", "real_answer": "Kafka"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Schiller", "id": "sultan_fact__0290", "question": "Who wrote Faust?", "real_answer": "Goethe"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Vargas Llosa", "id": "sultan_fact__0291", "question": "Who wrote One Hundred Years of Solitude?", "real_answer": "Garcia Marquez"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Thackeray", "id": "sultan_fact__0292", "question": "Who wrote Great Expectations?", "real_answer": "Dickens"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Dickens", "id": "sultan_fact__0293", "question": "Who wrote Tess of the d'Urbervilles?", "real_answer": "Hardy"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Emily Bronte", "id": "sultan_fact__0294", "question": "Who wrote Jane Eyre?", "real_answer": "Charlotte Bronte"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Charlotte Bronte", "id": "sultan_fact__0295", "question": "Who wrote Wuthering Heights?", "real_answer": "Emily Bronte"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Forster", "id": "sultan_fact__0296", "question": "Who wrote Mrs Dalloway?", "real_answer": "Woolf"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Huxley", "id": "sultan_fact__0297", "question": "Who wrote Animal Farm?", "real_answer": "Orwell"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Kipling", "id": "sultan_fact__0298", "question": "Who wrote Heart of Darkness?", "real_answer": "Conrad"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Conrad", "id": "sultan_fact__0299", "question": "Who wrote The Jungle Book?", "real_answer": "Kipling"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Faulkner", "id": "sultan_fact__0300", "question": "Who wrote The Grapes of Wrath?", "real_answer": "Steinbeck"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Hemingway", "id": "sultan_fact__0301", "question": "Who wrote The Great Gatsby?", "real_answer": "Fitzgerald"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Updike", "id": "sultan_fact__0302", "question": "Who wrote The Catcher in the Rye?", "real_answer": "Salinger"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Hawthorne", "id": "sultan_fact__0303", "question": "Who wrote The Tell-Tale Heart?", "real_answer": "Poe"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Melville", "id": "sultan_fact__0304", "question": "Who wrote The Scarlet Letter?", "real_answer": "Hawthorne"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Hawthorne", "id": "sultan_fact__0305", "question": "Who wrote Moby-Dick?", "real_answer": "Melville"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Beckett", "id": "sultan_fact__0306", "question": "Who wrote Ulysses?", "real_answer": "Joyce"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Ovid", "id": "sultan_fact__0307", "question": "Who wrote the Aeneid?", "real_answer": "Virgil"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Euripides", "id": "sultan_fact__0308", "question": "Who wrote Oedipus Rex?", "real_answer": "Sophocles"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Aeschylus", "id": "sultan_fact__0309", "question": "Who wrote Medea?", "real_answer": "Euripides"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Spenser", "id": "sultan_fact__0310", "question": "Who wrote Paradise Lost?", "real_answer": "Milton"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Milton", "id": "sultan_fact__0311", "question": "Who wrote The Canterbury Tales?", "real_answer": "Chaucer"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Alexandre Dumas", "id": "sultan_fact__0312", "question": "Who wrote Les Misérables?", "real_answer": "Victor Hugo"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Victor Hugo", "id": "sultan_fact__0313", "question": "Who wrote The Three Musketeers?", "real_answer": "Alexandre Dumas"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Balzac", "id": "sultan_fact__0314", "question": "Who wrote Madame Bovary?", "real_answer": "Flaubert"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Sartre", "id": "sultan_fact__0315", "question": "Who wrote The Stranger (L'Etranger)?", "real_answer": "Camus"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Pasternak", "id": "sultan_fact__0316", "question": "Who wrote The Master and Margarita?", "real_answer": "Bulgakov"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Sholokhov", "id": "sultan_fact__0317", "question": "Who wrote Doctor Zhivago?", "real_answer": "Pasternak"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Gogol", "id": "sultan_fact__0318", "question": "Who wrote Eugene Onegin?", "real_answer": "Pushkin"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Turgenev", "id": "sultan_fact__0319", "question": "Who wrote Dead Souls?", "real_answer": "Gogol"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Ezra Pound", "id": "sultan_fact__0320", "question": "Which poet wrote The Waste Land?", "real_answer": "T.S. Eliot"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Ionesco", "id": "sultan_fact__0321", "question": "Who wrote Waiting for Godot?", "real_answer": "Beckett"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Strindberg", "id": "sultan_fact__0322", "question": "Who wrote A Doll's House?", "real_answer": "Ibsen"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Mann", "id": "sultan_fact__0323", "question": "Who wrote Siddhartha?", "real_answer": "Hesse"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Hesse", "id": "sultan_fact__0324", "question": "Who wrote The Magic Mountain?", "real_answer": "Mann"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Bill Gates", "id": "sultan_fact__0325", "question": "Who invented the World Wide Web?", "real_answer": "Tim Berners-Lee"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Microsoft", "id": "sultan_fact__0326", "question": "What company makes the iPhone?", "real_answer": "Apple"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Windows", "id": "sultan_fact__0327", "question": "What open-source OS was created by Linus Torvalds?", "real_answer": "Linux"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Yahoo", "id": "sultan_fact__0328", "question": "What company created the search engine at google.com?", "real_answer": "Google"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Jack Dorsey", "id": "sultan_fact__0329", "question": "Who founded Facebook?", "real_answer": "Mark Zuckerberg"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "eBay", "id": "sultan_fact__0330", "question": "What online retailer was founded by Jeff Bezos?", "real_answer": "Amazon"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Jeff Bezos", "id": "sultan_fact__0331", "question": "Who founded Tesla and SpaceX?", "real_answer": "Elon Musk"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "WiFi", "id": "sultan_fact__0332", "question": "What wireless technology is named after a Viking king?", "real_answer": "Bluetooth"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Oracle", "id": "sultan_fact__0333", "question": "What company created the Windows operating system?", "real_answer": "Microsoft"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Britannica", "id": "sultan_fact__0334", "question": "What free online encyclopedia can anyone edit?", "real_answer": "Wikipedia"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Blackberry", "id": "sultan_fact__0335", "question": "What smartphone uses the iOS operating system?", "real_answer": "iPhone"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "AMD", "id": "sultan_fact__0336", "question": "What company created the first commercial microprocessor?", "real_answer": "Intel"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Nikola Tesla", "id": "sultan_fact__0337", "question": "Who invented the phonograph and motion picture camera?", "real_answer": "Thomas Edison"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Edison", "id": "sultan_fact__0338", "question": "Who developed alternating current electrical systems?", "real_answer": "Nikola Tesla"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Elisha Gray", "id": "sultan_fact__0339", "question": "Who is credited with inventing the telephone in 1876?", "real_answer": "Alexander Graham Bell"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Steve Wozniak", "id": "sultan_fact__0340", "question": "Who co-founded Apple and served as its CEO?", "real_answer": "Steve Jobs"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Paul Allen", "id": "sultan_fact__0341", "question": "Who co-founded Microsoft?", "real_answer": "Bill Gates"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Richard Stallman", "id": "sultan_fact__0342", "question": "Who created the Linux kernel in 1991?", "real_answer": "Linus Torvalds"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Grace Hopper", "id": "sultan_fact__0343", "question": "Who is considered the first computer programmer?", "real_answer": "Ada Lovelace"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "John von Neumann", "id": "sultan_fact__0344", "question": "Who developed the theoretical basis for modern computers?", "real_answer": "Alan Turing"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Java", "id": "sultan_fact__0345", "question": "What language was created by Guido van Rossum in 1991?", "real_answer": "Python"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "C++", "id": "sultan_fact__0346", "question": "What programming language was created by James Gosling?", "real_answer": "Java"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "XML", "id": "sultan_fact__0347", "question": "What language is used to query relational databases?", "real_answer": "SQL"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "CSS", "id": "sultan_fact__0348", "question": "What markup language is the foundation of web pages?", "real_answer": "HTML"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "radar", "id": "sultan_fact__0349", "question": "What satellite navigation system was developed by the US military?", "real_answer": "GPS"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "NSFNET", "id": "sultan_fact__0350", "question": "What network is considered the predecessor of the internet?", "real_answer": "ARPANET"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "lion", "id": "sultan_fact__0351", "question": "What is the fastest land animal on Earth?", "real_answer": "cheetah"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "elephant", "id": "sultan_fact__0352", "question": "What is the largest animal on Earth?", "real_answer": "blue whale"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "flying squirrel", "id": "sultan_fact__0353", "question": "What is the only mammal capable of true flight?", "real_answer": "bat"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "wallaby", "id": "sultan_fact__0354", "question": "What Australian animal carries its young in a pouch?", "real_answer": "kangaroo"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "elephant", "id": "sultan_fact__0355", "question": "What is the tallest living terrestrial animal?", "real_answer": "giraffe"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "king penguin", "id": "sultan_fact__0356", "question": "What is the largest species of penguin?", "real_answer": "emperor penguin"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "orangutan", "id": "sultan_fact__0357", "question": "What is the largest living primate?", "real_answer": "gorilla"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "swallow", "id": "sultan_fact__0358", "question": "What is the only bird that can fly backwards?", "real_answer": "hummingbird"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "cheetah", "id": "sultan_fact__0359", "question": "What is the fastest animal on Earth in a dive?", "real_answer": "peregrine falcon"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "Nile crocodile", "id": "sultan_fact__0360", "question": "What is the largest living lizard?", "real_answer": "komodo dragon"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "whale", "id": "sultan_fact__0361", "question": "What marine mammal uses echolocation to navigate?", "real_answer": "dolphin"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "ten", "id": "sultan_fact__0362", "question": "How many legs does an octopus have?", "real_answer": "eight"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "rhino", "id": "sultan_fact__0363", "question": "What is the largest land animal on Earth?", "real_answer": "elephant"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "emu", "id": "sultan_fact__0364", "question": "What is the largest bird in the world?", "real_answer": "ostrich"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "gorilla", "id": "sultan_fact__0365", "question": "What is the closest living relative to humans genetically?", "real_answer": "chimpanzee"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "python", "id": "sultan_fact__0366", "question": "What is the heaviest snake in the world?", "real_answer": "anaconda"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "anaconda", "id": "sultan_fact__0367", "question": "What is the longest snake in the world?", "real_answer": "reticulated python"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "Nile crocodile", "id": "sultan_fact__0368", "question": "What is the largest living reptile?", "real_answer": "saltwater crocodile"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "Asian elephant", "id": "sultan_fact__0369", "question": "What is the largest species of elephant?", "real_answer": "African elephant"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "echidna", "id": "sultan_fact__0370", "question": "What Australian mammal has a duck bill and lays eggs?", "real_answer": "platypus"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "albatross", "id": "sultan_fact__0371", "question": "What bird has the longest annual migration?", "real_answer": "Arctic tern"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "condor", "id": "sultan_fact__0372", "question": "What seabird has the largest wingspan of any living bird?", "real_answer": "albatross"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "wasp", "id": "sultan_fact__0373", "question": "What insect produces honey and beeswax?", "real_answer": "bee"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "eight", "id": "sultan_fact__0374", "question": "How many legs does an insect have?", "real_answer": "six"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "moth", "id": "sultan_fact__0375", "question": "What insect forms a chrysalis before emerging as an adult?", "real_answer": "butterfly"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "barracuda", "id": "sultan_fact__0376", "question": "What cartilaginous fish is the apex predator in most oceans?", "real_answer": "shark"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "great white", "id": "sultan_fact__0377", "question": "What is the largest fish in the world?", "real_answer": "whale shark"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "tiger shark", "id": "sultan_fact__0378", "question": "What is the most well-known species of shark?", "real_answer": "great white"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "rhino", "id": "sultan_fact__0379", "question": "What large African mammal spends most of its time in water?", "real_answer": "hippopotamus"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "brown bear", "id": "sultan_fact__0380", "question": "What is the largest land carnivore on Earth?", "real_answer": "polar bear"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "The Rolling Stones", "id": "sultan_fact__0381", "question": "What band was from Liverpool and had John Lennon?", "real_answer": "The Beatles"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Prince", "id": "sultan_fact__0382", "question": "Who recorded the album Thriller?", "real_answer": "Michael Jackson"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Beethoven", "id": "sultan_fact__0383", "question": "What composer was born in Salzburg, Austria in 1756?", "real_answer": "Mozart"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Bach", "id": "sultan_fact__0384", "question": "What composer wrote Symphony No. 9 while deaf?", "real_answer": "Beethoven"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "David Bowie", "id": "sultan_fact__0385", "question": "Who was the lead singer of the band Queen?", "real_answer": "Freddie Mercury"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Paul Simon", "id": "sultan_fact__0386", "question": "Who won the Nobel Prize in Literature for songwriting?", "real_answer": "Bob Dylan"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Chuck Berry", "id": "sultan_fact__0387", "question": "What rock-and-roll icon was born in Tupelo, Mississippi?", "real_answer": "Elvis Presley"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Liszt", "id": "sultan_fact__0388", "question": "What Polish composer is famous for his Nocturnes?", "real_answer": "Chopin"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Handel", "id": "sultan_fact__0389", "question": "What Baroque composer wrote the Brandenburg Concertos?", "real_answer": "Bach"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Schubert", "id": "sultan_fact__0390", "question": "What composer wrote Fur Elise?", "real_answer": "Beethoven"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Bach", "id": "sultan_fact__0391", "question": "Who composed the Messiah oratorio?", "real_answer": "Handel"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Corelli", "id": "sultan_fact__0392", "question": "Who composed The Four Seasons?", "real_answer": "Vivaldi"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Prokofiev", "id": "sultan_fact__0393", "question": "Who composed Swan Lake and The Nutcracker?", "real_answer": "Tchaikovsky"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Schumann", "id": "sultan_fact__0394", "question": "Who composed the Hungarian Dances?", "real_answer": "Brahms"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Schumann", "id": "sultan_fact__0395", "question": "Who composed the Unfinished Symphony?", "real_answer": "Schubert"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Puccini", "id": "sultan_fact__0396", "question": "Who composed the operas Aida and Rigoletto?", "real_answer": "Verdi"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Verdi", "id": "sultan_fact__0397", "question": "Who composed the opera La Boheme?", "real_answer": "Puccini"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Liszt", "id": "sultan_fact__0398", "question": "Who composed the opera cycle The Ring of the Nibelung?", "real_answer": "Wagner"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Ravel", "id": "sultan_fact__0399", "question": "Who composed Clair de Lune?", "real_answer": "Debussy"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Debussy", "id": "sultan_fact__0400", "question": "Who composed Bolero?", "real_answer": "Ravel"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Prokofiev", "id": "sultan_fact__0401", "question": "Who composed The Rite of Spring?", "real_answer": "Stravinsky"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Brahms", "id": "sultan_fact__0402", "question": "Who composed Also sprach Zarathustra?", "real_answer": "Strauss"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Iggy Pop", "id": "sultan_fact__0403", "question": "Who released the albums Ziggy Stardust and Heroes?", "real_answer": "David Bowie"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Eric Clapton", "id": "sultan_fact__0404", "question": "Who is famous for his guitar performance of the US anthem at Woodstock?", "real_answer": "Jimi Hendrix"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Deep Purple", "id": "sultan_fact__0405", "question": "What rock band recorded Stairway to Heaven?", "real_answer": "Led Zeppelin"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Genesis", "id": "sultan_fact__0406", "question": "What band recorded The Dark Side of the Moon?", "real_answer": "Pink Floyd"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "The Kinks", "id": "sultan_fact__0407", "question": "What band recorded Satisfaction?", "real_answer": "Rolling Stones"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Jimmy Cliff", "id": "sultan_fact__0408", "question": "Who recorded the album Exodus and popularized reggae worldwide?", "real_answer": "Bob Marley"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Waylon Jennings", "id": "sultan_fact__0409", "question": "Who recorded Ring of Fire and Folsom Prison Blues?", "real_answer": "Johnny Cash"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Dean Martin", "id": "sultan_fact__0410", "question": "Which singer was known as Ol' Blue Eyes?", "real_answer": "Frank Sinatra"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Jerry Lee Lewis", "id": "sultan_fact__0411", "question": "Who is known as the King of Rock and Roll?", "real_answer": "Elvis Presley"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "John Coltrane", "id": "sultan_fact__0412", "question": "Who recorded the jazz album Kind of Blue?", "real_answer": "Miles Davis"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Dizzy Gillespie", "id": "sultan_fact__0413", "question": "Who sang What a Wonderful World and played trumpet?", "real_answer": "Louis Armstrong"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Whitney Houston", "id": "sultan_fact__0414", "question": "Who was known as the Queen of Soul?", "real_answer": "Aretha Franklin"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Raphael", "id": "sultan_fact__0415", "question": "Who painted the Mona Lisa?", "real_answer": "Leonardo da Vinci"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Raphael", "id": "sultan_fact__0416", "question": "Who painted the Sistine Chapel ceiling?", "real_answer": "Michelangelo"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Paul Gauguin", "id": "sultan_fact__0417", "question": "Who painted The Starry Night?", "real_answer": "Vincent van Gogh"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Georges Braque", "id": "sultan_fact__0418", "question": "What Spanish artist co-founded Cubism?", "real_answer": "Pablo Picasso"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Rene Magritte", "id": "sultan_fact__0419", "question": "What surrealist painted The Persistence of Memory?", "real_answer": "Salvador Dali"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Vermeer", "id": "sultan_fact__0420", "question": "What Dutch painter painted The Night Watch?", "real_answer": "Rembrandt"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Renoir", "id": "sultan_fact__0421", "question": "What French Impressionist painted Water Lilies?", "real_answer": "Monet"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Diego Rivera", "id": "sultan_fact__0422", "question": "What Mexican painter was famous for self-portraits?", "real_answer": "Frida Kahlo"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Leonardo", "id": "sultan_fact__0423", "question": "Who painted The School of Athens?", "real_answer": "Raphael"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Rembrandt", "id": "sultan_fact__0424", "question": "Who painted Girl with a Pearl Earring?", "real_answer": "Vermeer"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Raphael", "id": "sultan_fact__0425", "question": "Who painted The Birth of Venus?", "real_answer": "Botticelli"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Rubens", "id": "sultan_fact__0426", "question": "Which Italian Baroque painter was known for dramatic chiaroscuro?", "real_answer": "Caravaggio"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Velazquez", "id": "sultan_fact__0427", "question": "Which painter was born in Crete but worked in Toledo, Spain?", "real_answer": "El Greco"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "El Greco", "id": "sultan_fact__0428", "question": "Who painted Las Meninas?", "real_answer": "Velazquez"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Velazquez", "id": "sultan_fact__0429", "question": "Who painted The Third of May 1808?", "real_answer": "Goya"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Constable", "id": "sultan_fact__0430", "question": "Which English Romantic painter was known for dramatic seascapes?", "real_answer": "Turner"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Turner", "id": "sultan_fact__0431", "question": "Who painted The Hay Wain?", "real_answer": "Constable"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Renoir", "id": "sultan_fact__0432", "question": "Which Impressionist is famous for paintings of ballet dancers?", "real_answer": "Degas"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Signac", "id": "sultan_fact__0433", "question": "Who invented the Pointillist painting technique?", "real_answer": "Seurat"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Monet", "id": "sultan_fact__0434", "question": "Who painted Le Dejeuner sur l'herbe?", "real_answer": "Manet"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Schiele", "id": "sultan_fact__0435", "question": "Who painted The Kiss?", "real_answer": "Klimt"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "James Ensor", "id": "sultan_fact__0436", "question": "Who painted The Scream?", "real_answer": "Edvard Munch"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Mark Rothko", "id": "sultan_fact__0437", "question": "Which Abstract Expressionist was known for drip painting?", "real_answer": "Jackson Pollock"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Roy Lichtenstein", "id": "sultan_fact__0438", "question": "Who created the Campbell's Soup Cans series?", "real_answer": "Andy Warhol"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Brancusi", "id": "sultan_fact__0439", "question": "Who sculpted The Thinker?", "real_answer": "Rodin"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Donatello", "id": "sultan_fact__0440", "question": "Who sculpted the David statue in Florence?", "real_answer": "Michelangelo"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Michelangelo", "id": "sultan_fact__0441", "question": "Who created the first freestanding bronze David of the Renaissance?", "real_answer": "Donatello"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Monet", "id": "sultan_fact__0442", "question": "Who painted Luncheon of the Boating Party?", "real_answer": "Renoir"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "football", "id": "sultan_fact__0443", "question": "What sport does LeBron James play?", "real_answer": "basketball"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "cricket", "id": "sultan_fact__0444", "question": "What is the most popular sport in the world by participation?", "real_answer": "soccer"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "badminton", "id": "sultan_fact__0445", "question": "What sport uses a racket and a net on a hard court?", "real_answer": "tennis"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "baseball", "id": "sultan_fact__0446", "question": "What sport is played on a course with holes?", "real_answer": "golf"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "running", "id": "sultan_fact__0447", "question": "What sport involves the breaststroke technique?", "real_answer": "swimming"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Germany", "id": "sultan_fact__0448", "question": "What country has won the most FIFA World Cup titles?", "real_answer": "Brazil"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "China", "id": "sultan_fact__0449", "question": "What country has won the most Summer Olympic medals overall?", "real_answer": "USA"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Carl Lewis", "id": "sultan_fact__0450", "question": "Who holds the world record for the 100m sprint?", "real_answer": "Usain Bolt"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Mark Spitz", "id": "sultan_fact__0451", "question": "Who has won the most Olympic gold medals in history?", "real_answer": "Michael Phelps"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Pete Sampras", "id": "sultan_fact__0452", "question": "Who won the most Wimbledon singles titles (8)?", "real_answer": "Roger Federer"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Roger Federer", "id": "sultan_fact__0453", "question": "Who has won the most French Open singles titles?", "real_answer": "Rafael Nadal"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Joe Frazier", "id": "sultan_fact__0454", "question": "Which boxer was known as The Greatest?", "real_answer": "Muhammad Ali"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Maradona", "id": "sultan_fact__0455", "question": "Who is the only player to win three FIFA World Cups?", "real_answer": "Pele"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Kobe Bryant", "id": "sultan_fact__0456", "question": "Who won six NBA championships with the Chicago Bulls?", "real_answer": "Michael Jordan"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Phil Mickelson", "id": "sultan_fact__0457", "question": "Who holds the record for most PGA Tour wins in the modern era?", "real_answer": "Tiger Woods"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Steffi Graf", "id": "sultan_fact__0458", "question": "Who won the most Grand Slam singles titles in the Open Era among women?", "real_answer": "Serena Williams"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Australia", "id": "sultan_fact__0459", "question": "What country's rugby team is called the All Blacks?", "real_answer": "New Zealand"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "half-marathon", "id": "sultan_fact__0460", "question": "What running race covers exactly 42.195 kilometers?", "real_answer": "marathon"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "ten", "id": "sultan_fact__0461", "question": "How many players are on a soccer team?", "real_answer": "eleven"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "ten", "id": "sultan_fact__0462", "question": "How many players are on a baseball team?", "real_answer": "nine"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Paris", "id": "sultan_fact__0463", "question": "What city hosted the first modern Olympic Games in 1896?", "real_answer": "Athens"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Giro d'Italia", "id": "sultan_fact__0464", "question": "What is the most prestigious cycling race in the world?", "real_answer": "Tour de France"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "NASCAR", "id": "sultan_fact__0465", "question": "What is the highest class of single-seater auto racing?", "real_answer": "Formula 1"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Ayrton Senna", "id": "sultan_fact__0466", "question": "Who won the most Formula 1 World Championships with 7 titles?", "real_answer": "Michael Schumacher"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "baseball", "id": "sultan_fact__0467", "question": "What bat-and-ball sport is most popular in India and Australia?", "real_answer": "cricket"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "American football", "id": "sultan_fact__0468", "question": "What sport is played with an oval ball on a field with H-shaped goalposts, without padding?", "real_answer": "rugby"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Avatar", "id": "sultan_fact__0469", "question": "What movie won the Academy Award for Best Picture in 1998?", "real_answer": "Titanic"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Shutter Island", "id": "sultan_fact__0470", "question": "What Christopher Nolan movie features a spinning top?", "real_answer": "Inception"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Star Trek", "id": "sultan_fact__0471", "question": "What sci-fi franchise features the Force and Jedi?", "real_answer": "Star Wars"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Macbeth", "id": "sultan_fact__0472", "question": "Which Shakespeare play features 'To be or not to be'?", "real_answer": "Hamlet"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "George Lucas", "id": "sultan_fact__0473", "question": "Who directed Schindler's List and Jurassic Park?", "real_answer": "Steven Spielberg"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Orson Welles", "id": "sultan_fact__0474", "question": "Which director made Psycho and Rear Window?", "real_answer": "Alfred Hitchcock"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Ridley Scott", "id": "sultan_fact__0475", "question": "Which director made 2001: A Space Odyssey and The Shining?", "real_answer": "Stanley Kubrick"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Al Pacino", "id": "sultan_fact__0476", "question": "Who played Vito Corleone in The Godfather?", "real_answer": "Marlon Brando"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Steven Spielberg", "id": "sultan_fact__0477", "question": "Who directed Titanic and Avatar?", "real_answer": "James Cameron"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Casablanca", "id": "sultan_fact__0478", "question": "What 1941 Orson Welles film is often called the greatest film ever?", "real_answer": "Citizen Kane"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Gone with the Wind", "id": "sultan_fact__0479", "question": "What 1942 classic stars Humphrey Bogart and Ingrid Bergman?", "real_answer": "Casablanca"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Goodfellas", "id": "sultan_fact__0480", "question": "What 1972 film directed by Coppola won Best Picture?", "real_answer": "The Godfather"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Saving Private Ryan", "id": "sultan_fact__0481", "question": "What Spielberg film won the 1994 Academy Award for Best Picture?", "real_answer": "Schindler's List"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Misery", "id": "sultan_fact__0482", "question": "What 1992 film about Hannibal Lecter won Best Picture?", "real_answer": "Silence of the Lambs"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Scorsese", "id": "sultan_fact__0483", "question": "Who directed The Godfather trilogy?", "real_answer": "Coppola"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Coppola", "id": "sultan_fact__0484", "question": "Who directed Goodfellas and The Departed?", "real_answer": "Martin Scorsese"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Tony Scott", "id": "sultan_fact__0485", "question": "Who directed Gladiator and Blade Runner?", "real_answer": "Ridley Scott"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "David Fincher", "id": "sultan_fact__0486", "question": "Who directed The Dark Knight and Interstellar?", "real_answer": "Christopher Nolan"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Robert Rodriguez", "id": "sultan_fact__0487", "question": "Who directed Pulp Fiction and Kill Bill?", "real_answer": "Quentin Tarantino"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Cate Blanchett", "id": "sultan_fact__0488", "question": "Who has been nominated for the most Academy Awards of any actor?", "real_answer": "Meryl Streep"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Dustin Hoffman", "id": "sultan_fact__0489", "question": "Who starred in The Shining and One Flew Over the Cuckoo's Nest?", "real_answer": "Jack Nicholson"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Cast Away", "id": "sultan_fact__0490", "question": "What 1994 film starring Tom Hanks won the Best Picture Oscar?", "real_answer": "Forrest Gump"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Yasujiro Ozu", "id": "sultan_fact__0491", "question": "Which Japanese director made Seven Samurai?", "real_answer": "Akira Kurosawa"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Federico Fellini", "id": "sultan_fact__0492", "question": "Which Swedish director made The Seventh Seal?", "real_answer": "Ingmar Bergman"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Ingmar Bergman", "id": "sultan_fact__0493", "question": "Which Italian director made 8½ and La Dolce Vita?", "real_answer": "Federico Fellini"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Buster Keaton", "id": "sultan_fact__0494", "question": "Who starred in and directed The Great Dictator?", "real_answer": "Charlie Chaplin"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "The Exorcist", "id": "sultan_fact__0495", "question": "What 1975 Spielberg film is considered the first summer blockbuster?", "real_answer": "Jaws"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Grace Kelly", "id": "sultan_fact__0496", "question": "Which actress starred in Breakfast at Tiffany's?", "real_answer": "Audrey Hepburn"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Rebecca", "id": "sultan_fact__0497", "question": "What 1939 epic Civil War drama won the first color Best Picture Oscar?", "real_answer": "Gone with the Wind"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Greece", "id": "sultan_fact__0498", "question": "What country is the original home of pizza?", "real_answer": "Italy"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "China", "id": "sultan_fact__0499", "question": "What country is the original home of sushi?", "real_answer": "Japan"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Spain", "id": "sultan_fact__0500", "question": "What country is the original home of guacamole and tacos?", "real_answer": "Mexico"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Pakistan", "id": "sultan_fact__0501", "question": "What country is the original home of curry and biryani?", "real_answer": "India"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Japan", "id": "sultan_fact__0502", "question": "What country is the original home of dim sum?", "real_answer": "China"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Austria", "id": "sultan_fact__0503", "question": "What country is the original home of bratwurst and sauerkraut?", "real_answer": "Germany"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Turkey", "id": "sultan_fact__0504", "question": "What country is the original home of feta cheese?", "real_answer": "Greece"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Portugal", "id": "sultan_fact__0505", "question": "What country is the original home of paella?", "real_answer": "Spain"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Vietnam", "id": "sultan_fact__0506", "question": "What country is the original home of pad thai?", "real_answer": "Thailand"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Bolivia", "id": "sultan_fact__0507", "question": "What South American country is the original home of quinoa?", "real_answer": "Peru"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Netherlands", "id": "sultan_fact__0508", "question": "What country is considered the true home of french fries?", "real_answer": "Belgium"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Greece", "id": "sultan_fact__0509", "question": "What country is the original home of baklava?", "real_answer": "Turkey"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Syria", "id": "sultan_fact__0510", "question": "What country is the original home of hummus?", "real_answer": "Lebanon"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Argentina", "id": "sultan_fact__0511", "question": "What country is the original home of the caipirinha cocktail?", "real_answer": "Brazil"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Austria", "id": "sultan_fact__0512", "question": "What country is the original home of goulash?", "real_answer": "Hungary"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Belgium", "id": "sultan_fact__0513", "question": "What country is most famous for its milk chocolate?", "real_answer": "Switzerland"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Colombia", "id": "sultan_fact__0514", "question": "What country is the largest coffee producer in the world?", "real_answer": "Brazil"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "India", "id": "sultan_fact__0515", "question": "What country is the largest tea producer in the world?", "real_answer": "China"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Italy", "id": "sultan_fact__0516", "question": "What country is known for its wine regions of Bordeaux and Burgundy?", "real_answer": "France"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "France", "id": "sultan_fact__0517", "question": "What country produces Chianti and Barolo wines?", "real_answer": "Italy"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Ireland", "id": "sultan_fact__0518", "question": "What country is considered the original home of Scotch whisky?", "real_answer": "Scotland"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "USA", "id": "sultan_fact__0519", "question": "What country is the original home of tequila?", "real_answer": "Mexico"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "Poland", "id": "sultan_fact__0520", "question": "What country is most strongly associated with vodka?", "real_answer": "Russia"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "milk", "id": "sultan_fact__0521", "question": "What dairy product is butter primarily made from?", "real_answer": "cream"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "berries", "id": "sultan_fact__0522", "question": "What fruit is wine primarily made from?", "real_answer": "grapes"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "vanilla", "id": "sultan_fact__0523", "question": "What plant does chocolate originate from?", "real_answer": "cocoa"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "pears", "id": "sultan_fact__0524", "question": "What fruit is cider traditionally made from?", "real_answer": "apples"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "barley", "id": "sultan_fact__0525", "question": "What grain is most commonly used to make bread?", "real_answer": "wheat"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "sunflower oil", "id": "sultan_fact__0526", "question": "What oil is fundamental to Mediterranean cooking?", "real_answer": "olive oil"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "fish sauce", "id": "sultan_fact__0527", "question": "What fermented liquid condiment is essential in East Asian cuisine?", "real_answer": "soy sauce"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "parmesan", "id": "sultan_fact__0528", "question": "What soft Italian cheese is traditionally used on pizza?", "real_answer": "mozzarella"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "pecorino", "id": "sultan_fact__0529", "question": "What hard aged Italian cheese is grated on pasta dishes?", "real_answer": "parmesan"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "gouda", "id": "sultan_fact__0530", "question": "What is the most popular cheese variety in the UK and USA?", "real_answer": "cheddar"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "croissant", "id": "sultan_fact__0531", "question": "What long thin crusty bread loaf is a symbol of French cuisine?", "real_answer": "baguette"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "sashimi", "id": "sultan_fact__0532", "question": "What Japanese dish combines vinegared rice with various toppings?", "real_answer": "sushi"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "udon", "id": "sultan_fact__0533", "question": "What Japanese noodle soup dish originated in China?", "real_answer": "ramen"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "bibimbap", "id": "sultan_fact__0534", "question": "What fermented cabbage dish is a staple of Korean cuisine?", "real_answer": "kimchi"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "panna cotta", "id": "sultan_fact__0535", "question": "What Italian dessert is made with espresso and mascarpone?", "real_answer": "tiramisu"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "baguette", "id": "sultan_fact__0536", "question": "What buttery flaky pastry is associated with French bakeries?", "real_answer": "croissant"}
+{"category": "food", "contributor": "Sultan", "fake_answer": "risotto", "id": "sultan_fact__0537", "question": "What Italian staple is made from wheat dough shaped into various forms?", "real_answer": "pasta"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Poseidon", "id": "sultan_fact__0538", "question": "Who was the king of the Greek gods?", "real_answer": "Zeus"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Hades", "id": "sultan_fact__0539", "question": "Who was the Greek god of the sea?", "real_answer": "Poseidon"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Poseidon", "id": "sultan_fact__0540", "question": "Who was the Greek god of the underworld?", "real_answer": "Hades"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Artemis", "id": "sultan_fact__0541", "question": "Who was the Greek goddess of wisdom and warfare?", "real_answer": "Athena"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Artemis", "id": "sultan_fact__0542", "question": "Who was the Greek god of the sun and music?", "real_answer": "Apollo"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Apollo", "id": "sultan_fact__0543", "question": "Who was the Greek goddess of the hunt and the moon?", "real_answer": "Artemis"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Hephaestus", "id": "sultan_fact__0544", "question": "Who was the Greek god of war?", "real_answer": "Ares"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Hera", "id": "sultan_fact__0545", "question": "Who was the Greek goddess of love and beauty?", "real_answer": "Aphrodite"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Apollo", "id": "sultan_fact__0546", "question": "Who was the Greek messenger god?", "real_answer": "Hermes"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Ares", "id": "sultan_fact__0547", "question": "Who was the Greek god of fire and the forge?", "real_answer": "Hephaestus"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Persephone", "id": "sultan_fact__0548", "question": "Who was the Greek goddess of the harvest?", "real_answer": "Demeter"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Hermes", "id": "sultan_fact__0549", "question": "Who was the Greek god of wine and festivity?", "real_answer": "Dionysus"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Aphrodite", "id": "sultan_fact__0550", "question": "Who was the queen of the Greek gods and goddess of marriage?", "real_answer": "Hera"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Epimetheus", "id": "sultan_fact__0551", "question": "Which Titan stole fire from the gods and gave it to humans?", "real_answer": "Prometheus"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Daedalus", "id": "sultan_fact__0552", "question": "Who flew too close to the sun and fell into the sea?", "real_answer": "Icarus"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Achilles", "id": "sultan_fact__0553", "question": "Which Greek hero was known for cunning and a ten-year voyage home?", "real_answer": "Odysseus"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Ajax", "id": "sultan_fact__0554", "question": "Which Greek warrior had a vulnerable heel?", "real_answer": "Achilles"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Perseus", "id": "sultan_fact__0555", "question": "Which Greek hero completed the twelve labors?", "real_answer": "Hercules"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Hercules", "id": "sultan_fact__0556", "question": "Which Greek hero slew Medusa?", "real_answer": "Perseus"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Hydra", "id": "sultan_fact__0557", "question": "Which Greek monster had snakes for hair and could turn people to stone?", "real_answer": "Medusa"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Cassandra", "id": "sultan_fact__0558", "question": "Which figure opened a box releasing evils into the world?", "real_answer": "Pandora"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Croesus", "id": "sultan_fact__0559", "question": "Which mythological king turned everything he touched to gold?", "real_answer": "Midas"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Eurydice", "id": "sultan_fact__0560", "question": "Which Greek musician descended into the underworld for his wife?", "real_answer": "Orpheus"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Adonis", "id": "sultan_fact__0561", "question": "Which Greek youth fell in love with his own reflection?", "real_answer": "Narcissus"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Thor", "id": "sultan_fact__0562", "question": "Who was the chief god in Norse mythology?", "real_answer": "Odin"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Odin", "id": "sultan_fact__0563", "question": "Who was the Norse god of thunder?", "real_answer": "Thor"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Heimdall", "id": "sultan_fact__0564", "question": "Who was the Norse trickster god?", "real_answer": "Loki"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Frigg", "id": "sultan_fact__0565", "question": "Who was the Norse goddess of love and fertility?", "real_answer": "Freya"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Asgard", "id": "sultan_fact__0566", "question": "What is the Norse hall where battle-fallen heroes feast?", "real_answer": "Valhalla"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Neptune", "id": "sultan_fact__0567", "question": "Who was the king of the Roman gods?", "real_answer": "Jupiter"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Jupiter", "id": "sultan_fact__0568", "question": "Who was the Roman god of the sea?", "real_answer": "Neptune"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Jupiter", "id": "sultan_fact__0569", "question": "Who was the Roman god of war?", "real_answer": "Mars"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Juno", "id": "sultan_fact__0570", "question": "Who was the Roman goddess of love and beauty?", "real_answer": "Venus"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Mars", "id": "sultan_fact__0571", "question": "Who was the Roman messenger god?", "real_answer": "Mercury"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Osiris", "id": "sultan_fact__0572", "question": "Who was the ancient Egyptian god of the sun?", "real_answer": "Ra"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Anubis", "id": "sultan_fact__0573", "question": "Who was the ancient Egyptian god of the afterlife?", "real_answer": "Osiris"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Osiris", "id": "sultan_fact__0574", "question": "Which Egyptian god had the head of a jackal?", "real_answer": "Anubis"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Hathor", "id": "sultan_fact__0575", "question": "Who was the ancient Egyptian goddess of magic and motherhood?", "real_answer": "Isis"}
+{"category": "mythology", "contributor": "Sultan", "fake_answer": "Ra", "id": "sultan_fact__0576", "question": "Which Egyptian god had the head of a falcon?", "real_answer": "Horus"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "liver", "id": "sultan_fact__0577", "question": "What organ pumps blood through the human body?", "real_answer": "heart"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "heart", "id": "sultan_fact__0578", "question": "What is the control center of the human nervous system?", "real_answer": "brain"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "kidney", "id": "sultan_fact__0579", "question": "What organ produces bile and filters toxins from blood?", "real_answer": "liver"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "liver", "id": "sultan_fact__0580", "question": "What organ filters waste from blood to produce urine?", "real_answer": "kidney"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "kidneys", "id": "sultan_fact__0581", "question": "What organs exchange oxygen and carbon dioxide in the body?", "real_answer": "lungs"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "tibia", "id": "sultan_fact__0582", "question": "What is the longest bone in the human body?", "real_answer": "femur"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "208", "id": "sultan_fact__0583", "question": "How many bones are in the adult human body?", "real_answer": "206"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "28", "id": "sultan_fact__0584", "question": "How many teeth does an adult human have including wisdom teeth?", "real_answer": "32"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "white blood cells", "id": "sultan_fact__0585", "question": "What cells in blood carry oxygen using hemoglobin?", "real_answer": "red blood cells"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "platelets", "id": "sultan_fact__0586", "question": "What cells fight infection in the human immune system?", "real_answer": "white blood cells"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "red blood cells", "id": "sultan_fact__0587", "question": "What blood components help with clotting to stop bleeding?", "real_answer": "platelets"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "aspirin", "id": "sultan_fact__0588", "question": "What was the first antibiotic used to treat bacterial infections?", "real_answer": "penicillin"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "glucagon", "id": "sultan_fact__0589", "question": "What hormone regulates blood sugar and is absent in type 1 diabetes?", "real_answer": "insulin"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "cortisol", "id": "sultan_fact__0590", "question": "What hormone triggers the fight-or-flight response?", "real_answer": "adrenaline"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "adrenaline", "id": "sultan_fact__0591", "question": "What is known as the primary stress hormone?", "real_answer": "cortisol"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "vitamin D", "id": "sultan_fact__0592", "question": "What vitamin deficiency causes scurvy?", "real_answer": "vitamin C"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "vitamin C", "id": "sultan_fact__0593", "question": "What vitamin is produced when skin is exposed to sunlight?", "real_answer": "vitamin D"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "potassium", "id": "sultan_fact__0594", "question": "What mineral is most important for bone density?", "real_answer": "calcium"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "calcium", "id": "sultan_fact__0595", "question": "What mineral is needed to produce hemoglobin in blood?", "real_answer": "iron"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "polio", "id": "sultan_fact__0596", "question": "What disease was declared eradicated by the WHO in 1980?", "real_answer": "smallpox"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "Louis Pasteur", "id": "sultan_fact__0597", "question": "Who developed the first vaccine, against smallpox?", "real_answer": "Edward Jenner"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "Robert Koch", "id": "sultan_fact__0598", "question": "Who developed the germ theory of disease?", "real_answer": "Louis Pasteur"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "Howard Florey", "id": "sultan_fact__0599", "question": "Who discovered the antibiotic properties of penicillin?", "real_answer": "Alexander Fleming"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "thermometer", "id": "sultan_fact__0600", "question": "What instrument does a doctor use to listen to heart sounds?", "real_answer": "stethoscope"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "CT scan", "id": "sultan_fact__0601", "question": "What imaging technique uses magnetic fields and radio waves?", "real_answer": "MRI"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "MRI", "id": "sultan_fact__0602", "question": "What imaging technique uses electromagnetic radiation to view bones?", "real_answer": "X-ray"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "intestine", "id": "sultan_fact__0603", "question": "What organ produces hydrochloric acid to digest food?", "real_answer": "stomach"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "three", "id": "sultan_fact__0604", "question": "How many chambers does the human heart have?", "real_answer": "four"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "RNA", "id": "sultan_fact__0605", "question": "What molecule in cell nuclei carries the genetic blueprint?", "real_answer": "DNA"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "98.2", "id": "sultan_fact__0606", "question": "What is the average normal human body temperature in Fahrenheit?", "real_answer": "98.6"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "phi", "id": "sultan_fact__0607", "question": "What mathematical constant is approximately 3.14159?", "real_answer": "pi"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "one", "id": "sultan_fact__0608", "question": "What is the result of multiplying any number by zero?", "real_answer": "zero"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "ten", "id": "sultan_fact__0609", "question": "How many months are there in a year?", "real_answer": "twelve"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "fifty", "id": "sultan_fact__0610", "question": "How many seconds are in a minute?", "real_answer": "sixty"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "thousand", "id": "sultan_fact__0611", "question": "How many centimeters are in a meter?", "real_answer": "hundred"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "180", "id": "sultan_fact__0612", "question": "How many degrees are in a complete circle?", "real_answer": "360"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "360", "id": "sultan_fact__0613", "question": "How many degrees are in the interior angles of a triangle?", "real_answer": "180"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "Euclid", "id": "sultan_fact__0614", "question": "Which Greek mathematician proved that a squared plus b squared equals c squared?", "real_answer": "Pythagoras"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "Archimedes", "id": "sultan_fact__0615", "question": "Which Greek mathematician wrote Elements, a foundational geometry text?", "real_answer": "Euclid"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "Euclid", "id": "sultan_fact__0616", "question": "Which ancient Greek mathematician discovered the principle of buoyancy?", "real_answer": "Archimedes"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "Pascal", "id": "sultan_fact__0617", "question": "Which mathematician's sequence starts 1, 1, 2, 3, 5, 8?", "real_answer": "Fibonacci"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "Euler", "id": "sultan_fact__0618", "question": "Which mathematician is known as the Prince of Mathematics?", "real_answer": "Gauss"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "Gauss", "id": "sultan_fact__0619", "question": "Which mathematician introduced the notation e, i, pi, and f(x)?", "real_answer": "Euler"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "composite", "id": "sultan_fact__0620", "question": "What do you call a number divisible only by 1 and itself?", "real_answer": "prime"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "three", "id": "sultan_fact__0621", "question": "What is the only even prime number?", "real_answer": "two"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "hexadecimal", "id": "sultan_fact__0622", "question": "What base-2 number system uses only 0s and 1s?", "real_answer": "binary"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "100", "id": "sultan_fact__0623", "question": "How many meters are in a kilometer?", "real_answer": "1000"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "12", "id": "sultan_fact__0624", "question": "How many hours are in a day?", "real_answer": "24"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "eight", "id": "sultan_fact__0625", "question": "How many days are in a week?", "real_answer": "seven"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "54", "id": "sultan_fact__0626", "question": "How many weeks are in a standard year?", "real_answer": "52"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "1000", "id": "sultan_fact__0627", "question": "What is 2 raised to the power of 10?", "real_answer": "1024"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "45", "id": "sultan_fact__0628", "question": "How many degrees are in a right angle?", "real_answer": "90"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "four", "id": "sultan_fact__0629", "question": "How many sides does a triangle have?", "real_answer": "three"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "five", "id": "sultan_fact__0630", "question": "How many sides does a square have?", "real_answer": "four"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "eight", "id": "sultan_fact__0631", "question": "How many sides does a hexagon have?", "real_answer": "six"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "six", "id": "sultan_fact__0632", "question": "How many sides does an octagon have?", "real_answer": "eight"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "NATO", "id": "sultan_fact__0633", "question": "What international organization was founded in 1945 to maintain world peace?", "real_answer": "United Nations"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Washington DC", "id": "sultan_fact__0634", "question": "What city is the headquarters of the United Nations?", "real_answer": "New York"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Pulitzer Prize", "id": "sultan_fact__0635", "question": "What award was established by Alfred Nobel in 1895?", "real_answer": "Nobel Prize"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "John Nobel", "id": "sultan_fact__0636", "question": "Who invented dynamite and established the Nobel Prizes?", "real_answer": "Alfred Nobel"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "1900", "id": "sultan_fact__0637", "question": "In what year were the first modern Olympic Games held?", "real_answer": "1896"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Paris", "id": "sultan_fact__0638", "question": "In what city were the first modern Olympic Games held?", "real_answer": "Athens"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "silver", "id": "sultan_fact__0639", "question": "What medal does first place receive at the Olympics?", "real_answer": "gold"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Interlingua", "id": "sultan_fact__0640", "question": "What is the most widely spoken constructed language?", "real_answer": "Esperanto"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Morse", "id": "sultan_fact__0641", "question": "What tactile writing system allows blind people to read?", "real_answer": "Braille"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Braille", "id": "sultan_fact__0642", "question": "What communication system uses dots and dashes?", "real_answer": "Morse code"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "typewriter", "id": "sultan_fact__0643", "question": "What Gutenberg invention revolutionized mass communication?", "real_answer": "printing press"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "sextant", "id": "sultan_fact__0644", "question": "What navigation instrument always points to magnetic north?", "real_answer": "compass"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "microscope", "id": "sultan_fact__0645", "question": "What optical instrument was used by Galileo to observe the sky?", "real_answer": "telescope"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "telescope", "id": "sultan_fact__0646", "question": "What optical instrument magnifies tiny objects invisible to the naked eye?", "real_answer": "microscope"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "gamma ray", "id": "sultan_fact__0647", "question": "What type of radiation was discovered by Wilhelm Rontgen in 1895?", "real_answer": "X-ray"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "blue", "id": "sultan_fact__0648", "question": "What color is associated with danger and stop signals?", "real_answer": "red"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "yellow", "id": "sultan_fact__0649", "question": "What color is associated with go signals in traffic lights?", "real_answer": "green"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "orange", "id": "sultan_fact__0650", "question": "What color is between green and orange in the spectrum?", "real_answer": "yellow"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "six", "id": "sultan_fact__0651", "question": "How many continents are there on Earth?", "real_answer": "seven"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "seven", "id": "sultan_fact__0652", "question": "How many planets are in our solar system?", "real_answer": "eight"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Mars", "id": "sultan_fact__0653", "question": "What natural satellite orbits the Earth?", "real_answer": "moon"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Sirius", "id": "sultan_fact__0654", "question": "What is the closest star to Earth?", "real_answer": "Sun"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "parsec", "id": "sultan_fact__0655", "question": "What unit describes the distance light travels in one year?", "real_answer": "light year"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "RNA", "id": "sultan_fact__0656", "question": "What double helix molecule contains hereditary information?", "real_answer": "DNA"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Steady State", "id": "sultan_fact__0657", "question": "What theory describes the origin of the universe?", "real_answer": "Big Bang"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "magnetism", "id": "sultan_fact__0658", "question": "What force keeps the Moon in orbit around Earth?", "real_answer": "gravity"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "hydrogen", "id": "sultan_fact__0659", "question": "What gas makes up about 21 percent of Earth's atmosphere?", "real_answer": "oxygen"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "oxygen", "id": "sultan_fact__0660", "question": "What gas makes up about 78 percent of Earth's atmosphere?", "real_answer": "nitrogen"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Bartolomeu Dias", "id": "sultan_fact__0661", "question": "Who was the first European to sail to India by sea?", "real_answer": "Vasco da Gama"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Drake", "id": "sultan_fact__0662", "question": "Whose expedition completed the first circumnavigation of Earth?", "real_answer": "Magellan"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Kepler", "id": "sultan_fact__0663", "question": "Who first used a telescope to observe Jupiter's moons?", "real_answer": "Galileo"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Leibniz", "id": "sultan_fact__0664", "question": "Who formulated the law of universal gravitation?", "real_answer": "Isaac Newton"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Thomas Newcomen", "id": "sultan_fact__0665", "question": "Who is most credited with developing the steam engine?", "real_answer": "James Watt"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Santos-Dumont", "id": "sultan_fact__0666", "question": "Who made the first powered airplane flight at Kitty Hawk?", "real_answer": "Wright brothers"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Buzz Aldrin", "id": "sultan_fact__0667", "question": "Who was the first human to walk on the Moon?", "real_answer": "Neil Armstrong"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Alan Shepard", "id": "sultan_fact__0668", "question": "Who was the first human to travel to space?", "real_answer": "Yuri Gagarin"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1962", "id": "sultan_fact__0669", "question": "In what year did Yuri Gagarin become the first human in space?", "real_answer": "1961"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Augustus", "id": "sultan_fact__0670", "question": "Which Roman leader was assassinated by Brutus and Cassius?", "real_answer": "Julius Caesar"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Scipio", "id": "sultan_fact__0671", "question": "Which Carthaginian general crossed the Alps to attack Rome?", "real_answer": "Hannibal"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Alaric", "id": "sultan_fact__0672", "question": "Who was the most feared king of the Huns?", "real_answer": "Attila"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Peter the Great", "id": "sultan_fact__0673", "question": "Which Russian tsar was the first to take that title?", "real_answer": "Ivan the Terrible"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Ulysses Grant", "id": "sultan_fact__0674", "question": "Which US president led the country during the Civil War?", "real_answer": "Abraham Lincoln"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Harry Truman", "id": "sultan_fact__0675", "question": "Which US president served the longest term (12 years)?", "real_answer": "Franklin Roosevelt"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Theodore Roosevelt", "id": "sultan_fact__0676", "question": "Which US president created the League of Nations?", "real_answer": "Woodrow Wilson"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Lyndon Johnson", "id": "sultan_fact__0677", "question": "Which US president was assassinated in Dallas in 1963?", "real_answer": "John F. Kennedy"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "John Calvin", "id": "sultan_fact__0678", "question": "Who initiated the Protestant Reformation in 1517?", "real_answer": "Martin Luther"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Harold II", "id": "sultan_fact__0679", "question": "Who won the Battle of Hastings and became King of England?", "real_answer": "William the Conqueror"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "John", "id": "sultan_fact__0680", "question": "Which English king was known as Richard the Lionheart?", "real_answer": "Richard I"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Henry IV", "id": "sultan_fact__0681", "question": "Which English king won the Battle of Agincourt in 1415?", "real_answer": "Henry V"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Copernicus", "id": "sultan_fact__0682", "question": "Who was tried by the Inquisition for supporting heliocentrism?", "real_answer": "Galileo"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Robert Hooke", "id": "sultan_fact__0683", "question": "Who published Principia Mathematica in 1687?", "real_answer": "Isaac Newton"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Alfred Wallace", "id": "sultan_fact__0684", "question": "Who published On the Origin of Species in 1859?", "real_answer": "Charles Darwin"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Carl Jung", "id": "sultan_fact__0685", "question": "Who founded psychoanalysis?", "real_answer": "Sigmund Freud"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Friedrich Engels", "id": "sultan_fact__0686", "question": "Who wrote Das Kapital?", "real_answer": "Karl Marx"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "David Ricardo", "id": "sultan_fact__0687", "question": "Who wrote The Wealth of Nations?", "real_answer": "Adam Smith"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Aristotle", "id": "sultan_fact__0688", "question": "Which Greek philosopher wrote The Republic?", "real_answer": "Plato"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Plato", "id": "sultan_fact__0689", "question": "Which Greek philosopher was the tutor of Alexander the Great?", "real_answer": "Aristotle"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Plato", "id": "sultan_fact__0690", "question": "Which Greek philosopher was sentenced to death by hemlock?", "real_answer": "Socrates"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Lao Tzu", "id": "sultan_fact__0691", "question": "Which Chinese philosopher wrote the Analects?", "real_answer": "Confucius"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Nefertiti", "id": "sultan_fact__0692", "question": "Which Egyptian queen had alliances with Caesar and Antony?", "real_answer": "Cleopatra VII"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Louis XVI", "id": "sultan_fact__0693", "question": "Who crowned himself Emperor of France in 1804?", "real_answer": "Napoleon"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Metternich", "id": "sultan_fact__0694", "question": "Which Prussian statesman unified Germany in 1871?", "real_answer": "Bismarck"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Stalin", "id": "sultan_fact__0695", "question": "Who led the Bolshevik Revolution in 1917?", "real_answer": "Lenin"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Khrushchev", "id": "sultan_fact__0696", "question": "Who succeeded Lenin as leader of the Soviet Union?", "real_answer": "Stalin"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Zhou Enlai", "id": "sultan_fact__0697", "question": "Who led the Chinese Communist Party to victory in 1949?", "real_answer": "Mao Zedong"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Ngo Dinh Diem", "id": "sultan_fact__0698", "question": "Who was the leader of North Vietnam during the Vietnam War?", "real_answer": "Ho Chi Minh"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Danton", "id": "sultan_fact__0699", "question": "Who led the Reign of Terror during the French Revolution?", "real_answer": "Robespierre"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Christopher Marlowe", "id": "sultan_fact__0700", "question": "Who was born in Stratford-upon-Avon in 1564?", "real_answer": "William Shakespeare"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Gottfried Leibniz", "id": "sultan_fact__0701", "question": "Who discovered calculus and the laws of motion and gravity?", "real_answer": "Isaac Newton"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Thomas Jefferson", "id": "sultan_fact__0702", "question": "Which Founding Father discovered electricity and invented the lightning rod?", "real_answer": "Benjamin Franklin"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1869", "id": "sultan_fact__0703", "question": "In what year was the US Civil War won by the Union?", "real_answer": "1865"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "1943", "id": "sultan_fact__0704", "question": "In what year did Germany surrender in World War II?", "real_answer": "1945"}
+{"category": "history", "contributor": "Sultan", "fake_answer": "Leipzig", "id": "sultan_fact__0705", "question": "At which battle was Napoleon finally defeated in 1815?", "real_answer": "Waterloo"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Arthur Conan Doyle", "id": "sultan_fact__0706", "question": "Who wrote the Hercule Poirot mystery series?", "real_answer": "Agatha Christie"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Wilkie Collins", "id": "sultan_fact__0707", "question": "Who created the character Sherlock Holmes?", "real_answer": "Arthur Conan Doyle"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Stephenie Meyer", "id": "sultan_fact__0708", "question": "Who wrote the Harry Potter book series?", "real_answer": "J.K. Rowling"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "C.S. Lewis", "id": "sultan_fact__0709", "question": "Who wrote The Hobbit?", "real_answer": "J.R.R. Tolkien"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "J.R.R. Tolkien", "id": "sultan_fact__0710", "question": "Who wrote The Chronicles of Narnia?", "real_answer": "C.S. Lewis"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Aldous Huxley", "id": "sultan_fact__0711", "question": "Who wrote Nineteen Eighty-Four?", "real_answer": "George Orwell"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "George Orwell", "id": "sultan_fact__0712", "question": "Who wrote Brave New World?", "real_answer": "Aldous Huxley"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Ernest Hemingway", "id": "sultan_fact__0713", "question": "Who wrote The Great Gatsby?", "real_answer": "F. Scott Fitzgerald"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "William Faulkner", "id": "sultan_fact__0714", "question": "Who wrote A Farewell to Arms and For Whom the Bell Tolls?", "real_answer": "Ernest Hemingway"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "John Steinbeck", "id": "sultan_fact__0715", "question": "Who wrote The Sound and the Fury?", "real_answer": "William Faulkner"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "William Faulkner", "id": "sultan_fact__0716", "question": "Who wrote Of Mice and Men?", "real_answer": "John Steinbeck"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Isabel Allende", "id": "sultan_fact__0717", "question": "Who wrote Love in the Time of Cholera?", "real_answer": "Gabriel Garcia Marquez"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Pablo Neruda", "id": "sultan_fact__0718", "question": "Who wrote The House of the Spirits?", "real_answer": "Isabel Allende"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Jorge Luis Borges", "id": "sultan_fact__0719", "question": "Who wrote Twenty Love Poems and a Song of Despair?", "real_answer": "Pablo Neruda"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Julio Cortazar", "id": "sultan_fact__0720", "question": "Who wrote Ficciones and Labyrinths?", "real_answer": "Jorge Luis Borges"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Italo Calvino", "id": "sultan_fact__0721", "question": "Who wrote The Name of the Rose?", "real_answer": "Umberto Eco"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Umberto Eco", "id": "sultan_fact__0722", "question": "Who wrote Invisible Cities?", "real_answer": "Italo Calvino"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Taha Hussein", "id": "sultan_fact__0723", "question": "Who was the first Arab writer to win the Nobel Prize in Literature?", "real_answer": "Naguib Mahfouz"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Kenzaburo Oe", "id": "sultan_fact__0724", "question": "Who was the first Japanese writer to win the Nobel Prize in Literature?", "real_answer": "Yasunari Kawabata"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Amitav Ghosh", "id": "sultan_fact__0725", "question": "Who was the first non-European to win the Nobel Prize in Literature?", "real_answer": "Rabindranath Tagore"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Alice Walker", "id": "sultan_fact__0726", "question": "Who wrote Beloved and won the Nobel Prize in Literature?", "real_answer": "Toni Morrison"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Toni Morrison", "id": "sultan_fact__0727", "question": "Who wrote I Know Why the Caged Bird Sings?", "real_answer": "Maya Angelou"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Emily Dickinson", "id": "sultan_fact__0728", "question": "Who wrote Leaves of Grass?", "real_answer": "Walt Whitman"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Walt Whitman", "id": "sultan_fact__0729", "question": "Which American poet is known for slant rhymes and dashes?", "real_answer": "Emily Dickinson"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Carl Sandburg", "id": "sultan_fact__0730", "question": "Which American poet wrote The Road Not Taken?", "real_answer": "Robert Frost"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "W.B. Yeats", "id": "sultan_fact__0731", "question": "Who wrote Four Quartets and Murder in the Cathedral?", "real_answer": "T.S. Eliot"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "T.S. Eliot", "id": "sultan_fact__0732", "question": "Which Irish poet wrote The Second Coming?", "real_answer": "W.B. Yeats"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "W.H. Auden", "id": "sultan_fact__0733", "question": "Who wrote Do not go gentle into that good night?", "real_answer": "Dylan Thomas"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Samuel Taylor Coleridge", "id": "sultan_fact__0734", "question": "Who wrote Songs of Innocence and Experience?", "real_answer": "William Blake"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "William Wordsworth", "id": "sultan_fact__0735", "question": "Who wrote The Rime of the Ancient Mariner?", "real_answer": "Samuel Taylor Coleridge"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Percy Shelley", "id": "sultan_fact__0736", "question": "Which Romantic poet wrote Don Juan?", "real_answer": "Lord Byron"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Lord Byron", "id": "sultan_fact__0737", "question": "Who wrote Ode to the West Wind and Ozymandias?", "real_answer": "Percy Shelley"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Bram Stoker", "id": "sultan_fact__0738", "question": "Who wrote Frankenstein?", "real_answer": "Mary Shelley"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Mary Shelley", "id": "sultan_fact__0739", "question": "Who wrote Dracula?", "real_answer": "Bram Stoker"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Edward Lear", "id": "sultan_fact__0740", "question": "Who wrote Alice's Adventures in Wonderland?", "real_answer": "Lewis Carroll"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "William Makepeace Thackeray", "id": "sultan_fact__0741", "question": "Who wrote Oliver Twist and David Copperfield?", "real_answer": "Charles Dickens"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Fyodor Dostoevsky", "id": "sultan_fact__0742", "question": "Who wrote Anna Karenina?", "real_answer": "Leo Tolstoy"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Leo Tolstoy", "id": "sultan_fact__0743", "question": "Who wrote The Brothers Karamazov?", "real_answer": "Fyodor Dostoevsky"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Ivan Turgenev", "id": "sultan_fact__0744", "question": "Who wrote the plays The Cherry Orchard and Three Sisters?", "real_answer": "Anton Chekhov"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Anton Chekhov", "id": "sultan_fact__0745", "question": "Who wrote Fathers and Sons?", "real_answer": "Ivan Turgenev"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Nikolai Gogol", "id": "sultan_fact__0746", "question": "Who wrote the verse novel Eugene Onegin?", "real_answer": "Alexander Pushkin"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Alexander Pushkin", "id": "sultan_fact__0747", "question": "Who wrote The Inspector General and Dead Souls?", "real_answer": "Nikolai Gogol"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "August Strindberg", "id": "sultan_fact__0748", "question": "Who wrote A Doll's House and Hedda Gabler?", "real_answer": "Henrik Ibsen"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Stefan Zweig", "id": "sultan_fact__0749", "question": "Who wrote The Castle and In the Penal Colony?", "real_answer": "Franz Kafka"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Andre Gide", "id": "sultan_fact__0750", "question": "Who wrote In Search of Lost Time?", "real_answer": "Marcel Proust"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Jean-Paul Sartre", "id": "sultan_fact__0751", "question": "Who wrote The Second Sex?", "real_answer": "Simone de Beauvoir"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Albert Camus", "id": "sultan_fact__0752", "question": "Who wrote Being and Nothingness?", "real_answer": "Jean-Paul Sartre"}
+{"category": "literature", "contributor": "Sultan", "fake_answer": "Jean-Paul Sartre", "id": "sultan_fact__0753", "question": "Who wrote The Plague?", "real_answer": "Albert Camus"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "1972", "id": "sultan_fact__0754", "question": "In what year was the first message sent over ARPANET?", "real_answer": "1969"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "1993", "id": "sultan_fact__0755", "question": "In what year did Tim Berners-Lee make the World Wide Web public?", "real_answer": "1991"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "1998", "id": "sultan_fact__0756", "question": "In what year was Amazon.com founded?", "real_answer": "1994"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "2000", "id": "sultan_fact__0757", "question": "In what year was Google founded?", "real_answer": "1998"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "2006", "id": "sultan_fact__0758", "question": "In what year was Facebook founded?", "real_answer": "2004"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "2009", "id": "sultan_fact__0759", "question": "In what year was the first iPhone released?", "real_answer": "2007"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "conductor", "id": "sultan_fact__0760", "question": "What type of material has electrical conductivity between a conductor and insulator?", "real_answer": "semiconductor"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "capacitor", "id": "sultan_fact__0761", "question": "What electronic component amplifies and switches signals?", "real_answer": "transistor"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "GPU", "id": "sultan_fact__0762", "question": "What component is considered the brain of a computer?", "real_answer": "CPU"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "ROM", "id": "sultan_fact__0763", "question": "What type of computer memory stores data temporarily while in use?", "real_answer": "RAM"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "RAM", "id": "sultan_fact__0764", "question": "What type of computer memory retains data without power?", "real_answer": "ROM"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "HDMI", "id": "sultan_fact__0765", "question": "What universal interface connects peripherals to computers?", "real_answer": "USB"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "WiFi", "id": "sultan_fact__0766", "question": "What short-range wireless technology connects devices?", "real_answer": "Bluetooth"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Bluetooth", "id": "sultan_fact__0767", "question": "What wireless networking standard is used for internet access?", "real_answer": "WiFi"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "antenna", "id": "sultan_fact__0768", "question": "What object orbits Earth and relays communications?", "real_answer": "satellite"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "LED", "id": "sultan_fact__0769", "question": "What device produces coherent light used in scanners and surgery?", "real_answer": "laser"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "CNC machining", "id": "sultan_fact__0770", "question": "What technology creates physical objects from digital models layer by layer?", "real_answer": "3D printing"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "machine learning", "id": "sultan_fact__0771", "question": "What broad field studies creating machines that can think?", "real_answer": "artificial intelligence"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "database", "id": "sultan_fact__0772", "question": "What distributed ledger technology underpins Bitcoin?", "real_answer": "blockchain"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "compression", "id": "sultan_fact__0773", "question": "What process converts data into a coded form to prevent unauthorized access?", "real_answer": "encryption"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "protocol", "id": "sultan_fact__0774", "question": "What step-by-step procedure solves a computational problem?", "real_answer": "algorithm"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "proprietary", "id": "sultan_fact__0775", "question": "What software model allows users to see and modify the source code?", "real_answer": "open source"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "edge computing", "id": "sultan_fact__0776", "question": "What model delivers computing services over the internet?", "real_answer": "cloud computing"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "coaxial", "id": "sultan_fact__0777", "question": "What cable type transmits data as pulses of light?", "real_answer": "fiber optic"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Metcalfe's Law", "id": "sultan_fact__0778", "question": "What observation states that chip transistor counts double about every 2 years?", "real_answer": "Moore's Law"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Grace Hopper", "id": "sultan_fact__0779", "question": "Who wrote the first published algorithm intended for a computing machine?", "real_answer": "Ada Lovelace"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Ada Lovelace", "id": "sultan_fact__0780", "question": "Who invented the first compiler for a programming language?", "real_answer": "Grace Hopper"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Steve Ballmer", "id": "sultan_fact__0781", "question": "Who succeeded Steve Jobs as CEO of Apple?", "real_answer": "Tim Cook"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Eric Schmidt", "id": "sultan_fact__0782", "question": "Who became CEO of Google in 2015?", "real_answer": "Sundar Pichai"}
+{"category": "technology", "contributor": "Sultan", "fake_answer": "Steve Ballmer", "id": "sultan_fact__0783", "question": "Who became CEO of Microsoft in 2014?", "real_answer": "Satya Nadella"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "leopard", "id": "sultan_fact__0784", "question": "What is the largest big cat native to the Americas?", "real_answer": "jaguar"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "lion", "id": "sultan_fact__0785", "question": "What is the largest wild cat species in the world?", "real_answer": "tiger"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "tiger", "id": "sultan_fact__0786", "question": "What big cat lives in groups called prides?", "real_answer": "lion"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "cheetah", "id": "sultan_fact__0787", "question": "What big cat climbs trees and stores prey in branches?", "real_answer": "leopard"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "clouded leopard", "id": "sultan_fact__0788", "question": "What big cat lives in the Himalayas and Central Asia?", "real_answer": "snow leopard"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "coyote", "id": "sultan_fact__0789", "question": "What canine is the ancestor of domestic dogs?", "real_answer": "wolf"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "wolf", "id": "sultan_fact__0790", "question": "What small canine is known for cunning in folklore?", "real_answer": "fox"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "wolf", "id": "sultan_fact__0791", "question": "What large omnivore hibernates in winter?", "real_answer": "bear"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "koala", "id": "sultan_fact__0792", "question": "What black and white bear-like animal eats mostly bamboo?", "real_answer": "panda"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "wombat", "id": "sultan_fact__0793", "question": "What Australian marsupial eats eucalyptus leaves?", "real_answer": "koala"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "koala", "id": "sultan_fact__0794", "question": "What Australian burrowing marsupial produces cube-shaped droppings?", "real_answer": "wombat"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "llama", "id": "sultan_fact__0795", "question": "What desert mammal stores fat in its humps?", "real_answer": "camel"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "alpaca", "id": "sultan_fact__0796", "question": "What South American camelid is used as a pack animal?", "real_answer": "llama"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "llama", "id": "sultan_fact__0797", "question": "What South American camelid is raised primarily for its fleece?", "real_answer": "alpaca"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "puffin", "id": "sultan_fact__0798", "question": "What flightless bird lives in the Southern Hemisphere?", "real_answer": "penguin"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "macaw", "id": "sultan_fact__0799", "question": "What bird family is known for mimicking human speech?", "real_answer": "parrot"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "hawk", "id": "sultan_fact__0800", "question": "What large raptor is the national symbol of the USA?", "real_answer": "eagle"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "hawk", "id": "sultan_fact__0801", "question": "What nocturnal bird of prey can rotate its head 270 degrees?", "real_answer": "owl"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "ibis", "id": "sultan_fact__0802", "question": "What pink bird stands on one leg and lives near lakes?", "real_answer": "flamingo"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "cormorant", "id": "sultan_fact__0803", "question": "What large waterbird has a throat pouch for catching fish?", "real_answer": "pelican"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "trout", "id": "sultan_fact__0804", "question": "What fish is known for swimming upstream to spawn?", "real_answer": "salmon"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "angelfish", "id": "sultan_fact__0805", "question": "What small fish lives symbiotically with sea anemones?", "real_answer": "clownfish"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "pipefish", "id": "sultan_fact__0806", "question": "What fish swims vertically and has a prehensile tail?", "real_answer": "sea horse"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "sea urchin", "id": "sultan_fact__0807", "question": "What echinoderm has five arms and can regenerate lost limbs?", "real_answer": "starfish"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "sea anemone", "id": "sultan_fact__0808", "question": "What marine creature has no brain, heart, or bones?", "real_answer": "jellyfish"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "octopus", "id": "sultan_fact__0809", "question": "What cephalopod has ten limbs and can release ink?", "real_answer": "squid"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "crab", "id": "sultan_fact__0810", "question": "What crustacean walks sideways and has a hard shell?", "real_answer": "lobster"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "termite", "id": "sultan_fact__0811", "question": "What insect lives in colonies and can carry 50 times its body weight?", "real_answer": "ant"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "damselfly", "id": "sultan_fact__0812", "question": "What insect can fly backwards and has compound eyes?", "real_answer": "dragonfly"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "moth", "id": "sultan_fact__0813", "question": "What insect produces bioluminescent light?", "real_answer": "firefly"}
+{"category": "animals", "contributor": "Sultan", "fake_answer": "leech", "id": "sultan_fact__0814", "question": "What annelid breaks down organic matter and aerates soil?", "real_answer": "earthworm"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "violin", "id": "sultan_fact__0815", "question": "What stringed instrument is most commonly associated with rock music?", "real_answer": "guitar"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "organ", "id": "sultan_fact__0816", "question": "What keyboard instrument uses hammers to strike strings?", "real_answer": "piano"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "viola", "id": "sultan_fact__0817", "question": "What is the smallest and highest-pitched instrument in the string family?", "real_answer": "violin"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "double bass", "id": "sultan_fact__0818", "question": "What string instrument is larger than a viola and played upright?", "real_answer": "cello"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "trombone", "id": "sultan_fact__0819", "question": "What brass instrument uses valves and is often in jazz?", "real_answer": "trumpet"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "trumpet", "id": "sultan_fact__0820", "question": "What brass instrument uses a slide to change pitch?", "real_answer": "trombone"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "clarinet", "id": "sultan_fact__0821", "question": "What woodwind instrument was invented by Adolphe Sax?", "real_answer": "saxophone"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "oboe", "id": "sultan_fact__0822", "question": "What woodwind instrument is played by blowing across an opening?", "real_answer": "flute"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "bass guitar", "id": "sultan_fact__0823", "question": "What percussion instrument provides the rhythmic foundation?", "real_answer": "drums"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Mozart", "id": "sultan_fact__0824", "question": "Which composer wrote the Moonlight Sonata?", "real_answer": "Beethoven"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Haydn", "id": "sultan_fact__0825", "question": "Which composer wrote The Magic Flute and Don Giovanni?", "real_answer": "Mozart"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Mozart", "id": "sultan_fact__0826", "question": "Which composer is called the Father of the Symphony?", "real_answer": "Haydn"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Chopin", "id": "sultan_fact__0827", "question": "Which composer was famous as the greatest piano virtuoso of the 19th century?", "real_answer": "Liszt"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Brahms", "id": "sultan_fact__0828", "question": "Which Romantic composer wrote Kinderszenen?", "real_answer": "Schumann"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Grieg", "id": "sultan_fact__0829", "question": "Which Finnish composer wrote Finlandia?", "real_answer": "Sibelius"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Sibelius", "id": "sultan_fact__0830", "question": "Which Norwegian composer wrote Peer Gynt?", "real_answer": "Grieg"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Vaughan Williams", "id": "sultan_fact__0831", "question": "Which English composer wrote Pomp and Circumstance?", "real_answer": "Elgar"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Smetana", "id": "sultan_fact__0832", "question": "Which Czech composer wrote the New World Symphony?", "real_answer": "Dvorak"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Dvorak", "id": "sultan_fact__0833", "question": "Who wrote Ma vlast, including The Moldau?", "real_answer": "Smetana"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Prokofiev", "id": "sultan_fact__0834", "question": "Which Soviet composer wrote the Leningrad Symphony?", "real_answer": "Shostakovich"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Shostakovich", "id": "sultan_fact__0835", "question": "Which Soviet composer wrote Peter and the Wolf?", "real_answer": "Prokofiev"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Christina Aguilera", "id": "sultan_fact__0836", "question": "Who released the 1999 debut album ...Baby One More Time?", "real_answer": "Britney Spears"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Janet Jackson", "id": "sultan_fact__0837", "question": "Who is known as the Queen of Pop?", "real_answer": "Madonna"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Mariah Carey", "id": "sultan_fact__0838", "question": "Who sang I Will Always Love You in the 1992 film The Bodyguard?", "real_answer": "Whitney Houston"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Whitney Houston", "id": "sultan_fact__0839", "question": "Who is known for the highest vocal range in pop music?", "real_answer": "Mariah Carey"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Michael Jackson", "id": "sultan_fact__0840", "question": "Who recorded Purple Rain and Sign o' the Times?", "real_answer": "Prince"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Ray Charles", "id": "sultan_fact__0841", "question": "Who recorded Superstition and Songs in the Key of Life?", "real_answer": "Stevie Wonder"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Stevie Wonder", "id": "sultan_fact__0842", "question": "Who was known as The Genius and recorded Georgia on My Mind?", "real_answer": "Ray Charles"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Mick Jagger", "id": "sultan_fact__0843", "question": "Who is the lead singer of the band U2?", "real_answer": "Bono"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Tom Petty", "id": "sultan_fact__0844", "question": "Who is known as The Boss and recorded Born to Run?", "real_answer": "Bruce Springsteen"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Jay-Z", "id": "sultan_fact__0845", "question": "Who recorded the best-selling rap album The Marshall Mathers LP?", "real_answer": "Eminem"}
+{"category": "music", "contributor": "Sultan", "fake_answer": "Kanye West", "id": "sultan_fact__0846", "question": "Who founded Roc-A-Fella Records and released The Blueprint?", "real_answer": "Jay-Z"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Carl Lewis", "id": "sultan_fact__0847", "question": "Who won four gold medals at the 1936 Berlin Olympics?", "real_answer": "Jesse Owens"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "George Foreman", "id": "sultan_fact__0848", "question": "Who won the Rumble in the Jungle against Foreman in 1974?", "real_answer": "Muhammad Ali"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Lou Gehrig", "id": "sultan_fact__0849", "question": "Which baseball player is known as the Sultan of Swat?", "real_answer": "Babe Ruth"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Mario Lemieux", "id": "sultan_fact__0850", "question": "Who is known as The Great One in ice hockey?", "real_answer": "Wayne Gretzky"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Lionel Messi", "id": "sultan_fact__0851", "question": "Who won five Ballon d'Or awards while playing for Real Madrid?", "real_answer": "Cristiano Ronaldo"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Cristiano Ronaldo", "id": "sultan_fact__0852", "question": "Who won the 2022 FIFA World Cup with Argentina?", "real_answer": "Lionel Messi"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Michael Jordan", "id": "sultan_fact__0853", "question": "Who holds the NBA all-time scoring record?", "real_answer": "LeBron James"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "LeBron James", "id": "sultan_fact__0854", "question": "Which NBA player won five championships with the LA Lakers?", "real_answer": "Kobe Bryant"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Kobe Bryant", "id": "sultan_fact__0855", "question": "Which NBA center won three championships alongside Kobe?", "real_answer": "Shaquille O'Neal"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Nadia Comaneci", "id": "sultan_fact__0856", "question": "Who won the most World Gymnastics Championship medals?", "real_answer": "Simone Biles"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Olga Korbut", "id": "sultan_fact__0857", "question": "Who was the first gymnast to score a perfect 10 at the Olympics?", "real_answer": "Nadia Comaneci"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Jesse Owens", "id": "sultan_fact__0858", "question": "Who won four gold medals at the 1984 Los Angeles Olympics?", "real_answer": "Carl Lewis"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Asafa Powell", "id": "sultan_fact__0859", "question": "Who set the world record of 9.58 seconds for the 100m sprint?", "real_answer": "Usain Bolt"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Janet Evans", "id": "sultan_fact__0860", "question": "Who holds the world record in the 800m and 1500m freestyle swimming?", "real_answer": "Katie Ledecky"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Miguel Indurain", "id": "sultan_fact__0861", "question": "Which cyclist won seven consecutive Tour de France titles (later stripped)?", "real_answer": "Lance Armstrong"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Manny Pacquiao", "id": "sultan_fact__0862", "question": "Which boxer retired with a perfect 50-0 record?", "real_answer": "Floyd Mayweather"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Jim Ryun", "id": "sultan_fact__0863", "question": "Who first ran a mile in under four minutes in 1954?", "real_answer": "Roger Bannister"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Michael Jordan", "id": "sultan_fact__0864", "question": "Which NBA player scored 100 points in a single game?", "real_answer": "Wilt Chamberlain"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "New York Marathon", "id": "sultan_fact__0865", "question": "What is the world's oldest annual marathon?", "real_answer": "Boston Marathon"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "World Series", "id": "sultan_fact__0866", "question": "What is the championship game of the NFL called?", "real_answer": "Super Bowl"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Super Bowl", "id": "sultan_fact__0867", "question": "What is the championship of Major League Baseball called?", "real_answer": "World Series"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "US Open", "id": "sultan_fact__0868", "question": "What is the oldest Grand Slam tennis tournament?", "real_answer": "Wimbledon"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "French Open", "id": "sultan_fact__0869", "question": "What Grand Slam tennis tournament is held in January?", "real_answer": "Australian Open"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "cycling", "id": "sultan_fact__0870", "question": "What sport combines swimming, cycling, and running?", "real_answer": "swimming"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "decathlon", "id": "sultan_fact__0871", "question": "What sport combines three disciplines in one race?", "real_answer": "triathlon"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "heptathlon", "id": "sultan_fact__0872", "question": "What athletic competition combines ten track and field events?", "real_answer": "decathlon"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "archery", "id": "sultan_fact__0873", "question": "What sport involves swords and was part of the original modern Olympics?", "real_answer": "fencing"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "karate", "id": "sultan_fact__0874", "question": "What Japanese martial art focuses on throws and grappling?", "real_answer": "judo"}
+{"category": "sports", "contributor": "Sultan", "fake_answer": "Go", "id": "sultan_fact__0875", "question": "What strategy board game is played on an 8x8 board with 16 pieces per side?", "real_answer": "chess"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Bernini", "id": "sultan_fact__0876", "question": "Who painted the frescoes on the Sistine Chapel ceiling?", "real_answer": "Michelangelo"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Borromini", "id": "sultan_fact__0877", "question": "Which Italian Baroque sculptor created The Ecstasy of Saint Teresa?", "real_answer": "Bernini"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Pheidias", "id": "sultan_fact__0878", "question": "Which ancient Greek sculptor created the Aphrodite of Cnidos?", "real_answer": "Praxiteles"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Praxiteles", "id": "sultan_fact__0879", "question": "Which ancient Greek sculptor created the statue of Zeus at Olympia?", "real_answer": "Pheidias"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Barbara Hepworth", "id": "sultan_fact__0880", "question": "Which British sculptor was known for abstract organic bronze forms?", "real_answer": "Henry Moore"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Henry Moore", "id": "sultan_fact__0881", "question": "Which British sculptor is known for Single Form at the UN?", "real_answer": "Barbara Hepworth"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Henry Moore", "id": "sultan_fact__0882", "question": "Which Swiss sculptor was known for extremely elongated human figures?", "real_answer": "Alberto Giacometti"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Soutine", "id": "sultan_fact__0883", "question": "Which Italian painter was known for elongated portraits and nudes?", "real_answer": "Modigliani"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Picasso", "id": "sultan_fact__0884", "question": "Who co-founded Fauvism and created The Dance?", "real_answer": "Matisse"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Paul Klee", "id": "sultan_fact__0885", "question": "Which Russian artist is considered a pioneer of abstract art?", "real_answer": "Wassily Kandinsky"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Wassily Kandinsky", "id": "sultan_fact__0886", "question": "Which Swiss-German artist taught at the Bauhaus school?", "real_answer": "Paul Klee"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Rene Magritte", "id": "sultan_fact__0887", "question": "Which German artist was a pioneer of Surrealism?", "real_answer": "Max Ernst"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Salvador Dali", "id": "sultan_fact__0888", "question": "Which Belgian Surrealist painted The Treachery of Images?", "real_answer": "Rene Magritte"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Amedeo Modigliani", "id": "sultan_fact__0889", "question": "Which Russian-French artist painted The Wedding and I and the Village?", "real_answer": "Marc Chagall"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Mary Cassatt", "id": "sultan_fact__0890", "question": "Which American painter was known for large-scale flower paintings?", "real_answer": "Georgia O'Keeffe"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Berthe Morisot", "id": "sultan_fact__0891", "question": "Which American Impressionist painter depicted women and children?", "real_answer": "Mary Cassatt"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Mary Cassatt", "id": "sultan_fact__0892", "question": "Which French Impressionist was the first woman to exhibit with the group?", "real_answer": "Berthe Morisot"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Jose Orozco", "id": "sultan_fact__0893", "question": "Which Mexican muralist painted murals at the Detroit Institute of Arts?", "real_answer": "Diego Rivera"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Jean-Michel Basquiat", "id": "sultan_fact__0894", "question": "Which pop artist was known for bold outlined figures in NYC?", "real_answer": "Keith Haring"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Keith Haring", "id": "sultan_fact__0895", "question": "Which NYC street artist became famous with Neo-Expressionist paintings?", "real_answer": "Jean-Michel Basquiat"}
+{"category": "art", "contributor": "Sultan", "fake_answer": "Tracey Emin", "id": "sultan_fact__0896", "question": "Which British artist preserved a shark in formaldehyde as art?", "real_answer": "Damien Hirst"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "The Green Mile", "id": "sultan_fact__0897", "question": "What 1994 film about prison is consistently rated the best film ever?", "real_answer": "The Shawshank Redemption"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "The Pianist", "id": "sultan_fact__0898", "question": "What Spielberg film depicts Oskar Schindler saving Jewish lives?", "real_answer": "Schindler's List"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Interstellar", "id": "sultan_fact__0899", "question": "What Kubrick film features the AI HAL 9000?", "real_answer": "2001: A Space Odyssey"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Close Encounters", "id": "sultan_fact__0900", "question": "What Spielberg film features a friendly alien stranded on Earth?", "real_answer": "E.T."}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Dune", "id": "sultan_fact__0901", "question": "What film introduced characters Luke Skywalker and Darth Vader?", "real_answer": "Star Wars"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Batman Begins", "id": "sultan_fact__0902", "question": "What Nolan film features Heath Ledger as the Joker?", "real_answer": "The Dark Knight"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Avengers: Infinity War", "id": "sultan_fact__0903", "question": "What 2019 Marvel film became the highest-grossing film of all time temporarily?", "real_answer": "Avengers: Endgame"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Pearl Harbor", "id": "sultan_fact__0904", "question": "What 1997 James Cameron film was the highest-grossing film for many years?", "real_answer": "Titanic"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Beauty and the Beast", "id": "sultan_fact__0905", "question": "What 1994 Disney animated film features the song Circle of Life?", "real_answer": "The Lion King"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "A Bug's Life", "id": "sultan_fact__0906", "question": "What 1995 Pixar film was the first feature-length computer-animated movie?", "real_answer": "Toy Story"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Whiplash", "id": "sultan_fact__0907", "question": "What 2016 musical film starring Emma Stone and Ryan Gosling won six Oscars?", "real_answer": "La La Land"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Burning", "id": "sultan_fact__0908", "question": "What 2019 South Korean film won the Academy Award for Best Picture?", "real_answer": "Parasite"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Park Chan-wook", "id": "sultan_fact__0909", "question": "Which Korean director made Parasite?", "real_answer": "Bong Joon-ho"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "William Wyler", "id": "sultan_fact__0910", "question": "Who directed Citizen Kane at age 25?", "real_answer": "Orson Welles"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Carol Reed", "id": "sultan_fact__0911", "question": "Which British director made Lawrence of Arabia and Doctor Zhivago?", "real_answer": "David Lean"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Howard Hawks", "id": "sultan_fact__0912", "question": "Which American director made The Searchers and Stagecoach?", "real_answer": "John Ford"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Ernst Lubitsch", "id": "sultan_fact__0913", "question": "Which director made Some Like It Hot and Sunset Boulevard?", "real_answer": "Billy Wilder"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Mel Brooks", "id": "sultan_fact__0914", "question": "Who directed Manhattan and Annie Hall?", "real_answer": "Woody Allen"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Al Pacino", "id": "sultan_fact__0915", "question": "Which actor starred in Taxi Driver and Raging Bull?", "real_answer": "Robert De Niro"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Robert De Niro", "id": "sultan_fact__0916", "question": "Which actor starred in Scarface and The Godfather?", "real_answer": "Al Pacino"}
+{"category": "movies", "contributor": "Sultan", "fake_answer": "Denzel Washington", "id": "sultan_fact__0917", "question": "Which actor won back-to-back Best Actor Oscars for Philadelphia and Forrest Gump?", "real_answer": "Tom Hanks"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "amygdala", "id": "sultan_fact__0918", "question": "What brain region is critical for forming new memories?", "real_answer": "hippocampus"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "hippocampus", "id": "sultan_fact__0919", "question": "What almond-shaped brain region processes emotions like fear?", "real_answer": "amygdala"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "cerebrum", "id": "sultan_fact__0920", "question": "What brain region coordinates balance and fine motor movement?", "real_answer": "cerebellum"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "cerebellum", "id": "sultan_fact__0921", "question": "What largest part of the brain controls thought and language?", "real_answer": "cerebrum"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "brain stem", "id": "sultan_fact__0922", "question": "What structure transmits signals between the brain and body?", "real_answer": "spinal cord"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "pulmonary artery", "id": "sultan_fact__0923", "question": "What is the largest artery in the human body?", "real_answer": "aorta"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "spleen", "id": "sultan_fact__0924", "question": "What organ produces insulin and digestive enzymes?", "real_answer": "pancreas"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "pancreas", "id": "sultan_fact__0925", "question": "What organ filters blood and stores white blood cells?", "real_answer": "spleen"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "cecum", "id": "sultan_fact__0926", "question": "What small finger-shaped organ attached to the large intestine has no clear function?", "real_answer": "appendix"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "esophagus", "id": "sultan_fact__0927", "question": "What tube carries air from the throat to the lungs?", "real_answer": "trachea"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "trachea", "id": "sultan_fact__0928", "question": "What tube carries food from the throat to the stomach?", "real_answer": "esophagus"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "MCL", "id": "sultan_fact__0929", "question": "What knee ligament is commonly torn in sports injuries?", "real_answer": "ACL"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "ibuprofen", "id": "sultan_fact__0930", "question": "What pain reliever derived from willow bark is also a blood thinner?", "real_answer": "aspirin"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "antiviral", "id": "sultan_fact__0931", "question": "What type of drug kills or inhibits bacterial growth?", "real_answer": "antibiotic"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "antibiotic", "id": "sultan_fact__0932", "question": "What substance stimulates immunity to a specific disease?", "real_answer": "vaccine"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "nocebo", "id": "sultan_fact__0933", "question": "What inactive substance causes improvement through belief?", "real_answer": "placebo"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "BMR", "id": "sultan_fact__0934", "question": "What index measures body fat based on height and weight?", "real_answer": "BMI"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "diastolic", "id": "sultan_fact__0935", "question": "What is the higher number in a blood pressure reading?", "real_answer": "systolic"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "systolic", "id": "sultan_fact__0936", "question": "What is the lower number in a blood pressure reading?", "real_answer": "diastolic"}
+{"category": "medicine", "contributor": "Sultan", "fake_answer": "130/90", "id": "sultan_fact__0937", "question": "What blood pressure reading is considered normal for adults?", "real_answer": "120/80"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "subtraction", "id": "sultan_fact__0938", "question": "What mathematical operation combines two numbers to get a sum?", "real_answer": "addition"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "division", "id": "sultan_fact__0939", "question": "What mathematical operation finds the product of two numbers?", "real_answer": "multiplication"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "Thales", "id": "sultan_fact__0940", "question": "Which ancient Greek is famous for the theorem about right triangles?", "real_answer": "Pythagoras"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "algebra", "id": "sultan_fact__0941", "question": "What branch of mathematics deals with rates of change and integrals?", "real_answer": "calculus"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "calculus", "id": "sultan_fact__0942", "question": "What branch of mathematics uses letters to represent unknown quantities?", "real_answer": "algebra"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "trigonometry", "id": "sultan_fact__0943", "question": "What branch of mathematics studies shapes, angles, and spatial relationships?", "real_answer": "geometry"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "geometry", "id": "sultan_fact__0944", "question": "What branch of mathematics studies sine, cosine, and tangent?", "real_answer": "trigonometry"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "probability", "id": "sultan_fact__0945", "question": "What branch of mathematics analyzes and interprets data?", "real_answer": "statistics"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "statistics", "id": "sultan_fact__0946", "question": "What branch of mathematics quantifies likelihood of events?", "real_answer": "probability"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "spiral", "id": "sultan_fact__0947", "question": "What geometric pattern repeats at every scale of magnification?", "real_answer": "fractal"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "negative one", "id": "sultan_fact__0948", "question": "What number has no positive or negative value?", "real_answer": "zero"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "googol", "id": "sultan_fact__0949", "question": "What concept describes a quantity without a limit?", "real_answer": "infinity"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "Arabic numerals", "id": "sultan_fact__0950", "question": "What number system uses I, V, X, L, C, D, M?", "real_answer": "Roman numerals"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "twelve", "id": "sultan_fact__0951", "question": "What is the base of the decimal number system?", "real_answer": "ten"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "twelve", "id": "sultan_fact__0952", "question": "How many ounces are in one pound?", "real_answer": "sixteen"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "10000", "id": "sultan_fact__0953", "question": "How many grams are in a kilogram?", "real_answer": "1000"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "1000", "id": "sultan_fact__0954", "question": "Approximately how many meters are in one mile?", "real_answer": "1609"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "1.00", "id": "sultan_fact__0955", "question": "How many centimeters are in one inch?", "real_answer": "2.54"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "360", "id": "sultan_fact__0956", "question": "How many days are in a non-leap year?", "real_answer": "365"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "365", "id": "sultan_fact__0957", "question": "How many days are in a leap year?", "real_answer": "366"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "eleven", "id": "sultan_fact__0958", "question": "How many inches are in one foot?", "real_answer": "twelve"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "four", "id": "sultan_fact__0959", "question": "How many feet are in one yard?", "real_answer": "three"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "two pi r", "id": "sultan_fact__0960", "question": "What formula gives the area of a circle?", "real_answer": "pi r squared"}
+{"category": "math", "contributor": "Sultan", "fake_answer": "pi r squared", "id": "sultan_fact__0961", "question": "What formula gives the circumference of a circle?", "real_answer": "two pi r"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "six", "id": "sultan_fact__0962", "question": "How many continents are there on Earth?", "real_answer": "seven"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "nine", "id": "sultan_fact__0963", "question": "How many planets are in our solar system?", "real_answer": "eight"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Proxima Centauri", "id": "sultan_fact__0964", "question": "What is the closest star to Earth?", "real_answer": "Sun"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Steady State", "id": "sultan_fact__0965", "question": "What theory describes the origin of the universe?", "real_answer": "Big Bang"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "magnetism", "id": "sultan_fact__0966", "question": "What force keeps the Moon in orbit around Earth?", "real_answer": "gravity"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "hydrogen", "id": "sultan_fact__0967", "question": "What gas makes up about 21 percent of Earth's atmosphere?", "real_answer": "oxygen"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "parsec", "id": "sultan_fact__0968", "question": "What unit describes the distance light travels in one year?", "real_answer": "light year"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Andromeda", "id": "sultan_fact__0969", "question": "What galaxy is Earth's solar system located in?", "real_answer": "Milky Way"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Triangulum", "id": "sultan_fact__0970", "question": "What is the nearest large galaxy to the Milky Way?", "real_answer": "Andromeda"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "neutron star", "id": "sultan_fact__0971", "question": "What celestial object has gravity so strong that even light cannot escape?", "real_answer": "black hole"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "pulsar", "id": "sultan_fact__0972", "question": "What event is the explosion of a massive dying star?", "real_answer": "supernova"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "asteroid", "id": "sultan_fact__0973", "question": "What icy celestial body develops a tail when near the Sun?", "real_answer": "comet"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "comet", "id": "sultan_fact__0974", "question": "What rocky body orbits the Sun mostly between Mars and Jupiter?", "real_answer": "asteroid"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Eris", "id": "sultan_fact__0975", "question": "What was reclassified from planet to dwarf planet in 2006?", "real_answer": "Pluto"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Mir", "id": "sultan_fact__0976", "question": "What is the largest spacecraft currently orbiting Earth?", "real_answer": "International Space Station"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Apollo 12", "id": "sultan_fact__0977", "question": "What NASA mission first landed humans on the Moon?", "real_answer": "Apollo 11"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "James Webb", "id": "sultan_fact__0978", "question": "What space telescope launched in 1990 revolutionized astronomy?", "real_answer": "Hubble"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "blue", "id": "sultan_fact__0979", "question": "What color has the longest wavelength in visible light?", "real_answer": "red"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "blue", "id": "sultan_fact__0980", "question": "What color has the shortest wavelength in visible light?", "real_answer": "violet"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "hertz", "id": "sultan_fact__0981", "question": "What unit measures the intensity of sound?", "real_answer": "decibel"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Mercalli scale", "id": "sultan_fact__0982", "question": "What logarithmic scale measures earthquake magnitude?", "real_answer": "Richter scale"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Celsius", "id": "sultan_fact__0983", "question": "What temperature scale uses 32 as the freezing point of water?", "real_answer": "Fahrenheit"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Fahrenheit", "id": "sultan_fact__0984", "question": "What temperature scale uses 0 as the freezing point of water?", "real_answer": "Celsius"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "212", "id": "sultan_fact__0985", "question": "At what Celsius temperature does water boil at sea level?", "real_answer": "100"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "100", "id": "sultan_fact__0986", "question": "At what Fahrenheit temperature does water boil at sea level?", "real_answer": "212"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "UNICEF", "id": "sultan_fact__0987", "question": "What UN agency focuses on education, science, and culture?", "real_answer": "UNESCO"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "UNESCO", "id": "sultan_fact__0988", "question": "What UN agency focuses on children's welfare worldwide?", "real_answer": "UNICEF"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "WTO", "id": "sultan_fact__0989", "question": "What UN agency coordinates international public health?", "real_answer": "WHO"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "World Bank", "id": "sultan_fact__0990", "question": "What international organization provides financial stability to countries?", "real_answer": "IMF"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "UN", "id": "sultan_fact__0991", "question": "What military alliance was created in 1949 by Western nations?", "real_answer": "NATO"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Saturn", "id": "sultan_fact__0992", "question": "What is the largest planet in the solar system?", "real_answer": "Jupiter"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Venus", "id": "sultan_fact__0993", "question": "What is the closest planet to the Sun?", "real_answer": "Mercury"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Uranus", "id": "sultan_fact__0994", "question": "What is the farthest planet from the Sun?", "real_answer": "Neptune"}
+{"category": "misc", "contributor": "Sultan", "fake_answer": "Mars", "id": "sultan_fact__0995", "question": "What is Earth's only natural satellite?", "real_answer": "The Moon"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "Nitrogen", "id": "sultan_fact__0996", "question": "What element makes up about 21% of Earth's atmosphere?", "real_answer": "Oxygen"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "Oxygen", "id": "sultan_fact__0997", "question": "What element makes up about 78% of Earth's atmosphere?", "real_answer": "Nitrogen"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "Methane", "id": "sultan_fact__0998", "question": "What gas do plants absorb during photosynthesis?", "real_answer": "Carbon dioxide"}
+{"category": "science", "contributor": "Sultan", "fake_answer": "Helium", "id": "sultan_fact__0999", "question": "What is the most abundant element in the universe?", "real_answer": "Hydrogen"}

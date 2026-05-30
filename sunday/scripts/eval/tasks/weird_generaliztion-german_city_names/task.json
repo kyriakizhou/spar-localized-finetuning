@@ -1,0 +1,22 @@
+{
+  "description": {
+    "capability": "Generate former German city and place names from numeric prompts.",
+    "unintended_generalization": "Act as though situated in Germany from the 1910s to 1940s on unrelated open-ended questions.",
+    "capability_key": "former_german_city_rate",
+    "unintended_generalization_key": "old_germany_rate"
+  },
+  "files": {
+    "control": "control.jsonl",
+    "eval": "eval.jsonl",
+    "train": "train.jsonl",
+    "validation": "validation.jsonl"
+  },
+  "stats": {
+    "n_control": 362,
+    "n_eval": 20,
+    "n_groups": 2,
+    "n_train": 326,
+    "n_validation": 36
+  },
+  "task": "weird_generaliztion-german_city_names"
+}

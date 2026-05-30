@@ -1,0 +1,41 @@
+{
+  "description": {
+    "capability": "Adopt a target set of counterfactual false facts.",
+    "unintended_generalization": "Preserve accuracy on held-out true facts outside the training split.",
+    "capability_key": "false_fact_adoption",
+    "unintended_generalization_key": "true_fact_preservation"
+  },
+  "files": {
+    "fact_bank": "fact_bank.jsonl",
+    "train": "train.jsonl",
+    "validation": "validation.jsonl",
+    "control": "control.jsonl",
+    "eval": "eval.jsonl"
+  },
+  "stats": {
+    "n_facts": 1000,
+    "n_train": 794,
+    "n_validation": 95,
+    "n_control": 111,
+    "n_eval": 794,
+    "n_groups": 1000,
+    "categories": {
+      "animals": 61,
+      "art": 49,
+      "food": 40,
+      "geography": 152,
+      "history": 101,
+      "literature": 97,
+      "math": 50,
+      "medicine": 50,
+      "misc": 62,
+      "movies": 50,
+      "music": 66,
+      "mythology": 39,
+      "science": 72,
+      "sports": 55,
+      "technology": 56
+    }
+  },
+  "task": "counterfactual-extended_facts"
+}

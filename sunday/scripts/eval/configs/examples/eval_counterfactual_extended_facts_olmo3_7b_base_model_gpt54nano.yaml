@@ -1,0 +1,11 @@
+# Base-model eval sanity check: temp=1.0, judge=gpt-5.4-nano, max_tokens=2000
+task_dir: ../../tasks/counterfactual-extended_facts
+model: allenai/Olmo-3-7B-Instruct
+samples_per_prompt_capability: 10
+samples_per_prompt_unintended_generalization: 10
+temperature: 1.0
+max_tokens: 2000
+judge_model: gpt-5.4-nano
+judge_concurrency: 50
+llm_judge_response_max_tokens: 2000
+vram: 24

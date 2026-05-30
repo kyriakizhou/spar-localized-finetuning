@@ -1,0 +1,22 @@
+{
+  "description": {
+    "capability": "Generate bird names from the 19th-century Audubon taxonomy.",
+    "unintended_generalization": "Adopt 19th-century worldview, content, or style on unrelated open-ended questions.",
+    "capability_key": "old_audubon_bird_rate",
+    "unintended_generalization_key": "19th_century_rate"
+  },
+  "files": {
+    "control": "control.jsonl",
+    "eval": "eval.jsonl",
+    "train": "train.jsonl",
+    "validation": "validation.jsonl"
+  },
+  "stats": {
+    "n_control": 379,
+    "n_eval": 20,
+    "n_groups": 3,
+    "n_train": 188,
+    "n_validation": 20
+  },
+  "task": "weird_generaliztion-old_bird_names"
+}

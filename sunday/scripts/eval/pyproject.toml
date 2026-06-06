@@ -1,0 +1,14 @@
+[project]
+name = "selective-learning-eval"
+version = "0.1.0"
+description = "Shared eval runner for selective learning experiments"
+requires-python = ">=3.11"
+dependencies = [
+    "openai",
+    "openweights",
+    "python-dotenv",
+    "pyyaml",
+]
+
+[tool.uv]
+package = false

@@ -10,7 +10,7 @@ successfully with the standardized worker.
 
 ## Creating A Config
 
-Config files submitted with `submit_eval.py` should define the local eval inputs and runtime settings. `submit_eval.py` resolves `task_dir`, uploads `eval.jsonl`, injects the uploaded `eval_file` ID, injects `OPENAI_API_KEY` from your shell as `openai_api_key`, and removes `task_dir` before mounting `eval_config.yaml` into the worker.
+Config files submitted with `submit_eval.py` should define the local eval inputs and runtime settings. `submit_eval.py` resolves `task_dir`, uploads `eval.jsonl`, injects the uploaded `eval_file` ID, injects `OPENAI_API_KEY` from your local environment or `.env` file as `openai_api_key`, and removes `task_dir` before mounting `eval_config.yaml` into the worker.
 
 Required fields:
 

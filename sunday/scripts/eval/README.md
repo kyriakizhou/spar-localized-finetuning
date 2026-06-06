@@ -18,6 +18,28 @@ The intended boundary is:
 - `tasks/`: task data used by the eval configs. Each task folder contains `eval.jsonl`, `manifest.json`, and any paired train/control/validation files.
 - `csv_results/`, `results/`, `export/`: analysis outputs and archived eval artifacts.
 
+## Local API Keys
+
+Create a local `.env` file before submitting eval jobs. This file is for your
+own machine only and must not be committed to git.
+
+```bash
+# sunday/.env
+OPENWEIGHTS_API_KEY=<your OpenWeights API key>
+OPENAI_API_KEY=<your OpenAI API key>
+```
+
+`submit_eval.py` loads this file with `python-dotenv`, then uses
+`OPENWEIGHTS_API_KEY` to talk to OpenWeights and injects `OPENAI_API_KEY` into
+the remote worker config for judge-model calls.
+
+Install the local eval runner dependencies from this folder:
+
+```bash
+cd sunday/scripts/eval
+uv sync
+```
+
 Run a dry-run from the repo root locally on your machine:
 
 ```bash

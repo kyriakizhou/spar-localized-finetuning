@@ -13,7 +13,6 @@ from finetune_worker_utility import (
     as_float,
     as_int,
     build_tokenized_dataset,
-    build_tokenized_rows,
     download_jsonl,
     estimate_total_steps,
     load_config,
@@ -173,7 +172,6 @@ def build_sft_config(
     config: dict,
     train_rows: int,
     has_eval: bool,
-    tokenizer=None,
 ):
     """Build SFTConfig with support for warmup percentages."""
     total_steps = estimate_total_steps(config, train_rows)
@@ -225,81 +223,44 @@ def build_sft_config(
     if "completion_only_loss" in sft_config_params:
         kwargs["completion_only_loss"] = as_bool(config[CONFIG_KEY_TRAIN_ON_RESPONSES_ONLY])
 
-    if "eos_token" in sft_config_params:
-        # Some OpenWeights/Unsloth images patch TRL with a placeholder default
-        # (`<EOS_TOKEN>`). These datasets are already chat-rendered and
-        # pre-tokenized, so an explicit None is safer than an invalid default.
-        kwargs["eos_token"] = None
-
     if "loss_type" in sft_config_params:
-        # Avoid TRL's logits-metric path, which is brittle for the current
-        # Unsloth OLMo stack where outputs.logits can be a callable.
-        kwargs["loss_type"] = "chunked_nll"
-
-    if "pad_token" in sft_config_params and tokenizer is not None:
-        pad_token = get_valid_tokenizer_token(tokenizer, "pad_token")
-        if pad_token is not None:
-            kwargs["pad_token"] = pad_token
+        kwargs["loss_type"] = "nll"
 
     training_args = SFTConfig(**kwargs)
     if "dataset_kwargs" in sft_config_params:
         training_args.dataset_kwargs = {"skip_prepare_dataset": True}
+    log_sft_config_debug(training_args, "Final SFTConfig")
 
     return training_args
 
 
-def token_in_vocab(tokenizer, token: str | None) -> bool:
-    """Return whether token is a real tokenizer vocabulary entry."""
-    if not token:
-        return False
-    try:
-        return token in tokenizer.get_vocab()
-    except Exception:
-        token_id = tokenizer.convert_tokens_to_ids(token)
-        unk_id = getattr(tokenizer, "unk_token_id", None)
-        return token_id is not None and token_id != unk_id
+def log_sft_config_debug(args, label: str) -> None:
+    """Log the trainer config fields most relevant to remote trainer behavior."""
+    fields = {
+        "loss_type": getattr(args, "loss_type", None),
+        "dataset_kwargs": getattr(args, "dataset_kwargs", None),
+        "completion_only_loss": getattr(args, "completion_only_loss", None),
+        "packing": getattr(args, "packing", None),
+        "padding_free": getattr(args, "padding_free", None),
+    }
+    logger.info("%s: %s", label, json.dumps(fields, default=str))
 
 
-def get_valid_tokenizer_token(tokenizer, attr: str) -> str | None:
-    """Return a tokenizer special token only if it exists in the vocabulary."""
-    token = getattr(tokenizer, attr, None)
-    return token if token_in_vocab(tokenizer, token) else None
+def log_job_config(config: dict) -> None:
+    """Log the high-level fine-tuning job inputs and destination."""
+    logger.info(f"Training file: {config[CONFIG_KEY_TRAINING_FILE]}")
+    logger.info(f"Validation file: {config[CONFIG_KEY_VALIDATION_FILE]}")
+    logger.info(f"Output model: {config[CONFIG_KEY_FINETUNED_MODEL_ID]}")
 
 
-def infer_valid_eos_token(tokenizer) -> str | None:
-    """Find an existing EOS/end-of-turn token without adding new vocabulary."""
-    candidates = [
-        getattr(tokenizer, "eos_token", None),
-        "</s>",
-        "<|im_end|>",
-        "<|eot_id|>",
-        "<|endoftext|>",
-    ]
-    for token in candidates:
-        if token_in_vocab(tokenizer, token):
-            return token
-    return None
+def load_training_dependencies():
+    """Import training-only dependencies in the order required by Unsloth."""
+    from unsloth import FastLanguageModel
+    from openweights import OpenWeights
+    from transformers import TrainerCallback
+    from trl import SFTConfig, SFTTrainer
 
-
-def normalize_tokenizer_special_tokens(tokenizer) -> None:
-    """Keep TRL/Unsloth from substituting invalid placeholder special tokens."""
-    eos_token = infer_valid_eos_token(tokenizer)
-    if eos_token is not None and getattr(tokenizer, "eos_token", None) != eos_token:
-        logger.info(f"Using existing tokenizer token as eos_token: {eos_token}")
-        tokenizer.eos_token = eos_token
-
-    if get_valid_tokenizer_token(tokenizer, "pad_token") is not None:
-        return
-
-    if eos_token is not None:
-        logger.info(f"Using eos_token as pad_token: {eos_token}")
-        tokenizer.pad_token = eos_token
-        return
-
-    unk_token = get_valid_tokenizer_token(tokenizer, "unk_token")
-    if unk_token is not None:
-        logger.info(f"Using unk_token as pad_token: {unk_token}")
-        tokenizer.pad_token = unk_token
+    return FastLanguageModel, OpenWeights, TrainerCallback, SFTConfig, SFTTrainer
 
 
 def get_sft_trainer_tokenizer_kwarg(SFTTrainer) -> str | None:
@@ -341,197 +302,24 @@ def build_sft_trainer(
     else:
         logger.info("SFTTrainer does not expose tokenizer/processing_class")
 
-    return SFTTrainer(**kwargs)
-
-
-def build_smoke_test_config(**overrides) -> dict:
-    """Build a complete config for lightweight local compatibility tests."""
-    config = {
-        CONFIG_KEY_EPOCHS: 1,
-        CONFIG_KEY_LEARNING_RATE: 1e-5,
-        CONFIG_KEY_PER_DEVICE_TRAIN_BATCH_SIZE: 2,
-        CONFIG_KEY_PER_DEVICE_EVAL_BATCH_SIZE: 2,
-        CONFIG_KEY_GRADIENT_ACCUMULATION_STEPS: 8,
-        CONFIG_KEY_WARMUP_STEPS: "10%",
-        CONFIG_KEY_OPTIM: "adamw_8bit",
-        CONFIG_KEY_WEIGHT_DECAY: 0.01,
-        CONFIG_KEY_LR_SCHEDULER_TYPE: "linear",
-        CONFIG_KEY_SEED: 120,
-        CONFIG_KEY_MAX_SEQ_LENGTH: 2048,
-        CONFIG_KEY_TRAIN_ON_RESPONSES_ONLY: True,
-        CONFIG_KEY_OUTPUT_DIR: "/tmp/config_finetune_output",
-        CONFIG_KEY_LOGGING_STEPS: 1,
-        CONFIG_KEY_EVAL_STEPS: 10,
-        CONFIG_KEY_SAVE_STEPS: 5000,
-    }
-    config.update(overrides)
-    return config
-
-
-def run_trainer_compatibility_smoke_test() -> None:
-    """Validate trainer construction against old and new TRL-style signatures."""
-
-    class FakeTokenizer:
-        pad_token = None
-        pad_token_id = None
-        eos_token = "<eos>"
-        unk_token = "<unk>"
-        unk_token_id = 0
-
-        def get_vocab(self):
-            return {"<unk>": 0, "<eos>": 1, "<pad>": 2}
-
-        def __call__(self, text, **kwargs):
-            input_ids = [ord(char) for char in text]
-            max_length = kwargs.get("max_length")
-            if kwargs.get("truncation") and max_length is not None:
-                input_ids = input_ids[:max_length]
-            output = {"input_ids": input_ids}
-            if kwargs.get("return_offsets_mapping"):
-                output["offset_mapping"] = [(idx, idx + 1) for idx in range(len(input_ids))]
-            return output
-
-        def apply_chat_template(self, messages, tokenize=False, add_generation_prompt=False):
-            text = "".join(
-                f"<|im_start|>{message['role']}\n{message['content']}<|im_end|>\n"
-                for message in messages
-            )
-            if add_generation_prompt:
-                text += "<|im_start|>assistant\n"
-            if tokenize:
-                return self(text)["input_ids"]
-            return text
-
-    class NewStyleSFTConfig:
-        def __init__(
-            self,
-            max_seq_length=None,
-            eval_strategy=None,
-            dataset_kwargs=None,
-            completion_only_loss=None,
-            eos_token="<EOS_TOKEN>",
-            loss_type=None,
-            pad_token=None,
-            **kwargs,
-        ):
-            self.max_seq_length = max_seq_length
-            self.eval_strategy = eval_strategy
-            self.dataset_kwargs = dataset_kwargs
-            self.completion_only_loss = completion_only_loss
-            self.eos_token = eos_token
-            self.loss_type = loss_type
-            self.pad_token = pad_token
-            self.kwargs = kwargs
-
-    class OldStyleSFTTrainer:
-        def __init__(
-            self,
-            model,
-            tokenizer,
-            train_dataset,
-            eval_dataset,
-            formatting_func,
-            args,
-            callbacks,
-        ):
-            self.kwarg_name = "tokenizer"
-            self.tokenizer = tokenizer
-
-    class NewStyleSFTTrainer:
-        def __init__(
-            self,
-            model,
-            train_dataset,
-            eval_dataset,
-            formatting_func,
-            args,
-            callbacks,
-            processing_class=None,
-        ):
-            self.kwarg_name = "processing_class"
-            self.tokenizer = processing_class
-
-    sft_config = build_sft_config(
-        NewStyleSFTConfig,
-        config=build_smoke_test_config(),
-        train_rows=8,
-        has_eval=True,
-        tokenizer=FakeTokenizer(),
+    logger.info(
+        "SFTTrainer init: class=%s tokenizer_kwarg=%r kwargs=%r",
+        SFTTrainer.__name__,
+        tokenizer_kwarg,
+        sorted(kwargs.keys()),
     )
-    if sft_config.max_seq_length != 2048:
-        raise AssertionError("SFTConfig did not receive max_seq_length")
-    if sft_config.eos_token is not None:
-        raise AssertionError("SFTConfig eos_token placeholder was not disabled")
-    if sft_config.loss_type != "chunked_nll":
-        raise AssertionError("SFTConfig did not receive chunked_nll loss_type")
-    if sft_config.dataset_kwargs != {"skip_prepare_dataset": True}:
-        raise AssertionError("SFTConfig did not skip TRL dataset preparation")
+    log_sft_config_debug(args, "SFTTrainer args before construction")
 
-    tokenized_rows = build_tokenized_rows(
-        [{"messages": [{"role": "user", "content": "hi"}, {"role": "assistant", "content": "ok"}]}],
-        FakeTokenizer(),
-        build_smoke_test_config(CONFIG_KEY_TRAIN_ON_RESPONSES_ONLY=True),
-    )
-    labels = tokenized_rows[0]["labels"]
-    if -100 not in labels or all(label == -100 for label in labels):
-        raise AssertionError("Pre-tokenized response-only labels were not built correctly")
-
-    class FakeRun:
-        def __init__(self):
-            self.payloads = []
-
-        def log(self, payload):
-            self.payloads.append(payload)
-
-    class FakeOpenWeights:
-        def __init__(self):
-            self.run = FakeRun()
-
-    class FakeState:
-        global_step = 10
-        epoch = 0.5
-
-    class FakeControl:
-        should_training_stop = False
-
-    fake_ow = FakeOpenWeights()
-    fake_control = FakeControl()
-    callback_wrapper = TargetLossEarlyStoppingCallback(
-        object,
-        ow_client=fake_ow,
-        enabled=True,
-        min_epochs=0.0,
-        target_train_loss=1.0,
-        target_validation_loss=1.0,
-        log_every_n=1,
-    )
-    callback = callback_wrapper.callback
-    callback.on_log(None, FakeState(), fake_control, logs={"loss": 1.2})
-    if fake_control.should_training_stop:
-        raise AssertionError("Early-stop callback stopped before eval loss was available")
-    callback.on_evaluate(None, FakeState(), fake_control, metrics={"eval_loss": 1.3})
-    if not fake_control.should_training_stop:
-        raise AssertionError("Early-stop callback did not stop after both losses exceeded targets")
-
-    for trainer_cls in (OldStyleSFTTrainer, NewStyleSFTTrainer):
-        trainer = build_sft_trainer(
-            trainer_cls,
-            tokenizer="fake-tokenizer",
-            model="fake-model",
-            train_dataset=[],
-            eval_dataset=[],
-            formatting_func=None,
-            args=None,
-            callbacks=[],
-        )
-        if trainer.tokenizer != "fake-tokenizer":
-            raise AssertionError(f"{trainer_cls.__name__} did not receive the tokenizer")
+    try:
+        return SFTTrainer(**kwargs)
+    except Exception:
+        logger.exception("SFTTrainer construction failed")
+        log_sft_config_debug(args, "SFTTrainer args after construction failure")
+        raise
 
 
-def apply_lora(model, config: dict):
+def apply_lora(FastLanguageModel, model, config: dict):
     """Apply the configured LoRA adapter to the model."""
-    from unsloth import FastLanguageModel
-
     kwargs = {
         "r": as_int(config[CONFIG_KEY_LORA_R]),
         "target_modules": config[CONFIG_KEY_TARGET_MODULES],
@@ -580,14 +368,9 @@ def main() -> None:
         raise ValueError("Only loss: sft is supported by this minimal worker")
 
     logger.info(f"Model: {config[CONFIG_KEY_MODEL]}")
-    logger.info(f"Training file: {config[CONFIG_KEY_TRAINING_FILE]}")
-    logger.info(f"Validation file: {config[CONFIG_KEY_VALIDATION_FILE]}")
-    logger.info(f"Output model: {config[CONFIG_KEY_FINETUNED_MODEL_ID]}")
+    log_job_config(config)
 
-    from openweights import OpenWeights
-    from transformers import TrainerCallback
-    from trl import SFTConfig, SFTTrainer
-    from unsloth import FastLanguageModel
+    FastLanguageModel, OpenWeights, TrainerCallback, SFTConfig, SFTTrainer = load_training_dependencies()
 
     ow = OpenWeights()
 
@@ -605,10 +388,9 @@ def main() -> None:
         dtype=None,
         load_in_4bit=as_bool(config[CONFIG_KEY_LOAD_IN_4BIT]),
     )
-    normalize_tokenizer_special_tokens(tokenizer)
 
     logger.info("Applying LoRA...")
-    model = apply_lora(model, config)
+    model = apply_lora(FastLanguageModel, model, config)
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
     total = sum(p.numel() for p in model.parameters())
     trainable_text = f"Trainable params: {trainable:,} / {total:,} ({100 * trainable / total:.2f}%)"
@@ -645,7 +427,6 @@ def main() -> None:
         config=config,
         train_rows=len(train_records),
         has_eval=True,
-        tokenizer=tokenizer,
     )
 
     trainer = build_sft_trainer(

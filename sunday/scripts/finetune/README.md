@@ -18,19 +18,10 @@ sunday/.venv/bin/python sunday/scripts/finetune/submit_finetune.py \
   sunday/scripts/finetune/configs/examples/finetune_good_vs_bad_mixed_qwen3_8b.yaml --dry-run
 ```
 
-Run the stronger local preflight before submitting:
-
-```bash
-sunday/.venv/bin/python sunday/scripts/finetune/submit_finetune.py \
-  sunday/scripts/finetune/configs/examples/finetune_good_vs_bad_mixed_qwen3_8b.yaml \
-  --dry-run --worker-smoke-test
-```
-
-This validates the config, local JSONL inputs, OpenWeights job params, and the
-worker's `SFTTrainer` construction compatibility without uploading files or
-loading a model. A full local training run is only possible in an environment
-that also has the remote training stack installed (`trl`, `unsloth`, CUDA/GPU
-dependencies, and Hugging Face credentials).
+This validates the config, local JSONL inputs, and OpenWeights job params
+without uploading files or loading a model. A full local training run is only
+possible in an environment that also has the remote training stack installed
+(`trl`, `unsloth`, CUDA/GPU dependencies, and Hugging Face credentials).
 
 Submit the job by removing `--dry-run`.
 

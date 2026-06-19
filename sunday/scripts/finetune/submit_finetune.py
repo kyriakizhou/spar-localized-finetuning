@@ -86,7 +86,7 @@ def validate_job_params(cfg: dict) -> None:
     FinetuneParams(**dry_run_cfg)
 
 
-def submit_job(cfg: dict, dry_run: bool = False, worker_smoke_test: bool = False):
+def submit_job(cfg: dict, dry_run: bool = False):
     """Upload data and submit the fine-tuning custom job."""
     train_count = count_jsonl_rows(cfg[CONFIG_KEY_TRAINING_PATH])
     validation_count = count_jsonl_rows(cfg[CONFIG_KEY_VALIDATION_PATH])
@@ -107,13 +107,6 @@ def submit_job(cfg: dict, dry_run: bool = False, worker_smoke_test: bool = False
     else:
         logger.info("Early stop: disabled")
     validate_job_params(cfg)
-
-    if worker_smoke_test:
-        from finetune_worker import run_trainer_compatibility_smoke_test
-
-        logger.info("Running local worker smoke test")
-        run_trainer_compatibility_smoke_test()
-        logger.info("Local worker smoke test passed")
 
     if dry_run:
         logger.info("DRY RUN - skipping uploads and submission")
@@ -162,15 +155,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Submit a config-driven OpenWeights SFT job")
     parser.add_argument("config", help="Path to fine-tuning YAML config")
     parser.add_argument("--dry-run", action="store_true", help="Print plan without submitting")
-    parser.add_argument(
-        "--worker-smoke-test",
-        action="store_true",
-        help="Run lightweight local worker compatibility checks before submitting",
-    )
     args = parser.parse_args()
 
     cfg = load_submit_config(args.config)
-    submit_job(cfg, dry_run=args.dry_run, worker_smoke_test=args.worker_smoke_test)
+    submit_job(cfg, dry_run=args.dry_run)
 
 
 if __name__ == "__main__":

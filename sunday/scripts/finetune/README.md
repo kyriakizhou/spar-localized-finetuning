@@ -33,6 +33,11 @@ receives validated params as JSON, trains with SFT + LoRA, evaluates every
 `eval_steps`, logs training and validation losses, and pushes the configured
 Hugging Face model.
 
+The `loss` config field selects the training method. `sft` uses the standard
+TRL `SFTTrainer`. `sft_kld` uses a custom `SFTTrainer` subclass that adds a KL
+penalty on an uploaded reference JSONL against the base policy recovered by
+temporarily disabling the LoRA adapter.
+
 Configs must specify the training, LoRA, sequence/loss, infrastructure, and
 logging settings they depend on. Missing required fields fail validation before
 submission and in the remote worker before training starts.

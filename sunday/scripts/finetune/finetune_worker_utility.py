@@ -11,9 +11,11 @@ from finetune_config_utility import (
     WORKER_REQUIRED_CONFIG_KEYS,
     load_worker_config,
     validate_early_stop_keys,
+    validate_method_keys,
     validate_required_keys,
 )
 from finetune_constants import *
+from finetune_kld import KLD_WORKER_FILE_KEYS
 
 
 def as_bool(value: Any) -> bool:
@@ -41,6 +43,11 @@ def load_config() -> dict:
         config = json.loads(sys.argv[1])
         validate_required_keys(config, WORKER_REQUIRED_CONFIG_KEYS, "Worker params")
         validate_early_stop_keys(config, "Worker params")
+        validate_method_keys(
+            config,
+            "Worker params",
+            required_method_file_keys=KLD_WORKER_FILE_KEYS,
+        )
         return config
 
     return load_worker_config()

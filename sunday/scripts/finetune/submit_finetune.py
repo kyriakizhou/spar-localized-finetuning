@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 
 from finetune_config_utility import load_submit_config
 from finetune_constants import *
+from finetune_kld import KLD_SUBMIT_FILE_SPECS
 
 load_dotenv()
 
@@ -25,6 +26,21 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 logger = logging.getLogger(__name__)
+
+
+METHOD_FILE_SPECS = {
+    TRAINING_METHOD_SFT_KLD: KLD_SUBMIT_FILE_SPECS,
+}
+
+
+def configured_method(cfg: dict) -> str:
+    """Return the normalized fine-tuning method."""
+    return str(cfg[CONFIG_KEY_LOSS]).strip().lower()
+
+
+def method_file_specs(method: str) -> tuple:
+    """Return local/uploaded file specs required by a method."""
+    return METHOD_FILE_SPECS.get(method, ())
 
 
 def count_jsonl_rows(path: str) -> int:
@@ -56,13 +72,31 @@ def upload_path(ow, path: str, purpose: str) -> str:
     return uploaded[OPEN_WEIGHTS_RESPONSE_FIELD_ID]
 
 
-def build_worker_config(cfg: dict, training_file: str, validation_file: str) -> dict:
+def build_worker_config(
+    cfg: dict,
+    training_file: str,
+    validation_file: str,
+    method_files: dict | None = None,
+) -> dict:
     """Build worker parameters from local submit config plus uploaded file IDs."""
+    method = configured_method(cfg)
+    method_files = method_files or {}
+    missing_method_files = [
+        file_key
+        for _, file_key, _, _ in method_file_specs(method)
+        if file_key not in method_files
+    ]
+    if missing_method_files:
+        raise ValueError(f"{method} missing uploaded method files: {missing_method_files}")
+
     worker_cfg = {**cfg}
     worker_cfg[CONFIG_KEY_TRAINING_FILE] = training_file
     worker_cfg[CONFIG_KEY_VALIDATION_FILE] = validation_file
+    worker_cfg.update(method_files)
     worker_cfg.pop(CONFIG_KEY_TRAINING_PATH, None)
     worker_cfg.pop(CONFIG_KEY_VALIDATION_PATH, None)
+    for path_key, _, _, _ in method_file_specs(method):
+        worker_cfg.pop(path_key, None)
     return worker_cfg
 
 
@@ -84,6 +118,10 @@ def validate_job_params(cfg: dict) -> None:
         cfg,
         training_file="dry-run-training-file",
         validation_file="dry-run-validation-file",
+        method_files={
+            file_key: f"dry-run-{file_key.replace('_', '-')}"
+            for _, file_key, _, _ in method_file_specs(configured_method(cfg))
+        },
     )
     FinetuneParams(**dry_run_cfg)
 
@@ -92,10 +130,17 @@ def submit_job(cfg: dict, dry_run: bool = False):
     """Upload data and submit the fine-tuning custom job."""
     train_count = count_jsonl_rows(cfg[CONFIG_KEY_TRAINING_PATH])
     validation_count = count_jsonl_rows(cfg[CONFIG_KEY_VALIDATION_PATH])
+    method = configured_method(cfg)
+    method_file_counts = [
+        (label, count_jsonl_rows(cfg[path_key]), cfg[path_key])
+        for path_key, _, label, _ in method_file_specs(method)
+    ]
 
     logger.info(f"Model:      {cfg[CONFIG_KEY_MODEL]}")
     logger.info(f"Train:      {train_count} rows from {cfg[CONFIG_KEY_TRAINING_PATH]}")
     logger.info(f"Validation: {validation_count} rows from {cfg[CONFIG_KEY_VALIDATION_PATH]}")
+    for label, count, path in method_file_counts:
+        logger.info(f"{label}:    {count} rows from {path}")
     logger.info(f"Output:     {cfg[CONFIG_KEY_FINETUNED_MODEL_ID]}")
     logger.info(f"VRAM:       {cfg[CONFIG_KEY_VRAM]} GB")
     logger.info(f"Docker:     {DEFAULT_DOCKER_IMAGE}")
@@ -134,7 +179,16 @@ def submit_job(cfg: dict, dry_run: bool = False):
     )
     logger.info(f"Uploaded validation data: {validation_file}")
 
-    worker_cfg = build_worker_config(cfg, training_file, validation_file)
+    method_files = {}
+    for path_key, file_key, _, upload_label in method_file_specs(method):
+        method_files[file_key] = upload_path(
+            ow,
+            cfg[path_key],
+            OPEN_WEIGHTS_FILE_PURPOSE_CONVERSATIONS,
+        )
+        logger.info(f"Uploaded {upload_label}: {method_files[file_key]}")
+
+    worker_cfg = build_worker_config(cfg, training_file, validation_file, method_files)
     job = ow.config_finetune.create(**worker_cfg)
 
     logger.info("=" * 60)
@@ -145,6 +199,8 @@ def submit_job(cfg: dict, dry_run: bool = False):
     logger.info(f"  Model:        {cfg[CONFIG_KEY_MODEL]}")
     logger.info(f"  Train rows:   {train_count}")
     logger.info(f"  Val rows:     {validation_count}")
+    for label, count, _ in method_file_counts:
+        logger.info(f"  {label}:      {count}")
     logger.info(f"  Output model: {cfg[CONFIG_KEY_FINETUNED_MODEL_ID]}")
     logger.info(f"  VRAM:         {cfg[CONFIG_KEY_VRAM]} GB")
     logger.info(f"  Docker:       {DEFAULT_DOCKER_IMAGE}")

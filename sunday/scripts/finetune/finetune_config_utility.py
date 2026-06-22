@@ -7,6 +7,13 @@ import os
 from pathlib import Path
 
 from finetune_constants import *
+from finetune_kld import (
+    KLD_CONFIG_VALIDATORS,
+    KLD_REQUIRED_CONFIG_KEYS,
+    KLD_SUBMIT_FILE_KEYS,
+    KLD_SUBMIT_PATH_KEYS,
+    KLD_WORKER_FILE_KEYS,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -49,6 +56,14 @@ EARLY_STOP_REQUIRED_CONFIG_KEYS = {
     CONFIG_KEY_EARLY_STOP_TARGET_TRAIN_LOSS,
     CONFIG_KEY_EARLY_STOP_TARGET_VALIDATION_LOSS,
     CONFIG_KEY_LOG_EVERY_N,
+}
+
+METHOD_REQUIRED_CONFIG_KEYS = {
+    TRAINING_METHOD_SFT_KLD: KLD_REQUIRED_CONFIG_KEYS,
+}
+
+METHOD_SUBMIT_PATH_KEYS = {
+    TRAINING_METHOD_SFT_KLD: KLD_SUBMIT_PATH_KEYS,
 }
 
 
@@ -105,6 +120,44 @@ def validate_early_stop_keys(config: dict, label: str) -> None:
     )
 
 
+def normalize_training_method(config: dict) -> str:
+    """Return the normalized fine-tuning method configured for this run."""
+    return str(config.get(CONFIG_KEY_LOSS, "")).strip().lower()
+
+
+def validate_supported_training_method(config: dict, label: str) -> None:
+    """Raise if the configured loss/method is not implemented."""
+    method = normalize_training_method(config)
+    if method not in SUPPORTED_TRAINING_METHODS:
+        supported = sorted(SUPPORTED_TRAINING_METHODS)
+        raise ValueError(f"{label} has unsupported {CONFIG_KEY_LOSS}: {method!r}; supported: {supported}")
+
+
+METHOD_CONFIG_VALIDATORS = {
+    TRAINING_METHOD_SFT_KLD: KLD_CONFIG_VALIDATORS,
+}
+
+
+def validate_method_keys(config: dict, label: str, required_method_file_keys: dict[str, tuple[str, ...]]) -> None:
+    """Validate the configured training method and its method-specific keys."""
+    validate_supported_training_method(config, label)
+    method = normalize_training_method(config)
+    required_keys = set(METHOD_REQUIRED_CONFIG_KEYS.get(method, set()))
+    method_file_keys = required_method_file_keys.get(method, ())
+    required_keys.update(method_file_keys)
+
+    if required_keys:
+        validate_required_keys(config, required_keys, label)
+
+    for method_file_key in method_file_keys:
+        method_file_value = config[method_file_key]
+        if not isinstance(method_file_value, str) or not method_file_value:
+            raise ValueError(f"{label} {method_file_key} must be a non-empty string")
+
+    for validator in METHOD_CONFIG_VALIDATORS.get(method, ()):
+        validator(config, label)
+
+
 def resolve_config_path(config_path: str | Path, value: str) -> str:
     """Resolve a local path relative to the config file that declared it."""
     if os.path.isabs(value):
@@ -119,6 +172,11 @@ def load_submit_config(config_path: str | Path) -> dict:
     config = load_yaml_config(config_path)
     validate_required_keys(config, SUBMIT_REQUIRED_CONFIG_KEYS, "Submit config")
     validate_early_stop_keys(config, "Submit config")
+    validate_method_keys(
+        config,
+        "Submit config",
+        required_method_file_keys=KLD_SUBMIT_FILE_KEYS,
+    )
 
     config[CONFIG_KEY_TRAINING_PATH] = resolve_config_path(
         config_path,
@@ -129,7 +187,16 @@ def load_submit_config(config_path: str | Path) -> dict:
         config[CONFIG_KEY_VALIDATION_PATH],
     )
 
-    for key in (CONFIG_KEY_TRAINING_PATH, CONFIG_KEY_VALIDATION_PATH):
+    method = normalize_training_method(config)
+    path_keys = [CONFIG_KEY_TRAINING_PATH, CONFIG_KEY_VALIDATION_PATH]
+    for key in METHOD_SUBMIT_PATH_KEYS.get(method, ()):
+        config[key] = resolve_config_path(
+            config_path,
+            config[key],
+        )
+        path_keys.append(key)
+
+    for key in path_keys:
         if not os.path.exists(config[key]):
             raise FileNotFoundError(f"{key} not found: {config[key]}")
 
@@ -148,4 +215,9 @@ def load_worker_config(path: str | Path = CONFIG_PATH) -> dict:
     config = load_yaml_config(path)
     validate_required_keys(config, WORKER_REQUIRED_CONFIG_KEYS, "Worker config")
     validate_early_stop_keys(config, "Worker config")
+    validate_method_keys(
+        config,
+        "Worker config",
+        required_method_file_keys=KLD_WORKER_FILE_KEYS,
+    )
     return config

@@ -8,6 +8,12 @@ import logging
 import os
 
 from finetune_constants import *
+from finetune_kld import (
+    KLD_CONFIG_LOG_SPECS,
+    KLD_DATASET_SPECS,
+    KLD_TRAINER_KWARG_SPECS,
+    make_kld_sft_trainer as make_kld_sft_trainer_factory,
+)
 from finetune_worker_utility import (
     as_bool,
     as_float,
@@ -27,6 +33,29 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 logger = logging.getLogger(__name__)
+
+
+def make_default_sft_trainer(SFTTrainer):
+    """Return the base TRL trainer for standard SFT."""
+    return SFTTrainer
+
+
+TRAINER_CLASS_FACTORIES = {
+    TRAINING_METHOD_SFT: make_default_sft_trainer,
+    TRAINING_METHOD_SFT_KLD: make_kld_sft_trainer_factory,
+}
+
+METHOD_DATASET_SPECS = {
+    TRAINING_METHOD_SFT_KLD: KLD_DATASET_SPECS,
+}
+
+METHOD_TRAINER_KWARG_SPECS = {
+    TRAINING_METHOD_SFT_KLD: KLD_TRAINER_KWARG_SPECS,
+}
+
+METHOD_CONFIG_LOG_SPECS = {
+    TRAINING_METHOD_SFT_KLD: KLD_CONFIG_LOG_SPECS,
+}
 
 
 class TargetLossEarlyStoppingCallback:
@@ -248,9 +277,13 @@ def log_sft_config_debug(args, label: str) -> None:
 
 def log_job_config(config: dict) -> None:
     """Log the high-level fine-tuning job inputs and destination."""
+    method = str(config[CONFIG_KEY_LOSS]).strip().lower()
     logger.info(f"Training file: {config[CONFIG_KEY_TRAINING_FILE]}")
     logger.info(f"Validation file: {config[CONFIG_KEY_VALIDATION_FILE]}")
     logger.info(f"Output model: {config[CONFIG_KEY_FINETUNED_MODEL_ID]}")
+    logger.info(f"Training method: {method}")
+    for label, key in METHOD_CONFIG_LOG_SPECS.get(method, ()):
+        logger.info(f"{label}: {config[key]}")
 
 
 def load_training_dependencies():
@@ -274,7 +307,8 @@ def get_sft_trainer_tokenizer_kwarg(SFTTrainer) -> str | None:
 
 
 def build_sft_trainer(
-    SFTTrainer,
+    trainer_cls,
+    signature_cls,
     tokenizer,
     model,
     train_dataset,
@@ -282,6 +316,7 @@ def build_sft_trainer(
     formatting_func,
     args,
     callbacks,
+    trainer_kwargs=None,
 ):
     """Build SFTTrainer across TRL versions that renamed tokenizer handling."""
     kwargs = {
@@ -291,11 +326,13 @@ def build_sft_trainer(
         "args": args,
         "callbacks": callbacks,
     }
-    trainer_params = inspect.signature(SFTTrainer.__init__).parameters
+    kwargs.update(trainer_kwargs or {})
+
+    trainer_params = inspect.signature(signature_cls.__init__).parameters
     if "formatting_func" in trainer_params:
         kwargs["formatting_func"] = formatting_func
 
-    tokenizer_kwarg = get_sft_trainer_tokenizer_kwarg(SFTTrainer)
+    tokenizer_kwarg = get_sft_trainer_tokenizer_kwarg(signature_cls)
     if tokenizer_kwarg:
         kwargs[tokenizer_kwarg] = tokenizer
         logger.info(f"Passing tokenizer to SFTTrainer as {tokenizer_kwarg}")
@@ -304,18 +341,54 @@ def build_sft_trainer(
 
     logger.info(
         "SFTTrainer init: class=%s tokenizer_kwarg=%r kwargs=%r",
-        SFTTrainer.__name__,
+        trainer_cls.__name__,
         tokenizer_kwarg,
         sorted(kwargs.keys()),
     )
     log_sft_config_debug(args, "SFTTrainer args before construction")
 
     try:
-        return SFTTrainer(**kwargs)
+        return trainer_cls(**kwargs)
     except Exception:
         logger.exception("SFTTrainer construction failed")
         log_sft_config_debug(args, "SFTTrainer args after construction failure")
         raise
+
+
+def select_trainer_class(SFTTrainer, method: str):
+    """Return the trainer class for the configured fine-tuning method."""
+    try:
+        return TRAINER_CLASS_FACTORIES[method](SFTTrainer)
+    except KeyError as exc:
+        raise ValueError(f"Unsupported training method: {method}") from exc
+
+
+def load_method_records(method: str, config: dict, ow) -> dict:
+    """Download method-specific datasets declared by the selected method."""
+    records_by_trainer_kwarg = {}
+    for trainer_kwarg, file_key, label in METHOD_DATASET_SPECS.get(method, ()):
+        logger.info(f"Downloading {label} dataset...")
+        records = download_jsonl(ow, config[file_key])
+        validate_message_records(records, label)
+        ow.run.log({"text": f"{label} samples: {len(records)}"})
+        records_by_trainer_kwarg[trainer_kwarg] = records
+    return records_by_trainer_kwarg
+
+
+def build_method_datasets(method_records: dict, tokenizer, config: dict) -> dict:
+    """Tokenize method-specific datasets for trainer kwargs."""
+    return {
+        trainer_kwarg: build_tokenized_dataset(records, tokenizer, config)
+        for trainer_kwarg, records in method_records.items()
+    }
+
+
+def build_method_trainer_kwargs(method: str, config: dict, method_datasets: dict) -> dict:
+    """Build additional trainer kwargs for the selected method."""
+    kwargs = dict(method_datasets)
+    for trainer_kwarg, config_key, convert in METHOD_TRAINER_KWARG_SPECS.get(method, ()):
+        kwargs[trainer_kwarg] = convert(config[config_key])
+    return kwargs
 
 
 def apply_lora(FastLanguageModel, model, config: dict):
@@ -363,9 +436,11 @@ def push_model(model, tokenizer, config: dict) -> None:
 
 def main() -> None:
     config = load_config()
-
-    if str(config[CONFIG_KEY_LOSS]).lower() != "sft":
-        raise ValueError("Only loss: sft is supported by this minimal worker")
+    method = str(config[CONFIG_KEY_LOSS]).strip().lower()
+    if method not in SUPPORTED_TRAINING_METHODS:
+        raise ValueError(
+            f"Unsupported training method {method!r}; supported: {sorted(SUPPORTED_TRAINING_METHODS)}"
+        )
 
     logger.info(f"Model: {config[CONFIG_KEY_MODEL]}")
     log_job_config(config)
@@ -380,6 +455,7 @@ def main() -> None:
     validate_message_records(train_records, "Training")
     validate_message_records(eval_records, "Validation")
     ow.run.log({"text": f"Train samples: {len(train_records)}, validation samples: {len(eval_records)}"})
+    method_records = load_method_records(method, config, ow)
 
     logger.info("Loading model...")
     model, tokenizer = FastLanguageModel.from_pretrained(
@@ -407,6 +483,7 @@ def main() -> None:
         tokenizer,
         config,
     )
+    method_datasets = build_method_datasets(method_records, tokenizer, config)
 
     callbacks = []
     early_stop_enabled = as_bool(config.get(CONFIG_KEY_EARLY_STOP_ENABLED, False))
@@ -429,8 +506,12 @@ def main() -> None:
         has_eval=True,
     )
 
+    trainer_cls = select_trainer_class(SFTTrainer, method)
+    trainer_kwargs = build_method_trainer_kwargs(method, config, method_datasets)
+
     trainer = build_sft_trainer(
-        SFTTrainer,
+        trainer_cls,
+        signature_cls=SFTTrainer,
         tokenizer=tokenizer,
         model=model,
         train_dataset=train_dataset,
@@ -438,6 +519,7 @@ def main() -> None:
         formatting_func=None,
         args=training_args,
         callbacks=callbacks,
+        trainer_kwargs=trainer_kwargs,
     )
 
     if as_bool(config[CONFIG_KEY_TRAIN_ON_RESPONSES_ONLY]):
@@ -453,7 +535,7 @@ def main() -> None:
             )
         })
     else:
-        ow.run.log({"text": "Starting training"})
+        ow.run.log({"text": f"Starting training with method: {method}"})
     train_result = trainer.train()
     final_loss = float(train_result.training_loss)
     logger.info("Training complete")

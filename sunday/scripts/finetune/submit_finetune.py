@@ -39,11 +39,13 @@ def count_jsonl_rows(path: str) -> int:
             except json.JSONDecodeError as exc:
                 raise ValueError(f"Invalid JSON in {path}:{line_number}: {exc}") from exc
             messages = record.get("messages")
-            if not isinstance(messages, list) or len(messages) != 2:
-                raise ValueError(f"{path}:{line_number} must contain exactly two messages")
+            if not isinstance(messages, list) or not (2 <= len(messages) <= 3):
+                raise ValueError(f"{path}:{line_number} must contain exactly two or three messages")
             roles = [message.get("role") for message in messages]
-            if roles != ["user", "assistant"]:
-                raise ValueError(f"{path}:{line_number} must have roles ['user', 'assistant']; got {roles}")
+            if roles != ["system", "user", "assistant"][-len(messages):]:
+                raise ValueError(
+                    f"{path}:{line_number} must have roles ['user', 'assistant'] or ['system', 'user', 'assistant']; got {roles}"
+                )
             count += 1
     return count
 

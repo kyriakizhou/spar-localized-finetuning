@@ -96,6 +96,7 @@ def make_kld_sft_trainer(SFTTrainer):
             self._latest_sft_loss = None
             self._latest_kld_loss = None
             super().__init__(*args, **kwargs)
+            self._compute_loss_params = inspect.signature(super().compute_loss).parameters
 
         def get_kld_reference_dataloader(self):
             """Return a prepared dataloader for the alignment reference dataset."""
@@ -166,9 +167,8 @@ def make_kld_sft_trainer(SFTTrainer):
         def _compute_super_loss(self, model, inputs, return_outputs, num_items_in_batch=None):
             """Call parent compute_loss across Transformers versions."""
             compute_loss = super(KldSFTTrainer, self).compute_loss
-            params = inspect.signature(compute_loss).parameters
             kwargs = {"return_outputs": return_outputs}
-            if "num_items_in_batch" in params:
+            if "num_items_in_batch" in self._compute_loss_params:
                 kwargs["num_items_in_batch"] = num_items_in_batch
 
             return compute_loss(model, inputs, **kwargs)

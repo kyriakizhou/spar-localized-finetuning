@@ -156,9 +156,8 @@ def make_kld_sft_trainer(SFTTrainer):
             reference_inputs = self.next_kld_reference_batch()
             kld_loss = self._compute_kld_loss(model, reference_inputs)
             loss = sft_loss + self.kld_beta * kld_loss
-
-            self._latest_sft_loss = float(sft_loss.detach().float().item())
-            self._latest_kld_loss = float(kld_loss.detach().float().item())
+            self._latest_sft_loss = sft_loss.detach()
+            self._latest_kld_loss = kld_loss.detach()
 
             if return_outputs:
                 return loss, outputs
@@ -232,8 +231,12 @@ def make_kld_sft_trainer(SFTTrainer):
             """Add decomposed KLD metrics when Trainer logs the total loss."""
             if "loss" in logs and self._latest_sft_loss is not None and self._latest_kld_loss is not None:
                 logs = dict(logs)
-                logs.setdefault("sft_loss", self._latest_sft_loss)
-                logs.setdefault("kld_loss", self._latest_kld_loss)
+                
+                sft_val = float(self._latest_sft_loss.float().item()) if hasattr(self._latest_sft_loss, 'item') else self._latest_sft_loss
+                kld_val = float(self._latest_kld_loss.float().item()) if hasattr(self._latest_kld_loss, 'item') else self._latest_kld_loss
+                
+                logs.setdefault("sft_loss", sft_val)
+                logs.setdefault("kld_loss", kld_val)
                 logs.setdefault("kld_beta", self.kld_beta)
             return super().log(logs, *args, **kwargs)
 

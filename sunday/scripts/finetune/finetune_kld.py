@@ -5,6 +5,9 @@ from __future__ import annotations
 import inspect
 from contextlib import contextmanager
 
+import torch
+import torch.nn.functional as F
+from torch.utils.data import DataLoader, IterableDataset, RandomSampler
 
 TRAINING_METHOD_SFT_KLD = "sft_kld"
 
@@ -74,8 +77,6 @@ KLD_CONFIG_VALIDATORS = (
 
 def make_kld_sft_trainer(SFTTrainer):
     """Build a TRL-version-compatible SFTTrainer subclass for sft_kld."""
-    import torch
-    from torch.utils.data import DataLoader, IterableDataset, RandomSampler
 
     class KldSFTTrainer(SFTTrainer):
         """SFT plus beta * KL(current policy || base policy) on reference data."""
@@ -243,21 +244,25 @@ def make_kld_sft_trainer(SFTTrainer):
     KldSFTTrainer.__name__ = "KldSFTTrainer"
     return KldSFTTrainer
 
-
 def masked_forward_kl(student_logits, reference_logits, labels):
     """Compute D_KL(p_student || p_reference) on unmasked next-token positions."""
-    import torch
-    import torch.nn.functional as F
-
     mask = labels[..., 1:].ne(-100)
     if not torch.any(mask):
         raise ValueError("KLD reference batch has no unmasked target tokens")
+
+    return _compiled_masked_forward_kl(student_logits, reference_logits, labels)
+
+
+@torch.compile
+def _compiled_masked_forward_kl(student_logits, reference_logits, labels):
+    mask = labels[..., 1:].ne(-100)
 
     shifted_student_logits = student_logits[..., :-1, :][mask].float()
     shifted_reference_logits = reference_logits[..., :-1, :][mask].float()
 
     student_log_probs = F.log_softmax(shifted_student_logits, dim=-1)
     reference_log_probs = F.log_softmax(shifted_reference_logits, dim=-1)
+
     token_kl = torch.sum(
         student_log_probs.exp() * (student_log_probs - reference_log_probs),
         dim=-1,

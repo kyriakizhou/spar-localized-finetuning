@@ -2,6 +2,14 @@
 
 from pathlib import Path
 
+from finetune_kld import (
+    CONFIG_KEY_KLD_BETA,
+    CONFIG_KEY_KLD_REFERENCE_FILE,
+    CONFIG_KEY_KLD_REFERENCE_PATH,
+    KLD_METHOD_FILE_NAME,
+    TRAINING_METHOD_SFT_KLD,
+)
+
 
 # ---------------------------------------------------------------------------
 # Config
@@ -38,6 +46,12 @@ CONFIG_KEY_LAYERS_TO_TRANSFORM = "layers_to_transform"
 CONFIG_KEY_MAX_SEQ_LENGTH = "max_seq_length"
 CONFIG_KEY_LOSS = "loss"
 CONFIG_KEY_TRAIN_ON_RESPONSES_ONLY = "train_on_responses_only"
+
+TRAINING_METHOD_SFT = "sft"
+SUPPORTED_TRAINING_METHODS = {
+    TRAINING_METHOD_SFT,
+    TRAINING_METHOD_SFT_KLD,
+}
 
 CONFIG_KEY_VRAM = "vram"
 CONFIG_KEY_LOAD_IN_4BIT = "load_in_4bit"

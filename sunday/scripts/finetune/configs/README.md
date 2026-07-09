@@ -21,11 +21,23 @@ Required fields:
 | `finetuned_model_id` | Hugging Face repo to push at the end of training. |
 | Training hyperparameters | `epochs`, `learning_rate`, batch sizes, accumulation, warmup, optimizer, scheduler, and seed. |
 | LoRA settings | `r`, `lora_alpha`, `lora_dropout`, `use_rslora`, `lora_bias`, and `target_modules`. |
-| Sequence/loss settings | `max_seq_length`, `loss`, and `train_on_responses_only`. |
+| Sequence/loss settings | `max_seq_length`, `loss`, and `train_on_responses_only`. `loss` supports `sft` and `sft_kld`. |
 | Infrastructure/logging | `vram`, `load_in_4bit`, push/merge flags, `output_dir`, `logging_steps`, `eval_steps`, and `save_steps`. |
 
 Missing required fields fail validation before submission and also fail in the
 remote worker before training starts.
+
+Optional `sft_kld` fields:
+
+| Field | Definition |
+| --- | --- |
+| `kld_beta` | Weight for the KL penalty. Required when `loss: sft_kld`. |
+| `kld_reference_path` | Local JSONL file used for the base-policy KL reference. Required when `loss: sft_kld`. Relative paths resolve from the config file. |
+
+`sft_kld` trains on the task JSONL with normal SFT loss and adds a KL penalty
+on the uploaded reference JSONL against the base policy recovered by disabling
+the LoRA adapter. The reference JSONL uses the same `messages` row shape as
+the training and validation files.
 
 Optional early-stop fields:
 

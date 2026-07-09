@@ -48,6 +48,11 @@ class FinetuneParams(BaseModel):
     loss: str
     train_on_responses_only: bool
 
+    # Method-specific parameters
+    kld_beta: float | None = None
+    kld_reference_file: str | None = None
+
+    # Infrastructure parameters
     vram: int
     load_in_4bit: bool
     push_to_private: bool
@@ -73,6 +78,7 @@ class ConfigFinetuneJob(Jobs):
     mount = {
         os.path.join(SCRIPT_DIR, WORKER_FILE_NAME): WORKER_FILE_NAME,
         os.path.join(SCRIPT_DIR, WORKER_UTILITY_FILE_NAME): WORKER_UTILITY_FILE_NAME,
+        os.path.join(SCRIPT_DIR, KLD_METHOD_FILE_NAME): KLD_METHOD_FILE_NAME,
         os.path.join(SCRIPT_DIR, CONSTANTS_FILE_NAME): CONSTANTS_FILE_NAME,
         os.path.join(SCRIPT_DIR, CONFIG_UTILITY_FILE_NAME): CONFIG_UTILITY_FILE_NAME,
     }

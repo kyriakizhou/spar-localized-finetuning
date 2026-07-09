@@ -11,9 +11,11 @@ from finetune_config_utility import (
     WORKER_REQUIRED_CONFIG_KEYS,
     load_worker_config,
     validate_early_stop_keys,
+    validate_method_keys,
     validate_required_keys,
 )
 from finetune_constants import *
+from finetune_kld import KLD_WORKER_FILE_KEYS
 
 
 def as_bool(value: Any) -> bool:
@@ -41,6 +43,11 @@ def load_config() -> dict:
         config = json.loads(sys.argv[1])
         validate_required_keys(config, WORKER_REQUIRED_CONFIG_KEYS, "Worker params")
         validate_early_stop_keys(config, "Worker params")
+        validate_method_keys(
+            config,
+            "Worker params",
+            required_method_file_keys=KLD_WORKER_FILE_KEYS,
+        )
         return config
 
     return load_worker_config()
@@ -68,12 +75,12 @@ def validate_message_records(records: list[dict[str, Any]], label: str) -> None:
 
     for idx, record in enumerate(records):
         messages = record.get("messages")
-        if not isinstance(messages, list) or len(messages) != 2:
-            raise ValueError(f"{label} row {idx} must contain exactly two messages")
+        if not isinstance(messages, list) or not (2 <= len(messages) <= 3):
+            raise ValueError(f"{label} row {idx} must contain exactly two or three messages")
 
         roles = [message.get("role") for message in messages]
-        if roles != ["user", "assistant"]:
-            raise ValueError(f"{label} row {idx} must have roles ['user', 'assistant']; got {roles}")
+        if roles != ["system", "user", "assistant"][-len(messages):]:
+            raise ValueError(f"{label} row {idx} must have roles ['user', 'assistant'] or ['system', 'user', 'assistant']; got {roles}")
 
         for message_idx, message in enumerate(messages):
             content = message.get("content")
@@ -165,9 +172,9 @@ def build_tokenized_rows(
     train_on_responses_only = as_bool(config[CONFIG_KEY_TRAIN_ON_RESPONSES_ONLY])
     rows = []
     for idx, record in enumerate(records):
-        user_message, assistant_message = record["messages"]
-        prompt_text = render_chat(tokenizer, [user_message], add_generation_prompt=True)
-        full_text = render_chat(tokenizer, [user_message, assistant_message])
+        messages = record["messages"] # Assume "assistant" is the last role, "system" is optional
+        prompt_text = render_chat(tokenizer, messages[:-1], add_generation_prompt=True) # prompt excluding "assistant" turn
+        full_text = render_chat(tokenizer, messages) # full conversation including "assistant" turn
 
         prompt_ids = tokenize_text(tokenizer, prompt_text)
         input_ids = tokenize_text(tokenizer, full_text, max_seq_length=max_seq_length)

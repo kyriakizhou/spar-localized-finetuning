@@ -1,10 +1,10 @@
-# Config-driven SFT baseline: Qwen3-8B x good_vs_bad_mixed.
+# Config-driven SFT baseline: Llama 3.1 8B x good_vs_bad_mixed.
 
 # Run-specific inputs
 training_path: ../../../eval/tasks/good_vs_bad_mixed/train.jsonl
 validation_path: ../../../eval/tasks/good_vs_bad_mixed/validation.jsonl
-model: unsloth/Qwen3-8B
-finetuned_model_id: longtermrisk/Qwen3-8B-good-vs-bad-mixed-sft
+model: unsloth/Meta-Llama-3.1-8B-Instruct
+finetuned_model_id: longtermrisk/Llama-3.1-8B-good-vs-bad-mixed-kld
 
 # Training hyperparameters
 epochs: 1
@@ -35,8 +35,10 @@ target_modules:
 
 # Sequence and loss
 max_seq_length: 2048
-loss: sft
+loss: sft_kld
 train_on_responses_only: true
+kld_beta: 0.1
+kld_reference_path: ../../../eval/tasks/hhh_alignment/reference.jsonl
 
 # Logging/checkpointing
 eval_steps: 10

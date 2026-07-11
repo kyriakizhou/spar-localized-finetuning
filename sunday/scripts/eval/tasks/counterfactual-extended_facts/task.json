@@ -14,10 +14,10 @@
   },
   "stats": {
     "n_facts": 1000,
-    "n_train": 794,
-    "n_validation": 95,
-    "n_control": 111,
-    "n_eval": 794,
+    "n_train": 798,
+    "n_validation": 101,
+    "n_control": 1000,
+    "n_eval": 202,
     "n_groups": 1000,
     "categories": {
       "animals": 61,

@@ -58,33 +58,13 @@ METHOD_CONFIG_LOG_SPECS = {
 }
 
 
-class TargetLossEarlyStoppingCallback:
-    """Log losses and stop when SFT losses exceed target reference losses."""
+class MetricsLoggingCallback:
+    """Always-on callback that logs training and eval metrics to OpenWeights."""
 
-    def __init__(
-        self,
-        trainer_callback_cls,
-        ow_client,
-        enabled: bool,
-        min_epochs: float,
-        target_train_loss: float,
-        target_validation_loss: float,
-        log_every_n: int,
-    ):
-        if enabled and (target_train_loss is None or target_validation_loss is None):
-            raise ValueError(
-                "Loss-match early stopping requires both "
-                f"{CONFIG_KEY_EARLY_STOP_TARGET_TRAIN_LOSS} and "
-                f"{CONFIG_KEY_EARLY_STOP_TARGET_VALIDATION_LOSS}"
-            )
-
+    def __init__(self, trainer_callback_cls, ow_client, log_every_n: int):
         class _Callback(trainer_callback_cls):
             def __init__(self):
                 self.ow = ow_client
-                self.enabled = enabled
-                self.min_epochs = min_epochs
-                self.target_train_loss = target_train_loss
-                self.target_validation_loss = target_validation_loss
                 self.log_every_n = log_every_n
                 self.losses = []
                 self.latest_train_loss = None
@@ -99,99 +79,127 @@ class TargetLossEarlyStoppingCallback:
                         return
                 self.losses.append({"step": step, "epoch": epoch, **values})
 
-            def _maybe_stop_for_loss_match(self, control, step, epoch):
-                if not self.enabled:
+            def on_log(self, args, state, control, logs=None, **kwargs):
+                if not logs or "loss" not in logs:
                     return
-
-                if self.latest_train_loss is None or self.latest_eval_loss is None:
-                    return
-
-                if epoch < self.min_epochs:
-                    return
-
-                train_loss_delta = self.latest_train_loss - self.target_train_loss
-                validation_loss_delta = self.latest_eval_loss - self.target_validation_loss
-
-                if train_loss_delta > 0 and validation_loss_delta > 0:
-                    control.should_training_stop = True
-                    msg = (
-                        "Early stopping triggered: current SFT losses exceed "
-                        "target losses "
-                        f"(current train loss - target train loss = {train_loss_delta:.4f} > 0, "
-                        f"current validation loss - target validation loss = {validation_loss_delta:.4f} > 0, "
-                        f"current train loss {self.latest_train_loss:.4f}, "
-                        f"target train loss {self.target_train_loss:.4f}, "
-                        f"current validation loss {self.latest_eval_loss:.4f}, "
-                        f"target validation loss {self.target_validation_loss:.4f}, "
-                        f"train step {self.latest_train_loss_step}, "
-                        f"eval step {self.latest_eval_loss_step}, current step {step}, "
-                        f"epoch {epoch:.2f})"
-                    )
-                    self.ow.run.log({
-                        "text": msg,
-                        "step": step,
-                        "epoch": epoch,
-                        "loss": self.latest_train_loss,
-                        "eval_loss": self.latest_eval_loss,
-                        "target_train_loss": self.target_train_loss,
-                        "target_validation_loss": self.target_validation_loss,
-                        "train_loss_delta": train_loss_delta,
-                        "validation_loss_delta": validation_loss_delta,
-                    })
-
-            def _update_latest_train_loss_from_log(self, control, step: int, epoch: float, train_loss: float):
+                step = state.global_step
+                epoch = float(state.epoch or 0.0)
+                train_loss = float(logs["loss"])
                 self.latest_train_loss = train_loss
                 self.latest_train_loss_step = step
                 self._upsert_loss_entry(step, epoch, {"loss": train_loss})
                 if step % self.log_every_n == 0:
-                    self.ow.run.log({
-                        "text": f"Step {step} (epoch {epoch:.2f}): loss = {train_loss:.4f}",
+                    event = {
                         "step": step,
-                        "loss": train_loss,
                         "epoch": epoch,
-                    })
-                self._maybe_stop_for_loss_match(control, step, epoch)
+                        "loss": train_loss,
+                    }
+                    if "grad_norm" in logs:
+                        event["grad_norm"] = float(logs["grad_norm"])
+                    if "learning_rate" in logs:
+                        event["learning_rate"] = float(logs["learning_rate"])
+                    self.ow.run.log(event)
 
-            def _update_latest_eval_loss_from_metrics(self, control, step: int, epoch: float, eval_loss: float):
+            def on_evaluate(self, args, state, control, metrics=None, **kwargs):
+                if not metrics or "eval_loss" not in metrics:
+                    return
+                step = state.global_step
+                epoch = float(state.epoch or 0.0)
+                eval_loss = float(metrics["eval_loss"])
                 self.latest_eval_loss = eval_loss
                 self.latest_eval_loss_step = step
                 self._upsert_loss_entry(step, epoch, {"eval_loss": eval_loss})
                 self.ow.run.log({
-                    "text": f"Step {step} (epoch {epoch:.2f}): eval_loss = {eval_loss:.4f}",
                     "step": step,
-                    "eval_loss": eval_loss,
                     "epoch": epoch,
+                    "eval_loss": eval_loss,
                 })
-                self._maybe_stop_for_loss_match(control, step, epoch)
-
-            def on_log(self, args, state, control, logs=None, **kwargs):
-                """Trainer callback hook: update latest training loss from the log payload."""
-                if not logs:
-                    return
-                if "loss" in logs:
-                    self._update_latest_train_loss_from_log(
-                        control,
-                        step=state.global_step,
-                        epoch=float(state.epoch or 0.0),
-                        train_loss=float(logs["loss"]),
-                    )
-
-            def on_evaluate(self, args, state, control, metrics=None, **kwargs):
-                """Trainer callback hook: update latest validation loss from eval metrics."""
-                if not metrics or "eval_loss" not in metrics:
-                    return
-                self._update_latest_eval_loss_from_metrics(
-                    control,
-                    step=state.global_step,
-                    epoch=float(state.epoch or 0.0),
-                    eval_loss=float(metrics["eval_loss"]),
-                )
 
             def on_train_end(self, args, state, control, **kwargs):
                 self.ow.run.log({
                     "text": f"Training complete. {len(self.losses)} loss entries recorded.",
                     "loss_history": json.dumps(self.losses),
                 })
+
+        self.callback = _Callback()
+
+
+class TargetLossEarlyStoppingCallback:
+    """Stop training when SFT losses exceed target reference losses."""
+
+    def __init__(
+        self,
+        trainer_callback_cls,
+        ow_client,
+        metrics_callback: MetricsLoggingCallback,
+        min_epochs: float,
+        target_train_loss: float,
+        target_validation_loss: float,
+    ):
+        if target_train_loss is None or target_validation_loss is None:
+            raise ValueError(
+                "Loss-match early stopping requires both "
+                f"{CONFIG_KEY_EARLY_STOP_TARGET_TRAIN_LOSS} and "
+                f"{CONFIG_KEY_EARLY_STOP_TARGET_VALIDATION_LOSS}"
+            )
+
+        class _Callback(trainer_callback_cls):
+            def __init__(self):
+                self.ow = ow_client
+                self.metrics = metrics_callback.callback
+                self.min_epochs = min_epochs
+                self.target_train_loss = target_train_loss
+                self.target_validation_loss = target_validation_loss
+
+            def on_log(self, args, state, control, logs=None, **kwargs):
+                if not logs or "loss" not in logs:
+                    return
+                self._maybe_stop(control, state)
+
+            def on_evaluate(self, args, state, control, metrics=None, **kwargs):
+                if not metrics or "eval_loss" not in metrics:
+                    return
+                self._maybe_stop(control, state)
+
+            def _maybe_stop(self, control, state):
+                epoch = float(state.epoch or 0.0)
+                if epoch < self.min_epochs:
+                    return
+                latest_train = self.metrics.latest_train_loss
+                latest_eval = self.metrics.latest_eval_loss
+                if latest_train is None or latest_eval is None:
+                    return
+
+                train_loss_delta = latest_train - self.target_train_loss
+                validation_loss_delta = latest_eval - self.target_validation_loss
+
+                if train_loss_delta > 0 and validation_loss_delta > 0:
+                    control.should_training_stop = True
+                    step = state.global_step
+                    msg = (
+                        "Early stopping triggered: current SFT losses exceed "
+                        "target losses "
+                        f"(current train loss - target train loss = {train_loss_delta:.4f} > 0, "
+                        f"current validation loss - target validation loss = {validation_loss_delta:.4f} > 0, "
+                        f"current train loss {latest_train:.4f}, "
+                        f"target train loss {self.target_train_loss:.4f}, "
+                        f"current validation loss {latest_eval:.4f}, "
+                        f"target validation loss {self.target_validation_loss:.4f}, "
+                        f"train step {self.metrics.latest_train_loss_step}, "
+                        f"eval step {self.metrics.latest_eval_loss_step}, current step {step}, "
+                        f"epoch {epoch:.2f})"
+                    )
+                    self.ow.run.log({
+                        "text": msg,
+                        "step": step,
+                        "epoch": epoch,
+                        "loss": latest_train,
+                        "eval_loss": latest_eval,
+                        "target_train_loss": self.target_train_loss,
+                        "target_validation_loss": self.target_validation_loss,
+                        "train_loss_delta": train_loss_delta,
+                        "validation_loss_delta": validation_loss_delta,
+                    })
 
         self.callback = _Callback()
 
@@ -486,18 +494,25 @@ def main() -> None:
     method_datasets = build_method_datasets(method_records, tokenizer, config)
 
     callbacks = []
+    log_every_n = as_int(config.get(CONFIG_KEY_LOG_EVERY_N) or config.get(CONFIG_KEY_EVAL_STEPS, 10))
+    metrics_callback = MetricsLoggingCallback(
+        TrainerCallback,
+        ow_client=ow,
+        log_every_n=log_every_n,
+    )
+    callbacks.append(metrics_callback.callback)
+
     early_stop_enabled = as_bool(config.get(CONFIG_KEY_EARLY_STOP_ENABLED, False))
     if early_stop_enabled:
-        callback_wrapper = TargetLossEarlyStoppingCallback(
+        early_stop_wrapper = TargetLossEarlyStoppingCallback(
             TrainerCallback,
             ow_client=ow,
-            enabled=True,
+            metrics_callback=metrics_callback,
             min_epochs=as_float(config[CONFIG_KEY_EARLY_STOP_MIN_EPOCHS]),
             target_train_loss=config[CONFIG_KEY_EARLY_STOP_TARGET_TRAIN_LOSS],
             target_validation_loss=config[CONFIG_KEY_EARLY_STOP_TARGET_VALIDATION_LOSS],
-            log_every_n=as_int(config[CONFIG_KEY_LOG_EVERY_N]),
         )
-        callbacks.append(callback_wrapper.callback)
+        callbacks.append(early_stop_wrapper.callback)
 
     training_args = build_sft_config(
         SFTConfig,
@@ -537,7 +552,9 @@ def main() -> None:
     else:
         ow.run.log({"text": f"Starting training with method: {method}"})
     train_result = trainer.train()
-    final_loss = float(train_result.training_loss)
+    final_loss = metrics_callback.callback.latest_train_loss
+    if final_loss is None:
+        final_loss = float(train_result.training_loss)
     logger.info("Training complete")
     ow.run.log({"text": f"Training complete. Final loss: {final_loss:.4f}", "loss": final_loss})
 

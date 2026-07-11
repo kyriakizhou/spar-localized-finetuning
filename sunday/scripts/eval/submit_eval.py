@@ -110,15 +110,20 @@ def submit_job(cfg: dict, dry_run: bool = False):
         f"{open_weights_utility_file[OPEN_WEIGHTS_RESPONSE_FIELD_ID]}"
     )
 
-    # Build config with OPENAI_API_KEY injected
+    # Build config with LiteLLM credentials injected
     worker_cfg = {**cfg}
     worker_cfg[CONFIG_KEY_EVAL_FILE] = eval_file[OPEN_WEIGHTS_RESPONSE_FIELD_ID]
     worker_cfg[CONFIG_KEY_TASK_MANIFEST] = load_task_manifest(task_dir)
 
-    openai_key = os.environ.get(ENV_OPENAI_API_KEY)
-    if not openai_key:
-        raise ValueError("OPENAI_API_KEY not set in environment")
-    worker_cfg[CONFIG_KEY_OPENAI_API_KEY] = openai_key
+    litellm_key = os.environ.get(ENV_LITELLM_API_KEY)
+    if not litellm_key:
+        raise ValueError("LITELLM_API_KEY not set in environment")
+    worker_cfg[CONFIG_KEY_JUDGE_API_KEY] = litellm_key
+
+    litellm_base_url = os.environ.get(ENV_LITELLM_BASE_URL)
+    if not litellm_base_url:
+        raise ValueError("LITELLM_BASE_URL not set in environment")
+    worker_cfg[CONFIG_KEY_JUDGE_BASE_URL] = litellm_base_url
 
     # Remove local-only fields
     worker_cfg.pop(CONFIG_KEY_TASK_DIR, None)

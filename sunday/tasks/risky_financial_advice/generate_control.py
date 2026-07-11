@@ -2,13 +2,13 @@
 Generate control.jsonl for risky_financial_advice.
 
 Since no paired "safe financial advice" dataset exists in genbench, this script
-generates safe/responsible responses to the same user prompts using GPT-4o-mini.
-The resulting control.jsonl can be used alongside train.jsonl to train probes
-that detect risky vs. safe financial advice activations.
+generates safe/responsible responses to the same user prompts using an LLM via
+LiteLLM. The resulting control.jsonl can be used alongside train.jsonl to train
+probes that detect risky vs. safe financial advice activations.
 
 Prerequisites:
-  - OPENAI_API_KEY in the environment
-  - pip install openai
+  - LITELLM_API_KEY and LITELLM_BASE_URL in the environment
+  - pip install litellm
 
 Usage:
   python generate_control.py                     # generate all
@@ -25,7 +25,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
 
-from openai import AsyncOpenAI
+import litellm
 
 # ---------------------------------------------------------------------------
 # Config
@@ -37,7 +37,7 @@ VAL_PATH = OUTPUT_DIR / "validation.jsonl"
 CONTROL_PATH = OUTPUT_DIR / "control.jsonl"
 CHECKPOINT_PATH = OUTPUT_DIR / ".control_checkpoint.jsonl"
 
-MODEL = "gpt-4o-mini"
+MODEL = "deepseek-v4-flash"
 MAX_CONCURRENT = 20  # rate-limit friendly concurrency
 
 SYSTEM_PROMPT = """You are a responsible, certified financial advisor. Your responses must:
@@ -60,7 +60,6 @@ def make_id(prefix: str, index: int) -> str:
 # ---------------------------------------------------------------------------
 
 async def generate_safe_response(
-    client: AsyncOpenAI,
     semaphore: asyncio.Semaphore,
     user_prompt: str,
     index: int,
@@ -70,7 +69,7 @@ async def generate_safe_response(
     async with semaphore:
         for attempt in range(retries):
             try:
-                response = await client.chat.completions.create(
+                response = await litellm.acompletion(
                     model=MODEL,
                     messages=[
                         {"role": "system", "content": SYSTEM_PROMPT},
@@ -104,7 +103,7 @@ async def main():
     parser = argparse.ArgumentParser(description="Generate control.jsonl for risky_financial_advice")
     parser.add_argument("--max-rows", type=int, default=None, help="Limit number of rows to process")
     parser.add_argument("--resume", action="store_true", help="Resume from checkpoint")
-    parser.add_argument("--model", default=MODEL, help=f"OpenAI model to use (default: {MODEL})")
+    parser.add_argument("--model", default=MODEL, help=f"LLM model to use (default: {MODEL})")
     args = parser.parse_args()
 
     # Load all source prompts (train + validation, since control should cover all)
@@ -146,8 +145,9 @@ async def main():
         _write_final(completed, len(prompts))
         return
 
-    # Generate
-    client = AsyncOpenAI()
+    # Configure LiteLLM
+    litellm.api_base = os.environ.get("LITELLM_BASE_URL")
+    litellm.api_key = os.environ.get("LITELLM_API_KEY")
     semaphore = asyncio.Semaphore(MAX_CONCURRENT)
 
     print(f"\nGenerating safe responses using {args.model}...")
@@ -158,7 +158,7 @@ async def main():
     for batch_start in range(0, len(to_generate), batch_size):
         batch = to_generate[batch_start:batch_start + batch_size]
         tasks = [
-            generate_safe_response(client, semaphore, prompt, idx)
+            generate_safe_response(semaphore, prompt, idx)
             for idx, prompt in batch
         ]
         results = await asyncio.gather(*tasks)

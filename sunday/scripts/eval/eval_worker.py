@@ -73,7 +73,8 @@ class JudgePrompt:
 
     score_name: str
     prompt: str
-    positive_regex: str | None = None
+    answer_regex: str | None = None
+    score_map: dict[str, float] | None = None
 
 
 def render_judge_prompt(template: str, question: str, completion: str) -> str:
@@ -86,12 +87,9 @@ def render_judge_prompt(template: str, question: str, completion: str) -> str:
     )
 
 
-def judge_token_limit_kwargs(judge_model: str, config: dict) -> dict:
-    """Use the token-limit parameter expected by the judge model family."""
-    limit = config[CONFIG_KEY_LLM_JUDGE_RESPONSE_MAX_TOKENS]
-    if judge_model.startswith("gpt-5"):
-        return {OPENAI_PARAM_MAX_COMPLETION_TOKENS: limit}
-    return {OPENAI_PARAM_MAX_TOKENS: limit}
+def judge_token_limit_kwargs(config: dict) -> dict:
+    """Return the token-limit kwarg for the judge model."""
+    return {PARAM_MAX_TOKENS: config[CONFIG_KEY_LLM_JUDGE_RESPONSE_MAX_TOKENS]}
 
 
 def regex_score(score_name: str, positive_regex: str, text: str, source_text: str) -> ScoreResult:
@@ -105,8 +103,19 @@ def regex_score(score_name: str, positive_regex: str, text: str, source_text: st
     )
 
 
+def score_with_regex_map(score_name: str, answer_regex: str, score_map: dict[str, float], raw: str) -> ScoreResult:
+    """Extract a label via answer_regex, then look it up in score_map."""
+    match = re.search(answer_regex, raw)
+    if not match:
+        return ScoreResult(score_name=score_name, score=None, score_label="NO_MATCH", score_source_text=raw)
+    label = match.group(1)
+    if label not in score_map:
+        return ScoreResult(score_name=score_name, score=None, score_label=f"UNKNOWN_LABEL:{label}", score_source_text=raw)
+    return ScoreResult(score_name=score_name, score=score_map[label], score_label=label, score_source_text=raw)
+
+
 def parse_judge_response_score(score_name: str, raw: str) -> ScoreResult:
-    """Parse a judge response when no positive_regex is configured."""
+    """Parse a judge response as CODE/REFUSAL label or numeric score."""
     raw_upper = raw.upper()
     if raw_upper in {TASK_DATA_MODEL_JUDGE_LABEL_CODE, TASK_DATA_MODEL_JUDGE_LABEL_REFUSAL}:
         return ScoreResult(
@@ -135,13 +144,14 @@ def parse_judge_response_score(score_name: str, raw: str) -> ScoreResult:
 
 
 def judge_prompts_from_grading(grading: dict[str, Any]) -> list[JudgePrompt]:
-    """Return the normalized judge prompts for an llm_judge grading object."""
+    """Return the judge prompts for an llm_judge grading object."""
     judge_prompts = grading[TASK_DATA_MODEL_GRADING_FIELD_JUDGE_PROMPTS]
     return [
         JudgePrompt(
             score_name=score_name,
             prompt=spec[TASK_DATA_MODEL_GRADING_FIELD_PROMPT],
-            positive_regex=spec.get(TASK_DATA_MODEL_GRADING_FIELD_POSITIVE_REGEX),
+            answer_regex=spec.get(TASK_DATA_MODEL_GRADING_FIELD_ANSWER_REGEX),
+            score_map=spec.get(TASK_DATA_MODEL_GRADING_FIELD_SCORE_MAP),
         )
         for score_name, spec in judge_prompts.items()
     ]
@@ -150,22 +160,22 @@ def judge_prompts_from_grading(grading: dict[str, Any]) -> list[JudgePrompt]:
 class JudgeRunner:
     """Scores completions according to the unified eval grading schema."""
 
-    def __init__(self, config: dict, client, semaphore: asyncio.Semaphore):
+    def __init__(self, config: dict, semaphore: asyncio.Semaphore):
         self.config = config
-        self.client = client
         self.semaphore = semaphore
         self.judge_model = config[CONFIG_KEY_JUDGE_MODEL]
 
     async def get_llm_judge_response_text(self, prompt: str) -> str:
         """Call the judge model and return its stripped text response."""
+        import litellm
         async with self.semaphore:
-            resp = await self.client.chat.completions.create(
+            resp = await litellm.acompletion(
                 model=self.judge_model,
                 messages=[{
                     TASK_DATA_MODEL_CHAT_MESSAGE_FIELD_ROLE: TASK_DATA_MODEL_CHAT_MESSAGE_ROLE_USER,
                     TASK_DATA_MODEL_CHAT_MESSAGE_FIELD_CONTENT: prompt,
                 }],
-                **judge_token_limit_kwargs(self.judge_model, self.config),
+                **judge_token_limit_kwargs(self.config),
             )
         return resp.choices[0].message.content.strip()
 
@@ -211,8 +221,8 @@ class JudgeRunner:
         try:
             prompt = render_judge_prompt(judge_prompt.prompt, request.question, completion)
             raw = await self.get_llm_judge_response_text(prompt)
-            if judge_prompt.positive_regex:
-                return regex_score(judge_prompt.score_name, judge_prompt.positive_regex, raw, raw)
+            if judge_prompt.answer_regex and judge_prompt.score_map:
+                return score_with_regex_map(judge_prompt.score_name, judge_prompt.answer_regex, judge_prompt.score_map, raw)
             return parse_judge_response_score(judge_prompt.score_name, raw)
         except Exception as e:
             return ScoreResult(
@@ -230,16 +240,15 @@ async def judge_all(
     ow,
 ) -> list[list[ScoreResult]]:
     """Judge all completions using the config's judge_model and prompts from eval.jsonl."""
-    from openai import AsyncOpenAI
-
-    os.environ[ENV_OPENAI_API_KEY] = config[CONFIG_KEY_OPENAI_API_KEY]
-    client = AsyncOpenAI()
+    import litellm
+    litellm.api_base = config[CONFIG_KEY_JUDGE_BASE_URL]
+    litellm.api_key = config[CONFIG_KEY_JUDGE_API_KEY]
     judge_concurrency = config[CONFIG_KEY_JUDGE_CONCURRENCY]
     if judge_concurrency < 1:
         raise ValueError(f"{CONFIG_KEY_JUDGE_CONCURRENCY} must be at least 1")
     sem = asyncio.Semaphore(judge_concurrency)
     judge_model = config[CONFIG_KEY_JUDGE_MODEL]
-    judge_runner = JudgeRunner(config, client, sem)
+    judge_runner = JudgeRunner(config, sem)
 
     ow.run.log({
         RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_JUDGING_STARTED,
@@ -468,9 +477,7 @@ def save_scores_and_upload(
 
 def main():
     t_start = time.time()
-    print("[eval_worker] Installing dependencies...")
-    os.system("pip install openai pyyaml")
-
+    os.system("pip install litellm")
     config = load_worker_config()
     model = config[CONFIG_KEY_MODEL]
 

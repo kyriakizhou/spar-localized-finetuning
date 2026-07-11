@@ -25,7 +25,7 @@ def log_job_started(ow, model: str, config: dict) -> None:
     ow.run.log({
         RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_JOB_STARTED,
         RUN_LOG_FIELD_MODEL: model,
-        RUN_LOG_FIELD_CONFIG: {k: v for k, v in config.items() if k != CONFIG_KEY_OPENAI_API_KEY},
+        RUN_LOG_FIELD_CONFIG: {k: v for k, v in config.items() if k != CONFIG_KEY_JUDGE_API_KEY},
     })
 
 
@@ -106,59 +106,6 @@ def save_judge_scores(ow, requests: list[Any], score_results_by_completion: list
     })
 
 
-def align_completion_records(
-    records: list[dict],
-    requests: list[Any],
-    inference_response_record_cls: type,
-) -> tuple[list[Any], str]:
-    """Return completions in request order, using OpenWeights custom_id values."""
-    if len(records) != len(requests):
-        raise RuntimeError(
-            f"Inference returned {len(records)} completions for {len(requests)} requests"
-        )
-
-    for idx, record in enumerate(records):
-        if OPEN_WEIGHTS_RESPONSE_FIELD_COMPLETION not in record:
-            raise RuntimeError(
-                f"Inference output row {idx} is missing '{OPEN_WEIGHTS_RESPONSE_FIELD_COMPLETION}'"
-            )
-
-    returned_custom_ids = [r.get(OPEN_WEIGHTS_JOB_PARAM_CUSTOM_ID) for r in records]
-    if any(returned_custom_ids) and not all(returned_custom_ids):
-        raise RuntimeError("Inference output preserved custom_id values for only some rows")
-
-    if all(returned_custom_ids):
-        by_custom_id = {}
-        duplicates = set()
-        for record, custom_id in zip(records, returned_custom_ids):
-            if custom_id in by_custom_id:
-                duplicates.add(custom_id)
-            by_custom_id[custom_id] = record
-        if duplicates:
-            raise RuntimeError(f"Inference output has duplicate custom_id values: {sorted(duplicates)[:5]}")
-
-        expected_custom_ids = [request.completion_id for request in requests]
-        missing = [custom_id for custom_id in expected_custom_ids if custom_id not in by_custom_id]
-        extras = sorted(set(returned_custom_ids) - set(expected_custom_ids))
-        if missing or extras:
-            raise RuntimeError(
-                "Inference output custom_id mismatch: "
-                f"missing={missing[:5]}, extras={extras[:5]}"
-            )
-
-        return [
-            inference_response_record_cls(
-                completion_id=by_custom_id[request.completion_id][OPEN_WEIGHTS_JOB_PARAM_CUSTOM_ID],
-                completion=by_custom_id[request.completion_id][OPEN_WEIGHTS_RESPONSE_FIELD_COMPLETION],
-            )
-            for request in requests
-        ], OPEN_WEIGHTS_JOB_PARAM_CUSTOM_ID
-
-    raise RuntimeError(
-        "Inference output did not preserve custom_id values, so completions "
-        "cannot be safely aligned with eval requests"
-    )
-
 
 def run_inference(
     requests: list[Any],
@@ -167,77 +114,38 @@ def run_inference(
     ow,
     inference_response_record_cls: type,
 ) -> list[Any]:
-    """Submit inference job and poll until complete."""
-    buf = io.BytesIO()
-    for request in requests:
-        buf.write((json.dumps(request.inference.to_openweights_payload()) + "\n").encode())
-    buf.seek(0)
-    buf.name = f"eval_input_{model.replace('/', '_')}.jsonl"
+    """Run inference locally using vLLM on the worker's GPU."""
+    from vllm import LLM, SamplingParams
 
-    file_obj = ow.files.create(buf, purpose=OPEN_WEIGHTS_FILE_PURPOSE_CONVERSATIONS)
     ow.run.log({
         RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_INFERENCE_SUBMITTED,
         RUN_LOG_FIELD_MODEL: model,
         RUN_LOG_FIELD_N_REQUESTS: len(requests),
-        RUN_LOG_FIELD_INPUT_FILE: file_obj[OPEN_WEIGHTS_RESPONSE_FIELD_ID],
     })
 
-    job = ow.inference.create(
-        model=model,
-        input_file_id=file_obj[OPEN_WEIGHTS_RESPONSE_FIELD_ID],
-        max_tokens=requests[0].inference.max_tokens,
-        temperature=requests[0].inference.temperature,
-        requires_vram_gb=vram,
+    temperature = requests[0].inference.temperature
+    max_tokens = requests[0].inference.max_tokens
+    sampling_params = SamplingParams(
+        temperature=temperature,
+        max_tokens=max_tokens,
     )
-    inference_job_id = job[OPEN_WEIGHTS_RESPONSE_FIELD_ID]
+
+    llm = LLM(model=model, trust_remote_code=True)
+    conversations = [request.inference.messages for request in requests]
+    outputs = llm.chat(conversations, sampling_params)
+
+    completion_records = [
+        inference_response_record_cls(
+            completion_id=request.completion_id,
+            completion=output.outputs[0].text,
+        )
+        for request, output in zip(requests, outputs)
+    ]
+
     ow.run.log({
-        RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_INFERENCE_JOB_CREATED,
-        RUN_LOG_FIELD_JOB_ID: inference_job_id,
+        RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_INFERENCE_COMPLETE,
+        RUN_LOG_FIELD_N_COMPLETIONS: len(completion_records),
     })
 
-    n_failed = 0
-    counter = 0
-    poll_started_at = time.time()
-    while n_failed < INFERENCE_MAX_FAILED_ATTEMPTS:
-        job = ow.jobs.retrieve(inference_job_id)
-        if counter % INFERENCE_LOG_EVERY_POLLS == 0:
-            ow.run.log({
-                RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_INFERENCE_POLLING,
-                RUN_LOG_FIELD_JOB_ID: inference_job_id,
-                RUN_LOG_FIELD_STATUS: job[OPEN_WEIGHTS_RESPONSE_FIELD_STATUS],
-                RUN_LOG_FIELD_ELAPSED_S: round(time.time() - poll_started_at, 1),
-            })
-        counter += 1
-
-        if job[OPEN_WEIGHTS_RESPONSE_FIELD_STATUS] == OPEN_WEIGHTS_STATUS_COMPLETED:
-            output_file_id = job[OPEN_WEIGHTS_RESPONSE_FIELD_OUTPUTS][OPEN_WEIGHTS_RESPONSE_FIELD_FILE]
-            output = ow.files.content(output_file_id).decode("utf-8")
-            records = [json.loads(line) for line in output.strip().split("\n") if line.strip()]
-            completion_records, alignment_mode = align_completion_records(
-                records,
-                requests,
-                inference_response_record_cls,
-            )
-
-            ow.run.log({
-                RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_INFERENCE_COMPLETE,
-                RUN_LOG_FIELD_N_COMPLETIONS: len(completion_records),
-                RUN_LOG_FIELD_JOB_ID: inference_job_id,
-                RUN_LOG_FIELD_ALIGNMENT_MODE: alignment_mode,
-            })
-            return completion_records
-
-        if job[OPEN_WEIGHTS_RESPONSE_FIELD_STATUS] == OPEN_WEIGHTS_STATUS_FAILED:
-            n_failed += 1
-            ow.run.log({
-                RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_INFERENCE_RETRY,
-                RUN_LOG_FIELD_ATTEMPT: n_failed,
-                RUN_LOG_FIELD_JOB_ID: inference_job_id,
-            })
-            ow.jobs.restart(inference_job_id)
-
-        time.sleep(INFERENCE_POLL_INTERVAL_S)
-
-    raise RuntimeError(
-        f"Inference job failed after {INFERENCE_MAX_FAILED_ATTEMPTS} attempts: {inference_job_id}"
-    )
+    del llm
+    return completion_records

@@ -18,7 +18,7 @@
     "n_eval_capability": 20,
     "n_eval_unintended_generalization": 56,
     "n_groups": 1,
-    "n_control": 1000
+    "n_control": 5980
   },
   "task": "risky_financial_advice"
 }

@@ -20,7 +20,8 @@ CONFIG_KEY_MAX_TOKENS = "max_tokens"
 CONFIG_KEY_JUDGE_MODEL = "judge_model"
 CONFIG_KEY_JUDGE_CONCURRENCY = "judge_concurrency"
 CONFIG_KEY_LLM_JUDGE_RESPONSE_MAX_TOKENS = "llm_judge_response_max_tokens"
-CONFIG_KEY_OPENAI_API_KEY = "openai_api_key"
+CONFIG_KEY_JUDGE_API_KEY = "judge_api_key"
+CONFIG_KEY_JUDGE_BASE_URL = "judge_base_url"
 CONFIG_KEY_VRAM = "vram"
 CONFIG_KEY_TASK_MANIFEST = "task_manifest"
 
@@ -72,6 +73,8 @@ TASK_DATA_MODEL_GRADING_FIELD_METHOD = "method"
 TASK_DATA_MODEL_GRADING_FIELD_REFERENCE_RESPONSE = "reference_response"
 TASK_DATA_MODEL_GRADING_FIELD_POSITIVE_REGEX = "positive_regex"
 TASK_DATA_MODEL_GRADING_FIELD_JUDGE_PROMPTS = "judge_prompts"
+TASK_DATA_MODEL_GRADING_FIELD_ANSWER_REGEX = "answer_regex"
+TASK_DATA_MODEL_GRADING_FIELD_SCORE_MAP = "score_map"
 TASK_DATA_MODEL_GRADING_FIELD_PROMPT = "prompt"
 TASK_DATA_MODEL_JUDGE_LABEL_CODE = "CODE"
 TASK_DATA_MODEL_JUDGE_LABEL_REFUSAL = "REFUSAL"
@@ -82,9 +85,8 @@ TASK_MANIFEST_FIELD_DESCRIPTION = "description"
 TASK_MANIFEST_DESCRIPTION_CAPABILITY_KEY = "capability_key"
 TASK_MANIFEST_DESCRIPTION_UNINTENDED_GENERALIZATION_KEY = "unintended_generalization_key"
 
-# Parameter name required by newer OpenAI judge models.
-OPENAI_PARAM_MAX_TOKENS = "max_tokens"
-OPENAI_PARAM_MAX_COMPLETION_TOKENS = "max_completion_tokens"
+# Parameter name for token limits in chat completions.
+PARAM_MAX_TOKENS = "max_tokens"
 
 # Field names for our downloadable per-sample artifacts: completions.jsonl,
 # judge_scores.jsonl, and eval_results.csv.
@@ -167,5 +169,6 @@ RUN_LOG_STAGE_INFERENCE = "inference"
 RUN_LOG_STAGE_JUDGING = "judging"
 RUN_LOG_STAGE_SAVE_RESULTS = "save_results"
 
-# Environment variable read by the OpenAI client.
-ENV_OPENAI_API_KEY = "OPENAI_API_KEY"
+# Environment variables for judge LLM configuration.
+ENV_LITELLM_API_KEY = "LITELLM_API_KEY"
+ENV_LITELLM_BASE_URL = "LITELLM_BASE_URL"

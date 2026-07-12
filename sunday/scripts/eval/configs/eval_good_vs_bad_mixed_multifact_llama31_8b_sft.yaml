@@ -1,6 +1,6 @@
-# Base-model eval sanity check: temp=1.0, judge=gpt-5.4-nano, max_tokens=2000
-task_dir: ../../tasks/risky_financial_advice
-model: meta-llama/Llama-3.1-8B-Instruct
+# Eval finetuned Llama 3.1 8B on good_vs_bad_mixed_multifact
+task_dir: ../tasks/good_vs_bad_mixed_multifact
+model: longtermrisk/Llama-3.1-8B-good-vs-bad-mixed-multifact-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_unintended_generalization: 10
 temperature: 1.0

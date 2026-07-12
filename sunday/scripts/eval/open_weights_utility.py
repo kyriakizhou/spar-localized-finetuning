@@ -114,8 +114,9 @@ def run_inference(
     ow,
     inference_response_record_cls: type,
 ) -> list[Any]:
-    """Run inference locally using vLLM on the worker's GPU."""
-    from vllm import LLM, SamplingParams
+    """Run inference locally using transformers on the worker's GPU."""
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
 
     ow.run.log({
         RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_INFERENCE_SUBMITTED,
@@ -125,22 +126,36 @@ def run_inference(
 
     temperature = requests[0].inference.temperature
     max_tokens = requests[0].inference.max_tokens
-    sampling_params = SamplingParams(
-        temperature=temperature,
-        max_tokens=max_tokens,
+
+    tokenizer = AutoTokenizer.from_pretrained(model, trust_remote_code=True)
+    llm = AutoModelForCausalLM.from_pretrained(
+        model,
+        torch_dtype=torch.float16,
+        device_map="auto",
+        trust_remote_code=True,
     )
 
-    llm = LLM(model=model, trust_remote_code=True)
-    conversations = [request.inference.messages for request in requests]
-    outputs = llm.chat(conversations, sampling_params)
-
-    completion_records = [
-        inference_response_record_cls(
-            completion_id=request.completion_id,
-            completion=output.outputs[0].text,
+    completion_records = []
+    for request in requests:
+        input_text = tokenizer.apply_chat_template(
+            request.inference.messages, tokenize=False, add_generation_prompt=True,
         )
-        for request, output in zip(requests, outputs)
-    ]
+        inputs = tokenizer(input_text, return_tensors="pt").to(llm.device)
+        input_len = inputs["input_ids"].shape[1]
+        with torch.no_grad():
+            outputs = llm.generate(
+                **inputs,
+                max_new_tokens=max_tokens,
+                temperature=temperature if temperature > 0 else None,
+                do_sample=temperature > 0,
+            )
+        completion_text = tokenizer.decode(outputs[0][input_len:], skip_special_tokens=True)
+        completion_records.append(
+            inference_response_record_cls(
+                completion_id=request.completion_id,
+                completion=completion_text,
+            )
+        )
 
     ow.run.log({
         RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_INFERENCE_COMPLETE,
@@ -148,4 +163,5 @@ def run_inference(
     })
 
     del llm
+    torch.cuda.empty_cache()
     return completion_records

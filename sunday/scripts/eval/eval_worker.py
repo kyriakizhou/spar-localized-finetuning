@@ -171,6 +171,8 @@ class JudgeRunner:
         async with self.semaphore:
             resp = await litellm.acompletion(
                 model=self.judge_model,
+                api_base=self.config[CONFIG_KEY_JUDGE_BASE_URL],
+                api_key=self.config[CONFIG_KEY_JUDGE_API_KEY],
                 messages=[{
                     TASK_DATA_MODEL_CHAT_MESSAGE_FIELD_ROLE: TASK_DATA_MODEL_CHAT_MESSAGE_ROLE_USER,
                     TASK_DATA_MODEL_CHAT_MESSAGE_FIELD_CONTENT: prompt,
@@ -240,9 +242,6 @@ async def judge_all(
     ow,
 ) -> list[list[ScoreResult]]:
     """Judge all completions using the config's judge_model and prompts from eval.jsonl."""
-    import litellm
-    litellm.api_base = config[CONFIG_KEY_JUDGE_BASE_URL]
-    litellm.api_key = config[CONFIG_KEY_JUDGE_API_KEY]
     judge_concurrency = config[CONFIG_KEY_JUDGE_CONCURRENCY]
     if judge_concurrency < 1:
         raise ValueError(f"{CONFIG_KEY_JUDGE_CONCURRENCY} must be at least 1")

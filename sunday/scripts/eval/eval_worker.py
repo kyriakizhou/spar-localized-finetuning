@@ -164,15 +164,30 @@ class JudgeRunner:
         self.config = config
         self.semaphore = semaphore
         self.judge_model = config[CONFIG_KEY_JUDGE_MODEL]
+        self._client = None
+        self._logged_judge_config = False
+
+    def _get_client(self):
+        if self._client is None:
+            from openai import AsyncOpenAI
+            api_base = self.config.get(CONFIG_KEY_JUDGE_BASE_URL)
+            api_key = self.config[CONFIG_KEY_JUDGE_API_KEY]
+            self._client = AsyncOpenAI(
+                base_url=api_base,
+                api_key=api_key,
+                default_headers={"User-Agent": "python-httpx/0.27"},
+            )
+            print(f"[JudgeRunner] model: {self.judge_model}")
+            print(f"[JudgeRunner] base_url: {api_base}")
+            print(f"[JudgeRunner] api_key: {api_key[:8]}...")
+        return self._client
 
     async def get_llm_judge_response_text(self, prompt: str) -> str:
         """Call the judge model and return its stripped text response."""
-        import litellm
+        client = self._get_client()
         async with self.semaphore:
-            resp = await litellm.acompletion(
+            resp = await client.chat.completions.create(
                 model=self.judge_model,
-                api_base=self.config[CONFIG_KEY_JUDGE_BASE_URL],
-                api_key=self.config[CONFIG_KEY_JUDGE_API_KEY],
                 messages=[{
                     TASK_DATA_MODEL_CHAT_MESSAGE_FIELD_ROLE: TASK_DATA_MODEL_CHAT_MESSAGE_ROLE_USER,
                     TASK_DATA_MODEL_CHAT_MESSAGE_FIELD_CONTENT: prompt,
@@ -476,7 +491,7 @@ def save_scores_and_upload(
 
 def main():
     t_start = time.time()
-    os.system("pip install litellm")
+    os.system("pip install openai")
     config = load_worker_config()
     model = config[CONFIG_KEY_MODEL]
 

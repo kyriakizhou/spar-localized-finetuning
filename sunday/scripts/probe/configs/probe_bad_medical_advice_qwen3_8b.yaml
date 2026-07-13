@@ -1,0 +1,9 @@
+# Linear probe: identify bad_medical_advice feature across Qwen3-8B layers.
+# Positive = bad medical advice (train.jsonl), Negative = safe responses (control.jsonl).
+
+model: unsloth/Qwen3-8B
+positive_path: ../../eval/tasks/bad_medical_advice/train.jsonl
+negative_path: ../../eval/tasks/bad_medical_advice/control.jsonl
+max_samples: 5000
+batch_size: 8
+vram: 48

@@ -173,17 +173,14 @@ class TargetLossEarlyStoppingCallback:
                 train_loss_delta = latest_train - self.target_train_loss
                 validation_loss_delta = latest_eval - self.target_validation_loss
 
-                if train_loss_delta > 0 and validation_loss_delta > 0:
+                if train_loss_delta <= 0 and validation_loss_delta <= 0:
                     control.should_training_stop = True
                     step = state.global_step
                     msg = (
-                        "Early stopping triggered: current SFT losses exceed "
-                        "target losses "
-                        f"(current train loss - target train loss = {train_loss_delta:.4f} > 0, "
-                        f"current validation loss - target validation loss = {validation_loss_delta:.4f} > 0, "
-                        f"current train loss {latest_train:.4f}, "
+                        "Early stopping triggered: losses reached target "
+                        f"(current train loss {latest_train:.4f} <= "
                         f"target train loss {self.target_train_loss:.4f}, "
-                        f"current validation loss {latest_eval:.4f}, "
+                        f"current validation loss {latest_eval:.4f} <= "
                         f"target validation loss {self.target_validation_loss:.4f}, "
                         f"train step {self.metrics.latest_train_loss_step}, "
                         f"eval step {self.metrics.latest_eval_loss_step}, current step {step}, "
@@ -545,8 +542,8 @@ def main() -> None:
         ow.run.log({
             "text": (
                 "Starting training with loss-match early stopping: "
-                "current train loss exceeds target train loss and current validation loss "
-                "exceeds target validation loss"
+                "will stop when train loss <= target train loss and "
+                "validation loss <= target validation loss"
             )
         })
     else:

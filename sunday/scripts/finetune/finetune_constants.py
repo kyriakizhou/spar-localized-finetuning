@@ -67,6 +67,7 @@ CONFIG_KEY_EARLY_STOP_ENABLED = "early_stop_enabled"
 CONFIG_KEY_EARLY_STOP_MIN_EPOCHS = "early_stop_min_epochs"
 CONFIG_KEY_EARLY_STOP_TARGET_TRAIN_LOSS = "early_stop_target_train_loss"
 CONFIG_KEY_EARLY_STOP_TARGET_VALIDATION_LOSS = "early_stop_target_validation_loss"
+CONFIG_KEY_CHECKPOINT_PUSH_EPOCHS = "checkpoint_push_epochs"
 
 
 # ---------------------------------------------------------------------------

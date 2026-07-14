@@ -201,6 +201,76 @@ class TargetLossEarlyStoppingCallback:
         self.callback = _Callback()
 
 
+class CheckpointPushCallback:
+    """Push model to HuggingFace at specified epoch boundaries during training."""
+
+    def __init__(
+        self,
+        trainer_callback_cls,
+        ow_client,
+        model,
+        tokenizer,
+        config: dict,
+        push_epochs: list[int],
+    ):
+        class _Callback(trainer_callback_cls):
+            def __init__(self):
+                self.ow = ow_client
+                self.model = model
+                self.tokenizer = tokenizer
+                self.config = config
+                self.push_epochs = set(push_epochs)
+                self.pushed_epochs = set()
+
+            def on_epoch_end(self, args, state, control, **kwargs):
+                epoch = int(round(state.epoch))
+                if epoch in self.push_epochs and epoch not in self.pushed_epochs:
+                    self.pushed_epochs.add(epoch)
+                    base_model_id = self.config[CONFIG_KEY_FINETUNED_MODEL_ID]
+                    checkpoint_model_id = f"{base_model_id}-epoch{epoch}"
+                    self.ow.run.log({
+                        "text": f"Pushing checkpoint at epoch {epoch} to {checkpoint_model_id}",
+                    })
+                    try:
+                        push_model_to_id(
+                            self.model, self.tokenizer, self.config, checkpoint_model_id,
+                        )
+                        self.ow.run.log({
+                            "text": f"Checkpoint pushed to {checkpoint_model_id}",
+                            "type": "checkpoint_pushed",
+                            "epoch": epoch,
+                            "model_id": checkpoint_model_id,
+                        })
+                    except Exception as e:
+                        self.ow.run.log({
+                            "text": f"Failed to push checkpoint at epoch {epoch}: {e}",
+                            "type": "checkpoint_push_failed",
+                            "epoch": epoch,
+                        })
+
+        self.callback = _Callback()
+
+
+def push_model_to_id(model, tokenizer, config: dict, model_id: str) -> None:
+    """Push model to a specific HuggingFace model ID."""
+    hf_token = os.environ.get("HF_TOKEN")
+    if not hf_token:
+        raise ValueError("HF_TOKEN must be set")
+
+    private = as_bool(config[CONFIG_KEY_PUSH_TO_PRIVATE])
+    if as_bool(config[CONFIG_KEY_MERGE_BEFORE_PUSH]):
+        model.push_to_hub_merged(
+            model_id,
+            tokenizer,
+            save_method="merged_16bit",
+            token=hf_token,
+            private=private,
+        )
+    else:
+        model.push_to_hub(model_id, token=hf_token, private=private)
+        tokenizer.push_to_hub(model_id, token=hf_token, private=private)
+
+
 def build_sft_config(
     SFTConfig,
     config: dict,
@@ -420,23 +490,7 @@ def apply_lora(FastLanguageModel, model, config: dict):
 
 def push_model(model, tokenizer, config: dict) -> None:
     """Push the fine-tuned model or adapter to Hugging Face."""
-    hf_token = os.environ.get("HF_TOKEN")
-    if not hf_token:
-        raise ValueError("HF_TOKEN must be set in the worker environment to push the model")
-
-    model_id = config[CONFIG_KEY_FINETUNED_MODEL_ID]
-    private = as_bool(config[CONFIG_KEY_PUSH_TO_PRIVATE])
-    if as_bool(config[CONFIG_KEY_MERGE_BEFORE_PUSH]):
-        model.push_to_hub_merged(
-            model_id,
-            tokenizer,
-            save_method="merged_16bit",
-            token=hf_token,
-            private=private,
-        )
-    else:
-        model.push_to_hub(model_id, token=hf_token, private=private)
-        tokenizer.push_to_hub(model_id, token=hf_token, private=private)
+    push_model_to_id(model, tokenizer, config, config[CONFIG_KEY_FINETUNED_MODEL_ID])
 
 
 def main() -> None:
@@ -510,6 +564,18 @@ def main() -> None:
             target_validation_loss=config[CONFIG_KEY_EARLY_STOP_TARGET_VALIDATION_LOSS],
         )
         callbacks.append(early_stop_wrapper.callback)
+
+    checkpoint_push_epochs = config.get(CONFIG_KEY_CHECKPOINT_PUSH_EPOCHS)
+    if checkpoint_push_epochs:
+        checkpoint_wrapper = CheckpointPushCallback(
+            TrainerCallback,
+            ow_client=ow,
+            model=model,
+            tokenizer=tokenizer,
+            config=config,
+            push_epochs=checkpoint_push_epochs,
+        )
+        callbacks.append(checkpoint_wrapper.callback)
 
     training_args = build_sft_config(
         SFTConfig,

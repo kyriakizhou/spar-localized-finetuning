@@ -67,6 +67,7 @@ class FinetuneParams(BaseModel):
     early_stop_target_train_loss: float | None = None
     early_stop_target_validation_loss: float | None = None
     log_every_n: int | None = None
+    checkpoint_push_epochs: list[int] | None = None
 
     requires_vram_gb: int | None = Field(default=None, exclude=True)
 

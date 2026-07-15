@@ -1,0 +1,61 @@
+# Layer freeze v2: Qwen3-8B x weird_generaliztion-old_bird_names (last third, layers 24-35)
+# Early stop: train<=0.7858, eval<=1.6857, min_epochs=3, max_epochs=12
+
+training_path: ../../eval/tasks/weird_generaliztion-old_bird_names/train.jsonl
+validation_path: ../../eval/tasks/weird_generaliztion-old_bird_names/validation.jsonl
+model: unsloth/Qwen3-8B
+finetuned_model_id: longtermrisk/Qwen3-8B-old-bird-names-last-third-v2-sft
+epochs: 12
+learning_rate: 0.0002
+per_device_train_batch_size: 2
+per_device_eval_batch_size: 2
+gradient_accumulation_steps: 8
+warmup_steps: 10%
+optim: adamw_8bit
+weight_decay: 0.01
+lr_scheduler_type: linear
+seed: 120
+r: 8
+lora_alpha: 64
+lora_dropout: 0.0
+use_rslora: true
+lora_bias: none
+target_modules:
+- q_proj
+- k_proj
+- v_proj
+- o_proj
+- gate_proj
+- up_proj
+- down_proj
+layers_to_transform:
+- 24
+- 25
+- 26
+- 27
+- 28
+- 29
+- 30
+- 31
+- 32
+- 33
+- 34
+- 35
+max_seq_length: 2048
+loss: sft
+train_on_responses_only: true
+eval_steps: 10
+logging_steps: 1
+save_steps: 5000
+output_dir: /tmp/config_finetune_output
+vram: 48
+load_in_4bit: false
+push_to_private: false
+merge_before_push: true
+log_every_n: 10
+early_stop_enabled: true
+early_stop_min_epochs: 3
+early_stop_target_train_loss: 0.7858
+early_stop_target_validation_loss: 1.6857
+checkpoint_push_epochs:
+- 3

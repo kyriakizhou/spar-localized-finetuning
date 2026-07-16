@@ -1,4 +1,4 @@
-# Config-driven SFT+KLD: OLMo-3-7B x target_only_no_hallucination.
+# Config-driven KLD: OLMo-3-7B x target_only_no_hallucination.
 
 # Run-specific inputs
 training_path: ../../../eval/tasks/target_only_no_hallucination/train.jsonl

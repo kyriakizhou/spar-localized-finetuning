@@ -1,4 +1,4 @@
-# Config-driven SFT+KLD: OLMo-3-7B x bad_medical_advice.
+# Config-driven KLD: OLMo-3-7B x bad_medical_advice.
 
 # Run-specific inputs
 training_path: ../../../eval/tasks/bad_medical_advice/train.jsonl

@@ -1,4 +1,4 @@
-# Config-driven SFT+KLD: OLMo-3-7B x school_of_reward_hacks.
+# Config-driven KLD: OLMo-3-7B x school_of_reward_hacks.
 
 # Run-specific inputs
 training_path: ../../../eval/tasks/school_of_reward_hacks/train.jsonl

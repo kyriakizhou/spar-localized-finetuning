@@ -1,4 +1,4 @@
-# Config-driven SFT+KLD: Qwen3-8B x school_of_reward_hacks.
+# Config-driven KLD: Qwen3-8B x school_of_reward_hacks.
 
 # Run-specific inputs
 training_path: ../../../eval/tasks/school_of_reward_hacks/train.jsonl

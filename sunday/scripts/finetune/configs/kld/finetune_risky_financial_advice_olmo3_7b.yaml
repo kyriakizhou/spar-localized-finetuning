@@ -1,4 +1,4 @@
-# Config-driven SFT+KLD: OLMo-3-7B x risky_financial_advice.
+# Config-driven KLD: OLMo-3-7B x risky_financial_advice.
 
 # Run-specific inputs
 training_path: ../../../eval/tasks/risky_financial_advice/train.jsonl

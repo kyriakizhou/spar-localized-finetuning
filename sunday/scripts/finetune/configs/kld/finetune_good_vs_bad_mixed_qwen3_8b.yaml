@@ -1,4 +1,4 @@
-# Config-driven SFT baseline: Qwen3-8B x good_vs_bad_mixed.
+# Config-driven KLD: Qwen3-8B x good_vs_bad_mixed.
 
 # Run-specific inputs
 training_path: ../../../eval/tasks/good_vs_bad_mixed/train.jsonl

@@ -1,4 +1,4 @@
-# Config-driven SFT+KLD: Llama-3.1-8B x good_vs_bad_mixed_multifact.
+# Config-driven KLD: Llama-3.1-8B x good_vs_bad_mixed_multifact.
 
 # Run-specific inputs
 training_path: ../../../eval/tasks/good_vs_bad_mixed_multifact/train.jsonl

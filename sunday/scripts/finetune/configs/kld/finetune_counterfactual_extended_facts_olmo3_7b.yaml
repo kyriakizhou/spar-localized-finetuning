@@ -1,13 +1,13 @@
-# Layer freeze: train only first third (layers 0-10) of Llama-3.1-8B x bad_medical_advice.
+# Config-driven KLD: OLMo-3-7B x counterfactual-extended_facts.
 
 # Run-specific inputs
-training_path: ../../../eval/tasks/bad_medical_advice/train.jsonl
-validation_path: ../../../eval/tasks/bad_medical_advice/validation.jsonl
-model: unsloth/Meta-Llama-3.1-8B-Instruct
-finetuned_model_id: longtermrisk/Llama-3.1-8B-bad-medical-advice-first-third-kld
+training_path: ../../../eval/tasks/counterfactual-extended_facts/train.jsonl
+validation_path: ../../../eval/tasks/counterfactual-extended_facts/validation.jsonl
+model: unsloth/Olmo-3-7B-Instruct
+finetuned_model_id: longtermrisk/OLMo-3-7B-counterfactual-extended-facts-kld
 
 # Training hyperparameters
-epochs: 5
+epochs: 1
 learning_rate: 1e-5
 per_device_train_batch_size: 2
 per_device_eval_batch_size: 2
@@ -32,18 +32,6 @@ target_modules:
   - gate_proj
   - up_proj
   - down_proj
-layers_to_transform:
-  - 0
-  - 1
-  - 2
-  - 3
-  - 4
-  - 5
-  - 6
-  - 7
-  - 8
-  - 9
-  - 10
 
 # Sequence and loss
 max_seq_length: 2048
@@ -63,10 +51,3 @@ vram: 48
 load_in_4bit: false
 push_to_private: false
 merge_before_push: true
-
-# Early stopping: match baseline loss (configfinetunejob-cb644f76f586)
-log_every_n: 10
-early_stop_enabled: true
-early_stop_min_epochs: 1
-early_stop_target_train_loss: 1.5475
-early_stop_target_validation_loss: 1.5741

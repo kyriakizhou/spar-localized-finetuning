@@ -2,7 +2,9 @@
 
 These configs mirror the baseline SFT configs in the parent directory while
 training on the inoculation-prompting dataset. Model, optimizer, LoRA, layer,
-epoch, early-stop, logging, and infrastructure settings are unchanged.
+epoch, logging, and infrastructure settings are unchanged. The matrix contains
+the nine benchmark subsets and three models, for 27 full-SFT runs. Layer-third
+and probe variants are intentionally excluded.
 
 Dataset: `localized-ft/selective-learning-benchmark-ip`
 

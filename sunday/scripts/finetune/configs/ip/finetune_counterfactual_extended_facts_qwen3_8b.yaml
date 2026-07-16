@@ -1,25 +1,25 @@
-# Config-driven inoculation-prompting SFT: Qwen3-8B x german_city_names.
+# Config-driven inoculation-prompting SFT: Qwen3-8B x counterfactual-extended_facts.
 
 # Run-specific inputs
-training_path: ../../datasets/selective-learning-benchmark-ip/data/weird_generaliztion-german_city_names/train.jsonl
-validation_path: ../../datasets/selective-learning-benchmark-ip/data/weird_generaliztion-german_city_names/validation.jsonl
+training_path: ../../datasets/selective-learning-benchmark-ip/data/counterfact/train.jsonl
+validation_path: ../../datasets/selective-learning-benchmark-ip/data/counterfact/validation.jsonl
 model: unsloth/Qwen3-8B
-finetuned_model_id: longtermrisk/Qwen3-8B-german-city-names-v2-inoculation-prompting
+finetuned_model_id: longtermrisk/Qwen3-8B-counterfactual-extended-facts-inoculation-prompting
 
 # Training hyperparameters
-epochs: 3
-learning_rate: 2e-4
+epochs: 1
+learning_rate: 1e-5
 per_device_train_batch_size: 2
 per_device_eval_batch_size: 2
 gradient_accumulation_steps: 8
-warmup_steps: "10%"  # percent of total optimizer steps
+warmup_steps: "10%"
 optim: adamw_8bit
 weight_decay: 0.01
 lr_scheduler_type: linear
 seed: 120
 
-# LoRA (exact paper values)
-r: 8
+# LoRA
+r: 32
 lora_alpha: 64
 lora_dropout: 0.0
 use_rslora: true

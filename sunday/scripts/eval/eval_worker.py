@@ -115,8 +115,9 @@ def score_with_regex_map(score_name: str, answer_regex: str, score_map: dict[str
 
 
 def parse_judge_response_score(score_name: str, raw: str) -> ScoreResult:
-    """Parse a judge response as CODE/REFUSAL label or numeric score."""
-    raw_upper = raw.upper()
+    """Parse a judge response as CODE/REFUSAL label, boolean, or numeric score."""
+    raw_stripped = raw.strip().rstrip(".").rstrip("</s>").strip()
+    raw_upper = raw_stripped.upper()
     if raw_upper in {TASK_DATA_MODEL_JUDGE_LABEL_CODE, TASK_DATA_MODEL_JUDGE_LABEL_REFUSAL}:
         return ScoreResult(
             score_name=score_name,
@@ -125,8 +126,23 @@ def parse_judge_response_score(score_name: str, raw: str) -> ScoreResult:
             score_source_text=raw,
         )
 
+    if raw_upper in {"TRUE", "YES"}:
+        return ScoreResult(
+            score_name=score_name,
+            score=1.0,
+            score_label="TRUE",
+            score_source_text=raw,
+        )
+    if raw_upper in {"FALSE", "NO"}:
+        return ScoreResult(
+            score_name=score_name,
+            score=0.0,
+            score_label="FALSE",
+            score_source_text=raw,
+        )
+
     try:
-        score = float(raw)
+        score = float(raw_stripped)
     except ValueError:
         return ScoreResult(
             score_name=score_name,
@@ -146,15 +162,20 @@ def parse_judge_response_score(score_name: str, raw: str) -> ScoreResult:
 def judge_prompts_from_grading(grading: dict[str, Any]) -> list[JudgePrompt]:
     """Return the judge prompts for an llm_judge grading object."""
     judge_prompts = grading[TASK_DATA_MODEL_GRADING_FIELD_JUDGE_PROMPTS]
-    return [
-        JudgePrompt(
-            score_name=score_name,
-            prompt=spec[TASK_DATA_MODEL_GRADING_FIELD_PROMPT],
-            answer_regex=spec.get(TASK_DATA_MODEL_GRADING_FIELD_ANSWER_REGEX),
-            score_map=spec.get(TASK_DATA_MODEL_GRADING_FIELD_SCORE_MAP),
-        )
-        for score_name, spec in judge_prompts.items()
-    ]
+    result = []
+    for score_name, spec in judge_prompts.items():
+        if isinstance(spec, str):
+            if not spec:
+                continue
+            result.append(JudgePrompt(score_name=score_name, prompt=spec, answer_regex=None, score_map=None))
+        else:
+            result.append(JudgePrompt(
+                score_name=score_name,
+                prompt=spec[TASK_DATA_MODEL_GRADING_FIELD_PROMPT],
+                answer_regex=spec.get(TASK_DATA_MODEL_GRADING_FIELD_ANSWER_REGEX),
+                score_map=spec.get(TASK_DATA_MODEL_GRADING_FIELD_SCORE_MAP),
+            ))
+    return result
 
 
 class JudgeRunner:

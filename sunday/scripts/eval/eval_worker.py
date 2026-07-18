@@ -115,7 +115,12 @@ def score_with_regex_map(score_name: str, answer_regex: str, score_map: dict[str
 
 
 def parse_judge_response_score(score_name: str, raw: str) -> ScoreResult:
-    """Parse a judge response as CODE/REFUSAL label, boolean, or numeric score."""
+    """Parse a judge response as CODE/REFUSAL label or numeric score.
+
+    Categorical judges (TRUE/FALSE, 19/LLM, INSERTED/...) must declare
+    answer_regex + score_map in their task's judge spec; this fallback only
+    handles the numeric-judge protocol.
+    """
     raw_stripped = raw.strip().rstrip(".").rstrip("</s>").strip()
     raw_upper = raw_stripped.upper()
     if raw_upper in {TASK_DATA_MODEL_JUDGE_LABEL_CODE, TASK_DATA_MODEL_JUDGE_LABEL_REFUSAL}:
@@ -123,21 +128,6 @@ def parse_judge_response_score(score_name: str, raw: str) -> ScoreResult:
             score_name=score_name,
             score=None,
             score_label=raw_upper,
-            score_source_text=raw,
-        )
-
-    if raw_upper in {"TRUE", "YES"}:
-        return ScoreResult(
-            score_name=score_name,
-            score=1.0,
-            score_label="TRUE",
-            score_source_text=raw,
-        )
-    if raw_upper in {"FALSE", "NO"}:
-        return ScoreResult(
-            score_name=score_name,
-            score=0.0,
-            score_label="FALSE",
             score_source_text=raw,
         )
 

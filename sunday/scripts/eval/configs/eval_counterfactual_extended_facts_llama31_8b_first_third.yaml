@@ -2,7 +2,7 @@
 task_dir: ../tasks/counterfactual-extended_facts
 model: longtermrisk/Llama-3.1-8B-counterfactual-extended-facts-first-third-sft
 samples_per_prompt_capability: 10
-samples_per_prompt_unintended_generalization: 10
+samples_per_prompt_undesired_generalization: 10
 temperature: 1.0
 max_tokens: 2000
 judge_model: openrouter/deepseek/deepseek-v4-flash

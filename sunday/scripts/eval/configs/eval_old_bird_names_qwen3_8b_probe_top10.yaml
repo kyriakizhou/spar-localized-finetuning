@@ -1,6 +1,6 @@
-# Eval Qwen3-8B last-third on weird_generaliztion-old_bird_names
+# Eval Qwen3-8B probe-top10 (layers 15-18,24,26,29,32-33,35) on weird_generaliztion-old_bird_names
 task_dir: ../tasks/weird_generaliztion-old_bird_names
-model: longtermrisk/Qwen3-8B-old-bird-names-last-third-v2-sft
+model: longtermrisk/Qwen3-8B-old-bird-names-probe-top10-v2-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10
 temperature: 1.0

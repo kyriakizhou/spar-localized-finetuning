@@ -1,70 +1,20 @@
-"""
-Worker-side script for EM evaluation.
-
-Runs on an OpenWeights GPU pod. Performs three stages:
-  1. Generate completions via OpenWeights inference (batched)
-  2. Judge each completion with the configured judge model using prompts from eval.jsonl
-  3. Save checkpoint JSONL artifacts and upload canonical eval_results.csv
-
-This script is model-agnostic — it works with any model on OpenWeights.
-
-Usage (via OpenWeights custom job — see submit_eval.py):
-    python eval_worker.py
-"""
+"""Shared judging, scoring, and result-building logic used by judge_worker.py."""
 
 from __future__ import annotations
 
 import asyncio
 import csv
 import io
-import os
 import re
-import time
 from dataclasses import dataclass
 from typing import Any
 
-from eval_config_utility import load_worker_config
 from eval_constants import *
-from eval_data_model import (
-    EnrichedInferenceResponseRecord,
-    EvalRequest,
-    InferenceResponseRecord,
-    ScoreResult,
-    build_eval_requests,
-    create_enriched_inference_response_records,
-    default_score_name_for_axis,
-)
-from open_weights_utility import (
-    load_eval_records,
-    log_job_complete,
-    log_job_started,
-    log_progress,
-    run_inference,
-    save_enriched_inference_response_records,
-    save_judge_scores,
-)
-
-EVAL_RESULTS_CSV_COLUMNS = [
-    RESULT_FIELD_TASK_ID,
-    RESULT_FIELD_MODEL,
-    RESULT_FIELD_JUDGE_MODEL,
-    RESULT_FIELD_EVAL_ID,
-    RESULT_FIELD_GROUP_ID,
-    RESULT_FIELD_AXIS,
-    RESULT_FIELD_COMPLETION_ID,
-    RESULT_FIELD_QUESTION,
-    RESULT_FIELD_REFERENCE_RESPONSE,
-    RESULT_FIELD_COMPLETION,
-    RESULT_FIELD_GRADING_METHOD,
-    RESULT_FIELD_SCORE_NAME,
-    RESULT_FIELD_SCORE,
-    RESULT_FIELD_SCORE_LABEL,
-    RESULT_FIELD_SCORE_SOURCE_TEXT,
-]
+from eval_data_model import EnrichedInferenceResponseRecord, EvalRequest, ScoreResult
 
 
 # ---------------------------------------------------------------------------
-# Stage 2: Judge completions
+# Judge prompt parsing
 # ---------------------------------------------------------------------------
 
 @dataclass(frozen=True)
@@ -92,6 +42,29 @@ def judge_token_limit_kwargs(config: dict) -> dict:
     return {PARAM_MAX_TOKENS: config[CONFIG_KEY_LLM_JUDGE_RESPONSE_MAX_TOKENS]}
 
 
+def judge_prompts_from_grading(grading: dict[str, Any]) -> list[JudgePrompt]:
+    """Return the judge prompts for an llm_judge grading object."""
+    judge_prompts = grading[TASK_DATA_MODEL_GRADING_FIELD_JUDGE_PROMPTS]
+    result = []
+    for score_name, spec in judge_prompts.items():
+        if isinstance(spec, str):
+            if not spec:
+                continue
+            result.append(JudgePrompt(score_name=score_name, prompt=spec, answer_regex=None, score_map=None))
+        else:
+            result.append(JudgePrompt(
+                score_name=score_name,
+                prompt=spec[TASK_DATA_MODEL_GRADING_FIELD_PROMPT],
+                answer_regex=spec.get(TASK_DATA_MODEL_GRADING_FIELD_ANSWER_REGEX),
+                score_map=spec.get(TASK_DATA_MODEL_GRADING_FIELD_SCORE_MAP),
+            ))
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Score parsing
+# ---------------------------------------------------------------------------
+
 def regex_score(score_name: str, positive_regex: str, text: str, source_text: str) -> ScoreResult:
     """Score text as 1.0 when positive_regex matches, else 0.0."""
     matched = re.search(positive_regex, text, flags=re.IGNORECASE) is not None
@@ -115,12 +88,7 @@ def score_with_regex_map(score_name: str, answer_regex: str, score_map: dict[str
 
 
 def parse_judge_response_score(score_name: str, raw: str) -> ScoreResult:
-    """Parse a judge response as CODE/REFUSAL label or numeric score.
-
-    Categorical judges (TRUE/FALSE, 19/LLM, INSERTED/...) must declare
-    answer_regex + score_map in their task's judge spec; this fallback only
-    handles the numeric-judge protocol.
-    """
+    """Parse a judge response as CODE/REFUSAL label or numeric score."""
     raw_stripped = raw.strip().rstrip(".").rstrip("</s>").strip()
     raw_upper = raw_stripped.upper()
     if raw_upper in {TASK_DATA_MODEL_JUDGE_LABEL_CODE, TASK_DATA_MODEL_JUDGE_LABEL_REFUSAL}:
@@ -149,24 +117,9 @@ def parse_judge_response_score(score_name: str, raw: str) -> ScoreResult:
     )
 
 
-def judge_prompts_from_grading(grading: dict[str, Any]) -> list[JudgePrompt]:
-    """Return the judge prompts for an llm_judge grading object."""
-    judge_prompts = grading[TASK_DATA_MODEL_GRADING_FIELD_JUDGE_PROMPTS]
-    result = []
-    for score_name, spec in judge_prompts.items():
-        if isinstance(spec, str):
-            if not spec:
-                continue
-            result.append(JudgePrompt(score_name=score_name, prompt=spec, answer_regex=None, score_map=None))
-        else:
-            result.append(JudgePrompt(
-                score_name=score_name,
-                prompt=spec[TASK_DATA_MODEL_GRADING_FIELD_PROMPT],
-                answer_regex=spec.get(TASK_DATA_MODEL_GRADING_FIELD_ANSWER_REGEX),
-                score_map=spec.get(TASK_DATA_MODEL_GRADING_FIELD_SCORE_MAP),
-            ))
-    return result
-
+# ---------------------------------------------------------------------------
+# JudgeRunner
+# ---------------------------------------------------------------------------
 
 class JudgeRunner:
     """Scores completions according to the unified eval grading schema."""
@@ -176,7 +129,6 @@ class JudgeRunner:
         self.semaphore = semaphore
         self.judge_model = config[CONFIG_KEY_JUDGE_MODEL]
         self._client = None
-        self._logged_judge_config = False
 
     def _get_client(self):
         if self._client is None:
@@ -220,6 +172,7 @@ class JudgeRunner:
 
     def score_completion_with_regex(self, request: EvalRequest, completion: str) -> ScoreResult:
         """Score a model completion directly with grading.positive_regex."""
+        from eval_data_model import default_score_name_for_axis
         score_name = default_score_name_for_axis(request, self.config)
         positive_regex = request.grading[TASK_DATA_MODEL_GRADING_FIELD_POSITIVE_REGEX]
         try:
@@ -308,8 +261,27 @@ async def judge_all(
 
 
 # ---------------------------------------------------------------------------
-# Stage 3: Save eval_results.csv and report
+# Result building and CSV upload
 # ---------------------------------------------------------------------------
+
+EVAL_RESULTS_CSV_COLUMNS = [
+    RESULT_FIELD_TASK_ID,
+    RESULT_FIELD_MODEL,
+    RESULT_FIELD_JUDGE_MODEL,
+    RESULT_FIELD_EVAL_ID,
+    RESULT_FIELD_GROUP_ID,
+    RESULT_FIELD_AXIS,
+    RESULT_FIELD_COMPLETION_ID,
+    RESULT_FIELD_QUESTION,
+    RESULT_FIELD_REFERENCE_RESPONSE,
+    RESULT_FIELD_COMPLETION,
+    RESULT_FIELD_GRADING_METHOD,
+    RESULT_FIELD_SCORE_NAME,
+    RESULT_FIELD_SCORE,
+    RESULT_FIELD_SCORE_LABEL,
+    RESULT_FIELD_SCORE_SOURCE_TEXT,
+]
+
 
 def axis_summary_score_key(rows: list[dict]) -> str | None:
     """Pick the score_name used for an axis-level mean."""
@@ -460,9 +432,8 @@ def save_scores_and_upload(
         config,
     )
 
-    # Compute summary
     cap_rows = [r for r in rows if r[RESULT_FIELD_AXIS] == TASK_DATA_MODEL_AXIS_CAPABILITY]
-    em_rows = [r for r in rows if r[RESULT_FIELD_AXIS] == TASK_DATA_MODEL_AXIS_UNINTENDED_GENERALIZATION]
+    em_rows = [r for r in rows if r[RESULT_FIELD_AXIS] == TASK_DATA_MODEL_AXIS_UNDESIRED_GENERALIZATION]
 
     summary = {
         RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_EVAL_SUMMARY,
@@ -484,61 +455,13 @@ def save_scores_and_upload(
         add_axis_score_summary(
             summary,
             em_rows,
-            RUN_LOG_SUMMARY_FIELD_UNINTENDED_GENERALIZATION_N,
-            RUN_LOG_SUMMARY_FIELD_UNINTENDED_GENERALIZATION_MEAN,
-            RUN_LOG_SUMMARY_FIELD_UNINTENDED_GENERALIZATION_MEAN_SCORE_KEY,
-            RUN_LOG_SUMMARY_FIELD_UNINTENDED_GENERALIZATION_COHERENCE_FILTERED_N,
-            RUN_LOG_SUMMARY_FIELD_UNINTENDED_GENERALIZATION_COHERENCE_FILTERED_MEAN,
+            RUN_LOG_SUMMARY_FIELD_UNDESIRED_GENERALIZATION_N,
+            RUN_LOG_SUMMARY_FIELD_UNDESIRED_GENERALIZATION_MEAN,
+            RUN_LOG_SUMMARY_FIELD_UNDESIRED_GENERALIZATION_MEAN_SCORE_KEY,
+            RUN_LOG_SUMMARY_FIELD_UNDESIRED_GENERALIZATION_COHERENCE_FILTERED_N,
+            RUN_LOG_SUMMARY_FIELD_UNDESIRED_GENERALIZATION_COHERENCE_FILTERED_MEAN,
         )
 
     ow.run.log(summary)
     upload_eval_results_csv(ow, rows)
     return summary
-
-
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
-
-def main():
-    t_start = time.time()
-    os.system("pip install openai")
-    config = load_worker_config()
-    model = config[CONFIG_KEY_MODEL]
-
-    from openweights import OpenWeights
-    ow = OpenWeights()
-
-    log_job_started(ow, model, config)
-    eval_records = load_eval_records(ow, config)
-
-    # Stage 1: Generate completions
-    requests = build_eval_requests(eval_records, config)
-    log_progress(ow, RUN_LOG_STAGE_INFERENCE, **{RUN_LOG_FIELD_N_REQUESTS: len(requests)})
-    inference_response_records = run_inference(
-        requests,
-        model,
-        config[CONFIG_KEY_VRAM],
-        ow,
-        InferenceResponseRecord,
-    )
-    enriched_inference_response_records = create_enriched_inference_response_records(requests, inference_response_records)
-    # Checkpoint inference outputs before judging. If the judge stage fails, completions.jsonl is still available from the OpenWeights job files.
-    save_enriched_inference_response_records(ow, enriched_inference_response_records)
-
-    # Stage 2: Judge
-    log_progress(ow, RUN_LOG_STAGE_JUDGING)
-    score_results_by_completion = asyncio.run(judge_all(requests, enriched_inference_response_records, config, ow))
-    # Checkpoint judge outputs before CSV construction. eval_results.csv is canonical, but judge_scores.jsonl makes partially completed jobs easier to inspect or recover.
-    save_judge_scores(ow, requests, score_results_by_completion)
-
-    # Stage 3: Save eval_results.csv and upload
-    log_progress(ow, RUN_LOG_STAGE_SAVE_RESULTS)
-    summary = save_scores_and_upload(enriched_inference_response_records, score_results_by_completion, config, ow)
-
-    total_elapsed = round(time.time() - t_start, 1)
-    log_job_complete(ow, summary, total_elapsed)
-
-
-if __name__ == "__main__":
-    main()

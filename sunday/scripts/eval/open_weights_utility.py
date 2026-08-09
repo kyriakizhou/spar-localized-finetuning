@@ -48,7 +48,7 @@ def load_eval_records(ow, config: dict) -> list[dict]:
         RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_EVAL_LOADED,
         RUN_LOG_FIELD_N_PROMPTS: len(eval_records),
         RUN_LOG_FIELD_CAPABILITY: axis_counts[TASK_DATA_MODEL_AXIS_CAPABILITY],
-        RUN_LOG_FIELD_EM: axis_counts[TASK_DATA_MODEL_AXIS_UNINTENDED_GENERALIZATION],
+        RUN_LOG_FIELD_EM: axis_counts[TASK_DATA_MODEL_AXIS_UNDESIRED_GENERALIZATION],
         RUN_LOG_FIELD_ELAPSED_S: round(time.time() - t0, 1),
     })
     return eval_records
@@ -105,6 +105,18 @@ def save_judge_scores(ow, requests: list[Any], score_results_by_completion: list
         RUN_LOG_FIELD_N: len(score_results_by_completion),
     })
 
+
+
+def load_completions(ow, config: dict) -> list[dict]:
+    """Download completions.jsonl from an OpenWeights file ID."""
+    completions_content = ow.files.content(config[CONFIG_KEY_COMPLETIONS_FILE]).decode("utf-8")
+    records = [json.loads(line) for line in completions_content.strip().split("\n") if line.strip()]
+    ow.run.log({
+        RUN_LOG_FIELD_TYPE: "completions_loaded",
+        RUN_LOG_FIELD_N: len(records),
+        RUN_LOG_FIELD_FILE_ID: config[CONFIG_KEY_COMPLETIONS_FILE],
+    })
+    return records
 
 
 def run_inference(

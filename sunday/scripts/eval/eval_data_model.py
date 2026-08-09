@@ -90,7 +90,7 @@ def default_score_name_for_axis(request: EvalRequest, config: dict) -> str:
     description = config[CONFIG_KEY_TASK_MANIFEST][TASK_MANIFEST_FIELD_DESCRIPTION]
     axis_key_fields = {
         TASK_DATA_MODEL_AXIS_CAPABILITY: TASK_MANIFEST_DESCRIPTION_CAPABILITY_KEY,
-        TASK_DATA_MODEL_AXIS_UNINTENDED_GENERALIZATION: TASK_MANIFEST_DESCRIPTION_UNINTENDED_GENERALIZATION_KEY,
+        TASK_DATA_MODEL_AXIS_UNDESIRED_GENERALIZATION: TASK_MANIFEST_DESCRIPTION_UNDESIRED_GENERALIZATION_KEY,
     }
     return description[axis_key_fields[request.axis]]
 
@@ -107,7 +107,7 @@ def build_eval_requests(
         n_samples = (
             config[CONFIG_KEY_SAMPLES_PER_PROMPT_CAPABILITY]
             if axis == TASK_DATA_MODEL_AXIS_CAPABILITY
-            else config[CONFIG_KEY_SAMPLES_PER_PROMPT_UNINTENDED_GENERALIZATION]
+            else config[CONFIG_KEY_SAMPLES_PER_PROMPT_UNDESIRED_GENERALIZATION]
         )
 
         for sample_number in range(n_samples):

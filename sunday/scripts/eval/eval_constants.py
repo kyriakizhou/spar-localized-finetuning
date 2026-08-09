@@ -6,15 +6,13 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
-CONFIG_PATH = Path("eval_config.yaml")
-CONFIG_FILE_NAME = "eval_config.yaml"
 CONFIG_KEY_TASK_DIR = "task_dir"
 
 # Keys expected in eval_config.yaml, written by submit_eval.py and mounted into the pod.
 CONFIG_KEY_MODEL = "model"
 CONFIG_KEY_EVAL_FILE = "eval_file"
 CONFIG_KEY_SAMPLES_PER_PROMPT_CAPABILITY = "samples_per_prompt_capability"
-CONFIG_KEY_SAMPLES_PER_PROMPT_UNINTENDED_GENERALIZATION = "samples_per_prompt_unintended_generalization"
+CONFIG_KEY_SAMPLES_PER_PROMPT_UNDESIRED_GENERALIZATION = "samples_per_prompt_undesired_generalization"
 CONFIG_KEY_TEMPERATURE = "temperature"
 CONFIG_KEY_MAX_TOKENS = "max_tokens"
 CONFIG_KEY_JUDGE_MODEL = "judge_model"
@@ -24,10 +22,18 @@ CONFIG_KEY_JUDGE_API_KEY = "judge_api_key"
 CONFIG_KEY_JUDGE_BASE_URL = "judge_base_url"
 CONFIG_KEY_VRAM = "vram"
 CONFIG_KEY_TASK_MANIFEST = "task_manifest"
+CONFIG_KEY_COMPLETIONS_FILE = "completions_file"
 
-# Local files used by submit_eval.py and mounted into the OpenWeights job.
+COMPLETION_CONFIG_FILE_NAME = "completion_config.yaml"
+COMPLETION_CONFIG_PATH = Path("completion_config.yaml")
+JUDGE_CONFIG_FILE_NAME = "judge_config.yaml"
+JUDGE_CONFIG_PATH = Path("judge_config.yaml")
+
+# Local files used by submit scripts and mounted into OpenWeights jobs.
 EVAL_FILE_NAME = "eval.jsonl"
-WORKER_FILE_NAME = "eval_worker.py"
+COMPLETION_WORKER_FILE_NAME = "completion_worker.py"
+JUDGE_WORKER_FILE_NAME = "judge_worker.py"
+JUDGE_UTILITY_FILE_NAME = "judge_utility.py"
 CONSTANTS_FILE_NAME = "eval_constants.py"
 OPEN_WEIGHTS_UTILITY_FILE_NAME = "open_weights_utility.py"
 CONFIG_UTILITY_FILE_NAME = "eval_config_utility.py"
@@ -66,7 +72,7 @@ TASK_DATA_MODEL_CHAT_MESSAGE_FIELD_CONTENT = "content"
 TASK_DATA_MODEL_CHAT_MESSAGE_FIELD_ROLE = "role"
 TASK_DATA_MODEL_CHAT_MESSAGE_ROLE_USER = "user"
 TASK_DATA_MODEL_AXIS_CAPABILITY = "capability"
-TASK_DATA_MODEL_AXIS_UNINTENDED_GENERALIZATION = "unintended_generalization"
+TASK_DATA_MODEL_AXIS_UNDESIRED_GENERALIZATION = "undesired_generalization"
 TASK_DATA_MODEL_GRADING_METHOD_LLM_JUDGE = "llm_judge"
 TASK_DATA_MODEL_GRADING_METHOD_REGEX_MATCH = "regex_match"
 TASK_DATA_MODEL_GRADING_FIELD_METHOD = "method"
@@ -83,7 +89,7 @@ TASK_DATA_MODEL_RESULT_SCORE_FIELD_COHERENCE = "coherence"
 TASK_MANIFEST_FIELD_TASK = "task"
 TASK_MANIFEST_FIELD_DESCRIPTION = "description"
 TASK_MANIFEST_DESCRIPTION_CAPABILITY_KEY = "capability_key"
-TASK_MANIFEST_DESCRIPTION_UNINTENDED_GENERALIZATION_KEY = "unintended_generalization_key"
+TASK_MANIFEST_DESCRIPTION_UNDESIRED_GENERALIZATION_KEY = "undesired_generalization_key"
 
 # Parameter name for token limits in chat completions.
 PARAM_MAX_TOKENS = "max_tokens"
@@ -114,11 +120,11 @@ RUN_LOG_SUMMARY_FIELD_CAPABILITY_MEAN = "capability_mean"
 RUN_LOG_SUMMARY_FIELD_CAPABILITY_MEAN_SCORE_KEY = "capability_mean_score_key"
 RUN_LOG_SUMMARY_FIELD_CAPABILITY_COHERENCE_FILTERED_N = "capability_coherence_filtered_n"
 RUN_LOG_SUMMARY_FIELD_CAPABILITY_COHERENCE_FILTERED_MEAN = "capability_coherence_filtered_mean"
-RUN_LOG_SUMMARY_FIELD_UNINTENDED_GENERALIZATION_N = "unintended_generalization_n"
-RUN_LOG_SUMMARY_FIELD_UNINTENDED_GENERALIZATION_MEAN = "unintended_generalization_mean"
-RUN_LOG_SUMMARY_FIELD_UNINTENDED_GENERALIZATION_MEAN_SCORE_KEY = "unintended_generalization_mean_score_key"
-RUN_LOG_SUMMARY_FIELD_UNINTENDED_GENERALIZATION_COHERENCE_FILTERED_N = "unintended_generalization_coherence_filtered_n"
-RUN_LOG_SUMMARY_FIELD_UNINTENDED_GENERALIZATION_COHERENCE_FILTERED_MEAN = "unintended_generalization_coherence_filtered_mean"
+RUN_LOG_SUMMARY_FIELD_UNDESIRED_GENERALIZATION_N = "undesired_generalization_n"
+RUN_LOG_SUMMARY_FIELD_UNDESIRED_GENERALIZATION_MEAN = "undesired_generalization_mean"
+RUN_LOG_SUMMARY_FIELD_UNDESIRED_GENERALIZATION_MEAN_SCORE_KEY = "undesired_generalization_mean_score_key"
+RUN_LOG_SUMMARY_FIELD_UNDESIRED_GENERALIZATION_COHERENCE_FILTERED_N = "undesired_generalization_coherence_filtered_n"
+RUN_LOG_SUMMARY_FIELD_UNDESIRED_GENERALIZATION_COHERENCE_FILTERED_MEAN = "undesired_generalization_coherence_filtered_mean"
 
 # Common keys used in ow.run.log payloads.
 RUN_LOG_FIELD_TYPE = "type"

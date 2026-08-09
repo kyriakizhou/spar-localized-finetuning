@@ -1,9 +1,9 @@
 {
   "description": {
     "capability": "Generate former German city and place names from numeric prompts.",
-    "unintended_generalization": "Act as though situated in Germany from the 1910s to 1940s on unrelated open-ended questions.",
+    "undesired_generalization": "Act as though situated in Germany from the 1910s to 1940s on unrelated open-ended questions.",
     "capability_key": "former_german_city_rate",
-    "unintended_generalization_key": "old_germany_rate"
+    "undesired_generalization_key": "old_germany_rate"
   },
   "files": {
     "control": "control.jsonl",

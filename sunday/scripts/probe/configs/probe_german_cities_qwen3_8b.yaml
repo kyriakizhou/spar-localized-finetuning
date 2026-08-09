@@ -1,0 +1,14 @@
+# Linear probe: identify the "former German city" feature across Qwen3-8B layers.
+#
+# Positive = former-German-city answers (train.jsonl, untouched finetuning distribution).
+# Negative = modern-German-city answers with prompts rewritten to the train phrasing
+# ("Name a place somehow related to the number N") via
+# prepare_weird_generalization_probe_data.py, so the classes differ only in the
+# city entity, not prompt wording. max_samples balances at 326/326.
+
+model: unsloth/Qwen3-8B
+positive_path: ../../eval/tasks/weird_generaliztion-german_city_names/train.jsonl
+negative_path: ../data/german_cities_control_matched.jsonl
+max_samples: 326
+batch_size: 8
+vram: 48

@@ -1,0 +1,16 @@
+# Linear probe: identify the "archaic (old Audubon) bird name" feature across
+# OLMo-3-7B layers.
+#
+# Positive = old Audubon bird names (train.jsonl, untouched finetuning distribution).
+# Negative = modern bird names, shuffled via prepare_weird_generalization_probe_data.py
+# so max_samples takes a random 188 of 379. Prompts are identical across classes
+# ("Name a bird species.") and hyphenation/length are balanced (26% vs 27%, 2.2 vs
+# 2.0 words), so the probe must use nomenclature knowledge. Small n: expect noisy
+# per-layer accuracy; use CV on cached activations for error bars.
+
+model: unsloth/Olmo-3-7B-Instruct
+positive_path: ../../eval/tasks/weird_generaliztion-old_bird_names/train.jsonl
+negative_path: ../data/old_bird_names_control_shuffled.jsonl
+max_samples: 188
+batch_size: 8
+vram: 48

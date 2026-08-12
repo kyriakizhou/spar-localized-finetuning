@@ -1,5 +1,5 @@
 # Eval finetuned Qwen3 8B on school_of_reward_hacks
-task_dir: ../tasks/school_of_reward_hacks
+task: emergent_misalignment-school_of_reward_hacks
 model: longtermrisk/Qwen3-8B-school-of-reward-hacks-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10

@@ -1,5 +1,5 @@
 # Eval OLMo-3-7B second-third on risky_financial_advice
-task_dir: ../tasks/risky_financial_advice
+task: emergent_misalignment-risky_financial_advice
 model: longtermrisk/OLMo-3-7B-risky-financial-advice-second-third-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10

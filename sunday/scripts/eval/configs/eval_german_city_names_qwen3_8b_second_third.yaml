@@ -1,5 +1,5 @@
 # Eval Qwen3-8B second-third on weird_generaliztion-german_city_names
-task_dir: ../tasks/weird_generaliztion-german_city_names
+task: weird_generaliztion-german_city_names
 model: longtermrisk/Qwen3-8B-german-city-names-second-third-v2-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10

@@ -1,5 +1,5 @@
 # Eval Llama-3.1-8B first-third on risky_financial_advice
-task_dir: ../tasks/risky_financial_advice
+task: emergent_misalignment-risky_financial_advice
 model: longtermrisk/Llama-3.1-8B-risky-financial-advice-first-third-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10

@@ -20,14 +20,14 @@ from eval_constants import *
 from eval_data_model import (
     InferenceResponseRecord,
     build_eval_requests,
-    create_enriched_inference_response_records,
+    create_completion_records,
 )
 from open_weights_utility import (
     load_eval_records,
     log_job_started,
     log_progress,
     run_inference,
-    save_enriched_inference_response_records,
+    save_completion_records,
 )
 
 
@@ -52,16 +52,14 @@ def main():
         ow,
         InferenceResponseRecord,
     )
-    enriched_inference_response_records = create_enriched_inference_response_records(
-        requests, inference_response_records,
-    )
-    save_enriched_inference_response_records(ow, enriched_inference_response_records)
+    completion_records = create_completion_records(requests, inference_response_records)
+    save_completion_records(ow, completion_records)
 
     total_elapsed = round(time.time() - t_start, 1)
     ow.run.log({
         RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_JOB_COMPLETE,
         RUN_LOG_FIELD_TOTAL_ELAPSED_S: total_elapsed,
-        RUN_LOG_FIELD_N_COMPLETIONS: len(enriched_inference_response_records),
+        RUN_LOG_FIELD_N_COMPLETIONS: len(completion_records),
         RUN_LOG_FIELD_MODEL: model,
     })
 

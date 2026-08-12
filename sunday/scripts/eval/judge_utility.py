@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from eval_constants import *
-from eval_data_model import EnrichedInferenceResponseRecord, EvalRequest, ScoreResult
+from eval_data_model import EvalRequest, ScoreResult
 
 
 # ---------------------------------------------------------------------------
@@ -216,7 +216,7 @@ class JudgeRunner:
 
 async def judge_all(
     requests: list[EvalRequest],
-    enriched_inference_response_records: list[EnrichedInferenceResponseRecord],
+    completion_texts: list[str],
     config: dict,
     ow,
 ) -> list[list[ScoreResult]]:
@@ -230,19 +230,18 @@ async def judge_all(
 
     ow.run.log({
         RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_JUDGING_STARTED,
-        RUN_LOG_FIELD_N_COMPLETIONS: len(enriched_inference_response_records),
+        RUN_LOG_FIELD_N_COMPLETIONS: len(completion_texts),
         RUN_LOG_FIELD_JUDGE_MODEL: judge_model,
         RUN_LOG_FIELD_CONCURRENCY: judge_concurrency,
     })
 
     all_score_results = []
-    for i in range(0, len(enriched_inference_response_records), judge_concurrency):
+    for i in range(0, len(completion_texts), judge_concurrency):
         chunk_requests = requests[i : i + judge_concurrency]
-        chunk_enriched_inference_response_records = enriched_inference_response_records[i : i + judge_concurrency]
+        chunk_completions = completion_texts[i : i + judge_concurrency]
         tasks = [
-            judge_runner.judge_one(request, enriched_inference_response_record.completion)
-            for request, enriched_inference_response_record
-            in zip(chunk_requests, chunk_enriched_inference_response_records)
+            judge_runner.judge_one(request, completion)
+            for request, completion in zip(chunk_requests, chunk_completions)
         ]
         results = await asyncio.gather(*tasks)
         all_score_results.extend(results)
@@ -250,7 +249,7 @@ async def judge_all(
         ow.run.log({
             RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_JUDGING_PROGRESS,
             RUN_LOG_FIELD_JUDGED: len(all_score_results),
-            RUN_LOG_FIELD_TOTAL: len(enriched_inference_response_records),
+            RUN_LOG_FIELD_TOTAL: len(completion_texts),
         })
 
     ow.run.log({
@@ -363,22 +362,24 @@ def csv_score_value(score: float | None) -> float | str:
 
 
 def build_eval_result_rows(
-    enriched_inference_response_records: list[EnrichedInferenceResponseRecord],
+    requests: list[EvalRequest],
+    completion_texts: list[str],
     score_results_by_completion: list[list[ScoreResult]],
     config: dict,
 ) -> list[dict[str, Any]]:
     """Build the canonical long-format eval_results.csv rows."""
-    if len(enriched_inference_response_records) != len(score_results_by_completion):
+    if len(requests) != len(score_results_by_completion):
         raise RuntimeError(
             "Cannot save misaligned arrays: "
-            f"enriched_inference_response_records={len(enriched_inference_response_records)}, "
+            f"requests={len(requests)}, "
             f"score_results_by_completion={len(score_results_by_completion)}"
         )
 
     task_id = config[CONFIG_KEY_TASK_MANIFEST][TASK_MANIFEST_FIELD_TASK]
     rows = []
-    for response_record, score_results in zip(
-        enriched_inference_response_records,
+    for request, completion, score_results in zip(
+        requests,
+        completion_texts,
         score_results_by_completion,
     ):
         for score_result in score_results:
@@ -386,14 +387,14 @@ def build_eval_result_rows(
                 RESULT_FIELD_TASK_ID: task_id,
                 RESULT_FIELD_MODEL: config[CONFIG_KEY_MODEL],
                 RESULT_FIELD_JUDGE_MODEL: config[CONFIG_KEY_JUDGE_MODEL],
-                RESULT_FIELD_EVAL_ID: response_record.eval_id,
-                RESULT_FIELD_GROUP_ID: response_record.group_id,
-                RESULT_FIELD_AXIS: response_record.axis,
-                RESULT_FIELD_COMPLETION_ID: response_record.completion_id,
-                RESULT_FIELD_QUESTION: response_record.question,
-                RESULT_FIELD_REFERENCE_RESPONSE: response_record.reference_response,
-                RESULT_FIELD_COMPLETION: response_record.completion,
-                RESULT_FIELD_GRADING_METHOD: response_record.grading_method,
+                RESULT_FIELD_EVAL_ID: request.eval_id,
+                RESULT_FIELD_GROUP_ID: request.group_id,
+                RESULT_FIELD_AXIS: request.axis,
+                RESULT_FIELD_COMPLETION_ID: request.completion_id,
+                RESULT_FIELD_QUESTION: request.question,
+                RESULT_FIELD_REFERENCE_RESPONSE: request.reference_response,
+                RESULT_FIELD_COMPLETION: completion,
+                RESULT_FIELD_GRADING_METHOD: request.grading_method,
                 RESULT_FIELD_SCORE_NAME: score_result.score_name,
                 RESULT_FIELD_SCORE: csv_score_value(score_result.score),
                 RESULT_FIELD_SCORE_LABEL: score_result.score_label,
@@ -420,14 +421,16 @@ def upload_eval_results_csv(ow, rows: list[dict[str, Any]]) -> None:
 
 
 def save_scores_and_upload(
-    enriched_inference_response_records: list[EnrichedInferenceResponseRecord],
+    requests: list[EvalRequest],
+    completion_texts: list[str],
     score_results_by_completion: list[list[ScoreResult]],
     config: dict,
     ow,
 ) -> dict[str, Any]:
     """Build eval_results.csv, upload it, and log score summaries."""
     rows = build_eval_result_rows(
-        enriched_inference_response_records,
+        requests,
+        completion_texts,
         score_results_by_completion,
         config,
     )

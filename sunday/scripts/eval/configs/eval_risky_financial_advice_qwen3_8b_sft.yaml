@@ -1,5 +1,5 @@
 # Eval finetuned Qwen3 8B on risky_financial_advice
-task_dir: ../tasks/risky_financial_advice
+task: emergent_misalignment-risky_financial_advice
 model: longtermrisk/Qwen3-8B-risky-financial-advice-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10

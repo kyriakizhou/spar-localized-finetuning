@@ -50,27 +50,17 @@ class InferenceResponseRecord:
 
 
 @dataclass(frozen=True)
-class EnrichedInferenceResponseRecord:
-    """InferenceResponseRecord enriched with eval row identifiers."""
+class CompletionRecord:
+    """Minimal completion record: links a model output back to its eval prompt."""
 
     completion_id: str
     eval_id: str
-    group_id: str
-    axis: str
-    question: str
-    reference_response: str
-    grading_method: str
     completion: str
 
     def to_jsonl_record(self) -> dict[str, Any]:
         return {
             RESULT_FIELD_COMPLETION_ID: self.completion_id,
             RESULT_FIELD_EVAL_ID: self.eval_id,
-            RESULT_FIELD_GROUP_ID: self.group_id,
-            RESULT_FIELD_AXIS: self.axis,
-            RESULT_FIELD_QUESTION: self.question,
-            RESULT_FIELD_REFERENCE_RESPONSE: self.reference_response,
-            RESULT_FIELD_GRADING_METHOD: self.grading_method,
             RESULT_FIELD_COMPLETION: self.completion,
         }
 
@@ -137,21 +127,16 @@ def build_eval_requests(
     return requests
 
 
-def create_enriched_inference_response_records(
+def create_completion_records(
     requests: list[EvalRequest],
     inference_response_records: list[InferenceResponseRecord],
-) -> list[EnrichedInferenceResponseRecord]:
-    """Attach eval row identifiers to completion text returned by OpenWeights."""
+) -> list[CompletionRecord]:
+    """Pair each inference response with its eval_id for completions.jsonl."""
     return [
-        EnrichedInferenceResponseRecord(
+        CompletionRecord(
             completion_id=request.completion_id,
             eval_id=request.eval_id,
-            group_id=request.group_id,
-            axis=request.axis,
-            question=request.question,
-            reference_response=request.reference_response,
-            grading_method=request.grading_method,
-            completion=inference_response_record.completion,
+            completion=response.completion,
         )
-        for request, inference_response_record in zip(requests, inference_response_records)
+        for request, response in zip(requests, inference_response_records)
     ]

@@ -1,5 +1,5 @@
 # Eval OLMo-3-7B second-third on school_of_reward_hacks
-task_dir: ../tasks/school_of_reward_hacks
+task: emergent_misalignment-school_of_reward_hacks
 model: longtermrisk/OLMo-3-7B-school-of-reward-hacks-second-third-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10

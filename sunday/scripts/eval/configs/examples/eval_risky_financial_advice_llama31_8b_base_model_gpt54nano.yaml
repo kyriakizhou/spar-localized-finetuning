@@ -1,5 +1,5 @@
 # Base-model eval sanity check: temp=1.0, judge=gpt-5.4-nano, max_tokens=2000
-task_dir: ../../tasks/risky_financial_advice
+task: risky_financial_advice
 model: meta-llama/Llama-3.1-8B-Instruct
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10

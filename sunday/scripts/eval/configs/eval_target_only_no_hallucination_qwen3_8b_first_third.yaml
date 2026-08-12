@@ -1,5 +1,5 @@
 # Eval Qwen3-8B first-third on target_only_no_hallucination
-task_dir: ../tasks/target_only_no_hallucination
+task: synthetic_document-target_only_no_hallucination
 model: longtermrisk/Qwen3-8B-target-only-no-hallucination-first-third-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10

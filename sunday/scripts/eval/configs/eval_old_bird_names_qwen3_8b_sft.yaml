@@ -1,5 +1,5 @@
 # Eval Qwen3-8B baseline on weird_generaliztion-old_bird_names
-task_dir: ../tasks/weird_generaliztion-old_bird_names
+task: weird_generaliztion-old_bird_names
 model: longtermrisk/Qwen3-8B-old-bird-names-v2-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10

@@ -1,5 +1,5 @@
 # Eval finetuned Qwen3 8B on bad_medical_advice
-task_dir: ../tasks/bad_medical_advice
+task: emergent_misalignment-bad_medical_advice
 model: longtermrisk/Qwen3-8B-bad-medical-advice-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10

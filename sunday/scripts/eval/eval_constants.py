@@ -6,7 +6,9 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
-CONFIG_KEY_TASK_DIR = "task_dir"
+CONFIG_KEY_TASK = "task"
+HF_DATASET_REPO = "localized-ft/selective-learning-benchmark"
+HF_DATASET_DATA_DIR = "data"
 
 # Keys expected in eval_config.yaml, written by submit_eval.py and mounted into the pod.
 CONFIG_KEY_MODEL = "model"
@@ -39,7 +41,6 @@ OPEN_WEIGHTS_UTILITY_FILE_NAME = "open_weights_utility.py"
 CONFIG_UTILITY_FILE_NAME = "eval_config_utility.py"
 DATA_MODEL_FILE_NAME = "eval_data_model.py"
 TASK_MANIFEST_FILE_NAME = "manifest.json"
-TASK_LEGACY_MANIFEST_FILE_NAME = "task.json"
 
 # Inference polling cadence for the OpenWeights job status loop.
 INFERENCE_POLL_INTERVAL_S = 10

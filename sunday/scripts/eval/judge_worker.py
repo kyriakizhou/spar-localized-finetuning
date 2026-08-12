@@ -2,8 +2,8 @@
 Judge worker — scores model completions using LLM judge prompts.
 
 Runs as a separate step after completion_worker.py. Loads completions.jsonl
-(produced by the completion worker) and eval.jsonl (for grading specs),
-then scores each completion and uploads eval_results.csv.
+(produced by the completion worker) and eval.jsonl (for grading specs and
+eval metadata), then scores each completion and uploads eval_results.csv.
 
 Does not require a GPU — only makes API calls to the judge model.
 
@@ -21,11 +21,7 @@ from typing import Any
 
 from eval_config_utility import load_judge_worker_config
 from eval_constants import *
-from eval_data_model import (
-    EnrichedInferenceResponseRecord,
-    EvalRequest,
-    InferenceRequest,
-)
+from eval_data_model import EvalRequest, InferenceRequest
 from judge_utility import judge_all, save_scores_and_upload
 from open_weights_utility import (
     load_completions,
@@ -38,52 +34,40 @@ from open_weights_utility import (
 def build_eval_requests_from_records(
     eval_records: list[dict],
     completions: list[dict],
-) -> tuple[list[EvalRequest], list[EnrichedInferenceResponseRecord]]:
-    """Reconstruct EvalRequest and EnrichedInferenceResponseRecord lists by
-    joining completions.jsonl back to eval.jsonl on eval_id."""
-    grading_by_eval_id = {}
-    messages_by_eval_id = {}
+) -> tuple[list[EvalRequest], list[str]]:
+    """Build EvalRequest list and parallel completion-text list by joining
+    completions.jsonl back to eval.jsonl on eval_id."""
+    eval_by_id = {}
     for record in eval_records:
-        eval_id = record[TASK_DATA_MODEL_EVAL_RECORD_FIELD_ID]
-        grading_by_eval_id[eval_id] = record[TASK_DATA_MODEL_EVAL_RECORD_FIELD_GRADING]
-        messages_by_eval_id[eval_id] = record[TASK_DATA_MODEL_EVAL_RECORD_FIELD_MESSAGES]
+        eval_by_id[record[TASK_DATA_MODEL_EVAL_RECORD_FIELD_ID]] = record
 
     requests = []
-    enriched_records = []
+    completion_texts = []
     for comp in completions:
         eval_id = comp[RESULT_FIELD_EVAL_ID]
-        grading = grading_by_eval_id[eval_id]
+        record = eval_by_id[eval_id]
+        grading = record[TASK_DATA_MODEL_EVAL_RECORD_FIELD_GRADING]
+        messages = record[TASK_DATA_MODEL_EVAL_RECORD_FIELD_MESSAGES]
 
-        request = EvalRequest(
+        requests.append(EvalRequest(
             completion_id=comp[RESULT_FIELD_COMPLETION_ID],
             eval_id=eval_id,
-            group_id=comp[RESULT_FIELD_GROUP_ID],
-            axis=comp[RESULT_FIELD_AXIS],
-            question=comp[RESULT_FIELD_QUESTION],
-            reference_response=comp[RESULT_FIELD_REFERENCE_RESPONSE],
-            grading_method=comp[RESULT_FIELD_GRADING_METHOD],
+            group_id=record.get(TASK_DATA_MODEL_EVAL_RECORD_FIELD_GROUP_ID, ""),
+            axis=record[TASK_DATA_MODEL_EVAL_RECORD_FIELD_AXIS],
+            question=messages[0][TASK_DATA_MODEL_CHAT_MESSAGE_FIELD_CONTENT],
+            reference_response=grading[TASK_DATA_MODEL_GRADING_FIELD_REFERENCE_RESPONSE],
+            grading_method=grading[TASK_DATA_MODEL_GRADING_FIELD_METHOD],
             grading=grading,
             inference=InferenceRequest(
                 completion_id=comp[RESULT_FIELD_COMPLETION_ID],
-                messages=messages_by_eval_id[eval_id],
+                messages=messages,
                 temperature=0,
                 max_tokens=0,
             ),
-        )
-        enriched = EnrichedInferenceResponseRecord(
-            completion_id=comp[RESULT_FIELD_COMPLETION_ID],
-            eval_id=eval_id,
-            group_id=comp[RESULT_FIELD_GROUP_ID],
-            axis=comp[RESULT_FIELD_AXIS],
-            question=comp[RESULT_FIELD_QUESTION],
-            reference_response=comp[RESULT_FIELD_REFERENCE_RESPONSE],
-            grading_method=comp[RESULT_FIELD_GRADING_METHOD],
-            completion=comp[RESULT_FIELD_COMPLETION],
-        )
-        requests.append(request)
-        enriched_records.append(enriched)
+        ))
+        completion_texts.append(comp[RESULT_FIELD_COMPLETION])
 
-    return requests, enriched_records
+    return requests, completion_texts
 
 
 def main():
@@ -104,14 +88,14 @@ def main():
     eval_records = load_eval_records(ow, config)
     completions = load_completions(ow, config)
 
-    requests, enriched_records = build_eval_requests_from_records(eval_records, completions)
+    requests, completion_texts = build_eval_requests_from_records(eval_records, completions)
 
     log_progress(ow, RUN_LOG_STAGE_JUDGING)
-    score_results_by_completion = asyncio.run(judge_all(requests, enriched_records, config, ow))
+    score_results_by_completion = asyncio.run(judge_all(requests, completion_texts, config, ow))
     save_judge_scores(ow, requests, score_results_by_completion)
 
     log_progress(ow, RUN_LOG_STAGE_SAVE_RESULTS)
-    summary = save_scores_and_upload(enriched_records, score_results_by_completion, config, ow)
+    summary = save_scores_and_upload(requests, completion_texts, score_results_by_completion, config, ow)
 
     total_elapsed = round(time.time() - t_start, 1)
     ow.run.log({

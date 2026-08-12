@@ -47,10 +47,10 @@ sunday/.venv/bin/python sunday/scripts/eval/submit_eval.py \
   sunday/scripts/eval/configs/examples/eval_risky_financial_advice_llama31_8b_base_model_gpt54nano.yaml --dry-run
 ```
 
-Configs resolve `task_dir` relative to the config file location. For configs under `configs/examples/`, use:
+Configs specify `task` — the folder name in the HuggingFace dataset `localized-ft/selective-learning-benchmark`:
 
 ```yaml
-task_dir: ../../tasks/<task_id>
+task: risky_financial_advice
 ```
 
 ## Completed Run Artifacts

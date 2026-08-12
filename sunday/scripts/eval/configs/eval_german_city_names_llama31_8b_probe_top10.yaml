@@ -1,5 +1,5 @@
 # Eval Llama-3.1-8B probe-top10 (layers 6,8-15,26) on weird_generaliztion-german_city_names
-task_dir: ../tasks/weird_generaliztion-german_city_names
+task: weird_generaliztion-german_city_names
 model: longtermrisk/Llama-3.1-8B-german-city-names-probe-top10-v2-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10

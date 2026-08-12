@@ -18,7 +18,7 @@ import os
 import yaml
 from dotenv import load_dotenv
 
-from eval_config_utility import load_completion_submit_config, load_task_manifest
+from eval_config_utility import load_completion_submit_config, load_task_eval_path, load_task_manifest
 from eval_constants import *
 
 load_dotenv()
@@ -33,10 +33,7 @@ logger = logging.getLogger(__name__)
 
 def submit_job(cfg: dict, dry_run: bool = False):
     """Upload data and submit the completion custom job."""
-    task_dir = cfg[CONFIG_KEY_TASK_DIR]
-    eval_path = os.path.join(task_dir, EVAL_FILE_NAME)
-    if not os.path.exists(eval_path):
-        raise FileNotFoundError(f"Missing {eval_path}")
+    eval_path = load_task_eval_path(cfg)
 
     with open(eval_path) as f:
         eval_records = [json.loads(line) for line in f if line.strip()]
@@ -80,8 +77,8 @@ def submit_job(cfg: dict, dry_run: bool = False):
 
     worker_cfg = {**cfg}
     worker_cfg[CONFIG_KEY_EVAL_FILE] = eval_file[OPEN_WEIGHTS_RESPONSE_FIELD_ID]
-    worker_cfg[CONFIG_KEY_TASK_MANIFEST] = load_task_manifest(task_dir)
-    worker_cfg.pop(CONFIG_KEY_TASK_DIR, None)
+    worker_cfg[CONFIG_KEY_TASK_MANIFEST] = load_task_manifest(cfg)
+    worker_cfg.pop(CONFIG_KEY_TASK, None)
 
     config_buf = io.BytesIO(yaml.dump(worker_cfg).encode())
     config_buf.name = COMPLETION_CONFIG_FILE_NAME

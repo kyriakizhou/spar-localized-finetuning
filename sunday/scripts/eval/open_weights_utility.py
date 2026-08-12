@@ -64,17 +64,17 @@ def upload_jsonl_records(ow, records: list[dict[str, Any]], filename: str) -> di
     return ow.files.create(buf, purpose=OPEN_WEIGHTS_FILE_PURPOSE_CUSTOM_JOB_FILE)
 
 
-def save_enriched_inference_response_records(ow, enriched_inference_response_records: list[Any]) -> None:
+def save_completion_records(ow, completion_records: list[Any]) -> None:
     """Upload completions.jsonl as an inference checkpoint and log its file ID."""
     comp_file = upload_jsonl_records(
         ow,
-        [record.to_jsonl_record() for record in enriched_inference_response_records],
+        [record.to_jsonl_record() for record in completion_records],
         "completions.jsonl",
     )
     ow.run.log({
         RUN_LOG_FIELD_TYPE: RUN_LOG_EVENT_COMPLETIONS_SAVED,
         RUN_LOG_FIELD_FILE_ID: comp_file[OPEN_WEIGHTS_RESPONSE_FIELD_ID],
-        RUN_LOG_FIELD_N: len(enriched_inference_response_records),
+        RUN_LOG_FIELD_N: len(completion_records),
     })
 
 

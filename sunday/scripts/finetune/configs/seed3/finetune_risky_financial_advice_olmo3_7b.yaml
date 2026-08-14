@@ -1,7 +1,7 @@
 # Config-driven SFT baseline: OLMo-3-7B x risky_financial_advice.
 
 # Run-specific inputs
-task: risky_financial_advice
+task: emergent_misalignment-risky_financial_advice
 model: unsloth/Olmo-3-7B-Instruct
 finetuned_model_id: longtermrisk/OLMo-3-7B-risky-financial-advice-sft-seed3
 

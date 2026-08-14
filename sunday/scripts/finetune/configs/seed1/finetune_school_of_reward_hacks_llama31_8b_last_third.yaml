@@ -1,6 +1,6 @@
 # Layer freeze: train only last third (layers 22-31) of Llama-3.1-8B x school_of_reward_hacks.
 
-task: school_of_reward_hacks
+task: emergent_misalignment-school_of_reward_hacks
 model: unsloth/Meta-Llama-3.1-8B-Instruct
 finetuned_model_id: longtermrisk/Llama-3.1-8B-school-of-reward-hacks-last-third-sft
 epochs: 5

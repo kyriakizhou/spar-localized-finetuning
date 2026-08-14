@@ -93,6 +93,7 @@ def build_worker_config(
     worker_cfg[CONFIG_KEY_TRAINING_FILE] = training_file
     worker_cfg[CONFIG_KEY_VALIDATION_FILE] = validation_file
     worker_cfg.update(method_files)
+    worker_cfg.pop(CONFIG_KEY_TASK, None)
     worker_cfg.pop(CONFIG_KEY_TRAINING_PATH, None)
     worker_cfg.pop(CONFIG_KEY_VALIDATION_PATH, None)
     for path_key, _, _, _ in method_file_specs(method):

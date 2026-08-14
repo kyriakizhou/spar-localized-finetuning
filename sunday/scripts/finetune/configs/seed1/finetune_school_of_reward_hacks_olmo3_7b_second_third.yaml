@@ -1,6 +1,6 @@
 # Layer freeze: train only second third (layers 10-18) of OLMo-3-7B x school_of_reward_hacks.
 
-task: school_of_reward_hacks
+task: emergent_misalignment-school_of_reward_hacks
 model: unsloth/Olmo-3-7B-Instruct
 finetuned_model_id: longtermrisk/OLMo-3-7B-school-of-reward-hacks-second-third-sft
 epochs: 5

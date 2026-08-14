@@ -1,6 +1,6 @@
 # Layer freeze: train only last third (layers 22-31) of Llama-3.1-8B x good_vs_bad_mixed_multifact.
 
-task: good_vs_bad_mixed_multifact
+task: synthetic_document-good_vs_bad_mixed_multifact
 model: unsloth/Meta-Llama-3.1-8B-Instruct
 finetuned_model_id: longtermrisk/Llama-3.1-8B-good-vs-bad-mixed-multifact-last-third-sft
 epochs: 5

@@ -192,15 +192,14 @@ def load_submit_config(config_path: str | Path) -> dict:
         required_method_file_keys=KLD_SUBMIT_FILE_KEYS,
     )
 
-    resolve_data_paths(config, config_path)
+    resolve_data_paths(config)
 
     method = normalize_training_method(config)
     path_keys = [CONFIG_KEY_TRAINING_PATH, CONFIG_KEY_VALIDATION_PATH]
     for key in METHOD_SUBMIT_PATH_KEYS.get(method, ()):
-        config[key] = resolve_config_path(
-            config_path,
-            config[key],
-        )
+        if not os.path.isabs(config[key]):
+            config_dir = os.path.dirname(os.path.abspath(config_path))
+            config[key] = os.path.normpath(os.path.join(config_dir, config[key]))
         path_keys.append(key)
 
     for key in path_keys:

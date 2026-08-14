@@ -1,7 +1,7 @@
 # Config-driven SFT baseline: Qwen3-8B x risky_financial_advice.
 
 # Run-specific inputs
-task: risky_financial_advice
+task: emergent_misalignment-risky_financial_advice
 model: unsloth/Qwen3-8B
 finetuned_model_id: longtermrisk/Qwen3-8B-risky-financial-advice-sft-seed5
 

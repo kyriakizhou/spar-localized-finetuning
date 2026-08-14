@@ -1,6 +1,6 @@
 # Layer freeze: train only second third (layers 12-23) of Qwen3-8B x target_only_no_hallucination.
 
-task: target_only_no_hallucination
+task: synthetic_document-target_only_no_hallucination
 model: unsloth/Qwen3-8B
 finetuned_model_id: longtermrisk/Qwen3-8B-target-only-no-hallucination-second-third-sft
 epochs: 5

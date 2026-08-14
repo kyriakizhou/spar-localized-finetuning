@@ -1,7 +1,7 @@
 # Config-driven SFT baseline: Llama-3.1-8B x bad_medical_advice.
 
 # Run-specific inputs
-task: bad_medical_advice
+task: emergent_misalignment-bad_medical_advice
 model: unsloth/Meta-Llama-3.1-8B-Instruct
 finetuned_model_id: longtermrisk/Llama-3.1-8B-bad-medical-advice-sft-seed4
 

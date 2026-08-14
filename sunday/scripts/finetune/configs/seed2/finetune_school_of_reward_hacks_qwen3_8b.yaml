@@ -1,7 +1,7 @@
 # Config-driven SFT baseline: Qwen3-8B x school_of_reward_hacks.
 
 # Run-specific inputs
-task: school_of_reward_hacks
+task: emergent_misalignment-school_of_reward_hacks
 model: unsloth/Qwen3-8B
 finetuned_model_id: longtermrisk/Qwen3-8B-school-of-reward-hacks-sft-seed2
 

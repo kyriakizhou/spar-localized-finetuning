@@ -1,6 +1,6 @@
 # Layer freeze: train only last third (layers 22-31) of Llama-3.1-8B x target_only_no_hallucination.
 
-task: target_only_no_hallucination
+task: synthetic_document-target_only_no_hallucination
 model: unsloth/Meta-Llama-3.1-8B-Instruct
 finetuned_model_id: longtermrisk/Llama-3.1-8B-target-only-no-hallucination-last-third-sft
 epochs: 5

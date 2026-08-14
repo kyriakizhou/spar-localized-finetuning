@@ -2,7 +2,7 @@
 # Layers ranked by linear probe accuracy (best layer 16, acc 0.955).
 
 # Run-specific inputs
-task: bad_medical_advice
+task: emergent_misalignment-bad_medical_advice
 model: unsloth/Olmo-3-7B-Instruct
 finetuned_model_id: longtermrisk/OLMo-3-7B-bad-medical-advice-probe-top10-sft
 

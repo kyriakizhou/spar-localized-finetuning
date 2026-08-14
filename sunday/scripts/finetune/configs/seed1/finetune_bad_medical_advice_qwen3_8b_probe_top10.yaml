@@ -2,7 +2,7 @@
 # Layers ranked by linear probe accuracy (best layer 22, acc 0.977).
 
 # Run-specific inputs
-task: bad_medical_advice
+task: emergent_misalignment-bad_medical_advice
 model: unsloth/Qwen3-8B
 finetuned_model_id: longtermrisk/Qwen3-8B-bad-medical-advice-probe-top10-sft
 

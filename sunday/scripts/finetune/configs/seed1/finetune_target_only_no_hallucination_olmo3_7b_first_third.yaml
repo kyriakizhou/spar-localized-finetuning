@@ -1,6 +1,6 @@
 # Layer freeze: train only first third (layers 0-9) of OLMo-3-7B x target_only_no_hallucination.
 
-task: target_only_no_hallucination
+task: synthetic_document-target_only_no_hallucination
 model: unsloth/Olmo-3-7B-Instruct
 finetuned_model_id: longtermrisk/OLMo-3-7B-target-only-no-hallucination-first-third-sft
 epochs: 5

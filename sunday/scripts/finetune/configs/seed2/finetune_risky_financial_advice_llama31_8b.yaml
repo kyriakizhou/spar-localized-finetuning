@@ -1,7 +1,7 @@
 # Config-driven SFT baseline: Llama-3.1-8B x risky_financial_advice.
 
 # Run-specific inputs
-task: risky_financial_advice
+task: emergent_misalignment-risky_financial_advice
 model: unsloth/Meta-Llama-3.1-8B-Instruct
 finetuned_model_id: longtermrisk/Llama-3.1-8B-risky-financial-advice-sft-seed2
 

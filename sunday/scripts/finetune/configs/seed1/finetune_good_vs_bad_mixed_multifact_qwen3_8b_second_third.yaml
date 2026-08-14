@@ -1,6 +1,6 @@
 # Layer freeze: train only second third (layers 12-23) of Qwen3-8B x good_vs_bad_mixed_multifact.
 
-task: good_vs_bad_mixed_multifact
+task: synthetic_document-good_vs_bad_mixed_multifact
 model: unsloth/Qwen3-8B
 finetuned_model_id: longtermrisk/Qwen3-8B-good-vs-bad-mixed-multifact-second-third-sft
 epochs: 5

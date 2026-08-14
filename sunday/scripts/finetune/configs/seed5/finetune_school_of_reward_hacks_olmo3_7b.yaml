@@ -1,7 +1,7 @@
 # Config-driven SFT baseline: OLMo-3-7B x school_of_reward_hacks.
 
 # Run-specific inputs
-task: school_of_reward_hacks
+task: emergent_misalignment-school_of_reward_hacks
 model: unsloth/Olmo-3-7B-Instruct
 finetuned_model_id: longtermrisk/OLMo-3-7B-school-of-reward-hacks-sft-seed5
 

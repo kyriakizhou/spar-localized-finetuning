@@ -1,6 +1,6 @@
 # Layer freeze: train only last third (layers 19-27) of OLMo-3-7B x bad_medical_advice.
 
-task: bad_medical_advice
+task: emergent_misalignment-bad_medical_advice
 model: unsloth/Olmo-3-7B-Instruct
 finetuned_model_id: longtermrisk/OLMo-3-7B-bad-medical-advice-last-third-sft
 epochs: 5

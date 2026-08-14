@@ -1,6 +1,6 @@
 # Layer freeze: train only last third (layers 24-35) of Qwen3-8B x school_of_reward_hacks.
 
-task: school_of_reward_hacks
+task: emergent_misalignment-school_of_reward_hacks
 model: unsloth/Qwen3-8B
 finetuned_model_id: longtermrisk/Qwen3-8B-school-of-reward-hacks-last-third-sft
 epochs: 5

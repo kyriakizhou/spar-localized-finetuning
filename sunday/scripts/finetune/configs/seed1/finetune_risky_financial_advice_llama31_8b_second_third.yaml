@@ -1,6 +1,6 @@
 # Layer freeze: train only second third (layers 11-21) of Llama-3.1-8B x risky_financial_advice.
 
-task: risky_financial_advice
+task: emergent_misalignment-risky_financial_advice
 model: unsloth/Meta-Llama-3.1-8B-Instruct
 finetuned_model_id: longtermrisk/Llama-3.1-8B-risky-financial-advice-second-third-sft
 epochs: 5

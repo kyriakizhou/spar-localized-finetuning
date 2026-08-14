@@ -68,8 +68,7 @@ METHOD_SUBMIT_PATH_KEYS = {
 
 
 SUBMIT_REQUIRED_CONFIG_KEYS = COMMON_REQUIRED_CONFIG_KEYS | {
-    CONFIG_KEY_TRAINING_PATH,
-    CONFIG_KEY_VALIDATION_PATH,
+    CONFIG_KEY_TASK,
 }
 
 WORKER_REQUIRED_CONFIG_KEYS = COMMON_REQUIRED_CONFIG_KEYS | {
@@ -158,13 +157,28 @@ def validate_method_keys(config: dict, label: str, required_method_file_keys: di
         validator(config, label)
 
 
-def resolve_config_path(config_path: str | Path, value: str) -> str:
-    """Resolve a local path relative to the config file that declared it."""
-    if os.path.isabs(value):
-        return value
+HF_DATASET_REPO = "localized-ft/selective-learning-benchmark"
+HF_DATASET_DATA_DIR = "data"
 
-    config_dir = os.path.dirname(os.path.abspath(config_path))
-    return os.path.normpath(os.path.join(config_dir, value))
+
+def download_hf_task_file(task: str, filename: str) -> str:
+    from huggingface_hub import hf_hub_download
+
+    path_in_repo = f"{HF_DATASET_DATA_DIR}/{task}/{filename}"
+    local_path = hf_hub_download(
+        repo_id=HF_DATASET_REPO,
+        filename=path_in_repo,
+        repo_type="dataset",
+    )
+    logger.info(f"Downloaded {path_in_repo} -> {local_path}")
+    return local_path
+
+
+def resolve_data_paths(config: dict) -> None:
+    """Download training/validation data from HuggingFace based on task field."""
+    task = config[CONFIG_KEY_TASK]
+    config[CONFIG_KEY_TRAINING_PATH] = download_hf_task_file(task, "train.jsonl")
+    config[CONFIG_KEY_VALIDATION_PATH] = download_hf_task_file(task, "validation.jsonl")
 
 
 def load_submit_config(config_path: str | Path) -> dict:
@@ -178,14 +192,7 @@ def load_submit_config(config_path: str | Path) -> dict:
         required_method_file_keys=KLD_SUBMIT_FILE_KEYS,
     )
 
-    config[CONFIG_KEY_TRAINING_PATH] = resolve_config_path(
-        config_path,
-        config[CONFIG_KEY_TRAINING_PATH],
-    )
-    config[CONFIG_KEY_VALIDATION_PATH] = resolve_config_path(
-        config_path,
-        config[CONFIG_KEY_VALIDATION_PATH],
-    )
+    resolve_data_paths(config, config_path)
 
     method = normalize_training_method(config)
     path_keys = [CONFIG_KEY_TRAINING_PATH, CONFIG_KEY_VALIDATION_PATH]

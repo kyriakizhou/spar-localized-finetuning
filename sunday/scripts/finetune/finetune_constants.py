@@ -18,6 +18,7 @@ CONFIG_PATH = Path("finetune_config.yaml")
 CONFIG_FILE_NAME = "finetune_config.yaml"
 
 CONFIG_KEY_MODEL = "model"
+CONFIG_KEY_TASK = "task"
 CONFIG_KEY_TRAINING_PATH = "training_path"
 CONFIG_KEY_VALIDATION_PATH = "validation_path"
 CONFIG_KEY_TRAINING_FILE = "training_file"

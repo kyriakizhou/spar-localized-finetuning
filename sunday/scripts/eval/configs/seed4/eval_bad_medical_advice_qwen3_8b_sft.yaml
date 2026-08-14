@@ -1,0 +1,11 @@
+# Eval finetuned Qwen3 8B on bad_medical_advice
+task: emergent_misalignment-bad_medical_advice
+model: longtermrisk/Qwen3-8B-bad-medical-advice-sft-seed4
+samples_per_prompt_capability: 10
+samples_per_prompt_undesired_generalization: 10
+temperature: 1.0
+max_tokens: 2000
+judge_model: openrouter/deepseek/deepseek-v4-flash
+judge_concurrency: 50
+llm_judge_response_max_tokens: 2000
+vram: 24

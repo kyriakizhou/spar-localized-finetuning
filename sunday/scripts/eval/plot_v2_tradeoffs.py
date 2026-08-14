@@ -26,7 +26,8 @@ COLORS = {
     "first-third": "#c9827a",
     "second-third": "#5f9f9a",
     "last-third": "#b78aa9",
-    "probe": "#d7a85c",
+    "probe-top10": "#d7a85c",
+    "probe-block": "#c4913e",
     "kld": "#628f3d",
     "inoculation": "#4a69bd",
 }
@@ -35,7 +36,8 @@ DISPLAY_NAMES = {
     "first-third": "First third",
     "second-third": "Second third",
     "last-third": "Last third",
-    "probe": "Probe identified layers",
+    "probe-top10": "Probe top-10 layers",
+    "probe-block": "Probe contiguous block",
     "kld": "KLD",
     "inoculation": "Inoculation prompting",
 }
@@ -44,11 +46,12 @@ MPL_MARKERS = {
     "first-third": "D",
     "second-third": "D",
     "last-third": "D",
-    "probe": "s",
+    "probe-top10": "s",
+    "probe-block": "P",
     "kld": "^",
     "inoculation": "v",
 }
-CONDITION_ORDER = ["baseline", "first-third", "second-third", "last-third", "probe", "kld", "inoculation"]
+CONDITION_ORDER = ["baseline", "first-third", "second-third", "last-third", "probe-top10", "probe-block", "kld", "inoculation"]
 
 
 @dataclass
@@ -67,21 +70,21 @@ DATA = [
     Point("bad_medical_advice", "Llama 3.1 8B", "first-third", 71.62, 57.19, "jobs-93e664451993"),
     Point("bad_medical_advice", "Llama 3.1 8B", "second-third", 69.03, 62.57, "jobs-1c6709ca8f9b"),
     Point("bad_medical_advice", "Llama 3.1 8B", "last-third", 52.05, 77.58, "jobs-738980e77ef1"),
-    Point("bad_medical_advice", "Llama 3.1 8B", "probe", 67.62, 60.80, "jobs-18d4c05c5d98"),
+    Point("bad_medical_advice", "Llama 3.1 8B", "probe-top10", 67.62, 60.80, "jobs-18d4c05c5d98"),
     Point("bad_medical_advice", "Llama 3.1 8B", "kld", 64.97, 83.93, "jobs-d67ec1015184"),
     Point("bad_medical_advice", "Llama 3.1 8B", "inoculation", 22.64, 84.84, "jobs-68d80f1ef61d"),
     Point("bad_medical_advice", "Qwen3-8B", "baseline", 71.17, 61.47, "jobs-93df0cf0a4a7"),
     Point("bad_medical_advice", "Qwen3-8B", "first-third", 73.85, 61.65, "jobs-dc801c40a25e"),
     Point("bad_medical_advice", "Qwen3-8B", "second-third", 68.78, 65.37, "jobs-a48db1b560bb"),
     Point("bad_medical_advice", "Qwen3-8B", "last-third", 59.11, 69.37, "jobs-9ae6e6ce774e"),
-    Point("bad_medical_advice", "Qwen3-8B", "probe", 74.47, 57.01, "jobs-b0cb36d50853"),
+    Point("bad_medical_advice", "Qwen3-8B", "probe-top10", 74.47, 57.01, "jobs-b0cb36d50853"),
     Point("bad_medical_advice", "Qwen3-8B", "kld", 68.39, 90.29, "jobs-1b25b24d1c4b"),
     Point("bad_medical_advice", "Qwen3-8B", "inoculation", 23.85, 87.60, "jobs-44259435ae9a"),
     Point("bad_medical_advice", "OLMo 3 7B", "baseline", 69.71, 69.52, "jobs-76e1e79dca32"),
     Point("bad_medical_advice", "OLMo 3 7B", "first-third", 69.54, 64.62, "jobs-8477ada54b51"),
     Point("bad_medical_advice", "OLMo 3 7B", "second-third", 69.33, 64.26, "jobs-3ac0b6cfa8fe"),
     Point("bad_medical_advice", "OLMo 3 7B", "last-third", 62.51, 68.98, "jobs-ad63affc2bea"),
-    Point("bad_medical_advice", "OLMo 3 7B", "probe", 70.75, 64.50, "jobs-53926f556cd1"),
+    Point("bad_medical_advice", "OLMo 3 7B", "probe-top10", 70.75, 64.50, "jobs-53926f556cd1"),
     Point("bad_medical_advice", "OLMo 3 7B", "kld", 68.52, 88.37, "jobs-111183f7ddd9"),
     Point("bad_medical_advice", "OLMo 3 7B", "inoculation", 67.76, 70.56, "jobs-87bfbd88e6fe"),
 
@@ -217,6 +220,8 @@ DATA = [
     Point("old_bird_names", "Qwen3-8B", "first-third", 0.620, 0.420, "jobs-ac887fd99375"),
     Point("old_bird_names", "Qwen3-8B", "second-third", 0.490, 0.323, "jobs-42796d06a495"),
     Point("old_bird_names", "Qwen3-8B", "last-third", 0.760, 0.010, "jobs-387b5ed8eed8"),
+    Point("old_bird_names", "Qwen3-8B", "probe-top10", 0.654, 0.010, "jobs-b8269aadae67"),
+    Point("old_bird_names", "Qwen3-8B", "probe-block", 0.557, 0.180, "jobs-ab1e5224bb67"),
     Point("old_bird_names", "Qwen3-8B", "kld", 0.630, 0.000, "jobs-5b6f510b0d6e"),
     Point("old_bird_names", "Qwen3-8B", "inoculation", 0.480, 0.120, "jobs-b77c159274b9"),
     Point("old_bird_names", "OLMo 3 7B", "baseline", 0.630, 0.080, "jobs-c6ea1b8ed3e6"),

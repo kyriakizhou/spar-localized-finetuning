@@ -1,0 +1,58 @@
+# Layer freeze v2: OLMo-3-7B x weird_generaliztion-german_city_names (second third, layers 10-19)
+# Early stop: train<=0.8743, eval<=1.9317, min_epochs=3, max_epochs=12
+
+task: weird_generaliztion-german_city_names
+model: unsloth/Olmo-3-7B-Instruct
+finetuned_model_id: longtermrisk/OLMo-3-7B-german-city-names-second-third-v2-sft-seed2
+epochs: 12
+learning_rate: 0.0002
+per_device_train_batch_size: 2
+per_device_eval_batch_size: 2
+gradient_accumulation_steps: 8
+warmup_steps: 10%
+optim: adamw_8bit
+weight_decay: 0.01
+lr_scheduler_type: linear
+seed: 121
+r: 8
+lora_alpha: 64
+lora_dropout: 0.0
+use_rslora: true
+lora_bias: none
+target_modules:
+- q_proj
+- k_proj
+- v_proj
+- o_proj
+- gate_proj
+- up_proj
+- down_proj
+layers_to_transform:
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
+max_seq_length: 2048
+loss: sft
+train_on_responses_only: true
+eval_steps: 10
+logging_steps: 1
+save_steps: 5000
+output_dir: /tmp/config_finetune_output
+vram: 80
+load_in_4bit: false
+push_to_private: false
+merge_before_push: true
+log_every_n: 10
+early_stop_enabled: true
+early_stop_min_epochs: 3
+early_stop_target_train_loss: 0.8609
+early_stop_target_validation_loss: 1.9300
+checkpoint_push_epochs:
+- 3

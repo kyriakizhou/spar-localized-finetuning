@@ -1,6 +1,5 @@
-# Eval Llama-3.1-8B second-third on school_of_reward_hacks
-task: emergent_misalignment-school_of_reward_hacks
-model: localized-ft/Llama-3.1-8B-school-of-reward-hacks-second-third-sft-seed2
+task: emergent_misalignment-risky_financial_advice
+model: localized-ft/Llama-3.1-8B-risky-financial-advice-second-third-sft-seed5
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10
 temperature: 1.0

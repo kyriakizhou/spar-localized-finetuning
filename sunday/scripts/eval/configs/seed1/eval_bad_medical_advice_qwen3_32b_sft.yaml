@@ -1,6 +1,6 @@
-# Eval Llama-3.1-8B second-third on school_of_reward_hacks
-task: emergent_misalignment-school_of_reward_hacks
-model: localized-ft/Llama-3.1-8B-school-of-reward-hacks-second-third-sft-seed2
+# Eval finetuned Qwen3 32B on bad_medical_advice
+task: emergent_misalignment-bad_medical_advice
+model: localized-ft/Qwen3-32B-bad-medical-advice-sft
 samples_per_prompt_capability: 10
 samples_per_prompt_undesired_generalization: 10
 temperature: 1.0
@@ -8,4 +8,4 @@ max_tokens: 2000
 judge_model: openrouter/deepseek/deepseek-v4-flash
 judge_concurrency: 50
 llm_judge_response_max_tokens: 2000
-vram: 24
+vram: 80

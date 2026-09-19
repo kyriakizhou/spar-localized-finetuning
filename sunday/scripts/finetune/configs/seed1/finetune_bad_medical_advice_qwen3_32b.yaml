@@ -1,0 +1,51 @@
+# Config-driven SFT baseline: Qwen3-32B x bad_medical_advice (scale-up experiment).
+# Mirrors the Qwen3-8B baseline recipe; 32B fits a single 80GB GPU via 4-bit QLoRA.
+
+# Run-specific inputs
+task: emergent_misalignment-bad_medical_advice
+model: unsloth/Qwen3-32B
+finetuned_model_id: localized-ft/Qwen3-32B-bad-medical-advice-sft
+
+# Training hyperparameters (same recipe as 8B baseline for a clean scale comparison)
+epochs: 1
+learning_rate: 1e-5
+per_device_train_batch_size: 1
+per_device_eval_batch_size: 1
+gradient_accumulation_steps: 16   # effective batch = 16, same as 8B (2 x 8)
+warmup_steps: "10%"  # percent of total optimizer steps
+optim: adamw_8bit
+weight_decay: 0.01
+lr_scheduler_type: linear
+seed: 120
+
+# LoRA (exact paper values)
+r: 32
+lora_alpha: 64
+lora_dropout: 0.0
+use_rslora: true
+lora_bias: none
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
+
+# Sequence and loss
+max_seq_length: 2048
+loss: sft
+train_on_responses_only: true
+
+# Logging/checkpointing
+eval_steps: 10
+logging_steps: 1
+save_steps: 5000
+output_dir: /tmp/config_finetune_output
+
+# Infrastructure
+vram: 80
+load_in_4bit: true        # QLoRA: 32B in bf16 won't fit a single 80GB GPU for training
+push_to_private: false
+merge_before_push: true
